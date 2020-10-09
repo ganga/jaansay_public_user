@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:jaansay_public_user/models/feed.dart';
-import 'package:jaansay_public_user/models/feed_resource.dart';
-import 'package:jaansay_public_user/screens/feed/feedDetailScreen.dart';
-import 'package:jaansay_public_user/screens/feed/homeScreen.dart';
+import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feed/feedDetails.dart';
+import 'package:jaansay_public_user/screens/home_screen.dart';
 
 GetIt getIt = GetIt.instance;
 void main() {
-  getIt.registerSingleton<FeedResource>(FeedResource(), signalsReady: true);
-  getIt.registerSingleton<Feed>(Feed(), signalsReady: true);
   runApp(MyApp());
 }
 
@@ -27,7 +22,7 @@ class MyApp extends StatelessWidget {
         primaryColorDark: Color(0xff1E4072),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: FeedDetails(),
+      home: HomeScreen(),
       routes: {
         FeedDetailScreen.routeName: (context) => FeedDetailScreen(),
         PDFViewScreen.routeName: (context) => PDFViewScreen(),

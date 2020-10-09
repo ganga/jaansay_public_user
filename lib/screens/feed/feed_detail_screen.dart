@@ -3,10 +3,8 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feed/loading.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,27 +23,6 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
   final box = GetStorage();
   bool isLoad = false;
 
-  bool _checkFaculty() {
-    if (box.hasData('id')) {
-      if (_feedList['facultyId'] == box.read('id')) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
-  String _convertDate() {
-    String time = _feedList['time'].toString();
-    return DateFormat.d()
-        .add_E()
-        .add_jm()
-        .format(DateTime.parse(time))
-        .toString();
-  }
-
   Widget _topDetail() {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16),
@@ -55,7 +32,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
             radius: 25,
             backgroundColor: _color,
             backgroundImage: NetworkImage(
-              _feedList['userProfile'],
+              "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
             ),
           ),
           SizedBox(
@@ -65,11 +42,11 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _feedList['userName'].toString(),
+                "Alice Josh",
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
               Text(
-                _convertDate(),
+                "Sept 20, 2020",
                 style: TextStyle(fontSize: 13, fontWeight: FontWeight.w300),
               ),
             ],
@@ -179,44 +156,45 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _feedList =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    _color = Theme.of(context).primaryColor;
+    _feedList = {
+      'feedId': 1,
+      'feedDescription': "Description",
+      'time': DateTime.now(),
+      'feedType': "Image",
+      'feedRes': [
+        "https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg",
+        "https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg"
+      ],
+      'userName': "User",
+      'userId': 1,
+      'userProfile':
+          "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
+      'categoryName': "public",
+    };
+
     final _mediaQuery = MediaQuery.of(context).size;
     height = _mediaQuery.height;
     width = _mediaQuery.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Text(
-          _feedList['userName'],
-          style: TextStyle(
-              color: _color, fontWeight: FontWeight.w600, letterSpacing: 0.2),
-        ),
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: _color),
-      ),
-      body: isLoad
-          ? Loading()
-          : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                  _topDetail(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  if (_feedList['feedType'] == 'Image') _midDetail(),
-                  _bottomDetail(),
-                  if (_feedList['feedType'] == 'Document') _midPdfDetail(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10),
+            _topDetail(),
+            SizedBox(
+              height: 10,
             ),
+            if (_feedList['feedType'] == 'Image') _midDetail(),
+            _bottomDetail(),
+            if (_feedList['feedType'] == 'Document') _midPdfDetail(),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

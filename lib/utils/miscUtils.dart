@@ -1,7 +1,8 @@
-import 'package:intl/intl.dart';
-class MiscUtils{
-    String _convertDate(String time) {
-    return DateFormat.d()
+import 'package:intl/intl.dart' as misc_utils;
+
+class MiscUtils {
+  static String convertDate(String time) {
+    return misc_utils.DateFormat.d()
         .add_E()
         .add_jm()
         .format(DateTime.parse(time))

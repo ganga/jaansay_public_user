@@ -2,10 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:intl/intl.dart';
-import 'package:jaansay_public_user/screens/feed/feedDetailScreen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feed/TopDetails.dart';
+import 'package:jaansay_public_user/widgets/feed/top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class FeedCard extends StatefulWidget {
@@ -31,24 +29,21 @@ class _FeedCardState extends State<FeedCard> {
   }
 
   Widget _midDetail() {
-    return Hero(
-      tag: widget.feedDetail['feedId'].toString(),
-      child: SizedBox(
-          height: 250.0,
-          width: width,
-          child: Carousel(
-            images: widget.feedDetail['feedRes'].map((e) {
-              return _getImg(e);
-            }).toList(),
-            dotSize: 4.0,
-            dotSpacing: 15.0,
-            dotColor: Theme.of(context).accentColor,
-            indicatorBgPadding: 5.0,
-            dotBgColor: Colors.transparent,
-            borderRadius: false,
-            autoplay: false,
-          )),
-    );
+    return SizedBox(
+        height: 250.0,
+        width: width,
+        child: Carousel(
+          images: widget.feedDetail['feedRes'].map((e) {
+            return _getImg(e);
+          }).toList(),
+          dotSize: 4.0,
+          dotSpacing: 15.0,
+          dotColor: Theme.of(context).accentColor,
+          indicatorBgPadding: 5.0,
+          dotBgColor: Colors.transparent,
+          borderRadius: false,
+          autoplay: false,
+        ));
   }
 
   Widget _bottomDetail() {
@@ -113,29 +108,23 @@ class _FeedCardState extends State<FeedCard> {
     height = _mediaQuery.height;
     width = _mediaQuery.width;
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(FeedDetailScreen.routeName,
-            arguments: widget.feedDetail);
-      },
-      child: Card(
-        margin: EdgeInsets.only(bottom: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            TopDetails(),
-            SizedBox(
-              height: 10,
-            ),
-            if (widget.feedDetail['feedType'] == 'Image') _midDetail(),
-            _bottomDetail(),
-            if (widget.feedDetail['feedType'] == 'Document') _midPdfDetail(),
-            SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
+    return Card(
+      margin: EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          TopDetails(),
+          SizedBox(
+            height: 10,
+          ),
+          if (widget.feedDetail['feedType'] == 'Image') _midDetail(),
+          _bottomDetail(),
+          if (widget.feedDetail['feedType'] == 'Document') _midPdfDetail(),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }

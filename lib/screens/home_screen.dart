@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/screens/community/officialsListScreen.dart';
+import 'package:jaansay_public_user/screens/community_screen.dart';
+import 'package:jaansay_public_user/screens/feed_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -10,6 +11,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int curIndex = 0;
+
+  List<Widget> _homeScreenBottomWidgets = [FeedScreen(), CommunityScreen()];
 
   Widget appBarIcon(IconData iconData, BuildContext context) {
     return Container(
@@ -71,6 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         appBar: appBar(context),
         drawer: Drawer(),
-        body: OfficialListScreen());
+        body: _homeScreenBottomWidgets[0]);
   }
 }
