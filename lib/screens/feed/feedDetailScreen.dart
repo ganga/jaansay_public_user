@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:jaansay_public_user/screens/image_view_screen.dart';
-import 'package:jaansay_public_user/screens/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
+import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
+import 'package:jaansay_public_user/widgets/feed/loading.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -3,7 +3,9 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:jaansay_public_user/screens/feedDetailScreen.dart';
+import 'package:jaansay_public_user/screens/feed/feedDetailScreen.dart';
+import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
+import 'package:jaansay_public_user/widgets/feed/TopDetails.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class FeedCard extends StatefulWidget {
@@ -18,62 +20,6 @@ class FeedCard extends StatefulWidget {
 class _FeedCardState extends State<FeedCard> {
   Color _color;
   double height = 0, width = 0;
-
-  String _convertDate() {
-    String time = widget.feedDetail['time'].toString();
-    return DateFormat.d()
-        .add_E()
-        .add_jm()
-        .format(DateTime.parse(time))
-        .toString();
-  }
-
-  Widget _topDetail() {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: _color,
-            backgroundImage: NetworkImage(
-              widget.feedDetail['userProfile'],
-            ),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.feedDetail['userName'].toString(),
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              ),
-              RichText(
-                  text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: [
-                    TextSpan(
-                      text:
-                          "#${widget.feedDetail['categoryName'].toString().replaceAll(" ", "")} ",
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w300,
-                          color: _color),
-                    ),
-                    TextSpan(
-                      text: "${_convertDate()}",
-                      style:
-                          TextStyle(fontSize: 13, fontWeight: FontWeight.w300),
-                    )
-                  ]))
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _getImg(String url) {
     return CachedNetworkImage(
@@ -128,8 +74,8 @@ class _FeedCardState extends State<FeedCard> {
   Widget _getDoc(String docPath) {
     return InkWell(
       onTap: () {
-        // Navigator.of(context)
-        //     .pushNamed(PDFViewScreen.routeName, arguments: docPath);
+        Navigator.of(context)
+            .pushNamed(PDFViewScreen.routeName, arguments: docPath);
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -178,7 +124,7 @@ class _FeedCardState extends State<FeedCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
-            _topDetail(),
+            TopDetails(),
             SizedBox(
               height: 10,
             ),

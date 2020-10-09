@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/widgets/feedCard.dart';
+import 'package:jaansay_public_user/widgets/feed/feedCard.dart';
 
 class FeedDetails extends StatelessWidget {
   FeedDetails({Key key}) : super(key: key);

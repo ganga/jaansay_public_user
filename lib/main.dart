@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/feed_resource.dart';
-import 'package:jaansay_public_user/screens/feedDetailScreen.dart';
-import 'package:jaansay_public_user/screens/homeScreen.dart';
-import 'package:jaansay_public_user/screens/image_view_screen.dart';
-import 'package:jaansay_public_user/screens/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feedDetails.dart';
+import 'package:jaansay_public_user/screens/feed/feedDetailScreen.dart';
+import 'package:jaansay_public_user/screens/feed/homeScreen.dart';
+import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
+import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
+import 'package:jaansay_public_user/widgets/feed/feedDetails.dart';
 
 GetIt getIt = GetIt.instance;
 void main() {
