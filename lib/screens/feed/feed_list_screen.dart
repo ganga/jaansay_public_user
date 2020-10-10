@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/models/feed_category.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
+import 'package:jaansay_public_user/widgets/feed/feed_filter.dart';
 
 class FeedListScreen extends StatelessWidget {
   FeedListScreen({Key key}) : super(key: key);
@@ -38,52 +40,7 @@ class FeedListScreen extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.radio_button_off_rounded,
-                    semanticLabel: "sss",
-                    size: 15,
-                  ),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.radio_button_off_rounded,
-                    size: 15,
-                  ),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.radio_button_off_rounded,
-                    size: 15,
-                  ),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.radio_button_off_rounded,
-                    size: 15,
-                  ),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.radio_button_off_rounded,
-                    size: 15,
-                  ),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-        )
+        FeedFilter(),
       ],
     );
   }
