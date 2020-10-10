@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/widgets/community/offcialsListItem.dart';
+import 'package:jaansay_public_user/widgets/community/officials_list_item.dart';
 
 class OfficialsListGroup extends StatelessWidget {
   @override

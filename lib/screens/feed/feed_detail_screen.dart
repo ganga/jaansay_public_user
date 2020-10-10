@@ -9,8 +9,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:url_launcher/url_launcher.dart';
 
 class FeedDetailScreen extends StatefulWidget {
-  static const routeName = '/feed';
-
   @override
   _FeedDetailScreenState createState() => _FeedDetailScreenState();
 }
@@ -176,23 +174,25 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
     height = _mediaQuery.height;
     width = _mediaQuery.width;
 
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            _topDetail(),
-            SizedBox(
-              height: 10,
-            ),
-            if (_feedList['feedType'] == 'Image') _midDetail(),
-            _bottomDetail(),
-            if (_feedList['feedType'] == 'Document') _midPdfDetail(),
-            SizedBox(
-              height: 10,
-            ),
-          ],
+    return Scaffold(
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              _topDetail(),
+              SizedBox(
+                height: 10,
+              ),
+              if (_feedList['feedType'] == 'Image') _midDetail(),
+              _bottomDetail(),
+              if (_feedList['feedType'] == 'Document') _midPdfDetail(),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );
