@@ -3,8 +3,14 @@ import 'package:jaansay_public_user/models/feed_category.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_filter.dart';
 
-class FeedListScreen extends StatelessWidget {
+class FeedListScreen extends StatefulWidget {
   FeedListScreen({Key key}) : super(key: key);
+
+  @override
+  _FeedListScreenState createState() => _FeedListScreenState();
+}
+
+class _FeedListScreenState extends State<FeedListScreen> {
   List<Map<String, dynamic>> feedDetail = [
     {
       'feedId': 1,
@@ -25,23 +31,16 @@ class FeedListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Expanded(
-          flex: 15,
-          child: Container(
-            child: ListView.builder(
-              itemCount: 4,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return FeedCard(feedDetail[0]);
-              },
-            ),
-          ),
+    return Scaffold(
+      body: Container(
+        child: ListView.builder(
+          itemCount: 4,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return FeedCard(feedDetail[0]);
+          },
         ),
-        FeedFilter(),
-      ],
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
@@ -25,7 +24,6 @@ class MyApp extends StatelessWidget {
       ),
       home: HomeScreen(),
       routes: {
-        FeedDetailScreen.routeName: (context) => FeedDetailScreen(),
         PDFViewScreen.routeName: (context) => PDFViewScreen(),
         ImageViewScreen.routeName: (context) => ImageViewScreen(),
       },

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/widgets/community/officialsListGroup.dart';
+import 'package:jaansay_public_user/widgets/community/officials_list_group.dart';
 
 class OfficialListScreen extends StatelessWidget {
   @override

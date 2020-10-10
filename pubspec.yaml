@@ -41,7 +41,8 @@ dependencies:
   flutter_downloader:
   advance_pdf_viewer:
   get_it: ^5.0.1
-  get:
+  fragment_navigate: ^1.1.0
+  get: ^3.13.2
 
 dev_dependencies:
   flutter_test:
