@@ -23,14 +23,68 @@ class FeedListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemCount: 4,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return FeedCard(feedDetail[0]);
-        },
-      ),
+    final _mediaQuery = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Expanded(
+          flex: 15,
+          child: Container(
+            child: ListView.builder(
+              itemCount: 4,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return FeedCard(feedDetail[0]);
+              },
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.radio_button_off_rounded,
+                    semanticLabel: "sss",
+                    size: 15,
+                  ),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.radio_button_off_rounded,
+                    size: 15,
+                  ),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.radio_button_off_rounded,
+                    size: 15,
+                  ),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.radio_button_off_rounded,
+                    size: 15,
+                  ),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.radio_button_off_rounded,
+                    size: 15,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
