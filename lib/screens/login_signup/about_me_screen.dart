@@ -3,14 +3,14 @@ import 'package:gender_picker/gender_picker.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/address.dart';
-import 'package:jaansay_public_user/screens/login_signup/description.dart';
+import 'package:jaansay_public_user/widgets/login_signup/address.dart';
+import 'package:jaansay_public_user/widgets/login_signup/description.dart';
 import 'package:jaansay_public_user/utils/loginController.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_appbar.dart';
 import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
 
-class AboutMe extends StatelessWidget {
-  AboutMe({Key key}) : super(key: key);
+class AboutMeScreen extends StatelessWidget {
+  AboutMeScreen({Key key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
 
   Widget _customTextField(String hint, String label) {
@@ -104,20 +104,23 @@ class AboutMe extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.all(8),
-            alignment: Alignment.center,
-            child: ScreenProgress(),
-          ),
-          //about(context, _mediaQuery),
-          //Address(),
-          Obx(() {
-            return progresStack[_loginController.index.value];
-          }),
-          //Description(),
-        ],
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(8),
+              alignment: Alignment.center,
+              child: ScreenProgress(),
+            ),
+            //about(context, _mediaQuery),
+            //Address(),
+            Obx(() {
+              return progresStack[_loginController.index.value];
+            }),
+            //Description(),
+          ],
+        ),
       ),
     );
   }
