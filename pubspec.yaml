@@ -44,6 +44,7 @@ dependencies:
   get: ^3.13.2
   pin_code_fields: ^5.2.0
   gender_picker: ^1.0.4
+  google_maps_flutter: 
 
 dev_dependencies:
   flutter_test:
