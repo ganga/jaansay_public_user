@@ -101,6 +101,22 @@ class _FeedCardState extends State<FeedCard> {
             itemCount: widget.feedDetail['feedRes'].length));
   }
 
+  Widget _likeShare() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        IconButton(
+          icon: Icon(Icons.thumb_up_alt_outlined),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.share),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _color = Theme.of(context).primaryColor;
@@ -121,6 +137,10 @@ class _FeedCardState extends State<FeedCard> {
           if (widget.feedDetail['feedType'] == 'Image') _midDetail(),
           _bottomDetail(),
           if (widget.feedDetail['feedType'] == 'Document') _midPdfDetail(),
+          SizedBox(
+            height: 10,
+          ),
+          _likeShare(),
           SizedBox(
             height: 10,
           ),
