@@ -170,13 +170,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fragment_navigate:
-    dependency: "direct main"
-    description:
-      name: fragment_navigate
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   gender_picker:
     dependency: "direct main"
     description:

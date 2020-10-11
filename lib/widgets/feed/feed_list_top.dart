@@ -10,7 +10,9 @@ class FeedListTop extends StatelessWidget {
     return Container(
       height: mediaQuery.height * 0.1,
       width: double.infinity,
-      margin: EdgeInsets.only(left: 16, right: 16),
+      margin: EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      color: Colors.white,
       child: Row(
         children: [
           CircleAvatar(
@@ -26,8 +28,7 @@ class FeedListTop extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => FeedAdd()));
+                Navigator.of(context).pushNamed(FeedAdd.routeName);
               },
               child: Container(
                 alignment: Alignment.center,
@@ -42,7 +43,9 @@ class FeedListTop extends StatelessWidget {
                 ),
                 child: Text(
                   "What's going on in your locality ? ",
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

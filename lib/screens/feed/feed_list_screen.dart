@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/models/feed_category.dart';
 import 'package:jaansay_public_user/utils/feed_page_controller.dart';
-import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_filter.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 
