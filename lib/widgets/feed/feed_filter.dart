@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/utils/feed_page_controller.dart';
 
 class FeedFilter extends StatefulWidget {
   FeedFilter({
     Key key,
-  }) : super(key: key);
+    @required this.controller,
+  }) : super(
+          key: key,
+        );
+  final PageController controller;
 
   @override
   _FeedFilterState createState() => _FeedFilterState();
 }
 
 class _FeedFilterState extends State<FeedFilter> {
-  var curIndex = 0.obs;
+  final FeedPageController _feedPageController = Get.find();
   List<String> titleList = [
     "All",
     "Public",
@@ -22,12 +27,12 @@ class _FeedFilterState extends State<FeedFilter> {
   Widget getBottomCircle(int index) {
     return Obx(() => InkWell(
           onTap: () {
-            curIndex(index);
+            _feedPageController.updateIndex(index, widget.controller);
           },
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: curIndex.value == index
+              color: _feedPageController.index.value == index
                   ? Theme.of(context).primaryColor
                   : Colors.transparent,
               border: Border.all(
@@ -54,7 +59,7 @@ class _FeedFilterState extends State<FeedFilter> {
             child: Align(
               alignment: Alignment.center,
               child: Obx(
-                () => Text(titleList[curIndex.value]),
+                () => Text(titleList[_feedPageController.index.value]),
               ),
             ),
           ),

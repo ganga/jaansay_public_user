@@ -43,6 +43,8 @@ dependencies:
   get_it: ^5.0.1
   fragment_navigate: ^1.1.0
   get: ^3.13.2
+  pin_code_fields: ^5.2.0
+  gender_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:
