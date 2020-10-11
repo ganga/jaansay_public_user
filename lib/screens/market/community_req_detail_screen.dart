@@ -2,16 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/widgets/market/offer_seller_profile.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 
-class OfferDetailScreen extends StatefulWidget {
+class CommunityReqDetailScreen extends StatefulWidget {
   @override
-  _OfferDetailScreenState createState() => _OfferDetailScreenState();
+  _CommunityReqDetailScreenState createState() =>
+      _CommunityReqDetailScreenState();
 }
 
-class _OfferDetailScreenState extends State<OfferDetailScreen> {
+class _CommunityReqDetailScreenState extends State<CommunityReqDetailScreen> {
   Widget _getImg() {
     return CachedNetworkImage(
-      imageUrl: "https://images.freekaamaal.com/post_images/1576047645.png",
+      imageUrl:
+          "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg",
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
@@ -51,7 +54,7 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
             height: 8,
           ),
           Text(
-            "Catalog Name:*Urbane Sensational Men Shirt FabricFabric: Cotton Pattern: Variable (Product Dependent) Multipack: 1 Sizes: 2.5m Dispatch: 2-3 Days Easy Returns Available In Case Of Any Issue  *Proof of Safe Delivery! Click to know on Safety Standards of Delivery Partners- https://bit.ly/30lPKZF",
+            "Description of lost pet including: general height/weight, nature of pet (friendly/timid/etc.), detailed coloring, any distinguishing markings or characteristics. Also include where the pet was lost and phone numbers whereyou can be reached at. Make sure all phone numbers are correct and current and number is bolded.",
             style: TextStyle(fontSize: 16),
           ),
         ],
@@ -66,28 +69,21 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Urbane Sensational Men Shirt Fabric: Cotton",
+            "Missing dog, Gooffy",
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22),
           ),
           SizedBox(
             height: 4,
           ),
           Text(
-            "₹ 299",
+            "12th Oct 2020",
             style: TextStyle(
                 color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 fontSize: 18),
           ),
         ],
       ),
-    );
-  }
-
-  Widget divider() {
-    return Divider(
-      thickness: 0.5,
-      color: Colors.black.withOpacity(0.3),
     );
   }
 
@@ -106,10 +102,10 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     headerSection(),
-                    divider(),
+                    CustomDivider(),
                     descriptionSection(),
-                    divider(),
-                    OfferSellerProfile(true)
+                    CustomDivider(),
+                    OfferSellerProfile(false)
                   ],
                 ),
               ),

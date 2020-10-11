@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/screens/market/community_req_screen.dart';
 import 'package:jaansay_public_user/screens/market/offer_screen.dart';
 
 class MarketScreen extends StatelessWidget {
@@ -25,10 +26,7 @@ class MarketScreen extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: [
-            OfferScreen(),
-            Icon(Icons.directions_transit),
-          ],
+          children: [OfferScreen(), CommunityReqScreen()],
         ),
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
+import 'package:jaansay_public_user/screens/community/contact_screen.dart';
+import 'package:jaansay_public_user/screens/community/deals_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 
@@ -24,7 +27,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
     }
 
     return Card(
-      margin: EdgeInsets.zero,
+      margin: EdgeInsets.only(bottom: 8),
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: _mediaQuery.width * 0.06,
@@ -106,8 +109,11 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ProfileHeadButton(
-                                _mediaQuery.width * 0.3, "Deals", () {}),
+                            ProfileHeadButton(_mediaQuery.width * 0.3, "Deals",
+                                () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => DealsScreen()));
+                            }),
                             ProfileHeadButton(
                                 _mediaQuery.width * 0.3, "Contact", () {}),
                           ],
@@ -125,21 +131,65 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child:
-                        ProfileHeadButton(double.infinity, "Programs", () {}),
+                    child: ProfileHeadButton(double.infinity, "Programs", () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DealsScreen()));
+                    }),
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   Expanded(
-                    child:
-                        ProfileHeadButton(double.infinity, "Grievance", () {}),
+                    child: ProfileHeadButton(double.infinity, "Grievance", () {
+                      Get.dialog(
+                        AlertDialog(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Grievance",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w700),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              ),
+                              Text(
+                                  "Please keep your message short and precise."),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                color: Colors.black.withOpacity(0.02),
+                                child: TextField(
+                                  maxLines: 4,
+                                ),
+                              ),
+                              RaisedButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () {},
+                                child: Text(
+                                  "Submit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   Expanded(
-                    child: ProfileHeadButton(double.infinity, "Contact", () {}),
+                    child: ProfileHeadButton(double.infinity, "Contact", () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ContactScreen()));
+                    }),
                   ),
                 ],
               ),

@@ -3,6 +3,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:jaansay_public_user/screens/community/profile_screen.dart';
 
 class OfferSellerProfile extends StatelessWidget {
+  final bool isOffer;
+
+  OfferSellerProfile(this.isOffer);
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
@@ -15,7 +19,7 @@ class OfferSellerProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Seller Information",
+                isOffer ? "Seller Information" : "Posted by",
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
               FlatButton(
@@ -24,7 +28,8 @@ class OfferSellerProfile extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ProfileScreen(),
-                      settings: RouteSettings(arguments: "business"),
+                      settings: RouteSettings(
+                          arguments: isOffer ? "business" : "public"),
                     ),
                   );
                 },
@@ -40,7 +45,8 @@ class OfferSellerProfile extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ProfileScreen(),
-                  settings: RouteSettings(arguments: "business"),
+                  settings:
+                      RouteSettings(arguments: isOffer ? "business" : "public"),
                 ),
               );
             },
@@ -73,34 +79,42 @@ class OfferSellerProfile extends StatelessWidget {
                       SizedBox(
                         height: 2,
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          RatingBar(
-                            itemSize: 20,
-                            initialRating: 3.5,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            ignoreGestures: true,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                      isOffer
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                RatingBar(
+                                  itemSize: 20,
+                                  initialRating: 3.5,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  ignoreGestures: true,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) {},
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "(324)",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 13),
+                                )
+                              ],
+                            )
+                          : Text(
+                              "#public_user",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                             ),
-                            onRatingUpdate: (rating) {},
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "(324)",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w300, fontSize: 13),
-                          )
-                        ],
-                      ),
                       SizedBox(
                         height: _mediaQuery.height * 0.02,
                       ),

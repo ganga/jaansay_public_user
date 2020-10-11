@@ -31,7 +31,7 @@ class TopDetails extends StatelessWidget {
                       style: DefaultTextStyle.of(context).style,
                       children: [
                     TextSpan(
-                        text: "#public_user",
+                        text: "#public_user ",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w300,

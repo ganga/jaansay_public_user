@@ -6,34 +6,39 @@ import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
 class CommunityDetailsScreen extends StatelessWidget {
   Widget _dataBox(String number, String title, BuildContext context,
       double height, double width, Widget widget, String type) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => widget,
-            settings: RouteSettings(arguments: type)));
-      },
-      child: Container(
-        width: double.infinity,
-        color: Theme.of(context).primaryColorDark,
-        margin: EdgeInsets.only(bottom: height * 0.05),
-        constraints: BoxConstraints(minHeight: 100),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              number,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 32),
+    return Container(
+      width: double.infinity,
+      color: Theme.of(context).primaryColorDark,
+      margin: EdgeInsets.only(bottom: height * 0.05),
+      constraints: BoxConstraints(minHeight: 100),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => widget,
+                settings: RouteSettings(arguments: type)));
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  number,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 32),
+                ),
+                AutoSizeText(
+                  title,
+                  style: TextStyle(color: Colors.white, fontSize: 26),
+                  maxLines: 1,
+                ),
+              ],
             ),
-            AutoSizeText(
-              title,
-              style: TextStyle(color: Colors.white, fontSize: 26),
-              maxLines: 1,
-            ),
-          ],
+          ),
         ),
       ),
     );

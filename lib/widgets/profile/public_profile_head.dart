@@ -6,7 +6,7 @@ class PublicProfileHead extends StatelessWidget {
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Card(
-      margin: EdgeInsets.zero,
+      margin: EdgeInsets.only(bottom: 8),
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: _mediaQuery.width * 0.06,

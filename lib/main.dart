@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:jaansay_public_user/screens/feed/feed_add.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/login.dart';
+import 'package:jaansay_public_user/screens/home_screen.dart';
 
 GetIt getIt = GetIt.instance;
 void main() {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primaryColorDark: Color(0xff1E4072),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: HomeScreen(),
       routes: {
         PDFViewScreen.routeName: (context) => PDFViewScreen(),
         ImageViewScreen.routeName: (context) => ImageViewScreen(),
