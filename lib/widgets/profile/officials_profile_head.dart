@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:jaansay_public_user/screens/community/review_screen.dart';
+import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 
-class OfficialsProfileHead extends StatelessWidget {
+class OfficialsProfileHead extends StatefulWidget {
+  final String type;
+
+  OfficialsProfileHead(this.type);
+
+  @override
+  _OfficialsProfileHeadState createState() => _OfficialsProfileHeadState();
+}
+
+class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
+  bool isBusiness = false;
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
+
+    if (widget.type == 'business') {
+      isBusiness = true;
+    }
 
     return Card(
       margin: EdgeInsets.zero,
@@ -17,20 +34,16 @@ class OfficialsProfileHead extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    Container(
-                      height: _mediaQuery.width * 0.2,
-                      width: _mediaQuery.width * 0.2,
-                      decoration: BoxDecoration(shape: BoxShape.circle),
-                      child: ClipOval(
-                        child: Image.network(
-                          "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                Container(
+                  height: _mediaQuery.width * 0.2,
+                  width: _mediaQuery.width * 0.2,
+                  decoration: BoxDecoration(shape: BoxShape.circle),
+                  child: ClipOval(
+                    child: Image.network(
+                      "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(
                   width: _mediaQuery.width * 0.05,
@@ -47,20 +60,39 @@ class OfficialsProfileHead extends StatelessWidget {
                       SizedBox(
                         height: 2,
                       ),
-                      RatingBar(
-                        itemSize: 20,
-                        initialRating: 3.5,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        ignoreGestures: true,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ReviewScreen()));
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RatingBar(
+                              itemSize: 20,
+                              initialRating: 3.5,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              ignoreGestures: true,
+                              itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {},
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "(324)",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300, fontSize: 13),
+                            )
+                          ],
                         ),
-                        onRatingUpdate: (rating) {},
                       ),
                       SizedBox(
                         height: 2,
@@ -70,38 +102,47 @@ class OfficialsProfileHead extends StatelessWidget {
                       SizedBox(
                         height: _mediaQuery.height * 0.02,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: _mediaQuery.width * 0.3,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: Colors.black54, width: 0.5),
-                                color: Colors.black.withOpacity(0.01)),
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            alignment: Alignment.center,
-                            child: Text("Deals"),
-                          ),
-                          Container(
-                            width: _mediaQuery.width * 0.3,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: Colors.black54, width: 0.5),
-                                color: Colors.black.withOpacity(0.01)),
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            alignment: Alignment.center,
-                            child: Text("Contact"),
-                          ),
-                        ],
-                      )
+                      if (isBusiness)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ProfileHeadButton(
+                                _mediaQuery.width * 0.3, "Deals", () {}),
+                            ProfileHeadButton(
+                                _mediaQuery.width * 0.3, "Contact", () {}),
+                          ],
+                        ),
                     ],
                   ),
                 )
               ],
             ),
+            SizedBox(
+              height: _mediaQuery.height * 0.01,
+            ),
+            if (!isBusiness)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child:
+                        ProfileHeadButton(double.infinity, "Programs", () {}),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child:
+                        ProfileHeadButton(double.infinity, "Grievance", () {}),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: ProfileHeadButton(double.infinity, "Contact", () {}),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

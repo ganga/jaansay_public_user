@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/screens/community_screen.dart';
+import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed_screen.dart';
+import 'package:jaansay_public_user/screens/market/market_screen.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
@@ -18,11 +19,11 @@ class TabNavigator extends StatelessWidget {
     if (tabItem == "feed")
       child = FeedScreen();
     else if (tabItem == "community")
-      child = CommunityScreen();
+      child = CommunityDetailsScreen();
     else if (tabItem == "market")
-      child = FeedScreen();
+      child = MarketScreen();
     else {
-      child = CommunityScreen();
+      child = CommunityDetailsScreen();
     }
 
     return Navigator(

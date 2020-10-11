@@ -5,11 +5,12 @@ import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
 
 class CommunityDetailsScreen extends StatelessWidget {
   Widget _dataBox(String number, String title, BuildContext context,
-      double height, double width, Widget widget) {
+      double height, double width, Widget widget, String type) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => widget));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => widget,
+            settings: RouteSettings(arguments: type)));
       },
       child: Container(
         width: double.infinity,
@@ -60,13 +61,25 @@ class CommunityDetailsScreen extends StatelessWidget {
                 height: _mediaQuery.height * 0.03,
               ),
               _dataBox("5000", "Public Users", context, _mediaQuery.height,
-                  _mediaQuery.width, ProfileListScreen()),
+                  _mediaQuery.width, ProfileListScreen(), "public"),
               _dataBox("230", "Business", context, _mediaQuery.height,
-                  _mediaQuery.width, OfficialListScreen()),
-              _dataBox("21", "Appointed Officials and Elected Members", context,
-                  _mediaQuery.height, _mediaQuery.width, OfficialListScreen()),
-              _dataBox("10", "Associations and Bodies", context,
-                  _mediaQuery.height, _mediaQuery.width, ProfileListScreen()),
+                  _mediaQuery.width, OfficialListScreen(), "business"),
+              _dataBox(
+                  "21",
+                  "Appointed Officials and Elected Members",
+                  context,
+                  _mediaQuery.height,
+                  _mediaQuery.width,
+                  OfficialListScreen(),
+                  "appointed"),
+              _dataBox(
+                  "10",
+                  "Associations and Bodies",
+                  context,
+                  _mediaQuery.height,
+                  _mediaQuery.width,
+                  OfficialListScreen(),
+                  "association"),
             ],
           ),
         ),

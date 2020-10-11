@@ -3,11 +3,12 @@ import 'package:jaansay_public_user/screens/community/profile_screen.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 
 class ProfileListScreen extends StatelessWidget {
-  Widget profileCard(BuildContext context) {
+  Widget profileCard(BuildContext context, int index) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => ProfileScreen()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => ProfileScreen(),
+            settings: RouteSettings(arguments: "public")));
       },
       child: Column(
         children: [
@@ -36,6 +37,7 @@ class ProfileListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String type = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -52,7 +54,7 @@ class ProfileListScreen extends StatelessWidget {
               crossAxisSpacing: _mediaQuery.width * 0.03,
               mainAxisSpacing: _mediaQuery.height * 0.02),
           itemBuilder: (context, index) {
-            return profileCard(context);
+            return profileCard(context, index);
           },
         ),
       ),
