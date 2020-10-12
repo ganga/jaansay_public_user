@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/screens/feed/feed_add.dart';
 
 class FeedListTop extends StatelessWidget {
   FeedListTop({Key key, @required this.mediaQuery}) : super(key: key);
@@ -27,9 +26,7 @@ class FeedListTop extends StatelessWidget {
           ),
           Expanded(
             child: InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(FeedAdd.routeName);
-              },
+              onTap: () {},
               child: Container(
                 alignment: Alignment.center,
                 height: mediaQuery.height * 0.07,

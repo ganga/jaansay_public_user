@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/widgets/feed/top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -134,11 +135,23 @@ class _FeedCardState extends State<FeedCard> {
           SizedBox(
             height: 10,
           ),
-          if (widget.feedDetail['feedType'] == 'Image') _midDetail(),
-          _bottomDetail(),
-          if (widget.feedDetail['feedType'] == 'Document') _midPdfDetail(),
-          SizedBox(
-            height: 10,
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FeedDetailScreen()));
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (widget.feedDetail['feedType'] == 'Image') _midDetail(),
+                _bottomDetail(),
+                if (widget.feedDetail['feedType'] == 'Document')
+                  _midPdfDetail(),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
           ),
           _likeShare(),
           SizedBox(

@@ -1,9 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class ContactScreen extends StatelessWidget {
+class ContactScreen extends StatefulWidget {
+  @override
+  _ContactScreenState createState() => _ContactScreenState();
+}
+
+class _ContactScreenState extends State<ContactScreen> {
+  Completer<GoogleMapController> _controller = Completer();
+
   Widget contactSectionItems(
       BuildContext context, String title, IconData iconData) {
     return Flexible(
@@ -103,9 +113,21 @@ class ContactScreen extends StatelessWidget {
             children: [
               ContactHeader(),
               Expanded(
-                  child: Container(
-                color: Colors.red,
-              )),
+                child: GoogleMap(
+                  mapToolbarEnabled: false,
+                  zoomControlsEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(13.331781, 74.747334), zoom: 18),
+                  markers: {
+                    Marker(
+                        markerId: MarkerId("marker"),
+                        position: LatLng(13.331781, 74.747334))
+                  },
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                ),
+              ),
               addressSection(context),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),

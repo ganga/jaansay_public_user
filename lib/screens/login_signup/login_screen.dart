@@ -3,6 +3,8 @@ import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.
 import 'package:jaansay_public_user/screens/login_signup/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const routeName = "login";
+
   const LoginScreen({Key key}) : super(key: key);
 
   @override
@@ -17,10 +19,13 @@ class LoginScreen extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Image.asset(
-                "assets/images/logo.png",
-                height: _mediaQuery.height * 0.3,
-                width: _mediaQuery.height * 0.3,
+              child: Hero(
+                tag: "mainlogo",
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  height: _mediaQuery.width * 0.3,
+                  width: _mediaQuery.width * 0.3,
+                ),
               ),
             ),
             Padding(

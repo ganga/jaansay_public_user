@@ -115,7 +115,10 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                                   builder: (context) => DealsScreen()));
                             }),
                             ProfileHeadButton(
-                                _mediaQuery.width * 0.3, "Contact", () {}),
+                                _mediaQuery.width * 0.3, "Contact", () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ContactScreen()));
+                            }),
                           ],
                         ),
                     ],

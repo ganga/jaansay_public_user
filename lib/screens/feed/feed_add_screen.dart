@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/widgets/misc/profile_tile.dart';
 
-class FeedAdd extends StatelessWidget {
+class FeedAddScreen extends StatelessWidget {
   static const routeName = '/feedAdd';
 
-  const FeedAdd({Key key}) : super(key: key);
+  const FeedAddScreen({Key key}) : super(key: key);
   Widget attachments(String label, IconData icon, int index) {
     return InkWell(
       onTap: () {},

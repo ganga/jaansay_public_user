@@ -152,11 +152,28 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
     );
   }
 
+  Widget _likeShare() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        IconButton(
+          icon: Icon(Icons.thumb_up_alt_outlined),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.share),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _feedList = {
       'feedId': 1,
-      'feedDescription': "Description",
+      'feedDescription':
+          "The world these days, governed by competition, makes survival the most difficult thing. And for those whose existence is challenging hope is the only way of survival. This is one way, life can be summed up in words. The fact however is, life cannot be summed up in words. Words fail to express the meaning and purpose that anyone feels he or she has in life. For some it might be to create or build something, for someone it might be gaining knowledge, for someone it might be to have fun.",
       'time': DateTime.now(),
       'feedType': "Image",
       'feedRes': [
@@ -175,6 +192,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
     width = _mediaQuery.width;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -191,6 +209,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
               SizedBox(
                 height: 10,
               ),
+              _likeShare(),
             ],
           ),
         ),
