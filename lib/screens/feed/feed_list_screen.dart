@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:jaansay_public_user/utils/feed_page_controller.dart';
-import 'package:jaansay_public_user/widgets/feed/feed_filter.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 
 class FeedListScreen extends StatefulWidget {
@@ -12,15 +9,16 @@ class FeedListScreen extends StatefulWidget {
 }
 
 class _FeedListScreenState extends State<FeedListScreen> {
-  final FeedPageController _feedPageController = Get.put(FeedPageController());
-  final PageController controller = PageController(initialPage: 0);
+  // final FeedPageController _feedPageController = Get.put(FeedPageController());
+  // final PageController controller = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
+          Expanded(child: FeedList()),
+          /*Expanded(
             child: PageView(
               controller: controller,
               onPageChanged: (val) {
@@ -37,7 +35,7 @@ class _FeedListScreenState extends State<FeedListScreen> {
           ),
           FeedFilter(
             controller: controller,
-          ),
+          ),*/
         ],
       ),
     );

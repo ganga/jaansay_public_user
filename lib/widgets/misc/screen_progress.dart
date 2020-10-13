@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/utils/loginController.dart';
+import 'package:jaansay_public_user/utils/login_controller.dart';
 
 class ScreenProgress extends StatelessWidget {
   final LoginController c = Get.find();

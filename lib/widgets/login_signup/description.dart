@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/utils/loginController.dart';
+import 'package:jaansay_public_user/utils/login_controller.dart';
 
 class Description extends StatelessWidget {
   Description({Key key}) : super(key: key);

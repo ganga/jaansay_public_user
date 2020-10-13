@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
 import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CommunityDetailsScreen extends StatelessWidget {
   Widget _dataBox(String number, String title, BuildContext context,
@@ -15,9 +16,10 @@ class CommunityDetailsScreen extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => widget,
-                settings: RouteSettings(arguments: type)));
+            pushNewScreenWithRouteSettings(context,
+                screen: widget,
+                settings: RouteSettings(arguments: type),
+                pageTransitionAnimation: PageTransitionAnimation.cupertino);
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),

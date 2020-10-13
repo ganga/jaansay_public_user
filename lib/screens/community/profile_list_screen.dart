@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/screens/community/profile_screen.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 
 class ProfileListScreen extends StatelessWidget {
   Widget profileCard(BuildContext context, int index) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => ProfileScreen(),
-            settings: RouteSettings(arguments: "public")));
-      },
+      onTap: () {},
       child: Column(
         children: [
           Expanded(

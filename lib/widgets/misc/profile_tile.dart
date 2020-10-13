@@ -12,11 +12,15 @@ class ProfileTile extends StatelessWidget {
       margin: EdgeInsets.only(left: 16, right: 16),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: Theme.of(context).primaryColor,
-            backgroundImage: NetworkImage(
-              "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: ClipOval(
+              child: Image.network(
+                "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(
