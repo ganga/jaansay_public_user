@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/utils/loginController.dart';
+import 'package:jaansay_public_user/utils/login_controller.dart';
 
 class Address extends StatelessWidget {
   Address({Key key}) : super(key: key);

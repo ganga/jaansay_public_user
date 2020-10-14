@@ -28,7 +28,6 @@ class ProfileScreen extends StatelessWidget {
     final String type = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.05),
       body: Container(
         width: double.infinity,
         child: Column(

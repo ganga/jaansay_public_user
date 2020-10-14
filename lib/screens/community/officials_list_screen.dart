@@ -21,7 +21,8 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
       title = "Associations and Bodies";
     }
 
-    return SingleChildScrollView(
+    return Scaffold(
+        body: SingleChildScrollView(
       child: Container(
         width: double.infinity,
         child: Column(
@@ -47,6 +48,6 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

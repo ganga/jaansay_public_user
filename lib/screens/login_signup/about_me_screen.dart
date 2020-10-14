@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gender_picker/gender_picker.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/screens/home_screen.dart';
+import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/login_signup/address.dart';
 import 'package:jaansay_public_user/widgets/login_signup/description.dart';
-import 'package:jaansay_public_user/utils/loginController.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_appbar.dart';
 import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
 
 class AboutMeScreen extends StatelessWidget {

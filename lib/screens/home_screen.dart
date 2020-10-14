@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/utils/tab_navigator.dart';
+import 'package:jaansay_public_user/screens/alert/alert_screen.dart';
+import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
+import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
+import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
+import 'package:jaansay_public_user/widgets/custom_drawer.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -9,26 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-  String _currentPage = 'feed';
-  List<String> _pageKeys = ['feed', 'community', 'market', 'alert'];
-  Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
-    'feed': GlobalKey<NavigatorState>(),
-    'community': GlobalKey<NavigatorState>(),
-    'market': GlobalKey<NavigatorState>(),
-    'alert': GlobalKey<NavigatorState>(),
-  };
-
-  selectTab(String tabItem, int index) {
-    if (tabItem == _currentPage) {
-      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
-    } else {
-      setState(() {
-        _currentPage = _pageKeys[index];
-        _currentIndex = index;
-      });
-    }
-  }
+  PersistentTabController _controller;
 
   Widget appBarIcon(IconData iconData, BuildContext context) {
     return Container(
@@ -53,66 +40,71 @@ class _HomeScreenState extends State<HomeScreen> {
       centerTitle: true,
       actions: [
         appBarIcon(Icons.search, context),
-        appBarIcon(Icons.message, context)
       ],
     );
   }
 
-  Widget _buildOffstageNavigator(String tabItem) {
-    return Offstage(
-      offstage: _currentPage != tabItem,
-      child: TabNavigator(
-        navigatorKey: _navigatorKeys[tabItem],
-        tabItem: tabItem,
+  List<Widget> _buildScreens() {
+    return [
+      FeedListScreen(),
+      CommunityDetailsScreen(),
+      GrievanceScreen(),
+      AlertScreen(),
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.home),
+        title: "Home",
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: Colors.grey,
       ),
-    );
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.group),
+        title: "Community",
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(MdiIcons.messageAlert),
+        title: "Grievance",
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.add_alert),
+        title: "Alert",
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: Colors.grey,
+      ),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_currentPage].currentState.maybePop();
-        if (isFirstRouteInCurrentTab) {
-          if (_currentPage != "feed") {
-            selectTab("feed", 0);
-            return false;
-          }
-        }
-        return isFirstRouteInCurrentTab;
-      },
-      child: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text("Home")),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.group), title: Text("Community")),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), title: Text("MarketPlace")),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.add_alert), title: Text("Alert")),
-          ],
-          currentIndex: _currentIndex,
-          selectedItemColor: Colors.white,
-          selectedLabelStyle: TextStyle(color: Colors.white),
-          unselectedItemColor: Colors.white54,
-          unselectedLabelStyle: TextStyle(color: Colors.white54),
-          onTap: (val) {
-            selectTab(_pageKeys[val], val);
-          },
+    return Scaffold(
+      appBar: appBar(context),
+      drawer: SafeArea(
+        child: Drawer(
+          child: CustomDrawer(),
         ),
-        appBar: appBar(context),
-        drawer: Drawer(),
-        body: Stack(children: <Widget>[
-          _buildOffstageNavigator("feed"),
-          _buildOffstageNavigator("community"),
-          _buildOffstageNavigator("market"),
-          _buildOffstageNavigator("alert"),
-        ]),
+      ),
+      body: PersistentTabView(
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white,
+        handleAndroidBackButtonPress: true,
+        resizeToAvoidBottomInset: true,
+        stateManagement: true,
+        hideNavigationBarWhenKeyboardShows: true,
+        popAllScreensOnTapOfSelectedTab: true,
+        popActionScreens: PopActionScreensType.all,
+        navBarStyle:
+            NavBarStyle.style3, // Choose the nav bar style with this property.
       ),
     );
   }
