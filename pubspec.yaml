@@ -45,6 +45,7 @@ dependencies:
   pin_code_fields: ^5.2.0
   gender_picker: ^1.0.4
   google_maps_flutter: 
+  video_player: ^0.11.0
 
 dev_dependencies:
   flutter_test:
