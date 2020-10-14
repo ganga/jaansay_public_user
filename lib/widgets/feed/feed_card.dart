@@ -57,6 +57,15 @@ class _FeedCardState extends State<FeedCard> {
             height: 10,
           ),
           Text(
+            "1245 Likes",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
             widget.feedDetail['feedDescription'].toString(),
             textAlign: TextAlign.start,
             maxLines: 3,
@@ -106,13 +115,23 @@ class _FeedCardState extends State<FeedCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        IconButton(
-          icon: Icon(Icons.thumb_up_alt_outlined),
-          onPressed: () {},
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.thumb_up_alt_outlined),
+              onPressed: () {},
+            ),
+            Text("Like"),
+          ],
         ),
-        IconButton(
-          icon: Icon(Icons.share),
-          onPressed: () {},
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {},
+            ),
+            Text("Share"),
+          ],
         ),
       ],
     );

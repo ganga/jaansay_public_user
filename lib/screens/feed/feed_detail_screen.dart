@@ -43,10 +43,23 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                 "Alice Josh",
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
-              Text(
-                "Sept 20, 2020",
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w300),
-              ),
+              RichText(
+                  text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: [
+                    TextSpan(
+                        text: "#public_user ",
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                    TextSpan(
+                      text: "12 Sep 2020",
+                      style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.w300),
+                    )
+                  ]))
             ],
           ),
         ],
@@ -111,6 +124,15 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
             text: _feedList['feedDescription'].toString(),
             textAlign: TextAlign.start,
           ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "1245 Likes",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          )
         ],
       ),
     );
@@ -156,13 +178,23 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        IconButton(
-          icon: Icon(Icons.thumb_up_alt_outlined),
-          onPressed: () {},
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.thumb_up_alt_outlined),
+              onPressed: () {},
+            ),
+            Text("Like"),
+          ],
         ),
-        IconButton(
-          icon: Icon(Icons.share),
-          onPressed: () {},
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {},
+            ),
+            Text("Share"),
+          ],
         ),
       ],
     );

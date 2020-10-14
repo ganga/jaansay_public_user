@@ -57,12 +57,56 @@ class AboutMeScreen extends StatelessWidget {
     );
   }
 
+  _datePicker(BuildContext context) async {
+    return await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2100),
+      helpText: "Choose the date",
+    );
+  }
+
   Widget about(BuildContext context, Size mediaQuery) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          height: 150,
+          width: 150,
+          decoration: BoxDecoration(shape: BoxShape.circle),
+          child: ClipOval(
+            child: Image.network(
+              "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        FlatButton(
+          onPressed: () {},
+          child: Text("Choose photo"),
+        ),
         _customTextField("Enter your Name", "Full name"),
-        _customTextField("Enter your Email", "Email"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text("Date of birth"),
+            FlatButton(
+                onPressed: () {
+                  _datePicker(context);
+                },
+                child: Text(
+                  "Choose date",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ))
+          ],
+        ),
         Container(
           margin: EdgeInsets.all(8),
           child: genderPicker(),

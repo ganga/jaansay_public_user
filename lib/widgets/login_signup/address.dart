@@ -5,7 +5,15 @@ import 'package:jaansay_public_user/utils/login_controller.dart';
 class Address extends StatelessWidget {
   Address({Key key}) : super(key: key);
   final LoginController c = Get.find();
-
+  List<String> spinnerItems = [
+    'Punjab National Bank',
+    'Union Bank of India	',
+    'Bank of Baroda',
+    'Punjab & Sind Bank',
+    'Reserve Bank of India',
+    'Canara Bank',
+    'Department of financial services'
+  ];
   Widget _customTextField(String hint, String label) {
     return Container(
       margin: EdgeInsets.all(8),
@@ -35,8 +43,29 @@ class Address extends StatelessWidget {
     return Column(
       children: [
         _customTextField("Enter your postal code", "Pincode"),
-        _customTextField("Enter your panchayat id", "Panchayat Id"),
-        _customTextField("Enter your ward id", "Ward Id"),
+        DropdownButtonFormField(
+          key: ValueKey('organization'),
+          icon: Icon(Icons.arrow_drop_down),
+          iconSize: 24,
+          elevation: 16,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+            hintText: 'Select the Panchayat',
+            labelText: 'Panchayat',
+            icon: Icon(Icons.ac_unit),
+          ),
+          validator: (String data) {
+            if (data.isEmpty) return 'Please select one panchayat';
+            return null;
+          },
+          onChanged: (String data) {},
+          items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
         Container(
           height: _mediaQuery.height * 0.07,
           width: double.infinity,
