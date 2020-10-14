@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primaryColorDark: Color(0xff1E4072),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      home: HomeScreen(),
       routes: {
         PDFViewScreen.routeName: (context) => PDFViewScreen(),
         ImageViewScreen.routeName: (context) => ImageViewScreen(),

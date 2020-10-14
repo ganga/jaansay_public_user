@@ -26,15 +26,29 @@ class FeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
-    return Container(
-      child: ListView.builder(
-        itemCount: 4,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return index == 0
-              ? FeedListTop(mediaQuery: _mediaQuery)
-              : FeedCard(feedDetail[0]);
-        },
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: 100,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 1000,
+                itemBuilder: (_, index) {
+                  return FeedListTop(mediaQuery: _mediaQuery);
+                }),
+          ),
+          Container(
+            height: 1000,
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 1000,
+                itemBuilder: (_, index) {
+                  return FeedCard(feedDetail[0]);
+                }),
+          )
+        ],
       ),
     );
   }
