@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list_top.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 
 class FeedList extends StatelessWidget {
   FeedList({Key key}) : super(key: key);
@@ -23,33 +24,52 @@ class FeedList extends StatelessWidget {
     }
   ];
 
+  followList(Size size) {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: Text(
+              "Stores near you",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Container(
+            height: 80,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: PageScrollPhysics(),
+              itemCount: 50,
+              itemBuilder: (_, index) {
+                return FeedListTop(mediaQuery: size);
+              },
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: CustomDivider()),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: 100,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 1000,
-                itemBuilder: (_, index) {
-                  return FeedListTop(mediaQuery: _mediaQuery);
-                }),
-          ),
-          Container(
-            height: 1000,
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 1000,
-                itemBuilder: (_, index) {
-                  return FeedCard(feedDetail[0]);
-                }),
-          )
-        ],
-      ),
+    return Container(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: 1000,
+          shrinkWrap: true,
+          itemBuilder: (_, index) {
+            return index == 0
+                ? followList(_mediaQuery)
+                : FeedCard(feedDetail[0]);
+          }),
     );
   }
 }

@@ -60,8 +60,7 @@ class _ContactScreenState extends State<ContactScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           contactSectionItems(context, "CALL", MdiIcons.phone),
-          contactSectionItems(context, "WEBSITE", MdiIcons.web),
-          contactSectionItems(context, "MAIL", MdiIcons.email),
+          contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert),
           contactSectionItems(context, "SHARE", MdiIcons.shareVariant),
         ],
       ),

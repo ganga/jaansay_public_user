@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:jaansay_public_user/screens/login_signup/sign_up_screen.dart';
+import 'package:jaansay_public_user/service/auth_service.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = "login";
 
   const LoginScreen({Key key}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController controller = TextEditingController();
+
+  loginPhone() async {
+    String phone = controller.text;
+    if (GetUtils.isPhoneNumber(phone)) {
+      bool _response = await GetIt.I<AuthService>().loginPhone();
+    } else {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +77,7 @@ class LoginScreen extends StatelessWidget {
               ),
               child: TextField(
                 keyboardType: TextInputType.number,
+                controller: controller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   labelText: "Phone Number",
@@ -81,19 +98,13 @@ class LoginScreen extends StatelessWidget {
               },
             ),
             Container(
-              height: _mediaQuery.height * 0.07,
               width: double.infinity,
               margin: EdgeInsets.all(8),
               child: RaisedButton(
+                padding: EdgeInsets.symmetric(vertical: 15),
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => OtpVerificationScreen(
-                        type: 1,
-                      ),
-                    ),
-                  );
+                  loginPhone();
                 },
                 child: Text(
                   "Log in",

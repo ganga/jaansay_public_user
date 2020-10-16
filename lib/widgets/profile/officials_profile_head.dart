@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
-import 'package:jaansay_public_user/screens/community/deals_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class OfficialsProfileHead extends StatefulWidget {
   final String type;
@@ -65,8 +64,8 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ReviewScreen()));
+                          pushNewScreen(context,
+                              screen: ReviewScreen(), withNavBar: true);
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -105,22 +104,6 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                       SizedBox(
                         height: _mediaQuery.height * 0.02,
                       ),
-                      if (isBusiness)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ProfileHeadButton(_mediaQuery.width * 0.3, "Deals",
-                                () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => DealsScreen()));
-                            }),
-                            ProfileHeadButton(
-                                _mediaQuery.width * 0.3, "Contact", () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ContactScreen()));
-                            }),
-                          ],
-                        ),
                     ],
                   ),
                 )
@@ -129,73 +112,32 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
             SizedBox(
               height: _mediaQuery.height * 0.01,
             ),
-            if (!isBusiness)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: ProfileHeadButton(double.infinity, "Programs", () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DealsScreen()));
-                    }),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: ProfileHeadButton(double.infinity, "Grievance", () {
-                      Get.dialog(
-                        AlertDialog(
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Grievance",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w700),
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                child: Divider(
-                                  thickness: 0.5,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ),
-                              Text(
-                                  "Please keep your message short and precise."),
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                color: Colors.black.withOpacity(0.02),
-                                child: TextField(
-                                  maxLines: 4,
-                                ),
-                              ),
-                              RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                onPressed: () {},
-                                child: Text(
-                                  "Submit",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: ProfileHeadButton(double.infinity, "Contact", () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ContactScreen()));
-                    }),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ProfileHeadButton(double.infinity, "Add Rating", () {
+                    pushNewScreen(context,
+                        screen: ReviewScreen(), withNavBar: true);
+                  }),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ProfileHeadButton(double.infinity, "Follow", () {}),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ProfileHeadButton(double.infinity, "Contact", () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ContactScreen()));
+                  }),
+                ),
+              ],
+            ),
           ],
         ),
       ),

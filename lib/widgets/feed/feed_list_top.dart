@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/widgets/feed/follow_button.dart';
 
 class FeedListTop extends StatelessWidget {
   FeedListTop({Key key, @required this.mediaQuery}) : super(key: key);
@@ -31,7 +32,7 @@ class FeedListTop extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Text(
-              "#public_user",
+              "#business",
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
           ],
@@ -44,48 +45,19 @@ class FeedListTop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: mediaQuery.height * 0.1,
-      width: mediaQuery.width * 0.9,
-      margin: EdgeInsets.only(left: 16, right: 16),
+      width: mediaQuery.width,
+      padding: EdgeInsets.only(left: 16, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           buildLeftRow(context),
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4),
-                  ),
-                ),
-                child: Text(
-                  "Accept",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4),
-                  ),
-                ),
-                child: Text("Reject"),
-              ),
-            ],
-          )
+          Expanded(child: Container()),
+          FollowButton(true, "Accept"),
+          SizedBox(
+            width: 8,
+          ),
+          FollowButton(false, "Reject")
         ],
       ),
     );

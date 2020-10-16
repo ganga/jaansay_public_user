@@ -57,19 +57,19 @@ class _FeedCardState extends State<FeedCard> {
             height: 10,
           ),
           Text(
-            "1245 Likes",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+            widget.feedDetail['feedDescription'].toString(),
+            textAlign: TextAlign.start,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
           SizedBox(
             height: 10,
           ),
           Text(
-            widget.feedDetail['feedDescription'].toString(),
-            textAlign: TextAlign.start,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
+            "1245 Likes",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:jaansay_public_user/screens/alert/alert_screen.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
+import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -18,12 +19,21 @@ class _HomeScreenState extends State<HomeScreen> {
   PersistentTabController _controller;
 
   Widget appBarIcon(IconData iconData, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      child: Icon(
-        iconData,
-        size: 32,
-        color: Theme.of(context).primaryColor,
+    return InkWell(
+      borderRadius: BorderRadius.circular(15),
+      onTap: () {
+        pushNewScreen(context, screen: SearchScreen(), withNavBar: false);
+      },
+      child: Hero(
+        tag: "search_icon",
+        child: Container(
+          margin: EdgeInsets.only(right: 10, left: 10),
+          child: Icon(
+            iconData,
+            size: 32,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
       ),
     );
   }
@@ -85,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: appBar(context),
       drawer: SafeArea(
         child: Drawer(

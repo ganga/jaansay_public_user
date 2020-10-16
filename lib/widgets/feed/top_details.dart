@@ -10,7 +10,7 @@ class TopDetails extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ProfileScreen(),
-            settings: RouteSettings(arguments: "public")));
+            settings: RouteSettings(arguments: "business")));
       },
       child: Container(
         margin: EdgeInsets.only(left: 16, right: 16),
@@ -38,11 +38,11 @@ class TopDetails extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 RichText(
-                    text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: [
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
                       TextSpan(
-                          text: "#public_user ",
+                          text: "#business ",
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w300,
@@ -53,7 +53,9 @@ class TopDetails extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w300),
                       )
-                    ]))
+                    ],
+                  ),
+                ),
               ],
             ),
           ],
