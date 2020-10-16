@@ -5,7 +5,7 @@ class RegisterFollow extends StatelessWidget {
   RegisterFollow({Key key, @required this.mediaQuery}) : super(key: key);
   final Size mediaQuery;
   var isFollow = "Follow".obs;
-  Color _color = Colors.blue;
+  Color _color = Get.theme.primaryColor;
   Color _textColor = Colors.white;
 
   @override
@@ -58,7 +58,7 @@ class RegisterFollow extends StatelessWidget {
                 _textColor = Colors.black;
               } else {
                 isFollow("Follow");
-                _color = Colors.blue;
+                _color = Get.theme.primaryColor;
                 _textColor = Colors.white;
               }
             },

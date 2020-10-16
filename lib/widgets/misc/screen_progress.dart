@@ -52,11 +52,11 @@ class ScreenProgress extends StatelessWidget {
     return isChecked
         ? Icon(
             Icons.check_circle,
-            color: Colors.blue,
+            color: Get.theme.primaryColor,
           )
         : Icon(
             Icons.radio_button_unchecked,
-            color: Colors.blue,
+            color: Get.theme.primaryColor,
           );
   }
 
@@ -98,7 +98,7 @@ class ScreenProgress extends StatelessWidget {
 
   Widget line(Size mediaQuery) {
     return Container(
-      color: Colors.blue,
+      color: Get.theme.primaryColor,
       height: 5.0,
       width: mediaQuery.width * 0.25,
     );
