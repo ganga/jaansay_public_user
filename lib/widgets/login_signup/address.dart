@@ -37,35 +37,48 @@ class Address extends StatelessWidget {
     );
   }
 
+  Widget _dropDown() {
+    return Container(
+      margin: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      child: DropdownButtonFormField(
+        key: ValueKey('organization'),
+        icon: Icon(Icons.arrow_drop_down),
+        decoration: InputDecoration(
+          hintText: 'Select the Panchayat',
+          labelText: 'Panchayat',
+          border: InputBorder.none,
+        ),
+        validator: (String data) {
+          if (data.isEmpty) return 'Please select one panchayat';
+          return null;
+        },
+        onChanged: (String data) {},
+        items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
         _customTextField("Enter your postal code", "Pincode"),
-        DropdownButtonFormField(
-          key: ValueKey('organization'),
-          icon: Icon(Icons.arrow_drop_down),
-          iconSize: 24,
-          elevation: 16,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-            hintText: 'Select the Panchayat',
-            labelText: 'Panchayat',
-            icon: Icon(Icons.ac_unit),
-          ),
-          validator: (String data) {
-            if (data.isEmpty) return 'Please select one panchayat';
-            return null;
-          },
-          onChanged: (String data) {},
-          items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
+        _dropDown(),
         Container(
           height: _mediaQuery.height * 0.07,
           width: double.infinity,

@@ -5,15 +5,14 @@ class RegisterFollow extends StatelessWidget {
   RegisterFollow({Key key, @required this.mediaQuery}) : super(key: key);
   final Size mediaQuery;
   var isFollow = "Follow".obs;
-  Color _color = Colors.blue;
+  Color _color = Get.theme.primaryColor;
   Color _textColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: mediaQuery.height * 0.1,
       width: double.infinity,
-      margin: EdgeInsets.only(left: 16, right: 16),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,6 +33,7 @@ class RegisterFollow extends StatelessWidget {
                 width: 8,
               ),
               Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -58,7 +58,7 @@ class RegisterFollow extends StatelessWidget {
                 _textColor = Colors.black;
               } else {
                 isFollow("Follow");
-                _color = Colors.blue;
+                _color = Get.theme.primaryColor;
                 _textColor = Colors.white;
               }
             },

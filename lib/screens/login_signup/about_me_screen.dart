@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/login_signup/address.dart';
 import 'package:jaansay_public_user/widgets/login_signup/description.dart';
+import 'package:jaansay_public_user/widgets/login_signup/finish.dart';
+import 'package:jaansay_public_user/widgets/login_signup/register_follow.dart';
 import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
 
 class AboutMeScreen extends StatelessWidget {
   AboutMeScreen({Key key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
-
+  var _selectedDate = "Choose DOB".obs;
   Widget _customTextField(String hint, String label) {
     return Container(
       margin: EdgeInsets.all(8),
@@ -24,7 +26,8 @@ class AboutMeScreen extends StatelessWidget {
         ),
       ),
       child: TextField(
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: label,
@@ -93,19 +96,28 @@ class AboutMeScreen extends StatelessWidget {
           child: Text("Choose photo"),
         ),
         _customTextField("Enter your Name", "Full name"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text("Date of birth"),
-            FlatButton(
-                onPressed: () {
-                  _datePicker(context);
-                },
-                child: Text(
-                  "Choose date",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                ))
-          ],
+        InkWell(
+          onTap: () async {
+            var temp = await _datePicker(context);
+            _selectedDate(temp.toString());
+          },
+          child: Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 30),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            child: Obx(() => Text(
+                  _selectedDate.value,
+                  style: TextStyle(color: Colors.grey),
+                )),
+          ),
         ),
         Container(
           margin: EdgeInsets.all(8),
@@ -116,7 +128,7 @@ class AboutMeScreen extends StatelessWidget {
           width: double.infinity,
           margin: EdgeInsets.all(8),
           child: RaisedButton(
-            color: Theme.of(context).primaryColor,
+            color: Get.theme.primaryColor,
             onPressed: () {
               _loginController.index(1);
             },
@@ -133,12 +145,8 @@ class AboutMeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
-    List<Widget> progresStack = [
-      about(context, _mediaQuery),
-      Address(),
-      Description(),
-    ];
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -146,22 +154,39 @@ class AboutMeScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(8),
-              alignment: Alignment.center,
-              child: ScreenProgress(),
-            ),
-            //about(context, _mediaQuery),
-            //Address(),
-            Obx(() {
-              return progresStack[_loginController.index.value];
-            }),
-            //Description(),
-          ],
+      body: WillPopScope(
+        onWillPop: () async {
+          if (_loginController.index.value == 0) {
+            return true;
+          } else {
+            _loginController.index(_loginController.index.value - 1);
+            return false;
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(8),
+                alignment: Alignment.center,
+                child: ScreenProgress(),
+              ),
+              Obx(() {
+                return Expanded(
+                  child: IndexedStack(
+                    index: _loginController.index.value,
+                    children: [
+                      about(context, _mediaQuery),
+                      Address(),
+                      Description(),
+                      Finish(),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );

@@ -5,45 +5,31 @@ import 'package:jaansay_public_user/utils/login_controller.dart';
 class ScreenProgress extends StatelessWidget {
   final LoginController c = Get.find();
 
+  Widget _buildColumn(String title, Function ticks) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Obx(() => ticks()),
+        Text(title),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Obx(() => tick1()),
-            Text("About"),
-          ],
-        ),
-        spacer(),
+        _buildColumn("About", tick1),
         line(_mediaQuery),
-        spacer(),
-        Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Obx(() => tick2()),
-            Text("Location"),
-          ],
-        ),
-        spacer(),
+        _buildColumn("Location", tick2),
         line(_mediaQuery),
-        spacer(),
-        Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Obx(() => tick3()),
-            Text("Status"),
-          ],
-        ),
+        _buildColumn("Status", tick3),
+        line(_mediaQuery),
+        _buildColumn("Finish", tick4),
       ],
     );
   }
@@ -52,11 +38,11 @@ class ScreenProgress extends StatelessWidget {
     return isChecked
         ? Icon(
             Icons.check_circle,
-            color: Colors.blue,
+            color: Get.theme.primaryColor,
           )
         : Icon(
             Icons.radio_button_unchecked,
-            color: Colors.blue,
+            color: Get.theme.primaryColor,
           );
   }
 
@@ -90,6 +76,16 @@ class ScreenProgress extends StatelessWidget {
           );
   }
 
+  Widget tick4() {
+    return c.index.value > 3
+        ? tick(
+            true,
+          )
+        : tick(
+            false,
+          );
+  }
+
   Widget spacer() {
     return Container(
       width: 5.0,
@@ -97,10 +93,11 @@ class ScreenProgress extends StatelessWidget {
   }
 
   Widget line(Size mediaQuery) {
-    return Container(
-      color: Colors.blue,
-      height: 5.0,
-      width: mediaQuery.width * 0.25,
+    return Expanded(
+      child: Container(
+        color: Get.theme.primaryColor,
+        height: 5.0,
+      ),
     );
   }
 }
