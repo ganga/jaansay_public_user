@@ -9,6 +9,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = "/home";
+
   const HomeScreen({Key key}) : super(key: key);
 
   @override

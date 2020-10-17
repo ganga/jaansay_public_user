@@ -1,24 +1,33 @@
 class User {
-  final id;
-  final name;
-  final dob;
-  final gender;
-  final pincode;
-  final phone;
-  final wardId;
-  final panchayatId;
-  final typeId;
-  final description;
+  var user_id;
+  var user_name;
+  var user_gender;
+  var user_dob;
+  var user_pincode;
+  var user_phone;
+  var photo;
+  var panchayat_name;
+  var type_name;
 
   User(
-      {this.id,
-      this.name,
-      this.dob,
-      this.gender,
-      this.pincode,
-      this.phone,
-      this.wardId,
-      this.panchayatId,
-      this.typeId,
-      this.description});
+      {this.user_id,
+      this.user_name,
+      this.user_gender,
+      this.user_dob,
+      this.user_pincode,
+      this.user_phone,
+      this.photo,
+      this.panchayat_name,
+      this.type_name});
+
+  User.fromMap(Map<String, dynamic> map) {
+    this.user_id = map['user_id'];
+    this.user_name = map['user_name'];
+    this.user_gender = map['user_gender'];
+    this.user_dob = map['user_dob'];
+    this.user_pincode = map['user_pincode'];
+    this.photo = map['photo'];
+    this.panchayat_name = map['panchayat_name'];
+    this.type_name = map['type_name'];
+  }
 }

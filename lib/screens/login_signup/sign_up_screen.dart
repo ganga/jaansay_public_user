@@ -67,9 +67,7 @@ class SignUpScreen extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => OtpVerificationScreen(
-                            type: 2,
-                          )));
+                      builder: (context) => OtpVerificationScreen()));
                 },
                 child: Text(
                   "Register",
