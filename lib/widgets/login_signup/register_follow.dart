@@ -11,9 +11,8 @@ class RegisterFollow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: mediaQuery.height * 0.1,
       width: double.infinity,
-      margin: EdgeInsets.only(left: 16, right: 16),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,6 +33,7 @@ class RegisterFollow extends StatelessWidget {
                 width: 8,
               ),
               Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
