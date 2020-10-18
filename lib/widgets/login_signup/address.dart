@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
+import 'package:dio/dio.dart';
 
 class Address extends StatelessWidget {
   Address({Key key}) : super(key: key);
   final LoginController c = Get.find();
+  var _pinCode = "".obs;
   List<String> spinnerItems = [
     'Punjab National Bank',
     'Union Bank of India	',
@@ -14,6 +16,15 @@ class Address extends StatelessWidget {
     'Canara Bank',
     'Department of financial services'
   ];
+
+  Future getPanchayat() async {
+    Response response;
+    Dio dio = new Dio();
+    response = await dio
+        .get("http://143.110.181.107:3000/api/panchayat/" + _pinCode.value);
+    print(response.data.toString());
+  }
+
   Widget _customTextField(String hint, String label) {
     return Container(
       margin: EdgeInsets.all(8),
@@ -28,6 +39,12 @@ class Address extends StatelessWidget {
       ),
       child: TextField(
         keyboardType: TextInputType.number,
+        onChanged: (value) {
+          if (int.parse(value) > 99999) {
+            _pinCode(value.toString());
+            getPanchayat();
+          }
+        },
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: label,
