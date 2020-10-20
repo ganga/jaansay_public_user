@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 
 class Address extends StatelessWidget {
   Address({Key key}) : super(key: key);
@@ -79,20 +80,9 @@ class Address extends StatelessWidget {
       children: [
         _customTextField("Enter your postal code", "Pincode"),
         _dropDown(),
-        Container(
-          height: _mediaQuery.height * 0.07,
-          width: double.infinity,
-          margin: EdgeInsets.all(8),
-          child: RaisedButton(
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              c.index(2);
-            },
-            child: Text(
-              "Continue",
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-          ),
+        CustomAuthButton(
+          title: "Continue",
+          onTap: () => c.index(1),
         )
       ],
     );

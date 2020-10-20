@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
+import 'package:jaansay_public_user/screens/login_signup/about_me_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -47,12 +49,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     FirebaseAuth.instance
         .signInWithCredential(_phoneAuthCredential)
         .then((user) async {
+      print("${user.user.phoneNumber}");
       bool response = await GetIt.I<AuthService>().loginUser(phoneNumber);
       if (response) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
-      } else {}
+        Get.offAll(HomeScreen());
+      } else {
+        Get.offAll(AboutMeScreen());
+      }
     }).catchError((error) {
+      print("${error.hashCode}");
       _scaffoldKey.currentState.showSnackBar(
           new SnackBar(content: new Text("Incorrect OTP, please try again")));
       controller.clear();

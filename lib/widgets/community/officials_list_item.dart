@@ -1,12 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/profile_screen.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BusinessListItem extends StatelessWidget {
-  final String type;
+  final Official official;
 
-  BusinessListItem(this.type);
+  BusinessListItem(this.official);
 
   @override
   Widget build(BuildContext context) {
@@ -14,23 +16,18 @@ class BusinessListItem extends StatelessWidget {
       onTap: () {
         pushNewScreenWithRouteSettings(context,
             screen: ProfileScreen(),
-            settings: RouteSettings(arguments: type),
+            settings: RouteSettings(),
             pageTransitionAnimation: PageTransitionAnimation.cupertino);
       },
       child: Container(
         child: Column(
           children: [
-            Expanded(
-              child: Image.network(
-                "https://www.avcj.com/IMG/805/22805/kirana-store-india-580x358.jpeg?1560398647",
-                fit: BoxFit.cover,
-              ),
-            ),
+            Expanded(child: CustomNetWorkImage(official.photo)),
             SizedBox(
               height: 4,
             ),
             AutoSizeText(
-              "Justin General and Kirana stores",
+              official.officialsName,
               minFontSize: 14,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

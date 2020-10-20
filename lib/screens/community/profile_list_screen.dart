@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/models/user.dart';
+import 'package:jaansay_public_user/service/user_service.dart';
+import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 
-class ProfileListScreen extends StatelessWidget {
-  Widget profileCard(BuildContext context, int index) {
+class ProfileListScreen extends StatefulWidget {
+  @override
+  _ProfileListScreenState createState() => _ProfileListScreenState();
+}
+
+class _ProfileListScreenState extends State<ProfileListScreen> {
+  bool isLoad = true;
+
+  bool isCheck = false;
+
+  List<User> users = [];
+
+  getData() async {
+    isLoad = true;
+    setState(() {});
+    UserService userService = UserService();
+    users = await userService.getAllUsers();
+    isLoad = false;
+    setState(() {});
+  }
+
+  Widget profileCard(BuildContext context, User user) {
     return InkWell(
       onTap: () {},
       child: Column(
@@ -18,13 +42,10 @@ class ProfileListScreen extends StatelessWidget {
                 PolygonBoxShadow(color: Colors.black, elevation: 1.0),
                 PolygonBoxShadow(color: Colors.grey, elevation: 5.0)
               ],
-              child: Image.network(
-                "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-                fit: BoxFit.cover,
-              ),
+              child: CustomNetWorkImage(user.photo),
             ),
           ),
-          Text("Alice Josh")
+          Text(user.userName)
         ],
       ),
     );
@@ -35,24 +56,31 @@ class ProfileListScreen extends StatelessWidget {
     final String type = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
 
+    if (!isCheck) {
+      isCheck = true;
+      getData();
+    }
+
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: GridView.builder(
-          itemCount: 32,
-          padding: EdgeInsets.symmetric(
-              horizontal: _mediaQuery.width * 0.03,
-              vertical: _mediaQuery.height * 0.02),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: _mediaQuery.width * 0.03,
-              mainAxisSpacing: _mediaQuery.height * 0.02),
-          itemBuilder: (context, index) {
-            return profileCard(context, index);
-          },
-        ),
-      ),
+      body: isLoad
+          ? Loading()
+          : Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: GridView.builder(
+                itemCount: users.length,
+                padding: EdgeInsets.symmetric(
+                    horizontal: _mediaQuery.width * 0.03,
+                    vertical: _mediaQuery.height * 0.02),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: _mediaQuery.width * 0.03,
+                    mainAxisSpacing: _mediaQuery.height * 0.02),
+                itemBuilder: (context, index) {
+                  return profileCard(context, users[index]);
+                },
+              ),
+            ),
     );
   }
 }

@@ -4,9 +4,9 @@ import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/login_signup/address.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/login_signup/description.dart';
 import 'package:jaansay_public_user/widgets/login_signup/finish.dart';
-import 'package:jaansay_public_user/widgets/login_signup/register_follow.dart';
 import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
 
 class AboutMeScreen extends StatelessWidget {
@@ -123,21 +123,10 @@ class AboutMeScreen extends StatelessWidget {
           margin: EdgeInsets.all(8),
           child: genderPicker(),
         ),
-        Container(
-          height: mediaQuery.height * 0.07,
-          width: double.infinity,
-          margin: EdgeInsets.all(8),
-          child: RaisedButton(
-            color: Get.theme.primaryColor,
-            onPressed: () {
-              _loginController.index(1);
-            },
-            child: Text(
-              "Log in",
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-          ),
-        ),
+        CustomAuthButton(
+          title: "Continue",
+          onTap: () => _loginController.index(1),
+        )
       ],
     );
   }

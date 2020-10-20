@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -66,8 +67,7 @@ class SignUpScreen extends StatelessWidget {
               child: RaisedButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => OtpVerificationScreen()));
+                  Get.to(OtpVerificationScreen());
                 },
                 child: Text(
                   "Register",

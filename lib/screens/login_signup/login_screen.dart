@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/sign_up_screen.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "login";
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey,
@@ -111,32 +111,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            FlatButton(
-              child: Text(
-                "New User ? Register now",
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SignUpScreen()));
-              },
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(8),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  loginPhone();
-                },
-                child: Text(
-                  "Log in",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
+            // FlatButton(
+            //   child: Text(
+            //     "New User ? Register now",
+            //     style: TextStyle(
+            //       fontSize: 15,
+            //     ),
+            //   ),
+            //   onPressed: () {
+            //     Get.to(AboutMeScreen());
+            //   },
+            // ),
+            CustomAuthButton(
+              onTap: loginPhone,
+              title: "Login",
             ),
           ],
         ),

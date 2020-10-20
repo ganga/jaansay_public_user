@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/community/officials_list_item.dart';
 
 class OfficialsListGroup extends StatelessWidget {
   final String type;
+  final List<Official> officials;
 
-  OfficialsListGroup(this.type);
+  OfficialsListGroup(this.type, this.officials);
+
+  OfficialService officialService = OfficialService();
+
+  List<Official> filteredList = [];
 
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
+
+    filteredList = officialService.getOfficialOfType(type, officials);
 
     return Card(
       margin: EdgeInsets.symmetric(
@@ -22,7 +31,7 @@ class OfficialsListGroup extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("House Products"),
+            Text(type),
             Divider(
               thickness: 1,
               color: Colors.black54,
@@ -30,7 +39,7 @@ class OfficialsListGroup extends StatelessWidget {
             Container(
               child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 8,
+                itemCount: filteredList.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(
                     horizontal: 5, vertical: _mediaQuery.height * 0.02),
@@ -39,7 +48,7 @@ class OfficialsListGroup extends StatelessWidget {
                     crossAxisSpacing: _mediaQuery.width * 0.03,
                     mainAxisSpacing: _mediaQuery.height * 0.02),
                 itemBuilder: (context, index) {
-                  return BusinessListItem(type);
+                  return BusinessListItem(filteredList[index]);
                 },
               ),
             ),

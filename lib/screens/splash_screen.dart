@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
@@ -15,11 +16,11 @@ class _SplashScreenState extends State<SplashScreen> {
     GetStorage box = GetStorage();
     if (box.hasData("token")) {
       Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        Get.offAll(HomeScreen());
       });
     } else {
       Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+        Get.offAll(LoginScreen());
       });
     }
   }
