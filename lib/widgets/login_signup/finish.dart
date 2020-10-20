@@ -10,11 +10,40 @@ class Finish extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RaisedButton(
-        onPressed: () {
-          Get.off(HomeScreen());
-        },
-        child: Text("Finish"),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Image.asset(
+              "assets/images/signup.png",
+              height: Get.height * 0.3,
+              width: Get.height * 0.3,
+            ),
+          ),
+          Text(
+            "All set!!!",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          RaisedButton(
+            padding: EdgeInsets.symmetric(horizontal: 100),
+            onPressed: () {
+              Get.off(HomeScreen());
+            },
+            color: Get.theme.primaryColor,
+            child: Text(
+              "Finish",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          )
+        ],
       ),
     );
   }
