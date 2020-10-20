@@ -10,7 +10,7 @@
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="jaansay_public_user"
+            android:label="JaanSay"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyBAfkFskkEkdYBMgmgV4F1qpb2fY-iG9f0"/>

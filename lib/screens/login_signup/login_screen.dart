@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
-import 'package:jaansay_public_user/screens/login_signup/sign_up_screen.dart';
-import 'package:jaansay_public_user/service/auth_service.dart';
+import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "login";
@@ -15,12 +15,37 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var isLoad = false.obs;
 
-  loginPhone() async {
-    String phone = controller.text;
-    if (GetUtils.isPhoneNumber(phone)) {
-      bool _response = await GetIt.I<AuthService>().loginPhone();
-    } else {}
+  Future<void> loginPhone() async {
+    String phoneNumber = "+919481516278";
+
+    if (controller.text.length != 10) {
+      //String phoneNumber = "+91" + controller.text;
+
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: const Duration(seconds: 15),
+        verificationCompleted: (AuthCredential authCredential) {
+          print("Your account is successfully verified");
+        },
+        verificationFailed: (FirebaseAuthException authException) {
+          _scaffoldKey.currentState.showSnackBar(
+              new SnackBar(content: new Text("Oops! Something went wrong")));
+        },
+        codeSent: (String verId, [int forceCodeResent]) {
+          Navigator.of(context).pushNamed(OtpVerificationScreen.routeName,
+              arguments: [verId, phoneNumber]);
+        },
+        codeAutoRetrievalTimeout: (String verId) {
+          print("TIMEOUT");
+        },
+      );
+    } else {
+      _scaffoldKey.currentState.showSnackBar(
+          new SnackBar(content: new Text("Please enter valid phone number")));
+    }
   }
 
   @override
@@ -28,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final _mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      key: _scaffoldKey,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -66,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey,
@@ -85,32 +111,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            FlatButton(
-              child: Text(
-                "New User ? Register now",
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SignUpScreen()));
-              },
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(8),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  loginPhone();
-                },
-                child: Text(
-                  "Log in",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
+            // FlatButton(
+            //   child: Text(
+            //     "New User ? Register now",
+            //     style: TextStyle(
+            //       fontSize: 15,
+            //     ),
+            //   ),
+            //   onPressed: () {
+            //     Get.to(AboutMeScreen());
+            //   },
+            // ),
+            CustomAuthButton(
+              onTap: loginPhone,
+              title: "Login",
             ),
           ],
         ),

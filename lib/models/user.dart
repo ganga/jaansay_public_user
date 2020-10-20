@@ -1,24 +1,51 @@
 class User {
-  final id;
-  final name;
-  final dob;
-  final gender;
-  final pincode;
-  final phone;
-  final wardId;
-  final panchayatId;
-  final typeId;
-  final description;
+  User({
+    this.userId,
+    this.userName,
+    this.userGender,
+    this.userDob,
+    this.userPincode,
+    this.userPhone,
+    this.photo,
+    this.description,
+    this.panchayatName,
+    this.typeName,
+  });
 
-  User(
-      {this.id,
-      this.name,
-      this.dob,
-      this.gender,
-      this.pincode,
-      this.phone,
-      this.wardId,
-      this.panchayatId,
-      this.typeId,
-      this.description});
+  int userId;
+  String userName;
+  String userGender;
+  String userDob;
+  String userPincode;
+  String userPhone;
+  String photo;
+  String description;
+  String panchayatName;
+  String typeName;
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        userId: json["user_id"],
+        userName: json["user_name"],
+        userGender: json["user_gender"],
+        userDob: json["user_dob"],
+        userPincode: json["user_pincode"],
+        userPhone: json["user_phone"],
+        photo: json["photo"],
+        description: json["description"] == null ? null : json["description"],
+        panchayatName: json["panchayat_name"],
+        typeName: json["type_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "user_id": userId,
+        "user_name": userName,
+        "user_gender": userGender,
+        "user_dob": userDob,
+        "user_pincode": userPincode,
+        "user_phone": userPhone,
+        "photo": photo,
+        "description": description == null ? null : description,
+        "panchayat_name": panchayatName,
+        "type_name": typeName,
+      };
 }
