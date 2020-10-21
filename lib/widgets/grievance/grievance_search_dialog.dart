@@ -39,6 +39,7 @@ class GrievanceSearchDialog extends StatelessWidget {
                   onChanged: (val) {
                     searchOfficials(val);
                   },
+                  textInputAction: TextInputAction.search,
                   decoration:
                       InputDecoration.collapsed(hintText: "Enter user name"),
                 ),

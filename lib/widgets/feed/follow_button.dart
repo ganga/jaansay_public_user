@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/models/official.dart';
 
 class FollowButton extends StatelessWidget {
   final bool isFollow;
   final String text;
+  final Official official;
+  final Function onTap;
 
-  FollowButton(this.isFollow, this.text);
+  FollowButton(this.isFollow, this.text, this.official, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,9 @@ class FollowButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           splashColor: Colors.white,
-          onTap: () {},
+          onTap: () {
+            onTap(official);
+          },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Padding(

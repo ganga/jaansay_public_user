@@ -37,7 +37,7 @@ class OfficialTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isAllowFollow = (official.isFollow == 2).obs;
+    var isAllowFollow = (official.isFollow == null).obs;
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -91,6 +91,7 @@ class OfficialTile extends StatelessWidget {
                     onTap: () {
                       if (isAllowFollow.value) {
                         isAllowFollow(false);
+                        official.isFollow = 1;
                         followUser(official.officialsId);
                       }
                     },
@@ -102,7 +103,11 @@ class OfficialTile extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            isAllowFollow.value ? "Follow" : "Following",
+                            isAllowFollow.value
+                                ? "Follow"
+                                : official.isFollow == 0
+                                    ? "Requested"
+                                    : "Following",
                             style: TextStyle(
                                 color: isAllowFollow.value
                                     ? Colors.white

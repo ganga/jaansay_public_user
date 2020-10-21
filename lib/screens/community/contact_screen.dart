@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -20,7 +22,9 @@ class _ContactScreenState extends State<ContactScreen> {
       flex: 1,
       fit: FlexFit.tight,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onTap();
+        },
         child: Column(
           children: [
             Container(
@@ -67,8 +71,12 @@ class _ContactScreenState extends State<ContactScreen> {
               throw 'Could not launch $url';
             }
           }),
-          contactSectionItems(
-              context, "GRIEVANCE", MdiIcons.messageAlert, () {}),
+          contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert, () {
+            pushNewScreenWithRouteSettings(context,
+                screen: GrievanceScreen(),
+                settings: RouteSettings(arguments: official),
+                withNavBar: true);
+          }),
           contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {}),
         ],
       ),

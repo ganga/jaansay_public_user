@@ -23,6 +23,7 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
   String latitude = "0", longitude = "0";
   TextEditingController controller = TextEditingController();
   bool isLoad = false;
+  bool check = false;
 
   updateUser(Official official) {
     selectedOfficial = official;
@@ -237,6 +238,11 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
+    if (!check) {
+      check = true;
+      selectedOfficial = ModalRoute.of(context).settings.arguments;
+    }
+
     return Scaffold(
       body: isLoad
           ? Loading()
@@ -320,7 +326,10 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
                   ],
                 ),
               ),

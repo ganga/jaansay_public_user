@@ -139,12 +139,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ProfileHeadButton(
-                      double.infinity,
-                      0,
-                      widget.official.isRating == 1
-                          ? "Edit Rating"
-                          : "Add Rating", () {
+                  child: ProfileHeadButton(double.infinity, 0, "Reviews", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ReviewScreen(),
                         withNavBar: true,

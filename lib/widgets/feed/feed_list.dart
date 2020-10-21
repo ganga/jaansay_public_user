@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/feed.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/feed_service.dart';
+import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list_top.dart';
+import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FeedList extends StatefulWidget {
   @override
@@ -12,8 +16,15 @@ class FeedList extends StatefulWidget {
 
 class _FeedListState extends State<FeedList> {
   bool isLoad = true;
+  bool isFollowLoad = true;
 
   List<Feed> feeds = [];
+  List<Official> followReqs = [];
+
+  bool loadMore = true;
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   followList(Size size) {
     return Container(
@@ -25,7 +36,7 @@ class _FeedListState extends State<FeedList> {
           Padding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Text(
-              "Stores near you",
+              "People near you",
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -34,9 +45,10 @@ class _FeedListState extends State<FeedList> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               physics: PageScrollPhysics(),
-              itemCount: 50,
+              itemCount: followReqs.length,
               itemBuilder: (_, index) {
-                return FeedListTop(mediaQuery: size);
+                return FeedListTop(
+                    size, followReqs[index], followUser, rejectFollow);
               },
             ),
           ),
@@ -49,10 +61,42 @@ class _FeedListState extends State<FeedList> {
   }
 
   getFeedData() async {
+    feeds.clear();
+    followReqs.clear();
     FeedService feedService = FeedService();
     feeds = await feedService.getLastTwoFeeds();
+    followReqs = await feedService.getFollowReqs();
+    _refreshController.refreshCompleted();
     isLoad = false;
+    loadMore = true;
+    _refreshController.resetNoData();
     setState(() {});
+  }
+
+  loadMoreFeeds() async {
+    if (loadMore) {
+      FeedService feedService = FeedService();
+      feeds = feeds + await feedService.getMoreFeeds();
+      _refreshController.loadComplete();
+      loadMore = false;
+      setState(() {});
+    } else {
+      _refreshController.loadNoData();
+    }
+  }
+
+  followUser(Official official) {
+    followReqs.remove(official);
+    setState(() {});
+    FollowService followService = FollowService();
+    followService.followUser(official.officialsId);
+  }
+
+  rejectFollow(Official official) {
+    followReqs.remove(official);
+    setState(() {});
+    FollowService followService = FollowService();
+    followService.rejectFollow(official.officialsId);
   }
 
   @override
@@ -66,16 +110,26 @@ class _FeedListState extends State<FeedList> {
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
 
-    return Container(
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: feeds.length + 1,
-          shrinkWrap: true,
-          itemBuilder: (_, index) {
-            return index == 0
-                ? followList(_mediaQuery)
-                : FeedCard(feeds[index - 1]);
-          }),
-    );
+    return isLoad
+        ? Loading()
+        : Container(
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              header: ClassicHeader(),
+              onRefresh: getFeedData,
+              onLoading: loadMoreFeeds,
+              controller: _refreshController,
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: feeds.length + 1,
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) {
+                    return index == 0
+                        ? followList(_mediaQuery)
+                        : FeedCard(feeds[index - 1]);
+                  }),
+            ),
+          );
   }
 }
