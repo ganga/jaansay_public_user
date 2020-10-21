@@ -1,10 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactScreen extends StatefulWidget {
   @override
@@ -12,10 +12,10 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  Completer<GoogleMapController> _controller = Completer();
+  Official official;
 
   Widget contactSectionItems(
-      BuildContext context, String title, IconData iconData) {
+      BuildContext context, String title, IconData iconData, Function onTap) {
     return Flexible(
       flex: 1,
       fit: FlexFit.tight,
@@ -59,9 +59,17 @@ class _ContactScreenState extends State<ContactScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          contactSectionItems(context, "CALL", MdiIcons.phone),
-          contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert),
-          contactSectionItems(context, "SHARE", MdiIcons.shareVariant),
+          contactSectionItems(context, "CALL", MdiIcons.phone, () async {
+            final url = "tel:${official.officialsPhone}";
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          }),
+          contactSectionItems(
+              context, "GRIEVANCE", MdiIcons.messageAlert, () {}),
+          contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {}),
         ],
       ),
     );
@@ -92,8 +100,7 @@ class _ContactScreenState extends State<ContactScreen> {
                 width: 10,
               ),
               Expanded(
-                child: Text(
-                    "Janardhana Tower, Opposite TMA Pai Hospital, near Taluk Office, Jodukatte, Udupi, Karnataka 576101"),
+                child: Text("${official.officialsAddress}"),
               ),
             ],
           )
@@ -104,6 +111,8 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
+    official = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       body: Card(
         margin: EdgeInsets.zero,
@@ -116,14 +125,14 @@ class _ContactScreenState extends State<ContactScreen> {
                   mapToolbarEnabled: false,
                   zoomControlsEnabled: false,
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(13.331781, 74.747334), zoom: 18),
+                      target: LatLng(double.parse(official.lattitude),
+                          double.parse(official.longitude)),
+                      zoom: 18),
                   markers: {
                     Marker(
                         markerId: MarkerId("marker"),
-                        position: LatLng(13.331781, 74.747334))
-                  },
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
+                        position: LatLng(double.parse(official.lattitude),
+                            double.parse(official.longitude)))
                   },
                 ),
               ),

@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
+import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
+import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class FeedDetailScreen extends StatefulWidget {
   @override
@@ -14,93 +14,44 @@ class FeedDetailScreen extends StatefulWidget {
 }
 
 class _FeedDetailScreenState extends State<FeedDetailScreen> {
-  Map<String, dynamic> _feedList;
+  Feed feed;
 
   Color _color;
   double height = 0, width = 0;
   final box = GetStorage();
   bool isLoad = false;
-
-  Widget _topDetail() {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: _color,
-            backgroundImage: NetworkImage(
-              "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-            ),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Alice Josh",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              ),
-              RichText(
-                  text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: [
-                    TextSpan(
-                        text: "#public_user ",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w300,
-                          color: Theme.of(context).primaryColor,
-                        )),
-                    TextSpan(
-                      text: "12 Sep 2020",
-                      style:
-                          TextStyle(fontSize: 13, fontWeight: FontWeight.w300),
-                    )
-                  ]))
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  Function likeFeedMain;
 
   Widget _getImg(String url) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed(ImageViewScreen.routeName, arguments: url);
-      },
-      child: CachedNetworkImage(
-        imageUrl: url,
-        fit: BoxFit.cover,
-        height: double.infinity,
-        width: double.infinity,
-      ),
+    return CachedNetworkImage(
+      imageUrl: url,
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
     );
   }
 
   Widget _midDetail() {
-    return Hero(
-      tag: _feedList['feedId'].toString(),
-      child: SizedBox(
-          height: 250.0,
-          width: width,
-          child: Carousel(
-            images: _feedList['feedRes'].map((e) {
-              return _getImg(e);
-            }).toList(),
-            dotSize: 4.0,
-            dotSpacing: 15.0,
-            dotColor: Theme.of(context).accentColor,
-            indicatorBgPadding: 5.0,
-            dotBgColor: Colors.transparent,
-            borderRadius: false,
-            autoplay: false,
-          )),
-    );
+    return feed.media.length == 0
+        ? SizedBox.shrink()
+        : SizedBox(
+            height: 250.0,
+            width: width,
+            child: Hero(
+              tag: "${feed.feedId}",
+              child: Carousel(
+                images: feed.media.map((e) {
+                  return _getImg(e);
+                }).toList(),
+                dotSize: 4.0,
+                dotSpacing: 15.0,
+                dotColor: Theme.of(context).accentColor,
+                indicatorBgPadding: 5.0,
+                dotBgColor: Colors.transparent,
+                borderRadius: false,
+                autoplay: false,
+              ),
+            ));
   }
 
   Widget _bottomDetail() {
@@ -112,27 +63,19 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
           SizedBox(
             height: 10,
           ),
-          SelectableLinkify(
-            onOpen: (link) async {
-              if (await canLaunch(link.url)) {
-                await launch(link.url);
-              } else {
-                throw 'Could not launch $link';
-              }
-            },
-            enableInteractiveSelection: true,
-            text: _feedList['feedDescription'].toString(),
+          Text(
+            feed.feedDescription.toString(),
             textAlign: TextAlign.start,
           ),
           SizedBox(
             height: 10,
           ),
           Text(
-            "1245 Likes",
+            "${feed.likes} Likes",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -164,64 +107,96 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
 
   Widget _midPdfDetail() {
     return Container(
-      height: 95,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return _getDoc(_feedList['feedRes'][index]);
-          },
-          itemCount: _feedList['feedRes'].length),
-    );
+        height: 95,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return _getDoc(feed.media[index].mediaUrl);
+            },
+            itemCount: feed.media.length));
   }
 
-  Widget _likeShare() {
+  Widget _likeShare(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.thumb_up_alt_outlined),
-              onPressed: () {},
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: InkWell(
+            onTap: () {
+              likeFeed();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.thumb_up,
+                    color: feed.isLiked == 1
+                        ? Get.theme.primaryColor
+                        : Colors.black,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    feed.isLiked == 1 ? "Liked" : "Like",
+                    style: TextStyle(
+                        color: feed.isLiked == 1
+                            ? Get.theme.primaryColor
+                            : Colors.black),
+                  ),
+                ],
+              ),
             ),
-            Text("Like"),
-          ],
+          ),
         ),
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {},
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.share,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Share",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
             ),
-            Text("Share"),
-          ],
+          ),
         ),
       ],
     );
+  }
+
+  likeFeed() {
+    likeFeedMain();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    _feedList = {
-      'feedId': 1,
-      'feedDescription':
-          "The world these days, governed by competition, makes survival the most difficult thing. And for those whose existence is challenging hope is the only way of survival. This is one way, life can be summed up in words. The fact however is, life cannot be summed up in words. Words fail to express the meaning and purpose that anyone feels he or she has in life. For some it might be to create or build something, for someone it might be gaining knowledge, for someone it might be to have fun.",
-      'time': DateTime.now(),
-      'feedType': "Image",
-      'feedRes': [
-        "https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg",
-        "https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg"
-      ],
-      'userName': "User",
-      'userId': 1,
-      'userProfile':
-          "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-      'categoryName': "public",
-    };
-
+    final List response = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
     height = _mediaQuery.height;
     width = _mediaQuery.width;
+    feed = response[0];
+    likeFeedMain = response[1];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -231,17 +206,25 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10),
-              _topDetail(),
+              FeedTopDetails(feed),
               SizedBox(
                 height: 10,
               ),
-              if (_feedList['feedType'] == 'Image') _midDetail(),
-              _bottomDetail(),
-              if (_feedList['feedType'] == 'Document') _midPdfDetail(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (feed.docId == 0) _midDetail(),
+                  _bottomDetail(),
+                  if (feed.docId == 2) _midPdfDetail(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+              _likeShare(context),
               SizedBox(
                 height: 10,
               ),
-              _likeShare(),
             ],
           ),
         ),

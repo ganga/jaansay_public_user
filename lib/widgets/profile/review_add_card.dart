@@ -1,96 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/service/user_service.dart';
+import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
-class ReviewAddCard extends StatelessWidget {
+class ReviewAddCard extends StatefulWidget {
+  final String officialId;
+  final Function getReviews;
+
+  ReviewAddCard(this.officialId, this.getReviews);
+
+  @override
+  _ReviewAddCardState createState() => _ReviewAddCardState();
+}
+
+class _ReviewAddCardState extends State<ReviewAddCard> {
+  TextEditingController controller = TextEditingController();
+  GetStorage box = GetStorage();
+  String rating = "";
+  bool isLoad = false;
+
+  addReview() async {
+    isLoad = true;
+    setState(() {});
+    UserService userService = UserService();
+    await userService.addReview(widget.officialId, rating, controller.text);
+
+    widget.getReviews();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Card(
-      child: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: _mediaQuery.width * 0.06,
-            vertical: _mediaQuery.height * 0.03),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: _mediaQuery.width * 0.15,
-                  width: _mediaQuery.width * 0.15,
-                  decoration: BoxDecoration(shape: BoxShape.circle),
-                  child: ClipOval(
-                    child: Image.network(
-                      "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  child: Column(
+      child: isLoad
+          ? Loading()
+          : Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: _mediaQuery.width * 0.06,
+                  vertical: _mediaQuery.height * 0.03),
+              child: Column(
+                children: [
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Alice Josh",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
+                      Container(
+                        height: _mediaQuery.width * 0.15,
+                        width: _mediaQuery.width * 0.15,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: ClipOval(
+                          child: CustomNetWorkImage(box.read("photo")),
+                        ),
                       ),
                       SizedBox(
-                        height: 5,
+                        width: 15,
                       ),
-                      RatingBar(
-                        itemSize: 30,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${box.read("user_name")}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            RatingBar(
+                              itemSize: 30,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (val) {
+                                rating = val.toString();
+                              },
+                            ),
+                          ],
                         ),
-                        onRatingUpdate: (rating) {},
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 15, bottom: 2),
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).primaryColor, width: 2),
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextField(
-                decoration: InputDecoration.collapsed(
-                    hintText: "Share details of your experience at this place",
-                    hintStyle: TextStyle(fontSize: 14)),
-                minLines: 5,
-                maxLines: 5,
-                style: TextStyle(fontSize: 14),
-                textCapitalization: TextCapitalization.sentences,
+                  Container(
+                    margin: EdgeInsets.only(top: 15, bottom: 2),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Theme.of(context).primaryColor, width: 2),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: TextField(
+                      decoration: InputDecoration.collapsed(
+                          hintText:
+                              "Share details of your experience at this place",
+                          hintStyle: TextStyle(fontSize: 14)),
+                      minLines: 5,
+                      maxLines: 5,
+                      style: TextStyle(fontSize: 14),
+                      textCapitalization: TextCapitalization.sentences,
+                      controller: controller,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        addReview();
+                      },
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: RaisedButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: () {},
-                child: Text(
-                  "Submit",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

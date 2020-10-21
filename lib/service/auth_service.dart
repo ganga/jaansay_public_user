@@ -16,7 +16,6 @@ class AuthService {
       );
 
       if (response.data['success']) {
-        print("Success");
         User user = User.fromJson(response.data['data']);
         GetStorage box = GetStorage();
         box.write("token", response.data['token']);

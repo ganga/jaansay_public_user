@@ -1,29 +1,52 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
+import 'package:jaansay_public_user/utils/conn_utils.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class OfficialsProfileHead extends StatefulWidget {
-  final String type;
+  final Official official;
 
-  OfficialsProfileHead(this.type);
+  OfficialsProfileHead(this.official);
 
   @override
   _OfficialsProfileHeadState createState() => _OfficialsProfileHeadState();
 }
 
 class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
-  bool isBusiness = false;
+  followUser() async {
+    widget.official.isFollow = 1;
+    setState(() {});
+    GetStorage box = GetStorage();
+
+    final userId = box.read("user_id");
+    final token = box.read("token");
+
+    Dio dio = Dio();
+    Response response = await dio.post(
+      "${ConnUtils.url}follow",
+      data: {
+        "official_id": "${widget.official.officialsId}",
+        "user_id": "$userId",
+        "is_follow": "1",
+        "updated_at": "${DateTime.now()}"
+      },
+      options:
+          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
-
-    if (widget.type == 'business') {
-      isBusiness = true;
-    }
 
     return Card(
       margin: EdgeInsets.only(bottom: 8),
@@ -41,11 +64,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                   width: _mediaQuery.width * 0.2,
                   decoration: BoxDecoration(shape: BoxShape.circle),
                   child: ClipOval(
-                    child: Image.network(
-                      "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      child: CustomNetWorkImage(widget.official.photo)),
                 ),
                 SizedBox(
                   width: _mediaQuery.width * 0.05,
@@ -55,7 +74,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Alice Josh",
+                        "${widget.official.officialsName}",
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
@@ -64,15 +83,20 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                       ),
                       InkWell(
                         onTap: () {
-                          pushNewScreen(context,
-                              screen: ReviewScreen(), withNavBar: true);
+                          pushNewScreenWithRouteSettings(context,
+                              screen: ReviewScreen(),
+                              withNavBar: true,
+                              settings: RouteSettings(
+                                arguments:
+                                    widget.official.officialsId.toString(),
+                              ));
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             RatingBar(
                               itemSize: 20,
-                              initialRating: 3.5,
+                              initialRating: widget.official.averageRating ?? 0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -89,7 +113,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                               width: 5,
                             ),
                             Text(
-                              "(324)",
+                              "(${widget.official.totalRating})",
                               style: TextStyle(
                                   fontWeight: FontWeight.w300, fontSize: 13),
                             )
@@ -99,8 +123,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                       SizedBox(
                         height: 2,
                       ),
-                      Text(
-                          "I am a tech enthusiast, looking for work in and around my locality. I have 12 years of experience in IT industry."),
+                      Text("${widget.official.officialsDescription}"),
                       SizedBox(
                         height: _mediaQuery.height * 0.02,
                       ),
@@ -116,24 +139,35 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, "Add Rating", () {
-                    pushNewScreen(context,
-                        screen: ReviewScreen(), withNavBar: true);
+                  child: ProfileHeadButton(
+                      double.infinity,
+                      0,
+                      widget.official.isRating == 1
+                          ? "Edit Rating"
+                          : "Add Rating", () {
+                    pushNewScreenWithRouteSettings(context,
+                        screen: ReviewScreen(),
+                        withNavBar: true,
+                        settings: RouteSettings(
+                          arguments: widget.official.officialsId.toString(),
+                        ));
                   }),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, "Follow", () {}),
+                  child: ProfileHeadButton(double.infinity,
+                      widget.official.isFollow, "Requested", followUser),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, "Contact", () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ContactScreen()));
+                  child: ProfileHeadButton(double.infinity, 0, "Contact", () {
+                    pushNewScreenWithRouteSettings(context,
+                        screen: ContactScreen(),
+                        settings: RouteSettings(arguments: widget.official));
                   }),
                 ),
               ],

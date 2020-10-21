@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/search_utils.dart';
-import 'package:jaansay_public_user/widgets/grievance/official_tile.dart';
+import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchUtils searchUtils = SearchUtils();

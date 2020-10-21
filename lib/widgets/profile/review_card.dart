@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:jaansay_public_user/models/review.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class ReviewCard extends StatelessWidget {
+  final Review review;
+
+  ReviewCard(this.review);
+
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
@@ -20,10 +26,7 @@ class ReviewCard extends StatelessWidget {
               width: _mediaQuery.width * 0.15,
               decoration: BoxDecoration(shape: BoxShape.circle),
               child: ClipOval(
-                child: Image.network(
-                  "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-                  fit: BoxFit.cover,
-                ),
+                child: CustomNetWorkImage(review.photo),
               ),
             ),
             SizedBox(
@@ -34,7 +37,7 @@ class ReviewCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Alice Josh",
+                    "${review.userName}",
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                   ),
                   SizedBox(
@@ -42,7 +45,7 @@ class ReviewCard extends StatelessWidget {
                   ),
                   RatingBar(
                     itemSize: 20,
-                    initialRating: 3.5,
+                    initialRating: double.parse(review.rating.toString()),
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
@@ -58,8 +61,7 @@ class ReviewCard extends StatelessWidget {
                   SizedBox(
                     height: 2,
                   ),
-                  Text(
-                      "I am a tech enthusiast, looking for work in and around my locality. I have 12 years of experience in IT industry."),
+                  Text("${review.ratingMessage}"),
                   SizedBox(
                     height: _mediaQuery.height * 0.02,
                   ),

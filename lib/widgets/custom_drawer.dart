@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -10,6 +12,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   int curIndex = 0;
+  GetStorage box = GetStorage();
 
   profileTile(double height, width) {
     return Container(
@@ -23,18 +26,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
             height: 70,
             width: 70,
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: ClipOval(
-              child: Image.network(
-                "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTE1ODA0OTcxOTg4MDU5NjYx/raavan---uk-film-premiere-red-carpet-arrivals.jpg",
-                fit: BoxFit.cover,
-              ),
-            ),
+            child: ClipOval(child: CustomNetWorkImage(box.read("photo"))),
           ),
           SizedBox(
             height: 10,
           ),
           Text(
-            "Amitabh Bachchan",
+            "${box.read("user_name")}",
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
             textAlign: TextAlign.center,
             maxLines: 1,
@@ -43,7 +41,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             height: 2,
           ),
           Text(
-            "+91 8310854573",
+            "+91 ${box.read("user_phone")}",
             style:
                 TextStyle(color: Theme.of(context).primaryColor, fontSize: 13),
           ),

@@ -16,7 +16,7 @@ class BusinessListItem extends StatelessWidget {
       onTap: () {
         pushNewScreenWithRouteSettings(context,
             screen: ProfileScreen(),
-            settings: RouteSettings(),
+            settings: RouteSettings(arguments: official),
             pageTransitionAnimation: PageTransitionAnimation.cupertino);
       },
       child: Container(

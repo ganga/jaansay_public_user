@@ -1,21 +1,23 @@
 class Official {
-  Official({
-    this.officialsId,
-    this.officialsName,
-    this.officialsDescription,
-    this.officialsEmail,
-    this.officialsPhone,
-    this.officialsDesignation,
-    this.lattitude,
-    this.longitude,
-    this.officialsAddress,
-    this.officialsWebsite,
-    this.businessHours,
-    this.photo,
-    this.typeName,
-    this.businesstypeName,
-    this.isFollow,
-  });
+  Official(
+      {this.officialsId,
+      this.officialsName,
+      this.officialsDescription,
+      this.officialsEmail,
+      this.officialsPhone,
+      this.officialsDesignation,
+      this.lattitude,
+      this.longitude,
+      this.officialsAddress,
+      this.officialsWebsite,
+      this.businessHours,
+      this.photo,
+      this.averageRating,
+      this.totalRating,
+      this.typeName,
+      this.businesstypeName,
+      this.isFollow,
+      this.isRating});
 
   int officialsId;
   String officialsName;
@@ -29,27 +31,34 @@ class Official {
   String officialsWebsite;
   String businessHours;
   String photo;
+  double averageRating;
+  int totalRating;
   String typeName;
   String businesstypeName;
-  int isFollow;
+  dynamic isFollow;
+  int isRating;
 
   factory Official.fromJson(Map<String, dynamic> json) => Official(
-        officialsId: json["officials_id"],
-        officialsName: json["officials_name"],
-        officialsDescription: json["officials_description"],
-        officialsEmail: json["officials_email"],
-        officialsPhone: json["officials_phone"],
-        officialsDesignation: json["officials_designation"],
-        lattitude: json["lattitude"],
-        longitude: json["longitude"],
-        officialsAddress: json["officials_address"],
-        officialsWebsite: json["officials_website"],
-        businessHours: json["business_hours"],
-        photo: json["photo"],
-        typeName: json["type_name"],
-        businesstypeName: json["businesstype_name"],
-        isFollow: json["is_follow"],
-      );
+      officialsId: json["officials_id"],
+      officialsName: json["officials_name"],
+      officialsDescription: json["officials_description"],
+      officialsEmail: json["officials_email"],
+      officialsPhone: json["officials_phone"],
+      officialsDesignation: json["officials_designation"],
+      lattitude: json["lattitude"],
+      longitude: json["longitude"],
+      officialsAddress: json["officials_address"],
+      officialsWebsite: json["officials_website"],
+      businessHours: json["business_hours"],
+      photo: json["photo"],
+      averageRating: json["average_rating"] == null
+          ? 0
+          : json["average_rating"].toDouble(),
+      totalRating: json["total_rating"],
+      typeName: json["type_name"],
+      businesstypeName: json["businesstype_name"],
+      isFollow: json["is_follow"],
+      isRating: json["is_rating"]);
 
   Map<String, dynamic> toJson() => {
         "officials_id": officialsId,
@@ -64,8 +73,11 @@ class Official {
         "officials_website": officialsWebsite,
         "business_hours": businessHours,
         "photo": photo,
+        "average_rating": averageRating,
+        "total_rating": totalRating,
         "type_name": typeName,
         "businesstype_name": businesstypeName,
         "is_follow": isFollow,
+        "is_rating": isRating,
       };
 }

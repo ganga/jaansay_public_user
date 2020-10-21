@@ -2,15 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
+import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feed/top_details.dart';
+import 'package:jaansay_public_user/service/feed_service.dart';
+import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class FeedCard extends StatefulWidget {
-  final Map<String, dynamic> feedDetail;
+  final Feed feed;
 
-  FeedCard(this.feedDetail);
+  FeedCard(this.feed);
 
   @override
   _FeedCardState createState() => _FeedCardState();
@@ -30,21 +34,26 @@ class _FeedCardState extends State<FeedCard> {
   }
 
   Widget _midDetail() {
-    return SizedBox(
-        height: 250.0,
-        width: width,
-        child: Carousel(
-          images: widget.feedDetail['feedRes'].map((e) {
-            return _getImg(e);
-          }).toList(),
-          dotSize: 4.0,
-          dotSpacing: 15.0,
-          dotColor: Theme.of(context).accentColor,
-          indicatorBgPadding: 5.0,
-          dotBgColor: Colors.transparent,
-          borderRadius: false,
-          autoplay: false,
-        ));
+    return widget.feed.media.length == 0
+        ? SizedBox.shrink()
+        : SizedBox(
+            height: 250.0,
+            width: width,
+            child: Hero(
+              tag: "${widget.feed.feedId}",
+              child: Carousel(
+                images: widget.feed.media.map((e) {
+                  return _getImg(e);
+                }).toList(),
+                dotSize: 4.0,
+                dotSpacing: 15.0,
+                dotColor: Theme.of(context).accentColor,
+                indicatorBgPadding: 5.0,
+                dotBgColor: Colors.transparent,
+                borderRadius: false,
+                autoplay: false,
+              ),
+            ));
   }
 
   Widget _bottomDetail() {
@@ -57,7 +66,7 @@ class _FeedCardState extends State<FeedCard> {
             height: 10,
           ),
           Text(
-            widget.feedDetail['feedDescription'].toString(),
+            widget.feed.feedDescription.toString(),
             textAlign: TextAlign.start,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
@@ -66,7 +75,7 @@ class _FeedCardState extends State<FeedCard> {
             height: 10,
           ),
           Text(
-            "1245 Likes",
+            "${widget.feed.likes} Likes",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -106,35 +115,87 @@ class _FeedCardState extends State<FeedCard> {
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return _getDoc(widget.feedDetail['feedRes'][index]);
+              return _getDoc(widget.feed.media[index]);
             },
-            itemCount: widget.feedDetail['feedRes'].length));
+            itemCount: widget.feed.media.length));
   }
 
-  Widget _likeShare() {
+  Widget _likeShare(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.thumb_up_alt_outlined),
-              onPressed: () {},
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: InkWell(
+            onTap: () {
+              likeFeed();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.thumb_up,
+                    color: widget.feed.isLiked == 1
+                        ? Get.theme.primaryColor
+                        : Colors.black,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    widget.feed.isLiked == 1 ? "Liked" : "Like",
+                    style: TextStyle(
+                        color: widget.feed.isLiked == 1
+                            ? Get.theme.primaryColor
+                            : Colors.black),
+                  ),
+                ],
+              ),
             ),
-            Text("Like"),
-          ],
+          ),
         ),
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {},
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.share,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Share",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
             ),
-            Text("Share"),
-          ],
+          ),
         ),
       ],
     );
+  }
+
+  likeFeed() async {
+    if (widget.feed.isLiked == 0) {
+      FeedService feedService = FeedService();
+      widget.feed.isLiked = 1;
+      widget.feed.likes = widget.feed.likes + 1;
+      setState(() {});
+      await feedService.likeFeed(widget.feed.feedId);
+    }
   }
 
   @override
@@ -150,32 +211,30 @@ class _FeedCardState extends State<FeedCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10),
-          TopDetails(),
+          FeedTopDetails(widget.feed),
           SizedBox(
             height: 10,
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FeedDetailScreen()));
+              pushNewScreenWithRouteSettings(context,
+                  screen: FeedDetailScreen(),
+                  settings: RouteSettings(arguments: [widget.feed, likeFeed]),
+                  pageTransitionAnimation: PageTransitionAnimation.fade);
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (widget.feedDetail['feedType'] == 'Image') _midDetail(),
+                if (widget.feed.docId == 0) _midDetail(),
                 _bottomDetail(),
-                if (widget.feedDetail['feedType'] == 'Document')
-                  _midPdfDetail(),
+                if (widget.feed.docId == 2) _midPdfDetail(),
                 SizedBox(
                   height: 10,
                 ),
               ],
             ),
           ),
-          _likeShare(),
-          SizedBox(
-            height: 10,
-          ),
+          _likeShare(context),
         ],
       ),
     );

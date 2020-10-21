@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feed/top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class DealCard extends StatelessWidget {
@@ -110,7 +109,7 @@ class DealCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10),
-          TopDetails(),
+          //FeedTopDetails(),
           SizedBox(
             height: 10,
           ),

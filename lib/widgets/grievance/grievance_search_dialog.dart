@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jaansay_public_user/utils/search_utils.dart';
+import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
 
 class GrievanceSearchDialog extends StatelessWidget {
+  final Function updateUser;
+
+  GrievanceSearchDialog(this.updateUser);
+
+  SearchUtils searchUtils = SearchUtils();
+  var _officials = [].obs;
+
+  searchOfficials(String val) async {
+    if (val.length > 2) {
+      _officials.clear();
+      _officials.value = await searchUtils.searchUsers(val);
+    }
+  }
+
   _searchField(double height, double width, BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
@@ -19,6 +36,9 @@ class GrievanceSearchDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
                   autofocus: true,
+                  onChanged: (val) {
+                    searchOfficials(val);
+                  },
                   decoration:
                       InputDecoration.collapsed(hintText: "Enter user name"),
                 ),
@@ -55,14 +75,15 @@ class GrievanceSearchDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _searchField(_mediaQuery.height, _mediaQuery.width, context),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Container();
-              },
-              itemCount: 16,
-            ),
-          )
+          Obx(() => Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return GrievanceUserTile(
+                        _officials[index], true, updateUser);
+                  },
+                  itemCount: _officials.length,
+                ),
+              ))
         ],
       ),
     );

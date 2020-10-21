@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class ContactHeader extends StatelessWidget {
+  Official official;
+
   @override
   Widget build(BuildContext context) {
+    official = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Container(
@@ -18,10 +23,7 @@ class ContactHeader extends StatelessWidget {
             width: _mediaQuery.width * 0.18,
             decoration: BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
-              child: Image.network(
-                "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70",
-                fit: BoxFit.cover,
-              ),
+              child: CustomNetWorkImage(official.photo),
             ),
           ),
           SizedBox(
@@ -32,7 +34,7 @@ class ContactHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Alice Josh",
+                  "${official.officialsName}",
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                 ),
                 SizedBox(
@@ -48,7 +50,8 @@ class ContactHeader extends StatelessWidget {
                     children: [
                       RatingBar(
                         itemSize: 20,
-                        initialRating: 3.5,
+                        initialRating:
+                            double.parse(official.averageRating.toString()),
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -65,7 +68,7 @@ class ContactHeader extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "(324)",
+                        "(${official.totalRating})",
                         style: TextStyle(
                             fontWeight: FontWeight.w300, fontSize: 13),
                       )
@@ -75,7 +78,7 @@ class ContactHeader extends StatelessWidget {
                 SizedBox(
                   height: 4,
                 ),
-                Text("Timings: 9:00AM to 5:00PM"),
+                Text("Timings: ${official.businessHours}"),
               ],
             ),
           )
