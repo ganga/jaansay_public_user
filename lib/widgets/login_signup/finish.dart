@@ -27,6 +27,10 @@ class _FinishState extends State<Finish> {
       Get.to(HomeScreen());
     } else {
       print("error");
+      Get.rawSnackbar(
+          title: "Error",
+          message: "Oops!! Something went wrong, Please try again.",
+          backgroundColor: Get.theme.primaryColor);
     }
   }
 

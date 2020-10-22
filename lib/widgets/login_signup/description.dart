@@ -28,7 +28,9 @@ class Description extends StatelessWidget {
           onTap: () => c.index(3),
         ),
         FlatButton(
-          onPressed: () {},
+          onPressed: () {
+            c.index(3);
+          },
           child: Text("Skip for now"),
         ),
       ],

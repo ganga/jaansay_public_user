@@ -140,7 +140,10 @@ class _AboutState extends State<About> {
 
   sendData() async {
     if (nameController.text == "" || _selectedDate == null || gender == "") {
-      Get.snackbar("title", "message", snackPosition: SnackPosition.BOTTOM);
+      Get.rawSnackbar(
+          title: "Note",
+          message: "Please fill the fields",
+          backgroundColor: Get.theme.primaryColor);
     } else {
       GetStorage box = GetStorage();
       box.write("register_name", nameController.text);
