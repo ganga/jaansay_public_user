@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/models/panchayat.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:dio/dio.dart';
 
@@ -19,6 +20,9 @@ class _AddressState extends State<Address> {
   String panchayat = "";
 
   List<String> spinnerItems = [];
+  List<Panchayat> panchayatList = [];
+
+  TextEditingController pincodeController = TextEditingController();
 
   Future getPanchayat() async {
     Response response;
@@ -26,9 +30,13 @@ class _AddressState extends State<Address> {
     response = await dio
         .get("http://jaansay.com:3000/api/panchayat/" + _pinCode.value);
     if (response.data["success"]) {
-      response.data["data"]
-          .map((val) => spinnerItems.add(val["panchayat_name"]))
-          .toList();
+      response.data["data"].map((val) {
+        panchayatList.add(Panchayat(
+          panchayatId: val["panchayat_id"].toString(),
+          panchayatName: val["panchayat_name"],
+        ));
+        spinnerItems.add(val["panchayat_name"]);
+      }).toList();
     } else {}
     setState(() {});
     print(response.data.toString());
@@ -47,9 +55,11 @@ class _AddressState extends State<Address> {
         ),
       ),
       child: TextField(
+        controller: pincodeController,
         keyboardType: TextInputType.number,
         onChanged: (value) {
           if (value.length == 6) {
+            print(value.length);
             _pinCode(value.toString());
             getPanchayat();
           }
@@ -78,7 +88,6 @@ class _AddressState extends State<Address> {
       child: DropdownButtonFormField(
         key: ValueKey('organization'),
         icon: Icon(Icons.arrow_drop_down),
-        value: panchayat,
         decoration: InputDecoration(
           hintText: 'Select the Panchayat',
           labelText: 'Panchayat',
@@ -106,8 +115,10 @@ class _AddressState extends State<Address> {
       return;
     } else {
       GetStorage box = GetStorage();
+      var index = spinnerItems.indexOf(panchayat);
+      panchayat = panchayatList[index].panchayatId;
       box.write("register_pincode", _pinCode.value);
-      box.write("register_panchayat", panchayat);
+      box.write("register_panchayat", panchayat.toString());
     }
   }
 

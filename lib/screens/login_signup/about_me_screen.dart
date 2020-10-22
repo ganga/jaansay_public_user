@@ -20,6 +20,8 @@ class AboutMeScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        automaticallyImplyLeading: true,
+        iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
           "User Setup",

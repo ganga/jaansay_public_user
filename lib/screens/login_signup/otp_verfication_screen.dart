@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/about_me_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
@@ -19,6 +20,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   TextEditingController controller = TextEditingController();
   String verificationId = "";
   String phoneNumber = "";
+  GetStorage box = GetStorage();
 
   Widget pincodeField(BuildContext context) {
     return PinCodeTextField(
@@ -54,6 +56,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if (response) {
         Get.offAll(HomeScreen());
       } else {
+        box.write("register_phone", phoneNumber);
         Get.offAll(AboutMeScreen());
       }
     }).catchError((error) {

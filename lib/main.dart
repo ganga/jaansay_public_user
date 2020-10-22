@@ -7,6 +7,7 @@ import 'package:jaansay_public_user/screens/feed/feed_add_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
+import 'package:jaansay_public_user/screens/login_signup/about_me_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';

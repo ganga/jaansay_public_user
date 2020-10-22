@@ -19,10 +19,10 @@ class _LoginScreenState extends State<LoginScreen> {
   var isLoad = false.obs;
 
   Future<void> loginPhone() async {
-    String phoneNumber = "+919481516278";
+    ///String phoneNumber = "+919481516278";
 
-    if (controller.text.length != 10) {
-      //String phoneNumber = "+91" + controller.text;
+    if (controller.text.length == 10) {
+      String phoneNumber = "+91" + controller.text;
 
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNumber,

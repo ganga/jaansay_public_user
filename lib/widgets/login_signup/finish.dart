@@ -33,31 +33,31 @@ class _FinishState extends State<Finish> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Image.asset(
-              "assets/images/signup.png",
-              height: Get.height * 0.3,
-              width: Get.height * 0.3,
-            ),
-          ),
-          Text(
-            "All set!!!",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          isLoad
-              ? Loading()
-              : RaisedButton(
+      child: isLoad
+          ? Loading()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    "assets/images/signup.png",
+                    height: Get.height * 0.3,
+                    width: Get.height * 0.3,
+                  ),
+                ),
+                Text(
+                  "All set!!!",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
                   padding: EdgeInsets.symmetric(horizontal: 100),
                   onPressed: () {
                     sendData();
@@ -68,8 +68,8 @@ class _FinishState extends State<Finish> {
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 )
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

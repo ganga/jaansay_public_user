@@ -11,13 +11,23 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 
-class About extends StatelessWidget {
+class About extends StatefulWidget {
   About({Key key}) : super(key: key);
+
+  @override
+  _AboutState createState() => _AboutState();
+}
+
+class _AboutState extends State<About> {
   File _image;
+
   var _isPicked = 0.obs;
+
   var isLoad = false.obs;
+
   String gender = "";
-  TextEditingController controller = TextEditingController();
+
+  TextEditingController nameController = TextEditingController();
 
   Widget genderPicker() {
     return Column(
@@ -36,14 +46,15 @@ class About extends StatelessWidget {
           unSelectedGenderTextStyle:
               TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
           onChanged: (Gender val) {
-            if (gender == "male") {
+            print(val.toString());
+            if (val.toString() == "Gender.Male") {
               gender = "m";
-            } else if (gender == "female") {
+            } else if (val.toString() == "Gender.Female") {
               gender = "f";
             } else {
               gender = "o";
             }
-            gender = val.toString();
+            print(gender);
           },
           equallyAligned: true,
 
@@ -69,6 +80,7 @@ class About extends StatelessWidget {
   }
 
   final LoginController _loginController = Get.put(LoginController());
+
   var _selectedDate = "Choose DOB".obs;
 
   Widget _customTextField(
@@ -127,11 +139,11 @@ class About extends StatelessWidget {
   }
 
   sendData() async {
-    if (controller.text == "" || _selectedDate == null || gender == "") {
+    if (nameController.text == "" || _selectedDate == null || gender == "") {
       Get.snackbar("title", "message", snackPosition: SnackPosition.BOTTOM);
     } else {
       GetStorage box = GetStorage();
-      box.write("register_name", controller.text);
+      box.write("register_name", nameController.text);
       box.write("register_dob", _selectedDate.toString());
       box.write("register_gender", gender);
       _image == null
@@ -176,7 +188,7 @@ class About extends StatelessWidget {
             },
             child: Text("Choose photo"),
           ),
-          _customTextField("Enter your Name", "Full name", controller),
+          _customTextField("Enter your Name", "Full name", nameController),
           InkWell(
             onTap: () async {
               var temp = await _datePicker(context);
