@@ -8,7 +8,14 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("About"),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          "About",
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -26,13 +33,22 @@ class AboutScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "JaanSAY",
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+            child: RichText(
+              text: TextSpan(
+                  text: 'Jaan',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Say',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ]),
             ),
           ),
         ],

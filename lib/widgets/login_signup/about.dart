@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +15,9 @@ class About extends StatelessWidget {
   About({Key key}) : super(key: key);
   File _image;
   var _isPicked = 0.obs;
+  var isLoad = false.obs;
+  String gender = "";
+  TextEditingController controller = TextEditingController();
 
   Widget genderPicker() {
     return Column(
@@ -30,8 +35,15 @@ class About extends StatelessWidget {
               TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           unSelectedGenderTextStyle:
               TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
-          onChanged: (Gender gender) {
-            print(gender);
+          onChanged: (Gender val) {
+            if (gender == "male") {
+              gender = "m";
+            } else if (gender == "female") {
+              gender = "f";
+            } else {
+              gender = "o";
+            }
+            gender = val.toString();
           },
           equallyAligned: true,
 
@@ -59,7 +71,8 @@ class About extends StatelessWidget {
   final LoginController _loginController = Get.put(LoginController());
   var _selectedDate = "Choose DOB".obs;
 
-  Widget _customTextField(String hint, String label) {
+  Widget _customTextField(
+      String hint, String label, TextEditingController controller) {
     return Container(
       margin: EdgeInsets.all(8),
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -72,6 +85,7 @@ class About extends StatelessWidget {
         ),
       ),
       child: TextField(
+        controller: controller,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
@@ -112,6 +126,25 @@ class About extends StatelessWidget {
     }
   }
 
+  sendData() async {
+    if (controller.text == "" || _selectedDate == null || gender == "") {
+      Get.snackbar("title", "message", snackPosition: SnackPosition.BOTTOM);
+    } else {
+      GetStorage box = GetStorage();
+      box.write("register_name", controller.text);
+      box.write("register_dob", _selectedDate.toString());
+      box.write("register_gender", gender);
+      _image == null
+          ? box.write("register_profile", "no photo")
+          : box.write(
+              "register_profile",
+              base64Encode(
+                _image.readAsBytesSync(),
+              ),
+            );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -143,7 +176,7 @@ class About extends StatelessWidget {
             },
             child: Text("Choose photo"),
           ),
-          _customTextField("Enter your Name", "Full name"),
+          _customTextField("Enter your Name", "Full name", controller),
           InkWell(
             onTap: () async {
               var temp = await _datePicker(context);
@@ -189,6 +222,7 @@ class About extends StatelessWidget {
             child: RaisedButton(
               color: Get.theme.primaryColor,
               onPressed: () {
+                sendData();
                 _loginController.index(1);
               },
               child: Text(

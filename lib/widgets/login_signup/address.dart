@@ -1,27 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:dio/dio.dart';
 
-class Address extends StatelessWidget {
+class Address extends StatefulWidget {
   Address({Key key}) : super(key: key);
+
+  @override
+  _AddressState createState() => _AddressState();
+}
+
+class _AddressState extends State<Address> {
   final LoginController c = Get.find();
+
   var _pinCode = "".obs;
-  List<String> spinnerItems = [
-    'Punjab National Bank',
-    'Union Bank of India	',
-    'Bank of Baroda',
-    'Punjab & Sind Bank',
-    'Reserve Bank of India',
-    'Canara Bank',
-    'Department of financial services'
-  ];
+
+  String panchayat = "";
+
+  List<String> spinnerItems = [];
 
   Future getPanchayat() async {
     Response response;
     Dio dio = new Dio();
     response = await dio
-        .get("http://143.110.181.107:3000/api/panchayat/" + _pinCode.value);
+        .get("http://jaansay.com:3000/api/panchayat/" + _pinCode.value);
+    if (response.data["success"]) {
+      response.data["data"]
+          .map((val) => spinnerItems.add(val["panchayat_name"]))
+          .toList();
+    } else {}
+    setState(() {});
     print(response.data.toString());
   }
 
@@ -40,7 +49,7 @@ class Address extends StatelessWidget {
       child: TextField(
         keyboardType: TextInputType.number,
         onChanged: (value) {
-          if (int.parse(value) > 99999) {
+          if (value.length == 6) {
             _pinCode(value.toString());
             getPanchayat();
           }
@@ -69,6 +78,7 @@ class Address extends StatelessWidget {
       child: DropdownButtonFormField(
         key: ValueKey('organization'),
         icon: Icon(Icons.arrow_drop_down),
+        value: panchayat,
         decoration: InputDecoration(
           hintText: 'Select the Panchayat',
           labelText: 'Panchayat',
@@ -78,7 +88,9 @@ class Address extends StatelessWidget {
           if (data.isEmpty) return 'Please select one panchayat';
           return null;
         },
-        onChanged: (String data) {},
+        onChanged: (String data) {
+          panchayat = data;
+        },
         items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -87,6 +99,16 @@ class Address extends StatelessWidget {
         }).toList(),
       ),
     );
+  }
+
+  sendData() {
+    if (_pinCode.value == "" || panchayat == "") {
+      return;
+    } else {
+      GetStorage box = GetStorage();
+      box.write("register_pincode", _pinCode.value);
+      box.write("register_panchayat", panchayat);
+    }
   }
 
   @override
@@ -103,6 +125,7 @@ class Address extends StatelessWidget {
           child: RaisedButton(
             color: Theme.of(context).primaryColor,
             onPressed: () {
+              sendData();
               c.index(2);
             },
             child: Text(

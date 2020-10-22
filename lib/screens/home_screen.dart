@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/alert/alert_screen.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
+import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -44,10 +46,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
-      title: Image.asset(
-        "assets/images/logo.png",
-        fit: BoxFit.contain,
-        height: 32,
+      title: InkWell(
+        onTap: () {
+          Get.to(AboutScreen());
+        },
+        child: Hero(
+          tag: "mainlogo",
+          child: Image.asset(
+            "assets/images/logo.png",
+            fit: BoxFit.contain,
+            height: 32,
+          ),
+        ),
       ),
       centerTitle: true,
       actions: [
