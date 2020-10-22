@@ -57,7 +57,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                     AutoSizeText(
                       title,
                       style: TextStyle(color: Colors.black, fontSize: 24),
-                      maxLines: 1,
+                      maxLines: 2,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8),

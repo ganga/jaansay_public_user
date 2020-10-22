@@ -27,37 +27,39 @@ class _FeedListState extends State<FeedList> {
       RefreshController(initialRefresh: false);
 
   followList(Size size) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Text(
-              "People near you",
-              style: TextStyle(fontSize: 20),
+    return followReqs.length == 0
+        ? SizedBox.shrink()
+        : Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Text(
+                    "People near you",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Container(
+                  height: 80,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: PageScrollPhysics(),
+                    itemCount: followReqs.length,
+                    itemBuilder: (_, index) {
+                      return FeedListTop(
+                          size, followReqs[index], followUser, rejectFollow);
+                    },
+                  ),
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: CustomDivider()),
+              ],
             ),
-          ),
-          Container(
-            height: 80,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: PageScrollPhysics(),
-              itemCount: followReqs.length,
-              itemBuilder: (_, index) {
-                return FeedListTop(
-                    size, followReqs[index], followUser, rejectFollow);
-              },
-            ),
-          ),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: CustomDivider()),
-        ],
-      ),
-    );
+          );
   }
 
   getFeedData() async {

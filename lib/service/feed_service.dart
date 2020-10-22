@@ -13,26 +13,23 @@ class FeedService {
 
     String token = box.read("token");
 
-    for (int i = 0; i < 5; i++) {
-      try {
-        feeds.clear();
-        Dio dio = Dio();
+    try {
+      feeds.clear();
+      Dio dio = Dio();
 
-        Response response = await dio.get(
-            "${ConnUtils.url}feeds/${box.read("user_id")}/lasttwodaysfeeds",
-            options: Options(
-                headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
+      Response response = await dio.get(
+          "${ConnUtils.url}feeds/${box.read("user_id")}/lasttwodaysfeeds",
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
-        if (response.data['success']) {
-          response.data['data']
-              .map((val) => feeds.add(Feed.fromJson(val)))
-              .toList();
-        } else {
-          //TODO empty
-          break;
-        }
-      } catch (e) {}
-    }
+      if (response.data['success']) {
+        response.data['data']
+            .map((val) => feeds.add(Feed.fromJson(val)))
+            .toList();
+      } else {
+        //TODO empty
+      }
+    } catch (e) {}
 
     return feeds;
   }
@@ -93,26 +90,23 @@ class FeedService {
 
     String token = box.read("token");
 
-    for (int i = 0; i < 5; i++) {
-      try {
-        feeds.clear();
-        Dio dio = Dio();
+    try {
+      feeds.clear();
+      Dio dio = Dio();
 
-        Response response = await dio.get(
-            "${ConnUtils.url}feeds/${box.read("user_id")}/$userId",
-            options: Options(
-                headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
+      Response response = await dio.get(
+          "${ConnUtils.url}feeds/${box.read("user_id")}/$userId",
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
-        if (response.data['success']) {
-          response.data['data']
-              .map((val) => feeds.add(Feed.fromJson(val)))
-              .toList();
-        } else {
-          //TODO empty
-          break;
-        }
-      } catch (e) {}
-    }
+      if (response.data['success']) {
+        response.data['data']
+            .map((val) => feeds.add(Feed.fromJson(val)))
+            .toList();
+      } else {
+        //TODO empty
+      }
+    } catch (e) {}
 
     return feeds;
   }
@@ -123,20 +117,24 @@ class FeedService {
 
     String token = box.read("token");
 
-    Dio dio = Dio();
+    try {
+      Dio dio = Dio();
 
-    Response response = await dio.get(
-        "${ConnUtils.url}follow/followrequests/${box.read("user_id")}",
-        options: Options(
-            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
+      Response response = await dio.get(
+          "${ConnUtils.url}follow/followrequests/${box.read("user_id")}",
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
-    if (response.data['success']) {
-      response.data['data']
-          .map((val) => _officials.add(Official.fromJson(val)))
-          .toList();
-    } else {
-      //TODO empty
-    }
+      if (response.data['success']) {
+        if (response.data['message'] == "All follow requests") {
+          response.data['data']
+              .map((val) => _officials.add(Official.fromJson(val)))
+              .toList();
+        }
+      } else {
+        //TODO empty
+      }
+    } catch (e) {}
 
     return _officials;
   }

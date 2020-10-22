@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
@@ -37,7 +38,8 @@ class OfficialTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isAllowFollow = (official.isFollow == null).obs;
+    var isAllowFollow =
+        (official.isFollow == null || official.isFollow == 0).obs;
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -89,7 +91,12 @@ class OfficialTile extends StatelessWidget {
                   child: InkWell(
                     splashColor: Colors.white,
                     onTap: () {
-                      if (isAllowFollow.value) {
+                      if (official.isFollow == 0) {
+                        official.isFollow = 1;
+                        isAllowFollow(false);
+                        FollowService followService = FollowService();
+                        followService.followUser(official.officialsId);
+                      } else if (isAllowFollow.value) {
                         isAllowFollow(false);
                         official.isFollow = 1;
                         followUser(official.officialsId);
@@ -103,11 +110,7 @@ class OfficialTile extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            isAllowFollow.value
-                                ? "Follow"
-                                : official.isFollow == 0
-                                    ? "Requested"
-                                    : "Following",
+                            isAllowFollow.value ? "Follow" : "Following",
                             style: TextStyle(
                                 color: isAllowFollow.value
                                     ? Colors.white
