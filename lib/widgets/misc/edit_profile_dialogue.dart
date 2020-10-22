@@ -21,7 +21,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
   GetStorage box = GetStorage();
   Future getImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: pickedFile.path,
         aspectRatioPresets: [
@@ -66,6 +66,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
       child: isLoad
           ? Loading()
           : Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
                   width: 10,
@@ -74,15 +75,21 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                   height: 125,
                   width: 125,
                   decoration: BoxDecoration(shape: BoxShape.circle),
-                  child: Obx(() => ClipOval(
-                        child: _isPicked.value == 1
-                            ? Image.file(
-                                _image,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.network(
-                                box.read("photo"),
-                              ),
+                  child: Obx(() => InkWell(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: ClipOval(
+                          child: _isPicked.value == 1
+                              ? Image.file(
+                                  _image,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  box.read("photo"),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
                       )),
                 ),
                 SizedBox(
