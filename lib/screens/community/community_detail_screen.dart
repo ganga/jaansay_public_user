@@ -29,38 +29,53 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
 
   Widget _dataBox(String number, String title, BuildContext context,
       double height, double width, Widget widget, String type) {
-    return Container(
-      width: double.infinity,
-      color: Theme.of(context).primaryColorDark,
-      margin: EdgeInsets.only(bottom: height * 0.05),
-      constraints: BoxConstraints(minHeight: 100),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            pushNewScreenWithRouteSettings(context,
-                screen: widget,
-                settings: RouteSettings(arguments: type),
-                pageTransitionAnimation: PageTransitionAnimation.cupertino);
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  number,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 32),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      margin: EdgeInsets.only(bottom: height * 0.04),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          width: double.infinity,
+          constraints: BoxConstraints(minHeight: 120),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: Theme.of(context).primaryColor)),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                pushNewScreenWithRouteSettings(context,
+                    screen: widget,
+                    settings: RouteSettings(arguments: type),
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino);
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      title,
+                      style: TextStyle(color: Colors.black, fontSize: 24),
+                      maxLines: 1,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Divider(
+                        thickness: 0.5,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    Text(
+                      number,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 30),
+                    ),
+                  ],
                 ),
-                AutoSizeText(
-                  title,
-                  style: TextStyle(color: Colors.white, fontSize: 26),
-                  maxLines: 1,
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -88,10 +103,25 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                     SizedBox(
                       height: _mediaQuery.height * 0.03,
                     ),
-                    Text(
-                      "Hiriadka",
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Theme.of(context).primaryColor,
+                          size: 30,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Hiriadka",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: _mediaQuery.height * 0.03,

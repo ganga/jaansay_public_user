@@ -55,6 +55,8 @@ dependencies:
   file_picker:
   share: ^0.6.5+3
 
+  pull_to_refresh:
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

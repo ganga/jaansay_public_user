@@ -18,7 +18,7 @@ class ReviewAddCard extends StatefulWidget {
 class _ReviewAddCardState extends State<ReviewAddCard> {
   TextEditingController controller = TextEditingController();
   GetStorage box = GetStorage();
-  String rating = "";
+  String rating = "1";
   bool isLoad = false;
 
   addReview() async {
@@ -71,6 +71,7 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                             ),
                             RatingBar(
                               itemSize: 30,
+                              initialRating: 1,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
