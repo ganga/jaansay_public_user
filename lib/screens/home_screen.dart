@@ -1,5 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/alert/alert_screen.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
@@ -102,6 +104,21 @@ class _HomeScreenState extends State<HomeScreen> {
         inactiveColor: Colors.grey,
       ),
     ];
+  }
+
+  fbmSubscribe()
+  {
+    GetStorage box=GetStorage();
+    FirebaseMessaging fbm=FirebaseMessaging();
+     fbm.subscribeToTopic(box.read("user_id"));
+    fbm.subscribeToTopic("all");
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fbmSubscribe();
   }
 
   @override

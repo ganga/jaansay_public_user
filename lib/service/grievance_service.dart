@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
+import 'package:jaansay_public_user/utils/firebase_util.dart';
 
 class GrievanceService {
   Future<void> addGrievance({
@@ -48,6 +49,10 @@ class GrievanceService {
         options: Options(headers: {
           HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
         }));
+    if(response.data["success"]) {
+      FirebaseUtil feedUtil=FirebaseUtil();
+      await feedUtil.addNotification("New Message","You have received one new message","$official_id");
+    }
     print(response.data);
   }
 

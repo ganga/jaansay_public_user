@@ -58,6 +58,7 @@ dependencies:
   pull_to_refresh:
   steps:
   firebase_messaging: ^7.0.3
+  cloud_firestore: ^0.14.0+2
 
 dev_dependencies:
   flutter_test:

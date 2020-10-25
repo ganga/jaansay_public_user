@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -32,6 +33,10 @@ class OfficialTile extends StatelessWidget {
       options:
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
     );
+    if(response.data["success"]){
+      FirebaseMessaging fbm=FirebaseMessaging();
+      fbm.subscribeToTopic("${officialId}follow");
+    }
 
     return true;
   }
