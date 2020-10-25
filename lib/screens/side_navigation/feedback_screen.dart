@@ -162,13 +162,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Hero(
-                  tag: "mainlogo",
-                  child: Image.asset(
-                    "assets/images/feedback.png",
-                    height: Get.width * 0.5,
-                    width: Get.width * 0.5,
-                  ),
+                child: Image.asset(
+                  "assets/images/feedback.png",
+                  height: Get.width * 0.5,
+                  width: Get.width * 0.5,
                 ),
               ),
               Padding(

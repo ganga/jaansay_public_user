@@ -6,6 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class EditProfileDailogue extends StatefulWidget {
   EditProfileDailogue({Key key}) : super(key: key);
@@ -85,9 +86,8 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                                   _image,
                                   fit: BoxFit.cover,
                                 )
-                              : Image.network(
+                              : CustomNetWorkImage(
                                   box.read("photo"),
-                                  fit: BoxFit.cover,
                                 ),
                         ),
                       )),

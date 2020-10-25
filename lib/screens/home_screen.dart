@@ -106,11 +106,10 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
   }
 
-  fbmSubscribe()
-  {
-    GetStorage box=GetStorage();
-    FirebaseMessaging fbm=FirebaseMessaging();
-     fbm.subscribeToTopic(box.read("user_id"));
+  fbmSubscribe() {
+    GetStorage box = GetStorage();
+    FirebaseMessaging fbm = FirebaseMessaging();
+    fbm.subscribeToTopic(box.read("user_id").toString());
     fbm.subscribeToTopic("all");
   }
 

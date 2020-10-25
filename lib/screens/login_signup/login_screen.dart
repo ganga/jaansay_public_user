@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         verificationFailed: (FirebaseAuthException authException) {
           _scaffoldKey.currentState.showSnackBar(
               new SnackBar(content: new Text("Oops! Something went wrong")));
+          print("${authException.message}");
         },
         codeSent: (String verId, [int forceCodeResent]) {
           Navigator.of(context).pushNamed(OtpVerificationScreen.routeName,

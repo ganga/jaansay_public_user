@@ -199,13 +199,10 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Hero(
-                tag: "mainlogo",
-                child: Image.asset(
-                  "assets/images/localshop.png",
-                  height: Get.width * 0.5,
-                  width: Get.width * 0.5,
-                ),
+              child: Image.asset(
+                "assets/images/localshop.png",
+                height: Get.width * 0.5,
+                width: Get.width * 0.5,
               ),
             ),
             _customTextField(

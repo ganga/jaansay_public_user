@@ -40,26 +40,23 @@ class FeedService {
 
     String token = box.read("token");
 
-    for (int i = 0; i < 5; i++) {
-      try {
-        feeds.clear();
-        Dio dio = Dio();
+    try {
+      feeds.clear();
+      Dio dio = Dio();
 
-        Response response = await dio.get(
-            "${ConnUtils.url}feeds/${box.read("user_id")}/allfeeds",
-            options: Options(
-                headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
+      Response response = await dio.get(
+          "${ConnUtils.url}feeds/${box.read("user_id")}/allfeeds",
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
-        if (response.data['success']) {
-          response.data['data']
-              .map((val) => feeds.add(Feed.fromJson(val)))
-              .toList();
-        } else {
-          //TODO empty
-          break;
-        }
-      } catch (e) {}
-    }
+      if (response.data['success']) {
+        response.data['data']
+            .map((val) => feeds.add(Feed.fromJson(val)))
+            .toList();
+      } else {
+        //TODO empty
+      }
+    } catch (e) {}
 
     return feeds;
   }

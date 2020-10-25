@@ -72,9 +72,9 @@ class _AboutState extends State<About> {
   _datePicker(BuildContext context) async {
     return await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2100),
+      initialDate: DateTime.now().subtract(Duration(days: 5000)),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2010),
       helpText: "Choose the date",
     );
   }
@@ -99,6 +99,7 @@ class _AboutState extends State<About> {
       child: TextField(
         controller: controller,
         keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.words,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -111,25 +112,28 @@ class _AboutState extends State<About> {
 
   Future getImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    File croppedFile = await ImageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9
-        ],
-        androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ));
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    File croppedFile;
+    if (pickedFile != null) {
+      croppedFile = await ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+    }
     if (pickedFile != null) {
       _image = File(croppedFile.path);
       _isPicked(1);

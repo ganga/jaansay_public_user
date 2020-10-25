@@ -49,9 +49,10 @@ class GrievanceService {
         options: Options(headers: {
           HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
         }));
-    if(response.data["success"]) {
-      FirebaseUtil feedUtil=FirebaseUtil();
-      await feedUtil.addNotification("New Message","You have received one new message","$official_id");
+    if (response.data["success"]) {
+      FirebaseUtil feedUtil = FirebaseUtil();
+      await feedUtil.addNotification(
+          "New Message", "You have received one new message", "$official_id");
     }
     print(response.data);
   }
@@ -62,21 +63,23 @@ class GrievanceService {
     GetStorage box = GetStorage();
     final userId = box.read("user_id");
 
-    Response response = await dio.get(
-      "${ConnUtils.url}grievances/users/$userId",
-      options: Options(
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
-        },
-      ),
-    );
-    if (response.data['success']) {
-      response.data['data'].map((val) {
-        grievances.add(Grievance.fromJson(val));
-      }).toList();
-    } else {
-      print("Failed");
-    }
+    try {
+      Response response = await dio.get(
+        "${ConnUtils.url}grievances/users/$userId",
+        options: Options(
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
+          },
+        ),
+      );
+      if (response.data['success']) {
+        response.data['data'].map((val) {
+          grievances.add(Grievance.fromJson(val));
+        }).toList();
+      } else {
+        print("Failed");
+      }
+    } catch (e) {}
     return grievances;
   }
 }
