@@ -1,42 +1,79 @@
 {
   "project_info": {
-    "project_number": "792296851746",
-    "firebase_url": "https://jaansay-3f421.firebaseio.com",
-    "project_id": "jaansay-3f421",
-    "storage_bucket": "jaansay-3f421.appspot.com"
+    "project_number": "820962339979",
+    "firebase_url": "https://jaansay-37046.firebaseio.com",
+    "project_id": "jaansay-37046",
+    "storage_bucket": "jaansay-37046.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:792296851746:android:29cfbeddc18e6ba644fd7b",
+        "mobilesdk_app_id": "1:820962339979:android:d27b1e6a4e9b329533b88e",
         "android_client_info": {
           "package_name": "com.dev.jaansay_public_user"
         }
       },
       "oauth_client": [
         {
-          "client_id": "792296851746-ev6pa2aq5no5kc2hpv4b1s64kckccar7.apps.googleusercontent.com",
+          "client_id": "820962339979-o0si2iom5nf5i20tunrgkpkkn30n6heh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.dev.jaansay_public_user",
-            "certificate_hash": "e24a2b9b5ec67c98fbbfd9e238597f6e6e4fdc34"
+            "certificate_hash": "0b3fa97c9fd4d197c823896e252ad2e994328f2e"
           }
         },
         {
-          "client_id": "792296851746-p20il63qbdrq06m0nl6cba453m4ffl7o.apps.googleusercontent.com",
+          "client_id": "820962339979-4fdepfj0fuiuol8vppkpgq7hv8o93jr5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCtzvPCnYyl1A9-qRhF9ibi1Ab06O12t1M"
+          "current_key": "AIzaSyD4gqQn7fJS2zr2JRZlpscxtCiziNV6UgA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "792296851746-p20il63qbdrq06m0nl6cba453m4ffl7o.apps.googleusercontent.com",
+              "client_id": "820962339979-4fdepfj0fuiuol8vppkpgq7hv8o93jr5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820962339979:android:bdf46478d7444f1533b88e",
+        "android_client_info": {
+          "package_name": "com.xti.jaansay.jaansay_officials"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820962339979-jg3gkplc21db4iu9k2i8rlmf7bkqpb0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xti.jaansay.jaansay_officials",
+            "certificate_hash": "e24a2b9b5ec67c98fbbfd9e238597f6e6e4fdc34"
+          }
+        },
+        {
+          "client_id": "820962339979-4fdepfj0fuiuol8vppkpgq7hv8o93jr5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4gqQn7fJS2zr2JRZlpscxtCiziNV6UgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820962339979-4fdepfj0fuiuol8vppkpgq7hv8o93jr5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

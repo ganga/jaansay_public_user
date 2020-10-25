@@ -57,6 +57,7 @@ dependencies:
 
   pull_to_refresh:
   steps:
+  firebase_messaging: ^7.0.3
 
 dev_dependencies:
   flutter_test:
