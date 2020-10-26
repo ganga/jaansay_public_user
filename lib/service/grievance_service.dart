@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
-import 'file:///C:/src/projects/jaansay_officials/lib/utils/firebase_util.dart';
 
 class GrievanceService {
   Future<void> addGrievance(
