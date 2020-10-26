@@ -8,13 +8,13 @@ import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/utils/firebase_util.dart';
 
 class GrievanceService {
-  Future<void> addGrievance({
-    String official_id,
-    String latitude,
-    String longitude,
-    String message,
-    var files,
-  }) async {
+  Future<void> addGrievance(
+      {String official_id,
+      String latitude,
+      String longitude,
+      String message,
+      var files,
+      String typename}) async {
     GetStorage box = GetStorage();
     List _media = [];
 
@@ -40,7 +40,7 @@ class GrievanceService {
           "grievance_message": "$message",
           "lattitude": "$latitude",
           "longitude": "$longitude",
-          "status_id": "0",
+          "status_id": typename == "Business" ? "1" : "4",
           "updated_at": "${DateTime.now()}",
           "is_feedback": "0",
           "doc_id": "2",

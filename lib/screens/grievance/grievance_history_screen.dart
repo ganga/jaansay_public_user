@@ -30,11 +30,11 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   }
 
   grievanceTile(BuildContext context, Grievance grievance) {
-    String status = grievance.statusId == 0
-        ? "Not Seen"
-        : grievance.statusId == 1
+    String status = grievance.statusId == 3
+        ? "Acknowledged"
+        : grievance.statusId == 2
             ? "Seen"
-            : "Acknowledged";
+            : "Not Seen";
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

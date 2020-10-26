@@ -212,7 +212,8 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
           latitude: latitude,
           longitude: longitude,
           message: controller.text,
-          official_id: selectedOfficial.officialsId.toString());
+          official_id: selectedOfficial.officialsId.toString(),
+          typename: selectedOfficial.typeName);
       controller.clear();
       files.clear();
       latitude = "0";

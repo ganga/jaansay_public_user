@@ -164,7 +164,8 @@ class _FeedCardState extends State<FeedCard> {
           fit: FlexFit.loose,
           child: InkWell(
             onTap: () {
-              Share.share('${widget.feed.feedTitle}',
+              Share.share(
+                  'Check this feed on the JaanSay mobile app. ${widget.feed.feedTitle}',
                   subject: 'Check out this post');
             },
             child: Padding(

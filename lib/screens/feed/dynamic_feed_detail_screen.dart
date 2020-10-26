@@ -198,7 +198,9 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
           fit: FlexFit.loose,
           child: InkWell(
             onTap: () {
-              Share.share('${feed.feedTitle}', subject: 'Check out this post');
+              Share.share(
+                  'Check this feed on the JaanSay mobile app. ${feed.feedTitle}',
+                  subject: 'Check out this post');
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
