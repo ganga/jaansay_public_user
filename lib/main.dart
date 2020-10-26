@@ -11,11 +11,13 @@ import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
+import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() async {
   GetIt.I.registerLazySingleton(() => AuthService());
+  GetIt.I.registerLazySingleton(() => DynamicLinkService());
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp();

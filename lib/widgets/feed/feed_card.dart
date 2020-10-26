@@ -10,6 +10,7 @@ import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:share/share.dart';
 
 class FeedCard extends StatefulWidget {
   final Feed feed;
@@ -162,7 +163,10 @@ class _FeedCardState extends State<FeedCard> {
           flex: 1,
           fit: FlexFit.loose,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Share.share('${widget.feed.feedTitle}',
+                  subject: 'Check out this post');
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Row(

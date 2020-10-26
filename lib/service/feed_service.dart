@@ -91,6 +91,16 @@ class FeedService {
       feeds.clear();
       Dio dio = Dio();
 
+      Response postResponse = await dio.post("${ConnUtils.url}profilevisitors",
+          options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
+          ),
+          data: {
+            "user_id": "${box.read("user_id")}",
+            "official_id": "$userId",
+            "updated_at": "${DateTime.now()}"
+          });
+
       Response response = await dio.get(
           "${ConnUtils.url}feeds/${box.read("user_id")}/$userId",
           options: Options(
