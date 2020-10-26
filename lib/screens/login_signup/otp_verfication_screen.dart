@@ -56,7 +56,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if (response) {
         Get.offAll(HomeScreen());
       } else {
-        box.write("register_phone", phoneNumber);
+        box.write("register_phone", phoneNumber.substring(3));
         Get.offAll(AboutMeScreen());
       }
     }).catchError((error) {

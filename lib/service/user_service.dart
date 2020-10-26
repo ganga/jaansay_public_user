@@ -70,24 +70,33 @@ class UserService {
 
   Future<bool> createUser() async {
     bool isSuccess = false;
-    Response response = await dio.post(
-      "${ConnUtils.url}publicusers",
-      data: {
-        "user_name": "${box.read("register_name")}",
-        "user_gender": "${box.read("register_gender")}",
-        "user_dob": "${box.read("register_dob")}",
-        "user_pincode": "${box.read("register_pincode")}",
-        "user_phone": "${box.read("register_phone")}",
-        "photo": "${box.read("register_profile")}",
-        "panchayat_id": "${box.read("register_panchayat")}",
-        "type_id": "100"
-      },
-    );
-    if (response.data["success"]) {
-      AuthService authService = AuthService();
-      await authService.loginUser("${box.read("register_phone")}");
-      isSuccess = true;
+    try {
+      Response response = await dio.post(
+        "${ConnUtils.url}publicusers",
+        data: {
+          "user_name": "${box.read("register_name")}",
+          "user_gender": "${box.read("register_gender")}",
+          "user_dob": "${box.read("register_dob")}",
+          "user_pincode": "${box.read("register_pincode")}",
+          "user_phone": "${box.read("register_phone")}",
+          "photo": "${box.read("register_profile")}",
+          "panchayat_id": "${box.read("register_panchayat")}",
+          "type_id": "100"
+        },
+      );
+      print("${box.read("register_phone")}");
+      if (response.data["success"]) {
+        AuthService authService = AuthService();
+        final response=await authService.loginUser("+91${box.read("register_phone")}");
+        if(response){
+          print("${box.read("register_panchayat")}");
+          isSuccess = true;
+        }
+      }
+      return isSuccess;
+    }catch(e){
+      print(e.toString());
+      return isSuccess;
     }
-    return isSuccess;
   }
 }
