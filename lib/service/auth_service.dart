@@ -30,6 +30,7 @@ class AuthService {
       }
     } catch (_) {
       print("error here");
+      return false;
     }
   }
 }
