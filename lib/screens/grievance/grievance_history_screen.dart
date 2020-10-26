@@ -4,7 +4,10 @@ import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GrievanceHistoryScreen extends StatefulWidget {
   @override
@@ -15,19 +18,23 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   List<Grievance> grievances = [];
 
   bool isLoad = true;
-
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   getData() async {
     grievances.clear();
     GrievanceService grievanceService = GrievanceService();
     grievances = await grievanceService.getAllUserGrievances();
     isLoad = false;
+    _refreshController.refreshCompleted();
     setState(() {});
   }
 
   grievanceTile(BuildContext context, Grievance grievance) {
     String status = grievance.statusId == 0
         ? "Not Seen"
-        : grievance.statusId == 1 ? "Seen" : "Acknowledged";
+        : grievance.statusId == 1
+            ? "Seen"
+            : "Acknowledged";
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -144,12 +151,22 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   Widget build(BuildContext context) {
     return isLoad
         ? Loading()
-        : ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            itemBuilder: (context, index) {
-              return grievanceTile(context, grievances[index]);
-            },
-            itemCount: grievances.length,
-          );
+        : SmartRefresher(
+            enablePullDown: true,
+            header: ClassicHeader(),
+            onRefresh: getData,
+            controller: _refreshController,
+            child: grievances.length == 0
+                ? CustomErrorWidget(
+                    title: 'No grievances found',
+                    iconData: MdiIcons.messageAlertOutline,
+                  )
+                : ListView.builder(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    itemBuilder: (context, index) {
+                      return grievanceTile(context, grievances[index]);
+                    },
+                    itemCount: grievances.length,
+                  ));
   }
 }

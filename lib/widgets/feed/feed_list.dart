@@ -7,6 +7,8 @@ import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list_top.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FeedList extends StatefulWidget {
@@ -122,15 +124,27 @@ class _FeedListState extends State<FeedList> {
               onRefresh: getFeedData,
               onLoading: loadMoreFeeds,
               controller: _refreshController,
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: feeds.length + 1,
-                  shrinkWrap: true,
-                  itemBuilder: (_, index) {
-                    return index == 0
-                        ? followList(_mediaQuery)
-                        : FeedCard(feeds[index - 1]);
-                  }),
+              child: feeds.length == 0
+                  ? Column(
+                      children: [
+                        followList(_mediaQuery),
+                        Expanded(
+                          child: CustomErrorWidget(
+                            title: 'No feeds',
+                            iconData: MdiIcons.nullIcon,
+                          ),
+                        )
+                      ],
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: feeds.length + 1,
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) {
+                        return index == 0
+                            ? followList(_mediaQuery)
+                            : FeedCard(feeds[index - 1]);
+                      }),
             ),
           );
   }
