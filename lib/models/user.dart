@@ -1,16 +1,16 @@
 class User {
-  User({
-    this.userId,
-    this.userName,
-    this.userGender,
-    this.userDob,
-    this.userPincode,
-    this.userPhone,
-    this.photo,
-    this.description,
-    this.panchayatName,
-    this.typeName,
-  });
+  User(
+      {this.userId,
+      this.userName,
+      this.userGender,
+      this.userDob,
+      this.userPincode,
+      this.userPhone,
+      this.photo,
+      this.description,
+      this.panchayatName,
+      this.typeName,
+      this.document});
 
   int userId;
   String userName;
@@ -22,6 +22,7 @@ class User {
   String description;
   String panchayatName;
   String typeName;
+  String document;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         userId: json["user_id"],
@@ -34,6 +35,7 @@ class User {
         description: json["description"] == null ? null : json["description"],
         panchayatName: json["panchayat_name"],
         typeName: json["type_name"],
+        document: json["user_document"],
       );
 
   Map<String, dynamic> toJson() => {

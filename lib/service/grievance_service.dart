@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
+import 'package:jaansay_public_user/utils/firebase_util.dart';
 
 class GrievanceService {
   Future<void> addGrievance(
@@ -80,5 +81,30 @@ class GrievanceService {
       }
     } catch (e) {}
     return grievances;
+  }
+
+  Future<bool> addDocument(var file) async {
+    GetStorage box = GetStorage();
+
+    Dio dio = Dio();
+
+    Response response = await dio.patch("${ConnUtils.url}publicusers/document",
+        data: {
+          "user_id": box.read("user_id"),
+          "user_document": {
+            "file_name": box.read("user_id").toString(),
+            "file": base64Encode(
+              file.readAsBytesSync(),
+            ),
+          },
+        },
+        options: Options(headers: {
+          HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
+        }));
+    if (response.data["success"]) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

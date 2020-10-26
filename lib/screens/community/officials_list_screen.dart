@@ -25,7 +25,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
     isLoad = true;
     setState(() {});
     OfficialService officialService = OfficialService();
-    officials = await officialService.getAllOfficials(type);
+    officials = await officialService.getAllOfficialsType(type);
     officialTypes = officialService.getOfficialTypes(officials);
     isLoad = false;
     setState(() {});

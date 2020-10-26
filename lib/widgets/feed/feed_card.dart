@@ -140,7 +140,7 @@ class _FeedCardState extends State<FeedCard> {
                 children: [
                   Icon(
                     Icons.thumb_up,
-                    color: widget.feed.isLiked == 1
+                    color: widget.feed.isLiked > 0
                         ? Get.theme.primaryColor
                         : Colors.black,
                   ),
@@ -148,9 +148,9 @@ class _FeedCardState extends State<FeedCard> {
                     width: 10,
                   ),
                   Text(
-                    widget.feed.isLiked == 1 ? "Liked" : "Like",
+                    widget.feed.isLiked > 0 ? "Liked" : "Like",
                     style: TextStyle(
-                        color: widget.feed.isLiked == 1
+                        color: widget.feed.isLiked > 0
                             ? Get.theme.primaryColor
                             : Colors.black),
                   ),

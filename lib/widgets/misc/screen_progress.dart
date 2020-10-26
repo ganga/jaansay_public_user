@@ -27,9 +27,7 @@ class ScreenProgress extends StatelessWidget {
         line(_mediaQuery),
         _buildColumn("Location", tick2),
         line(_mediaQuery),
-        _buildColumn("Status", tick3),
-        line(_mediaQuery),
-        _buildColumn("Finish", tick4),
+        _buildColumn("Finish", tick3),
       ],
     );
   }
@@ -68,16 +66,6 @@ class ScreenProgress extends StatelessWidget {
 
   Widget tick3() {
     return c.index.value > 2
-        ? tick(
-            true,
-          )
-        : tick(
-            false,
-          );
-  }
-
-  Widget tick4() {
-    return c.index.value > 3
         ? tick(
             true,
           )

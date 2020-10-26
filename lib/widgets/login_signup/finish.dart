@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
+import 'package:jaansay_public_user/screens/login_signup/follow_screen.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -24,9 +25,8 @@ class _FinishState extends State<Finish> {
     if (response) {
       isLoad = false;
       setState(() {});
-      Get.to(HomeScreen());
+      Get.offAll(FollowScreen());
     } else {
-      print("error");
       Get.rawSnackbar(
           title: "Error",
           message: "Oops!! Something went wrong, Please try again.",

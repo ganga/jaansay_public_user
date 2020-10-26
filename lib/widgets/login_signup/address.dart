@@ -118,6 +118,8 @@ class _AddressState extends State<Address> {
           return null;
         },
         onChanged: (String data) {
+          Get.focusScope.unfocus();
+
           panchayat = data;
         },
         items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
@@ -156,6 +158,8 @@ class _AddressState extends State<Address> {
           child: RaisedButton(
             color: Theme.of(context).primaryColor,
             onPressed: () {
+              Get.focusScope.unfocus();
+
               sendData();
               c.index(2);
             },

@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "820962339979-s5g5jg1fgfeguk3mlc77nsorh7rvah5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xti.jaansay.jaansay_officials",
+            "certificate_hash": "781939aa12719b077f6e8d7df43a35e92a23bbfa"
+          }
+        },
+        {
           "client_id": "820962339979-jg3gkplc21db4iu9k2i8rlmf7bkqpb0e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

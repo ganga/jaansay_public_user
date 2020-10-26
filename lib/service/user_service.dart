@@ -84,17 +84,19 @@ class UserService {
           "type_id": "100"
         },
       );
+      print(response.data);
       print("${box.read("register_phone")}");
       if (response.data["success"]) {
         AuthService authService = AuthService();
-        final response=await authService.loginUser("+91${box.read("register_phone")}");
-        if(response){
+        final response =
+            await authService.loginUser("+91${box.read("register_phone")}");
+        if (response) {
           print("${box.read("register_panchayat")}");
           isSuccess = true;
         }
       }
       return isSuccess;
-    }catch(e){
+    } catch (e) {
       print(e.toString());
       return isSuccess;
     }

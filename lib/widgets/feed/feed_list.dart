@@ -28,6 +28,9 @@ class _FeedListState extends State<FeedList> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  RefreshController _followController =
+      RefreshController(initialRefresh: false);
+
   followList(Size size) {
     return followReqs.length == 0
         ? SizedBox.shrink()

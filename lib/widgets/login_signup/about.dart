@@ -46,6 +46,8 @@ class _AboutState extends State<About> {
           unSelectedGenderTextStyle:
               TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
           onChanged: (Gender val) {
+            Get.focusScope.unfocus();
+
             print(val.toString());
             if (val.toString() == "Gender.Male") {
               gender = "m";
@@ -70,6 +72,7 @@ class _AboutState extends State<About> {
   }
 
   _datePicker(BuildContext context) async {
+    Get.focusScope.unfocus();
     return await showDatePicker(
       context: context,
       initialDate: DateTime.now().subtract(Duration(days: 5000)),
@@ -111,6 +114,7 @@ class _AboutState extends State<About> {
   }
 
   Future getImage() async {
+    Get.focusScope.unfocus();
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     File croppedFile;
@@ -177,14 +181,16 @@ class _AboutState extends State<About> {
             height: 125,
             width: 125,
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: Obx(() => ClipOval(
-                  child: _isPicked.value == 1
-                      ? Image.file(
-                          _image,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset("assets/images/profileHolder.jpg"),
-                )),
+            child: Obx(
+              () => ClipOval(
+                child: _isPicked.value == 1
+                    ? Image.file(
+                        _image,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset("assets/images/profileHolder.jpg"),
+              ),
+            ),
           ),
           SizedBox(
             width: 8,
@@ -241,6 +247,8 @@ class _AboutState extends State<About> {
             child: RaisedButton(
               color: Get.theme.primaryColor,
               onPressed: () {
+                Get.focusScope.unfocus();
+
                 sendData();
                 _loginController.index(1);
               },

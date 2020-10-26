@@ -3,11 +3,15 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_search_dialog.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -23,6 +27,39 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
   TextEditingController controller = TextEditingController();
   bool isLoad = false;
   bool check = false;
+
+  File _image;
+  var _isPicked = false.obs;
+
+  Future getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ));
+    if (pickedFile != null) {
+      _image = File(croppedFile.path);
+      _isPicked(true);
+      setState(() {});
+    } else {
+      print('No image selected.');
+    }
+  }
 
   updateUser(Official official) {
     selectedOfficial = official;
@@ -202,38 +239,118 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
     );
   }
 
+  sendGrievance() async {
+    isLoad = true;
+    setState(() {});
+    GrievanceService grievanceService = GrievanceService();
+    await grievanceService.addGrievance(
+        files: files,
+        latitude: latitude,
+        longitude: longitude,
+        message: controller.text,
+        official_id: selectedOfficial.officialsId.toString(),
+        typename: selectedOfficial.typeName);
+    controller.clear();
+    files.clear();
+    latitude = "0";
+    longitude = "0";
+    selectedOfficial = null;
+    Get.dialog(
+      AlertDialog(
+        title: Text("Grievance Sent"),
+        content: Text("Your grievance has been sent to the user."),
+        actions: [
+          FlatButton(
+              onPressed: () {
+                Get.close(0);
+              },
+              child: Text("Okay"))
+        ],
+      ),
+    );
+    isLoad = false;
+
+    setState(() {});
+  }
+
+  addDocument() async {
+    GrievanceService grievanceService = GrievanceService();
+    bool response = await grievanceService.addDocument(_image);
+    GetStorage box = GetStorage();
+    box.write("document", "present");
+    Get.close(1);
+    if (response) {
+      sendGrievance();
+    } else {
+      Get.rawSnackbar(message: "Oops! Something went wrong");
+    }
+  }
+
   sendData() async {
     if (selectedOfficial != null && controller.text.length > 0) {
-      isLoad = true;
-      setState(() {});
-      GrievanceService grievanceService = GrievanceService();
-      await grievanceService.addGrievance(
-          files: files,
-          latitude: latitude,
-          longitude: longitude,
-          message: controller.text,
-          official_id: selectedOfficial.officialsId.toString(),
-          typename: selectedOfficial.typeName);
-      controller.clear();
-      files.clear();
-      latitude = "0";
-      longitude = "0";
-      selectedOfficial = null;
-      isLoad = false;
-      Get.dialog(
-        AlertDialog(
-          title: Text("Grievance Sent"),
-          content: Text("Your grievance has been sent to the user."),
-          actions: [
-            FlatButton(
-                onPressed: () {
-                  Get.close(0);
-                },
-                child: Text("Okay"))
-          ],
-        ),
-      );
-      setState(() {});
+      GetStorage box = GetStorage();
+      if (selectedOfficial.typeName != "Business" &&
+          (box.read("document") == null)) {
+        Get.dialog(
+          AlertDialog(
+              title: Text("Please upload your ID"),
+              content: Obx(
+                () => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                        "You need to upload your ID to send grievance. Please attach your Aadhar card or Driving license."),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _isPicked.value
+                        ? Container(
+                            height: 125,
+                            width: 125,
+                            child: InkWell(
+                              onTap: () {
+                                getImage();
+                              },
+                              child: Image.file(
+                                _image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        getImage();
+                      },
+                      child: Text(
+                        "Choose photo",
+                        style: TextStyle(color: Get.theme.primaryColor),
+                      ),
+                    ),
+                    _isPicked.value
+                        ? RaisedButton(
+                            color: Get.theme.primaryColor,
+                            onPressed: () {
+                              isLoad = true;
+                              setState(() {});
+                              addDocument();
+                            },
+                            child: Text(
+                              "Update",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+              )),
+        );
+      } else {
+        sendGrievance();
+      }
     } else {
       if (controller.text.length == 0) {
         Get.rawSnackbar(message: "Please enter description");

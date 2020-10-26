@@ -136,7 +136,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                 children: [
                   Icon(
                     Icons.thumb_up,
-                    color: feed.isLiked == 1
+                    color: feed.isLiked > 0
                         ? Get.theme.primaryColor
                         : Colors.black,
                   ),
@@ -144,9 +144,9 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                     width: 10,
                   ),
                   Text(
-                    feed.isLiked == 1 ? "Liked" : "Like",
+                    feed.isLiked > 0 ? "Liked" : "Like",
                     style: TextStyle(
-                        color: feed.isLiked == 1
+                        color: feed.isLiked > 0
                             ? Get.theme.primaryColor
                             : Colors.black),
                   ),
