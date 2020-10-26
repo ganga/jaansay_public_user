@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
+import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = "splash";
@@ -12,23 +13,16 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  checkLogin() {
-    GetStorage box = GetStorage();
-    if (box.hasData("token")) {
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        Get.offAll(HomeScreen());
-      });
-    } else {
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        Get.offAll(LoginScreen());
-      });
-    }
+  checkLogin() async {
+    DynamicLinkService dynamicLinkService = DynamicLinkService();
+    await dynamicLinkService.handleDynamicLinks();
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     checkLogin();
   }
 

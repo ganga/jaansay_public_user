@@ -59,7 +59,7 @@ dependencies:
   steps:
   firebase_messaging: ^7.0.3
   cloud_firestore: ^0.14.0+2
-
+  firebase_dynamic_links:
 dev_dependencies:
   flutter_test:
     sdk: flutter

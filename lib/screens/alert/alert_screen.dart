@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/alert.dart';
 import 'package:jaansay_public_user/service/alert_service.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class AlertScreen extends StatefulWidget {
@@ -99,11 +100,16 @@ class _AlertScreenState extends State<AlertScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-      itemBuilder: (context, index) {
-        return alertTile(alerts[index]);
-      },
-      itemCount: alerts.length,
-    ));
+        body: alerts.length == 0
+            ? CustomErrorWidget(
+                iconData: Icons.add_alert,
+                title: "No alerts found",
+              )
+            : ListView.builder(
+                itemBuilder: (context, index) {
+                  return alertTile(alerts[index]);
+                },
+                itemCount: alerts.length,
+              ));
   }
 }

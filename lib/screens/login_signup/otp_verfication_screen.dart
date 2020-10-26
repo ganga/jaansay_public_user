@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/about_me_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
+import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -17,14 +18,13 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController controller = TextEditingController();
   String verificationId = "";
   String phoneNumber = "";
   GetStorage box = GetStorage();
+  bool isLoad = false;
 
   Widget pincodeField(BuildContext context) {
     return PinCodeTextField(
-      controller: controller,
       pinTheme: PinTheme.defaults(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
@@ -46,6 +46,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
   Future<void> submitOtp(String otp) async {
+    isLoad = true;
+    setState(() {});
     final _phoneAuthCredential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: otp);
     FirebaseAuth.instance
@@ -53,6 +55,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         .then((user) async {
       print("${user.user.phoneNumber}");
       bool response = await GetIt.I<AuthService>().loginUser(phoneNumber);
+      isLoad = false;
+      setState(() {});
       if (response) {
         Get.offAll(HomeScreen());
       } else {
@@ -60,10 +64,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         Get.offAll(AboutMeScreen());
       }
     }).catchError((error) {
+      isLoad = false;
+      setState(() {});
       print("${error.hashCode}");
       _scaffoldKey.currentState.showSnackBar(
           new SnackBar(content: new Text("Incorrect OTP, please try again")));
-      controller.clear();
     });
   }
 
@@ -79,6 +84,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             new SnackBar(content: new Text("Oops! Something went wrong")));
       },
       codeSent: (String verId, [int forceCodeResent]) {
+        Get.rawSnackbar(message: "OTP sent to your mobile number");
         verificationId = verId;
       },
       codeAutoRetrievalTimeout: (String verId) {
@@ -107,48 +113,50 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                "assets/images/l2.png",
-                height: _mediaQuery.height * 0.3,
-                width: _mediaQuery.height * 0.3,
+      body: isLoad
+          ? Loading()
+          : Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      "assets/images/l2.png",
+                      height: _mediaQuery.height * 0.3,
+                      width: _mediaQuery.height * 0.3,
+                    ),
+                  ),
+                  Text(
+                    "Please enter the One Time Password",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: pincodeField(context),
+                  ),
+                  FlatButton(
+                    child: Text(
+                      "Resend OTP",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    onPressed: () {
+                      resendOTP();
+                    },
+                  ),
+                ],
               ),
             ),
-            Text(
-              "Please enter the One Time Password",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: pincodeField(context),
-            ),
-            FlatButton(
-              child: Text(
-                "Resend OTP",
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-              onPressed: () {
-                resendOTP();
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

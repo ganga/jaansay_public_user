@@ -9,6 +9,7 @@ import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
+import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _buildScreens() {
     return [
-      FeedListScreen(),
+      FeedList(),
       CommunityDetailsScreen(),
       GrievanceScreen(),
       AlertScreen(),

@@ -14,17 +14,19 @@ class AlertService {
     alerts.clear();
     Dio dio = Dio();
 
-    Response response = await dio.get("${ConnUtils.url}alert",
-        options: Options(
-            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
+    try {
+      Response response = await dio.get("${ConnUtils.url}alert",
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
-    if (response.data['success']) {
-      response.data['data']
-          .map((val) => alerts.add(Alert.fromJson(val)))
-          .toList();
-    } else {
-      //TODO empty
-    }
+      if (response.data['success']) {
+        response.data['data']
+            .map((val) => alerts.add(Alert.fromJson(val)))
+            .toList();
+      } else {
+        //TODO empty
+      }
+    } catch (e) {}
     return alerts;
   }
 }

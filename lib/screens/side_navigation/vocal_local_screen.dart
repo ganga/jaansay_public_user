@@ -24,9 +24,8 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
   bool isLoad = false;
 
   Widget _customTextField(
-      String hint, String label, TextEditingController controller) {
+      String hint, String label, TextEditingController controller, bool isNum) {
     return Container(
-      margin: EdgeInsets.all(8),
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(
@@ -38,7 +37,8 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
       ),
       child: TextField(
         controller: controller,
-        keyboardType: TextInputType.text,
+        keyboardType: isNum ? TextInputType.number : TextInputType.text,
+        textCapitalization: TextCapitalization.words,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -195,55 +195,58 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
         title: Text("Vocal4Local"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(
-                "assets/images/localshop.png",
-                height: Get.width * 0.5,
-                width: Get.width * 0.5,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Image.asset(
+                  "assets/images/localshop.png",
+                  height: Get.width * 0.5,
+                  width: Get.width * 0.5,
+                ),
               ),
-            ),
-            _customTextField(
-              "Enter Business name",
-              "Business Name",
-              nameController,
-            ),
-            _customTextField(
-              "Enter phone number",
-              "Phone",
-              phoneController,
-            ),
-            Text(
-              "Add Location",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            attachments("Add Location", Icons.location_pin, 1),
-            SizedBox(
-              height: 16,
-            ),
-            isLoad
-                ? Loading()
-                : Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.all(8),
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        sendData();
-                      },
-                      child: Text(
-                        "Send",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+              _customTextField("Enter Business name", "Business Name",
+                  nameController, false),
+              SizedBox(
+                height: 16,
+              ),
+              _customTextField(
+                  "Enter phone number", "Phone", phoneController, true),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "Add Location",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              attachments("Add Location", Icons.location_pin, 1),
+              SizedBox(
+                height: 16,
+              ),
+              isLoad
+                  ? Loading()
+                  : Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.all(8),
+                      child: RaisedButton(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        color: Theme.of(context).primaryColor,
+                        onPressed: () {
+                          sendData();
+                        },
+                        child: Text(
+                          "Send",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );

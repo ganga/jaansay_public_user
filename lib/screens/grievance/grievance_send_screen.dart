@@ -203,35 +203,43 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
   }
 
   sendData() async {
-    isLoad = true;
-    setState(() {});
-    GrievanceService grievanceService = GrievanceService();
-    await grievanceService.addGrievance(
-        files: files,
-        latitude: latitude,
-        longitude: longitude,
-        message: controller.text,
-        official_id: selectedOfficial.officialsId.toString());
-    controller.clear();
-    files.clear();
-    latitude = "0";
-    longitude = "0";
-    selectedOfficial = null;
-    isLoad = false;
-    Get.dialog(
-      AlertDialog(
-        title: Text("Grievance Sent"),
-        content: Text("Your grievance has been sent to the user."),
-        actions: [
-          FlatButton(
-              onPressed: () {
-                Get.close(0);
-              },
-              child: Text("Okay"))
-        ],
-      ),
-    );
-    setState(() {});
+    if (selectedOfficial != null && controller.text.length > 0) {
+      isLoad = true;
+      setState(() {});
+      GrievanceService grievanceService = GrievanceService();
+      await grievanceService.addGrievance(
+          files: files,
+          latitude: latitude,
+          longitude: longitude,
+          message: controller.text,
+          official_id: selectedOfficial.officialsId.toString());
+      controller.clear();
+      files.clear();
+      latitude = "0";
+      longitude = "0";
+      selectedOfficial = null;
+      isLoad = false;
+      Get.dialog(
+        AlertDialog(
+          title: Text("Grievance Sent"),
+          content: Text("Your grievance has been sent to the user."),
+          actions: [
+            FlatButton(
+                onPressed: () {
+                  Get.close(0);
+                },
+                child: Text("Okay"))
+          ],
+        ),
+      );
+      setState(() {});
+    } else {
+      if (controller.text.length == 0) {
+        Get.rawSnackbar(message: "Please enter description");
+      } else {
+        Get.rawSnackbar(message: "Please select a user");
+      }
+    }
   }
 
   @override
