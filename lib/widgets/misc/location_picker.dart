@@ -55,7 +55,7 @@ class _LocationPickerState extends State<LocationPicker> {
                 onPressed: () {
                   updateLocation(userPosition.latitude.toString(),
                       userPosition.longitude.toString());
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
                 padding: EdgeInsets.symmetric(
                   vertical: 15,
