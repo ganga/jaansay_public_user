@@ -18,8 +18,12 @@
     android:name="com.yalantis.ucrop.UCropActivity"
     android:screenOrientation="portrait"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_jaansay" />
 
-    <meta-data android:name="io.flutter.network-policy"
+
+        <meta-data android:name="io.flutter.network-policy"
         android:resource="@xml/network_security_config"/>
     
         <activity
