@@ -36,19 +36,19 @@ class DynamicLinkService {
           var feedId = deepLink.queryParameters['id'];
 
           if (feedId != null) {
-            Get.to(DynamicFeedDetailScreen(), arguments: feedId);
+            Get.offAll(DynamicFeedDetailScreen(), arguments: feedId);
           }
         }
       } else {
-        Get.to(LoginScreen());
+        Get.offAll(LoginScreen());
       }
     } else {
       if (box.hasData("token")) {
-        Get.to(
+        Get.offAll(
           HomeScreen(),
         );
       } else {
-        Get.to(LoginScreen());
+        Get.offAll(LoginScreen());
       }
     }
   }
