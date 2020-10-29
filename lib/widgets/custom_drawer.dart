@@ -104,7 +104,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           Get.to(VocalLocalScreen());
         }, 2),
         drawerItem("Share", MdiIcons.share, () {
-          Share.share('This is an example text for application link',
+          Share.share('Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
               subject: 'This is subject');
         }, 3),
         drawerItem("About", MdiIcons.information, () {

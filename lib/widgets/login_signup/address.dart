@@ -134,13 +134,17 @@ class _AddressState extends State<Address> {
 
   sendData() {
     if (_pinCode.value == "" || panchayat == "") {
-      return;
+      Get.rawSnackbar(
+          title: "Note",
+          message: "Please fill the fields",
+          backgroundColor: Get.theme.primaryColor);
     } else {
       GetStorage box = GetStorage();
       var index = spinnerItems.indexOf(panchayat);
       panchayat = panchayatList[index].panchayatId;
       box.write("register_pincode", _pinCode.value);
       box.write("register_panchayat", panchayat.toString());
+      c.index(2);
     }
   }
 
@@ -161,7 +165,6 @@ class _AddressState extends State<Address> {
               Get.focusScope.unfocus();
 
               sendData();
-              c.index(2);
             },
             child: Text(
               "Continue",

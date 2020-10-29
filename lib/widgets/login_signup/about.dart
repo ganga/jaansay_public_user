@@ -165,6 +165,7 @@ class _AboutState extends State<About> {
                 _image.readAsBytesSync(),
               ),
             );
+      _loginController.index(1);
     }
   }
 
@@ -250,7 +251,6 @@ class _AboutState extends State<About> {
                 Get.focusScope.unfocus();
 
                 sendData();
-                _loginController.index(1);
               },
               child: Text(
                 "Next",
