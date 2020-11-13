@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommunityDetailsScreen extends StatefulWidget {
   @override
@@ -55,7 +56,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     AutoSizeText(
-                      title,
+                      tr(title),
                       style: TextStyle(color: Colors.black, fontSize: 24),
                       textAlign: TextAlign.center,
                       maxLines: 2,

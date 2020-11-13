@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class EditProfileDailogue extends StatefulWidget {
   EditProfileDailogue({Key key}) : super(key: key);
@@ -99,7 +100,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                   onPressed: () {
                     getImage();
                   },
-                  child: Text("Choose photo"),
+                  child: Text("Choose photo").tr(),
                 ),
                 RaisedButton(
                   color: Get.theme.primaryColor,
@@ -109,7 +110,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                   child: Text(
                     "Update",
                     style: TextStyle(color: Colors.white),
-                  ),
+                  ).tr(),
                 ),
               ],
             ),

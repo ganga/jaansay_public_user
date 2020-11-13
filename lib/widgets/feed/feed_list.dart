@@ -10,6 +10,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FeedList extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class _FeedListState extends State<FeedList> {
                   child: Text(
                     "People near you",
                     style: TextStyle(fontSize: 20),
-                  ),
+                  ).tr(),
                 ),
                 Container(
                   height: 80,
@@ -133,7 +134,7 @@ class _FeedListState extends State<FeedList> {
                         followList(_mediaQuery),
                         Expanded(
                           child: CustomErrorWidget(
-                            title: 'No feeds',
+                            title: tr("No feeds"),
                             iconData: MdiIcons.nullIcon,
                           ),
                         )

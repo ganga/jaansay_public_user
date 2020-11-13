@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomErrorWidget extends StatefulWidget {
   final String title;
@@ -22,7 +23,7 @@ class _CustomErrorWidgetState extends State<CustomErrorWidget> {
           SizedBox(
             height: 10,
           ),
-          Text(widget.title),
+          Text(widget.title).tr(),
         ],
       ),
     );

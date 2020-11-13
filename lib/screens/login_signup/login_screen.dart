@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "login";
@@ -36,8 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
         verificationFailed: (FirebaseAuthException authException) {
           isLoad = false;
           setState(() {});
-          _scaffoldKey.currentState.showSnackBar(
-              new SnackBar(content: new Text("Oops! Something went wrong")));
+          _scaffoldKey.currentState.showSnackBar(new SnackBar(
+              content: new Text("${tr("Oops! Something went wrong")}")));
           print("${authException.message}");
         },
         codeSent: (String verId, [int forceCodeResent]) {
@@ -51,8 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
     } else {
-      _scaffoldKey.currentState.showSnackBar(
-          new SnackBar(content: new Text("Please enter valid phone number")));
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text("Please enter valid phone number").tr()));
     }
   }
 
@@ -83,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      "Welcome to JaanSAY!",
+                      "${tr("welcomeTitle")}!",
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Text(
-                    "Lets get started!",
+                    "${tr("welcomeSubtitle")}!",
                     style: TextStyle(
                       fontSize: 20,
                     ),
@@ -119,14 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        labelText: "Phone Number",
-                        hintText: "Enter your phone number",
+                        labelText: "${tr("phone")}",
+                        hintText: "${tr("Enter your phone number")}",
                       ),
                     ),
                   ),
                   CustomAuthButton(
                     onTap: loginPhone,
-                    title: "Login",
+                    title: "${tr("login")}",
                   ),
                 ],
               ),

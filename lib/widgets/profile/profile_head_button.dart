@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileHeadButton extends StatefulWidget {
   final double width;
@@ -49,11 +50,13 @@ class _ProfileHeadButtonState extends State<ProfileHeadButton> {
                 alignment: Alignment.center,
                 child: Text(
                   widget.code != null
-                      ? widget.code == 0 ? "${widget.title}" : "Following"
+                      ? widget.code == 0
+                          ? "${widget.title}"
+                          : "Following"
                       : "Follow",
                   style: TextStyle(
                       color: widget.code != null ? Colors.black : Colors.white),
-                ),
+                ).tr(),
               ),
             ),
           ),

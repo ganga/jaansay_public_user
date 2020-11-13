@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/models/panchayat.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Address extends StatefulWidget {
   Address({Key key}) : super(key: key);
@@ -45,8 +46,9 @@ class _AddressState extends State<Address> {
         }).toList();
       } else {
         Get.rawSnackbar(
-            title: "Error",
-            message: "Oops!! Pincode is incorrect",
+            title: "${tr("Error")}",
+            message:
+                "${tr("Oops! Service currently unavailable in this pin-code")}",
             backgroundColor: Get.theme.primaryColor);
       }
       check = 0;
@@ -56,8 +58,8 @@ class _AddressState extends State<Address> {
       check = 0;
       setState(() {});
       Get.rawSnackbar(
-          title: "Error",
-          message: "Oops!! Something went wrong",
+          title: "${tr("Error")}",
+          message: "${tr("Oops! Something went wrong")}",
           backgroundColor: Get.theme.primaryColor);
     }
   }
@@ -86,8 +88,8 @@ class _AddressState extends State<Address> {
         },
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: label,
-          hintText: hint,
+          labelText: tr(label),
+          hintText: tr(hint),
         ),
       ),
     );
@@ -109,12 +111,12 @@ class _AddressState extends State<Address> {
         key: ValueKey('organization'),
         icon: Icon(Icons.arrow_drop_down),
         decoration: InputDecoration(
-          hintText: 'Select the Panchayat',
-          labelText: 'Panchayat',
+          hintText: '${tr("Select the Panchayat")}',
+          labelText: '${tr("Panchayat")}',
           border: InputBorder.none,
         ),
         validator: (String data) {
-          if (data.isEmpty) return 'Please select one panchayat';
+          if (data.isEmpty) return tr("Please select your panchayat");
           return null;
         },
         onChanged: (String data) {
@@ -169,7 +171,7 @@ class _AddressState extends State<Address> {
             child: Text(
               "Continue",
               style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
+            ).tr(),
           ),
         )
       ],

@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/widgets/login_signup/about.dart';
 import 'package:jaansay_public_user/widgets/login_signup/address.dart';
 import 'package:jaansay_public_user/widgets/login_signup/finish.dart';
 import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AboutMeScreen extends StatelessWidget {
   AboutMeScreen({Key key}) : super(key: key);
@@ -22,7 +23,7 @@ class AboutMeScreen extends StatelessWidget {
         title: Text(
           "User Setup",
           textAlign: TextAlign.center,
-        ),
+        ).tr(),
       ),
       body: WillPopScope(
         onWillPop: () async {

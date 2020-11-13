@@ -9,6 +9,7 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OfficialTile extends StatelessWidget {
   final Official official;
@@ -33,8 +34,8 @@ class OfficialTile extends StatelessWidget {
       options:
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
     );
-    if(response.data["success"]){
-      FirebaseMessaging fbm=FirebaseMessaging();
+    if (response.data["success"]) {
+      FirebaseMessaging fbm = FirebaseMessaging();
       fbm.subscribeToTopic("${officialId}follow");
     }
 
@@ -120,7 +121,7 @@ class OfficialTile extends StatelessWidget {
                                 color: isAllowFollow.value
                                     ? Colors.white
                                     : Colors.black),
-                          ),
+                          ).tr(),
                         ),
                       ),
                     ),

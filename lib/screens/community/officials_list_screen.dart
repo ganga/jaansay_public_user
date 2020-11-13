@@ -4,6 +4,7 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/community/officials_list_group.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OfficialListScreen extends StatefulWidget {
   @override
@@ -64,7 +65,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                             vertical: _mediaQuery.height * 0.05),
                         alignment: Alignment.center,
                         child: AutoSizeText(
-                          title,
+                          tr(title),
                           style: TextStyle(color: Colors.black, fontSize: 26),
                           maxLines: 1,
                         ),

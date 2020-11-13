@@ -10,6 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class About extends StatefulWidget {
   About({Key key}) : super(key: key);
@@ -35,7 +36,7 @@ class _AboutState extends State<About> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text("Choose Gender"),
+          child: Text("Choose Gender").tr(),
         ),
         GenderPickerWithImage(
           showOtherGender: true,
@@ -84,7 +85,7 @@ class _AboutState extends State<About> {
 
   final LoginController _loginController = Get.put(LoginController());
 
-  var _selectedDate = "Choose DOB".obs;
+  var _selectedDate = "${tr("Choose DOB")}".obs;
 
   Widget _customTextField(
       String hint, String label, TextEditingController controller) {
@@ -106,8 +107,8 @@ class _AboutState extends State<About> {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: label,
-          hintText: hint,
+          labelText: tr(label),
+          hintText: tr(hint),
         ),
       ),
     );
@@ -149,8 +150,8 @@ class _AboutState extends State<About> {
   sendData() async {
     if (nameController.text == "" || _selectedDate == null || gender == "") {
       Get.rawSnackbar(
-          title: "Note",
-          message: "Please fill the fields",
+          title: "${tr("Note")}",
+          message: "${tr("Please fill the fields")}",
           backgroundColor: Get.theme.primaryColor);
     } else {
       GetStorage box = GetStorage();
@@ -200,7 +201,7 @@ class _AboutState extends State<About> {
             onPressed: () {
               getImage();
             },
-            child: Text("Choose photo"),
+            child: Text("Choose photo").tr(),
           ),
           _customTextField("Enter your Name", "Full name", nameController),
           InkWell(
@@ -255,7 +256,7 @@ class _AboutState extends State<About> {
               child: Text(
                 "Next",
                 style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
+              ).tr(),
             ),
           ),
         ],

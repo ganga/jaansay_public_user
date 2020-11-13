@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FollowScreen extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _FollowScreenState extends State<FollowScreen> {
         title: Text(
           "Follow users near you",
           style: TextStyle(color: Get.theme.primaryColor),
-        ));
+        ).tr());
   }
 
   @override

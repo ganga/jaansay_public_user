@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _LoadingState extends State<Loading> {
         SizedBox(
           height: 10,
         ),
-        Text("Please wait"),
+        Text("Please wait").tr(),
       ],
     );
   }

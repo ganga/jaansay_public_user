@@ -10,6 +10,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/misc/edit_profile_dialogue.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -79,7 +80,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             color: curIndex == index
                 ? Theme.of(context).primaryColor
                 : Colors.grey),
-      ),
+      ).tr(),
       leading: Icon(
         iconData,
         color: curIndex == index ? Theme.of(context).primaryColor : Colors.grey,
@@ -100,11 +101,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
         drawerItem("Feedback", Icons.feedback, () {
           Get.to(FeedbackScreen());
         }, 1),
-        drawerItem("Vocal for Local", Icons.record_voice_over, () {
+        drawerItem("Vocal For Local", Icons.record_voice_over, () {
           Get.to(VocalLocalScreen());
         }, 2),
         drawerItem("Share", MdiIcons.share, () {
-          Share.share('Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
+          Share.share(
+              'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
               subject: 'This is subject');
         }, 3),
         drawerItem("About", MdiIcons.information, () {

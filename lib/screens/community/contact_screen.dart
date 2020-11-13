@@ -7,6 +7,7 @@ import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ContactScreen extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   color: Theme.of(context).primaryColor,
                   letterSpacing: 1.1,
                   fontSize: 12),
-            ),
+            ).tr(),
           ],
         ),
       ),
@@ -93,7 +94,7 @@ class _ContactScreenState extends State<ContactScreen> {
           Text(
             "Address",
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-          ),
+          ).tr(),
           SizedBox(
             height: 10,
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_history_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_send_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceScreen extends StatefulWidget {
   @override
@@ -24,10 +25,10 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
                 children: [
                   TabBar(tabs: [
                     Tab(
-                      text: "Send",
+                      text: "${tr("Send")}",
                     ),
                     Tab(
-                      text: "History",
+                      text: "${tr("History")}",
                     ),
                   ]),
                 ],

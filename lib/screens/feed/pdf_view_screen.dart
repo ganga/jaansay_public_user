@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PDFViewScreen extends StatefulWidget {
   static const routeName = '/pdfview';
@@ -42,7 +43,7 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
         title: Text(
           "PDF View",
           style: TextStyle(color: _color),
-        ),
+        ).tr(),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: _color),
         actions: [

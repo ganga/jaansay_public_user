@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key key}) : super(key: key);
@@ -15,7 +16,7 @@ class AboutScreen extends StatelessWidget {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

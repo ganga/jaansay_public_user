@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomAuthButton extends StatelessWidget {
   final String title;
@@ -20,7 +21,7 @@ class CustomAuthButton extends StatelessWidget {
         child: Text(
           "$title",
           style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
+        ).tr(),
       ),
     );
   }

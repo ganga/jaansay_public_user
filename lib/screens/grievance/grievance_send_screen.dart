@@ -11,7 +11,7 @@ import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_search_dialog.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -152,20 +152,20 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
           onTap: () {
             Get.dialog(
               AlertDialog(
-                title: Text("Do you want to remove this item?"),
+                title: Text("${tr("Do you want to remove this item")}?"),
                 actions: [
                   FlatButton(
                     onPressed: () {
                       Get.close(1);
                     },
-                    child: Text("No"),
+                    child: Text("No").tr(),
                   ),
                   FlatButton(
                     onPressed: () {
                       files.removeAt(index);
                       Get.close(1);
                     },
-                    child: Text("Yes"),
+                    child: Text("Yes").tr(),
                   ),
                 ],
               ),
@@ -186,7 +186,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("No user selected"),
+          Text("No user selected").tr(),
           RaisedButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -201,7 +201,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
             child: Text(
               "Select User",
               style: TextStyle(color: Colors.white),
-            ),
+            ).tr(),
           )
         ],
       ),
@@ -257,14 +257,14 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
     selectedOfficial = null;
     Get.dialog(
       AlertDialog(
-        title: Text("Grievance Sent"),
-        content: Text("Your grievance has been sent to the user."),
+        title: Text("Grievance Sent").tr(),
+        content: Text("${tr("Your grievance has been sent to the user")}."),
         actions: [
           FlatButton(
               onPressed: () {
                 Get.close(0);
               },
-              child: Text("Okay"))
+              child: Text("Okay").tr())
         ],
       ),
     );
@@ -282,7 +282,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
     if (response) {
       sendGrievance();
     } else {
-      Get.rawSnackbar(message: "Oops! Something went wrong");
+      Get.rawSnackbar(message: "${tr("Oops! Something went wrong")}");
     }
   }
 
@@ -299,7 +299,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                        "You need to upload your ID to send grievance. Please attach your Aadhar card or Driving license."),
+                        "${tr("You need to upload your ID to send grievance. Please attach your Aadhar card or Driving license")}."),
                     SizedBox(
                       height: 10,
                     ),
@@ -328,7 +328,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
                       child: Text(
                         "Choose photo",
                         style: TextStyle(color: Get.theme.primaryColor),
-                      ),
+                      ).tr(),
                     ),
                     _isPicked.value
                         ? RaisedButton(
@@ -341,7 +341,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
                             child: Text(
                               "Update",
                               style: TextStyle(color: Colors.white),
-                            ),
+                            ).tr(),
                           )
                         : SizedBox.shrink(),
                   ],
@@ -353,9 +353,9 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
       }
     } else {
       if (controller.text.length == 0) {
-        Get.rawSnackbar(message: "Please enter description");
+        Get.rawSnackbar(message: "${tr("Please enter description")}");
       } else {
-        Get.rawSnackbar(message: "Please select a user");
+        Get.rawSnackbar(message: "${tr("Please select a user")}");
       }
     }
   }
@@ -393,14 +393,14 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
                       keyboardType: TextInputType.multiline,
                       controller: controller,
                       decoration: InputDecoration(
-                        hintText: "Type your grievance here",
+                        hintText: "${tr("Type your grievance here")}",
                       ),
                     ),
                     SizedBox(
                       height: 16,
                     ),
                     Text(
-                      "Add Photos",
+                      "${tr("Add Photos")}",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
@@ -426,14 +426,14 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
                       height: 12,
                     ),
                     Text(
-                      "Add Location",
+                      "${tr("Add Location")}",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 8,
                     ),
-                    attachments("Add Location", Icons.location_pin, 1),
+                    attachments("${tr("Add Location")}", Icons.location_pin, 1),
                     SizedBox(
                       height: 16,
                     ),
@@ -449,7 +449,7 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
                         child: Text(
                           "Send",
                           style: TextStyle(color: Colors.white),
-                        ),
+                        ).tr(),
                       ),
                     ),
                     SizedBox(

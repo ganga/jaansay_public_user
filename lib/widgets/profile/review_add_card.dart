@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class ReviewAddCard extends StatefulWidget {
@@ -99,8 +100,8 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
                       decoration: InputDecoration.collapsed(
-                          hintText:
-                              "Share details of your experience at this place",
+                          hintText: tr(
+                              "Share details of your experience at this place"),
                           hintStyle: TextStyle(fontSize: 14)),
                       minLines: 5,
                       maxLines: 5,
@@ -119,7 +120,7 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                       child: Text(
                         "Submit",
                         style: TextStyle(color: Colors.white),
-                      ),
+                      ).tr(),
                     ),
                   )
                 ],

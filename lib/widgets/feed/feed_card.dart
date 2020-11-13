@@ -11,6 +11,7 @@ import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:share/share.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FeedCard extends StatefulWidget {
   final Feed feed;
@@ -76,7 +77,7 @@ class _FeedCardState extends State<FeedCard> {
             height: 10,
           ),
           Text(
-            "${widget.feed.likes} Likes",
+            "${widget.feed.likes} ${tr("Likes")}",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -148,7 +149,7 @@ class _FeedCardState extends State<FeedCard> {
                     width: 10,
                   ),
                   Text(
-                    widget.feed.isLiked > 0 ? "Liked" : "Like",
+                    widget.feed.isLiked > 0 ? tr("Liked") : tr("Like"),
                     style: TextStyle(
                         color: widget.feed.isLiked > 0
                             ? Get.theme.primaryColor
@@ -183,7 +184,7 @@ class _FeedCardState extends State<FeedCard> {
                   Text(
                     "Share",
                     style: TextStyle(color: Colors.black),
-                  ),
+                  ).tr(),
                 ],
               ),
             ),

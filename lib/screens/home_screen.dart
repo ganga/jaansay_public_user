@@ -12,6 +12,7 @@ import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home";
@@ -82,25 +83,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
-        title: "Home",
+        title: tr("Home"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.group),
-        title: "Community",
+        title: tr("Community"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MdiIcons.messageAlert),
-        title: "Grievance",
+        title: tr("Grievance"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.add_alert),
-        title: "Alert",
+        title: tr("Alert"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),

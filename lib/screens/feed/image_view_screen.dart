@@ -4,6 +4,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ImageViewScreen extends StatefulWidget {
   static const routeName = '/imageView';
@@ -30,7 +31,7 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
         title: Text(
           "Image View",
           style: TextStyle(color: _color),
-        ),
+        ).tr(),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: _color),
         actions: [

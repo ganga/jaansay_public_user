@@ -7,6 +7,7 @@ import 'package:jaansay_public_user/service/vocalforlocal_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class VocalLocalScreen extends StatefulWidget {
   VocalLocalScreen({Key key}) : super(key: key);
@@ -42,8 +43,8 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: label,
-          hintText: hint,
+          labelText: tr(label),
+          hintText: tr(hint),
         ),
       ),
     );
@@ -76,7 +77,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                   Text(
                     "Choose location",
                     style: TextStyle(),
-                  ),
+                  ).tr(),
                   Icon(Icons.location_on)
                 ],
               ),
@@ -138,7 +139,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                   ),
                   Text(
                     latitude == "0"
-                        ? label
+                        ? tr(label)
                         : "${latitude.substring(0, 9)} ${longitude.substring(0, 9)}",
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
@@ -172,14 +173,14 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
       isLoad = false;
       Get.dialog(
         AlertDialog(
-          title: Text("Successfull!!!"),
-          content: Text("Your request has been sent."),
+          title: Text("Successful").tr(),
+          content: Text("${tr("Your request has been sent")}."),
           actions: [
             FlatButton(
                 onPressed: () {
                   Get.close(0);
                 },
-                child: Text("Okay"))
+                child: Text("Okay").tr())
           ],
         ),
       );
@@ -192,7 +193,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text("Vocal4Local"),
+        title: Text("Vocal For Local").tr(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -220,7 +221,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
               Text(
                 "Add Location",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
+              ).tr(),
               SizedBox(
                 height: 8,
               ),
@@ -242,7 +243,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                         child: Text(
                           "Send",
                           style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
+                        ).tr(),
                       ),
                     ),
             ],

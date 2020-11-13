@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/search_utils.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceSearchDialog extends StatelessWidget {
   final Function updateUser;
@@ -40,8 +41,8 @@ class GrievanceSearchDialog extends StatelessWidget {
                     searchOfficials(val);
                   },
                   textInputAction: TextInputAction.search,
-                  decoration:
-                      InputDecoration.collapsed(hintText: "Enter user name"),
+                  decoration: InputDecoration.collapsed(
+                      hintText: "${tr("Enter user name")}"),
                 ),
               ),
             ),

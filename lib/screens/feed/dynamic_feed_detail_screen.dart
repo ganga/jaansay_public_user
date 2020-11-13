@@ -15,6 +15,7 @@ import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DynamicFeedDetailScreen extends StatefulWidget {
   @override
@@ -104,7 +105,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
             height: 10,
           ),
           Text(
-            "${feed.likes} Likes",
+            "${feed.likes} ${tr("Likes")}",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -182,7 +183,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
                     width: 10,
                   ),
                   Text(
-                    feed.isLiked > 0 ? "Liked" : "Like",
+                    feed.isLiked > 0 ? "${"Liked"}" : "${"Like"}",
                     style: TextStyle(
                         color: feed.isLiked > 0
                             ? Get.theme.primaryColor
@@ -217,7 +218,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
                   Text(
                     "Share",
                     style: TextStyle(color: Colors.black),
-                  ),
+                  ).tr(),
                 ],
               ),
             ),
@@ -246,7 +247,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Post"),
+        title: Text("Post").tr(),
         leading: InkWell(
             onTap: () {
               Get.offAll(HomeScreen());

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LocationPicker extends StatefulWidget {
   LocationPicker({Key key}) : super(key: key);
@@ -67,7 +68,7 @@ class _LocationPickerState extends State<LocationPicker> {
                     color: Colors.white,
                     fontSize: 20,
                   ),
-                ),
+                ).tr(),
                 color: Get.theme.primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),

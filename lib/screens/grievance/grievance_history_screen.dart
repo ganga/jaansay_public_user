@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceHistoryScreen extends StatefulWidget {
   @override
@@ -107,14 +108,14 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
                                 style: DefaultTextStyle.of(context).style,
                                 children: [
                                   TextSpan(
-                                      text: "Status: ",
+                                      text: "${tr("Status")}: ",
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       )),
                                   TextSpan(
-                                    text: "$status",
+                                    text: "${tr(status)}",
                                     style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,

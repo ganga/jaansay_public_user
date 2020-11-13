@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/screens/login_signup/about_me_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   static const routeName = "/otp";
@@ -67,8 +68,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       isLoad = false;
       setState(() {});
       print("${error.hashCode}");
-      _scaffoldKey.currentState.showSnackBar(
-          new SnackBar(content: new Text("Incorrect OTP, please try again")));
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text("Incorrect OTP, please try again").tr()));
     });
   }
 
@@ -81,10 +82,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       },
       verificationFailed: (FirebaseAuthException authException) {
         _scaffoldKey.currentState.showSnackBar(
-            new SnackBar(content: new Text("Oops! Something went wrong")));
+            new SnackBar(content: new Text("Oops! Something went wrong").tr()));
       },
       codeSent: (String verId, [int forceCodeResent]) {
-        Get.rawSnackbar(message: "OTP sent to your mobile number");
+        Get.rawSnackbar(message: "${tr("OTP sent to your mobile number")}");
         verificationId = verId;
       },
       codeAutoRetrievalTimeout: (String verId) {
@@ -109,7 +110,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0,
         title: Text(
-          "OTP",
+          "${tr("otp")}",
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -130,7 +131,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ),
                   ),
                   Text(
-                    "Please enter the One Time Password",
+                    "${tr("otpSubtitle")}",
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -145,7 +146,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                   FlatButton(
                     child: Text(
-                      "Resend OTP",
+                      "${tr("otpResend")}",
                       style: TextStyle(
                         fontSize: 15,
                       ),

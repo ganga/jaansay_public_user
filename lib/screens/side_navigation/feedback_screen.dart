@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/service/feedback_service.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FeedbackScreen extends StatefulWidget {
   FeedbackScreen({Key key}) : super(key: key);
@@ -86,7 +87,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           onTap: () {
             Get.dialog(
               AlertDialog(
-                title: Text("Do you want to remove this item?"),
+                title: Text("${tr("Do you want to remove this item")}?"),
                 actions: [
                   FlatButton(
                     onPressed: () {
@@ -127,21 +128,21 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       isLoad(false);
       Get.dialog(
         AlertDialog(
-          title: Text("Feedback Sent"),
-          content: Text("Your Feedback has been sent."),
+          title: Text("Feedback Sent").tr(),
+          content: Text("${tr("Your Feedback has been sent")}."),
           actions: [
             FlatButton(
                 onPressed: () {
                   Get.close(0);
                 },
-                child: Text("Okay"))
+                child: Text("Okay").tr())
           ],
         ),
       );
     } else {
       Get.rawSnackbar(
-          title: "Error",
-          message: "Feedback cant be empty",
+          title: "${tr("Error")}",
+          message: "${tr("Feedback cant be empty")}",
           backgroundColor: Get.theme.primaryColor);
     }
   }
@@ -151,7 +152,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("Feedback"),
+        title: Text("Feedback").tr(),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -176,7 +177,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   maxLines: 10,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
-                    hintText: "Feedback",
+                    hintText: "${tr("Feedback")}",
                   ),
                 ),
               ),
@@ -184,7 +185,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 height: 20,
               ),
               Text(
-                "Add Photos",
+                "${tr("Add Photos")}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               Obx(
@@ -221,7 +222,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             sendData();
                           },
                           child: Text(
-                            "Send",
+                            "${tr("Send")}",
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),

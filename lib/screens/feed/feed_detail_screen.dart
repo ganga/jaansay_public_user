@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FeedDetailScreen extends StatefulWidget {
   @override
@@ -72,7 +73,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
             height: 10,
           ),
           Text(
-            "${feed.likes} Likes",
+            "${feed.likes} ${tr("Likes")}",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -144,7 +145,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                     width: 10,
                   ),
                   Text(
-                    feed.isLiked > 0 ? "Liked" : "Like",
+                    feed.isLiked > 0 ? "${tr("Liked")}" : "${tr("Like")}",
                     style: TextStyle(
                         color: feed.isLiked > 0
                             ? Get.theme.primaryColor
@@ -177,7 +178,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                     width: 10,
                   ),
                   Text(
-                    "Share",
+                    "${tr("Share")}",
                     style: TextStyle(color: Colors.black),
                   ),
                 ],

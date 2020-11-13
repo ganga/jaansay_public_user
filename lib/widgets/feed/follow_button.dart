@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FollowButton extends StatelessWidget {
   final bool isFollow;
@@ -34,7 +35,7 @@ class FollowButton extends StatelessWidget {
               child: Text(
                 "$text",
                 style: TextStyle(color: isFollow ? Colors.white : Colors.black),
-              ),
+              ).tr(),
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key key}) : super(key: key);
@@ -23,7 +24,7 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
             Text(
-              "Verify your phone number!",
+              "${tr("Verify your phone number")}!",
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -46,8 +47,8 @@ class SignUpScreen extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  labelText: "Phone Number",
-                  hintText: "Enter your phone number",
+                  labelText: "${tr("phone")}",
+                  hintText: "${tr("Enter your phone number")}",
                 ),
               ),
             ),
@@ -57,7 +58,7 @@ class SignUpScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 15,
                 ),
-              ),
+              ).tr(),
               onPressed: () {},
             ),
             Container(
@@ -72,7 +73,7 @@ class SignUpScreen extends StatelessWidget {
                 child: Text(
                   "Register",
                   style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
+                ).tr(),
               ),
             ),
           ],

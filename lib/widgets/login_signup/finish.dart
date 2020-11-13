@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/screens/login_signup/follow_screen.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Finish extends StatefulWidget {
   Finish({Key key}) : super(key: key);
@@ -28,8 +29,8 @@ class _FinishState extends State<Finish> {
       Get.offAll(FollowScreen());
     } else {
       Get.rawSnackbar(
-          title: "Error",
-          message: "Oops!! Something went wrong, Please try again.",
+          title: tr("Error"),
+          message: tr("Oops! Something went wrong"),
           backgroundColor: Get.theme.primaryColor);
     }
   }
@@ -52,7 +53,7 @@ class _FinishState extends State<Finish> {
                   ),
                 ),
                 Text(
-                  "All set!!!",
+                  "${tr("All set!")}",
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -70,7 +71,7 @@ class _FinishState extends State<Finish> {
                   child: Text(
                     "Finish",
                     style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
+                  ).tr(),
                 )
               ],
             ),
