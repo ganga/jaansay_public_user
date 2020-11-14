@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       itemCount: feeds.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return FeedCard(feeds[index]);
+                        return FeedCard(feed: feeds[index],isDetail: false,);
                       },
                     ),
                   ),

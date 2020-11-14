@@ -4,52 +4,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/feed.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
+import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
-import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class FeedCard extends StatefulWidget {
+class FeedCard extends StatelessWidget {
   final Feed feed;
+  final bool isDetail;
 
-  FeedCard(this.feed);
+  FeedCard({this.feed, this.isDetail});
 
-  @override
-  _FeedCardState createState() => _FeedCardState();
-}
-
-class _FeedCardState extends State<FeedCard> {
   Color _color;
   double height = 0, width = 0;
 
-  Widget _getImg(String url) {
-    return CachedNetworkImage(
-      imageUrl: url,
-      fit: BoxFit.cover,
-      height: double.infinity,
-      width: double.infinity,
+  FeedProvider _feedProvider;
+
+  Widget _getImg(String url, BuildContext context) {
+    return InkWell(
+      onTap: isDetail
+          ? () {
+              pushNewScreenWithRouteSettings(context,
+                  screen: ImageViewScreen(),
+                  settings: RouteSettings(arguments: url),
+                  pageTransitionAnimation: PageTransitionAnimation.fade);
+            }
+          : null,
+      child: CachedNetworkImage(
+        imageUrl: url,
+        fit: BoxFit.cover,
+        height: double.infinity,
+        width: double.infinity,
+      ),
     );
   }
 
-  Widget _midDetail() {
-    return widget.feed.media.length == 0
+  Widget _midDetail(BuildContext context) {
+    return feed.media.length == 0
         ? SizedBox.shrink()
         : SizedBox(
             height: 250.0,
             width: width,
             child: Hero(
-              tag: "${widget.feed.feedId}",
+              tag: "${feed.feedId}",
               child: Carousel(
-                images: widget.feed.media.map((e) {
-                  return _getImg(e);
+                images: feed.media.map((e) {
+                  return _getImg(e, context);
                 }).toList(),
                 dotSize: 4.0,
                 dotSpacing: 15.0,
-                dotColor: Theme.of(context).accentColor,
+                dotColor: Get.theme.accentColor,
                 indicatorBgPadding: 5.0,
                 dotBgColor: Colors.transparent,
                 borderRadius: false,
@@ -68,16 +78,16 @@ class _FeedCardState extends State<FeedCard> {
             height: 10,
           ),
           Text(
-            widget.feed.feedDescription.toString(),
+            feed.feedDescription.toString(),
             textAlign: TextAlign.start,
-            maxLines: 3,
+            maxLines: isDetail ? 3 : null,
             overflow: TextOverflow.ellipsis,
           ),
           SizedBox(
             height: 10,
           ),
           Text(
-            "${widget.feed.likes} ${tr("Likes")}",
+            "${feed.likes} ${tr("Likes")}",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -90,8 +100,10 @@ class _FeedCardState extends State<FeedCard> {
   Widget _getDoc(String docPath) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .pushNamed(PDFViewScreen.routeName, arguments: docPath);
+        if (!isDetail) {
+          Navigator.of(Get.context)
+              .pushNamed(PDFViewScreen.routeName, arguments: docPath);
+        }
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -117,9 +129,9 @@ class _FeedCardState extends State<FeedCard> {
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return _getDoc(widget.feed.media[index]);
+              return _getDoc(feed.media[index]);
             },
-            itemCount: widget.feed.media.length));
+            itemCount: feed.media.length));
   }
 
   Widget _likeShare(BuildContext context) {
@@ -132,7 +144,7 @@ class _FeedCardState extends State<FeedCard> {
           fit: FlexFit.loose,
           child: InkWell(
             onTap: () {
-              likeFeed();
+              _feedProvider.likeFeed(feed);
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
@@ -141,7 +153,7 @@ class _FeedCardState extends State<FeedCard> {
                 children: [
                   Icon(
                     Icons.thumb_up,
-                    color: widget.feed.isLiked > 0
+                    color: feed.isLiked > 0
                         ? Get.theme.primaryColor
                         : Colors.black,
                   ),
@@ -149,9 +161,9 @@ class _FeedCardState extends State<FeedCard> {
                     width: 10,
                   ),
                   Text(
-                    widget.feed.isLiked > 0 ? tr("Liked") : tr("Like"),
+                    feed.isLiked > 0 ? tr("Liked") : tr("Like"),
                     style: TextStyle(
-                        color: widget.feed.isLiked > 0
+                        color: feed.isLiked > 0
                             ? Get.theme.primaryColor
                             : Colors.black),
                   ),
@@ -166,7 +178,7 @@ class _FeedCardState extends State<FeedCard> {
           child: InkWell(
             onTap: () {
               Share.share(
-                  'Check this feed on the JaanSay mobile app. ${widget.feed.feedTitle}',
+                  'Check this feed on the JaanSay mobile app. ${feed.feedTitle}',
                   subject: 'Check out this post');
             },
             child: Padding(
@@ -194,55 +206,56 @@ class _FeedCardState extends State<FeedCard> {
     );
   }
 
-  likeFeed() async {
-    if (widget.feed.isLiked == 0) {
-      FeedService feedService = FeedService();
-      widget.feed.isLiked = 1;
-      widget.feed.likes = widget.feed.likes + 1;
-      setState(() {});
-      await feedService.likeFeed(widget.feed.feedId);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _color = Theme.of(context).primaryColor;
-    final _mediaQuery = MediaQuery.of(context).size;
-    height = _mediaQuery.height;
-    width = _mediaQuery.width;
-
-    return Card(
-      margin: EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          FeedTopDetails(widget.feed),
-          SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: () {
+  mainBody(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        FeedTopDetails(feed),
+        SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () {
+            if (!isDetail) {
               pushNewScreenWithRouteSettings(context,
                   screen: FeedDetailScreen(),
-                  settings: RouteSettings(arguments: [widget.feed, likeFeed]),
+                  settings: RouteSettings(arguments: [feed]),
                   pageTransitionAnimation: PageTransitionAnimation.fade);
-            },
+            }
+          },
+          child: Container(
+            width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (widget.feed.docId == 0) _midDetail(),
+                if (feed.docId == 0) _midDetail(context),
                 _bottomDetail(),
-                if (widget.feed.docId == 2) _midPdfDetail(),
+                if (feed.docId == 2) _midPdfDetail(),
                 SizedBox(
                   height: 10,
                 ),
               ],
             ),
           ),
-          _likeShare(context),
-        ],
-      ),
+        ),
+        _likeShare(Get.context),
+      ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _feedProvider = Provider.of<FeedProvider>(context);
+    _color = Theme.of(context).primaryColor;
+    final _mediaQuery = MediaQuery.of(context).size;
+    height = _mediaQuery.height;
+    width = _mediaQuery.width;
+
+    return isDetail
+        ? Container(
+            child: mainBody(context),
+          )
+        : Card(margin: EdgeInsets.only(bottom: 10), child: mainBody(context));
   }
 }

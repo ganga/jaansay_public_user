@@ -5,10 +5,9 @@ import 'package:easy_localization/easy_localization.dart';
 class FollowButton extends StatelessWidget {
   final bool isFollow;
   final String text;
-  final Official official;
   final Function onTap;
 
-  FollowButton(this.isFollow, this.text, this.official, this.onTap);
+  FollowButton(this.isFollow, this.text, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +24,7 @@ class FollowButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           splashColor: Colors.white,
-          onTap: () {
-            onTap(official);
-          },
+          onTap: () => onTap,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Padding(

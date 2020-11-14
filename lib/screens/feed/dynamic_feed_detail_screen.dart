@@ -11,6 +11,7 @@ import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
+import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -263,31 +264,36 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
             ? Loading()
             : Container(
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10),
-                      FeedTopDetails(feed),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (feed.docId == 0) _midDetail(),
-                          _bottomDetail(),
-                          if (feed.docId == 2) _midPdfDetail(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                      _likeShare(context),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
+                  child: true
+                      ? FeedCard(
+                          isDetail: true,
+                          feed: feed,
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            FeedTopDetails(feed),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (feed.docId == 0) _midDetail(),
+                                _bottomDetail(),
+                                if (feed.docId == 2) _midPdfDetail(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                            _likeShare(context),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                 ),
               ),
       ),

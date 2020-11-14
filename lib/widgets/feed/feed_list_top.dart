@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/follow_button.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:provider/provider.dart';
 
 class FeedListTop extends StatelessWidget {
-  final Size mediaQuery;
   final Official official;
-  final Function followUser;
-  final Function rejectFollow;
 
-  FeedListTop(
-      this.mediaQuery, this.official, this.followUser, this.rejectFollow);
+  FeedListTop(this.official);
 
   Row buildLeftRow(BuildContext context) {
     return Row(
@@ -45,9 +44,11 @@ class FeedListTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final feedProvider = Provider.of<FeedProvider>(context);
+
     return Container(
       color: Colors.white,
-      width: mediaQuery.width,
+      width: Get.width,
       padding: EdgeInsets.only(left: 16, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,11 +56,11 @@ class FeedListTop extends StatelessWidget {
         children: [
           buildLeftRow(context),
           Expanded(child: Container()),
-          FollowButton(true, "Accept", official, followUser),
+          FollowButton(true, "Accept", feedProvider.acceptFollow(official)),
           SizedBox(
             width: 8,
           ),
-          FollowButton(false, "Reject", official, rejectFollow)
+          FollowButton(false, "Reject", feedProvider.rejectFollow(official))
         ],
       ),
     );

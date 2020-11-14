@@ -25,40 +25,9 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
     final _mediaQuery = MediaQuery.of(context).size;
     passValue = ModalRoute.of(context).settings.arguments as String;
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Text(
-          "Image View",
-          style: TextStyle(color: _color),
-        ).tr(),
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: _color),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.file_download,
-                color: _color,
-              ),
-              onPressed: () async {
-                final status = await Permission.storage.request();
-
-                if (status.isGranted) {
-                  final externalDir = await getExternalStorageDirectory();
-                  final taskId = await FlutterDownloader.enqueue(
-                    url: passValue,
-                    savedDir: externalDir.path,
-                    showNotification: true,
-                    openFileFromNotification: true,
-                  );
-                }
-              })
-        ],
-      ),
-      body: Center(
-        child: PhotoView(
-          imageProvider: CachedNetworkImageProvider(passValue),
-        ),
+    return Center(
+      child: PhotoView(
+        imageProvider: CachedNetworkImageProvider(passValue),
       ),
     );
   }
