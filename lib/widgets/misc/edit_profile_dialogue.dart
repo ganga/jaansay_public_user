@@ -100,7 +100,10 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                   onPressed: () {
                     getImage();
                   },
-                  child: Text("Choose photo").tr(),
+                  child: Text(
+                    "Choose Photo",
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ).tr(),
                 ),
                 RaisedButton(
                   color: Get.theme.primaryColor,

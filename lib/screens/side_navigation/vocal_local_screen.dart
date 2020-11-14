@@ -193,7 +193,14 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text("Vocal For Local").tr(),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Vocal For Local",
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ).tr(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -214,7 +221,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 height: 16,
               ),
               _customTextField(
-                  "Enter phone number", "Phone", phoneController, true),
+                  "Enter phone number", "phone", phoneController, true),
               SizedBox(
                 height: 16,
               ),

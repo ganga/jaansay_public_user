@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   CustomAuthButton(
                     onTap: loginPhone,
-                    title: "${tr("login")}",
+                    title: "login",
                   ),
                 ],
               ),

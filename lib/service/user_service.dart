@@ -80,10 +80,10 @@ class UserService {
           "user_pincode": "${box.read("register_pincode")}",
           "user_phone": "${box.read("register_phone")}",
           "photo": {
-            "file_name": "${box.read("register_name")}${box.read("register_dob")}",
-            "file":  "${box.read("register_profile")}",
+            "file_name":
+                "${box.read("register_name")}${box.read("register_dob")}",
+            "file": "${box.read("register_profile")}",
           },
-
           "panchayat_id": "${box.read("register_panchayat")}",
           "type_id": "100"
         },

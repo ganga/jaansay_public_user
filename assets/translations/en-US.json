@@ -37,7 +37,7 @@
   "Business": "Business",
   "Public Users": "Public Users",
   "Appointed Officials and Elected Members": "Appointed Officials and Elected Members",
-  "Association and Bodies":"Association and Bodies",
+  "Associations and Bodies":"Associations and Bodies",
   "History": "History",
   "No user selected": "No user selected",
   "Select User": "Select User",
@@ -109,5 +109,6 @@
   "All set!": "All set!",
   "Please wait": "Please wait",
   "Timings": "Timings",
-  "Requested": "Requested"
+  "Requested": "Requested",
+  "Enter Business name": "Enter Business name"
 }

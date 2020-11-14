@@ -39,13 +39,16 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
               rotate: 90.0,
               // Default 0.0 degrees
               boxShadows: [
-                PolygonBoxShadow(color: Colors.black, elevation: 1.0),
                 PolygonBoxShadow(color: Colors.grey, elevation: 5.0)
               ],
               child: CustomNetWorkImage(user.photo),
             ),
           ),
-          Text(user.userName)
+          Text(
+            user.userName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )
         ],
       ),
     );
@@ -53,7 +56,6 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String type = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
 
     if (!isCheck) {

@@ -14,8 +14,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   checkLogin() async {
-    DynamicLinkService dynamicLinkService = DynamicLinkService();
-    await dynamicLinkService.handleDynamicLinks();
+    Future.delayed(
+        Duration(
+          milliseconds: 500,
+        ), () async {
+      DynamicLinkService dynamicLinkService = DynamicLinkService();
+      await dynamicLinkService.handleDynamicLinks();
+    });
   }
 
   @override

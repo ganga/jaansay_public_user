@@ -13,8 +13,9 @@ class CustomNetWorkImage extends StatelessWidget {
             fit: BoxFit.cover,
           )
         : Image.network(
-            "${photo}",
+            "$photo",
             fit: BoxFit.cover,
+            alignment: Alignment.topCenter,
           );
   }
 }

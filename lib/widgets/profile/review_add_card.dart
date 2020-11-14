@@ -26,8 +26,8 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
     isLoad = true;
     setState(() {});
     UserService userService = UserService();
+    print(controller.text);
     await userService.addReview(widget.officialId, rating, controller.text);
-
     widget.getReviews();
   }
 

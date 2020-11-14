@@ -151,7 +151,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                         _mediaQuery.height,
                         _mediaQuery.width,
                         OfficialListScreen(),
-                        "103"),
+                        "102"),
                     _dataBox(
                         "${count['association']}",
                         "Associations and Bodies",
@@ -159,7 +159,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                         _mediaQuery.height,
                         _mediaQuery.width,
                         OfficialListScreen(),
-                        "102"),
+                        "103"),
                   ],
                 ),
               ),

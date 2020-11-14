@@ -152,7 +152,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text("Feedback").tr(),
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Feedback",
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ).tr(),
       ),
       body: SingleChildScrollView(
         child: Container(
