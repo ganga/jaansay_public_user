@@ -5,7 +5,7 @@ import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class FeedProvider with ChangeNotifier {
+class UserFeedProvider with ChangeNotifier {
   List<Feed> _feeds = [];
   List<Official> _followReqs = [];
   bool _isLoad = true;
@@ -67,10 +67,21 @@ class FeedProvider with ChangeNotifier {
   likeFeed(Feed feed) async {
     if (feed.isLiked == 0) {
       FeedService feedService = FeedService();
-      feeds[feeds.indexOf(feed)].isLiked = 1;
-      feeds[feeds.indexOf(feed)].likes = 1 + feeds[feeds.indexOf(feed)].likes;
+      _feeds[_feeds.indexOf(feed)].isLiked = 1;
+      _feeds[_feeds.indexOf(feed)].likes =
+          1 + _feeds[_feeds.indexOf(feed)].likes;
       await feedService.likeFeed(feed.feedId);
       notifyListeners();
     }
+  }
+
+  likeLocalFeed(Feed feed) async {
+    _feeds.map((e) {
+      if (e.feedId == feed.feedId) {
+        _feeds[_feeds.indexOf(e)].isLiked = 1;
+        _feeds[_feeds.indexOf(e)].likes = 1 + _feeds[_feeds.indexOf(e)].likes;
+        notifyListeners();
+      }
+    }).toList();
   }
 }

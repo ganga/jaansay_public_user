@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jaansay_public_user/providers/feed_provider.dart';
+import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/feed/feed_add_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
@@ -29,7 +31,12 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<FeedProvider>(create: (_) => FeedProvider())
+        ChangeNotifierProvider<UserFeedProvider>(
+            create: (_) => UserFeedProvider()),
+        ChangeNotifierProvider<OfficialFeedProvider>(
+            create: (_) => OfficialFeedProvider()),
+        ChangeNotifierProvider<OfficialProfileProvider>(
+            create: (_) => OfficialProfileProvider()),
       ],
       child: EasyLocalization(
         supportedLocales: [Locale('en', 'US')],

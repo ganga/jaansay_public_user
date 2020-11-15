@@ -5,48 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
-class OfficialsProfileHead extends StatefulWidget {
+class OfficialsProfileHead extends StatelessWidget {
   final Official official;
 
   OfficialsProfileHead(this.official);
 
   @override
-  _OfficialsProfileHeadState createState() => _OfficialsProfileHeadState();
-}
-
-class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
-  followUser() async {
-    widget.official.isFollow = 1;
-    setState(() {});
-    GetStorage box = GetStorage();
-
-    final userId = box.read("user_id");
-    final token = box.read("token");
-
-    Dio dio = Dio();
-    Response response = await dio.post(
-      "${ConnUtils.url}follow",
-      data: {
-        "official_id": "${widget.official.officialsId}",
-        "user_id": "$userId",
-        "is_follow": "1",
-        "updated_at": "${DateTime.now()}"
-      },
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context);
 
     return Card(
       margin: EdgeInsets.only(bottom: 8),
@@ -63,8 +40,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                   height: _mediaQuery.width * 0.2,
                   width: _mediaQuery.width * 0.2,
                   decoration: BoxDecoration(shape: BoxShape.circle),
-                  child: ClipOval(
-                      child: CustomNetWorkImage(widget.official.photo)),
+                  child: ClipOval(child: CustomNetWorkImage(official.photo)),
                 ),
                 SizedBox(
                   width: _mediaQuery.width * 0.05,
@@ -74,7 +50,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${widget.official.officialsName}",
+                        "${official.officialsName}",
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
@@ -87,8 +63,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                               screen: ReviewScreen(),
                               withNavBar: true,
                               settings: RouteSettings(
-                                arguments:
-                                    widget.official.officialsId.toString(),
+                                arguments: official.officialsId.toString(),
                               ));
                         },
                         child: Row(
@@ -96,7 +71,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                           children: [
                             RatingBar(
                               itemSize: 20,
-                              initialRating: widget.official.averageRating ?? 0,
+                              initialRating: official.averageRating ?? 0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -113,7 +88,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                               width: 5,
                             ),
                             Text(
-                              "(${widget.official.totalRating})",
+                              "(${official.totalRating})",
                               style: TextStyle(
                                   fontWeight: FontWeight.w300, fontSize: 13),
                             )
@@ -123,7 +98,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                       SizedBox(
                         height: 2,
                       ),
-                      Text("${widget.official.officialsDescription}"),
+                      Text("${official.officialsDescription}"),
                       SizedBox(
                         height: _mediaQuery.height * 0.02,
                       ),
@@ -144,7 +119,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                         screen: ReviewScreen(),
                         withNavBar: true,
                         settings: RouteSettings(
-                          arguments: widget.official.officialsId.toString(),
+                          arguments: official.officialsId.toString(),
                         ));
                   }),
                 ),
@@ -152,8 +127,11 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity,
-                      widget.official.isFollow, "Requested", followUser),
+                  child: ProfileHeadButton(
+                      double.infinity,
+                      official.isFollow,
+                      "Requested",
+                      () => officialProfileProvider.followUser(official)),
                 ),
                 SizedBox(
                   width: 10,
@@ -162,7 +140,7 @@ class _OfficialsProfileHeadState extends State<OfficialsProfileHead> {
                   child: ProfileHeadButton(double.infinity, 0, "Contact", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ContactScreen(),
-                        settings: RouteSettings(arguments: widget.official));
+                        settings: RouteSettings(arguments: official));
                   }),
                 ),
               ],

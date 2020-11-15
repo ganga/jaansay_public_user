@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/community/officials_list_group.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 class OfficialListScreen extends StatefulWidget {
   @override
@@ -14,28 +16,14 @@ class OfficialListScreen extends StatefulWidget {
 class _OfficialListScreenState extends State<OfficialListScreen> {
   String title = "Business";
 
-  bool isLoad = true;
-
   bool isCheck = false;
-
-  List<Official> officials = [];
-  List<String> officialTypes = [];
-  String type = "";
-
-  getData() async {
-    isLoad = true;
-    setState(() {});
-    OfficialService officialService = OfficialService();
-    officials = await officialService.getAllOfficialsType(type);
-    officialTypes = officialService.getOfficialTypes(officials);
-    isLoad = false;
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
-    type = ModalRoute.of(context).settings.arguments;
+    final type = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context);
 
     if (type == '102') {
       title = "Appointed Officials and Elected Members";
@@ -45,11 +33,11 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
 
     if (!isCheck) {
       isCheck = true;
-      getData();
+      officialProfileProvider.getData(type);
     }
 
     return Scaffold(
-      body: isLoad
+      body: officialProfileProvider.isLoad
           ? Loading()
           : SingleChildScrollView(
               child: Container(
@@ -75,9 +63,10 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                       child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemBuilder: (context, index) =>
-                            OfficialsListGroup(officialTypes[index], officials),
-                        itemCount: officialTypes.length,
+                        itemBuilder: (context, index) => OfficialsListGroup(
+                            officialProfileProvider.officialTypes[index],
+                            officialProfileProvider.officials),
+                        itemCount: officialProfileProvider.officialTypes.length,
                       ),
                     ),
                   ],

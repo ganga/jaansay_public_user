@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/providers/feed_provider.dart';
+import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list_top.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -16,7 +16,7 @@ class FeedList extends StatelessWidget {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  FeedProvider feedProvider;
+  UserFeedProvider feedProvider;
 
   followList() {
     return feedProvider.followReqs.length == 0
@@ -56,7 +56,7 @@ class FeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
-    feedProvider = Provider.of<FeedProvider>(context);
+    feedProvider = Provider.of<UserFeedProvider>(context);
 
     if (!_isCheck) {
       _isCheck = true;
@@ -95,6 +95,7 @@ class FeedList extends StatelessWidget {
                             : FeedCard(
                                 feed: feedProvider.feeds[index - 1],
                                 isDetail: false,
+                                isBusiness: false,
                               );
                       }),
             ),

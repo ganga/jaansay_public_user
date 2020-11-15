@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/providers/feed_provider.dart';
+import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/follow_button.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,7 @@ class FeedListTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final feedProvider = Provider.of<FeedProvider>(context);
+    final feedProvider = Provider.of<UserFeedProvider>(context);
 
     return Container(
       color: Colors.white,

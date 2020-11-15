@@ -1,38 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/profile/officials_profile_head.dart';
+import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatefulWidget {
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  Official official;
-
-  bool isLoad = true;
+class ProfileScreen extends StatelessWidget {
   bool isCheck = false;
-
-  List<Feed> feeds = [];
-
-  getFeedData() async {
-    FeedService feedService = FeedService();
-    feeds = await feedService.getUserFeeds(official.officialsId);
-    isLoad = false;
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
-    official = ModalRoute.of(context).settings.arguments;
+    final official = ModalRoute.of(context).settings.arguments;
+    final feedProvider = Provider.of<OfficialFeedProvider>(context);
 
     if (!isCheck) {
       isCheck = true;
-      getFeedData();
+      feedProvider.getFeedData(official);
     }
 
     return Scaffold(
@@ -41,17 +27,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             OfficialsProfileHead(official),
-            isLoad
-                ? Loading()
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: feeds.length,
+            Expanded(
+              child: feedProvider.getLoading()
+                  ? Loading()
+                  : ListView.builder(
+                      itemCount: feedProvider.feeds.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return FeedCard(feed: feeds[index],isDetail: false,);
+                        return FeedCard(
+                          feed: feedProvider.feeds[index],
+                          isDetail: false,
+                          isBusiness: true,
+                        );
                       },
                     ),
-                  ),
+            ),
           ],
         ),
       ),

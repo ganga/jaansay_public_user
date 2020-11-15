@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/feed.dart';
-import 'package:jaansay_public_user/providers/feed_provider.dart';
+import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
@@ -18,13 +19,15 @@ import 'package:easy_localization/easy_localization.dart';
 class FeedCard extends StatelessWidget {
   final Feed feed;
   final bool isDetail;
+  final bool isBusiness;
 
-  FeedCard({this.feed, this.isDetail});
+  FeedCard({this.feed, this.isDetail, this.isBusiness});
 
   Color _color;
   double height = 0, width = 0;
 
-  FeedProvider _feedProvider;
+  UserFeedProvider _userFeedProvider;
+  OfficialFeedProvider _businessFeedProvider;
 
   Widget _getImg(String url, BuildContext context) {
     return InkWell(
@@ -144,7 +147,11 @@ class FeedCard extends StatelessWidget {
           fit: FlexFit.loose,
           child: InkWell(
             onTap: () {
-              _feedProvider.likeFeed(feed);
+              if (isBusiness) {
+                _businessFeedProvider.likeFeed(feed, _userFeedProvider);
+              } else {
+                _userFeedProvider.likeFeed(feed);
+              }
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
@@ -220,7 +227,7 @@ class FeedCard extends StatelessWidget {
             if (!isDetail) {
               pushNewScreenWithRouteSettings(context,
                   screen: FeedDetailScreen(),
-                  settings: RouteSettings(arguments: [feed]),
+                  settings: RouteSettings(arguments: [feed, isBusiness]),
                   pageTransitionAnimation: PageTransitionAnimation.fade);
             }
           },
@@ -246,7 +253,9 @@ class FeedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _feedProvider = Provider.of<FeedProvider>(context);
+    _businessFeedProvider = Provider.of<OfficialFeedProvider>(context);
+    _userFeedProvider = Provider.of<UserFeedProvider>(context);
+
     _color = Theme.of(context).primaryColor;
     final _mediaQuery = MediaQuery.of(context).size;
     height = _mediaQuery.height;
