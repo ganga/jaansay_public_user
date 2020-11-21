@@ -56,11 +56,13 @@ class FeedListTop extends StatelessWidget {
         children: [
           buildLeftRow(context),
           Expanded(child: Container()),
-          FollowButton(true, "Accept", feedProvider.acceptFollow(official)),
+          FollowButton(
+              true, "Accept", () => feedProvider.acceptFollow(official)),
           SizedBox(
             width: 8,
           ),
-          FollowButton(false, "Reject", feedProvider.rejectFollow(official))
+          FollowButton(
+              false, "Reject", () => feedProvider.rejectFollow(official))
         ],
       ),
     );

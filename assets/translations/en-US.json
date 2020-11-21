@@ -110,5 +110,14 @@
   "Please wait": "Please wait",
   "Timings": "Timings",
   "Requested": "Requested",
-  "Enter Business name": "Enter Business name"
+  "Enter Business name": "Enter Business name",
+  "Language": "Language",
+  "Select Language" : "Select Language",
+  "Select Your Language" : "Select Your Language",
+  "forgot passcode": "Forgot Passcode",
+  "Enter Your Passcode": "Enter Your Passcode",
+  "Incorrect Passcode": "Incorrect Passcode",
+  "Sign Up": "Sign Up",
+  "Enter Your New Passcode": "Enter Your New Passcode"
+
 }

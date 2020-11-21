@@ -11,13 +11,15 @@ class CustomAuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(vertical: 8),
       child: RaisedButton(
         padding: EdgeInsets.symmetric(vertical: 15),
         color: Theme.of(context).primaryColor,
-        onPressed: () {
-          onTap();
-        },
+        onPressed: onTap == null
+            ? null
+            : () {
+                onTap();
+              },
         child: Text(
           "$title",
           style: TextStyle(fontSize: 20, color: Colors.white),

@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/user_feed_provider.dart';
+import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
@@ -36,24 +38,34 @@ class OfficialProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  followUser(Official official) async {
-    _officials[_officials.indexOf(official)].isFollow = 1;
-    notifyListeners();
-    GetStorage box = GetStorage();
-    final userId = box.read("user_id");
-    final token = box.read("token");
+  followUser(Official official, UserFeedProvider userFeedProvider) async {
+    if (official.isFollow != null && official.isFollow == 0) {
+      _officials[_officials.indexOf(official)].isFollow = 1;
+      notifyListeners();
+      userFeedProvider.removeLocalFollow(official);
 
-    Dio dio = Dio();
-    Response response = await dio.post(
-      "${ConnUtils.url}follow",
-      data: {
-        "official_id": "${official.officialsId}",
-        "user_id": "$userId",
-        "is_follow": "1",
-        "updated_at": "${DateTime.now()}"
-      },
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
+      FollowService followService = FollowService();
+      followService.followUser(official.officialsId);
+    } else {
+      _officials[_officials.indexOf(official)].isFollow = 1;
+      notifyListeners();
+
+      GetStorage box = GetStorage();
+      final userId = box.read("user_id");
+      final token = box.read("token");
+
+      Dio dio = Dio();
+      Response response = await dio.post(
+        "${ConnUtils.url}follow",
+        data: {
+          "official_id": "${official.officialsId}",
+          "user_id": "$userId",
+          "is_follow": "1",
+          "updated_at": "${DateTime.now()}"
+        },
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+    }
   }
 }

@@ -59,9 +59,12 @@ class _FollowScreenState extends State<FollowScreen> {
                     ),
                   ),
                 ),
-          CustomAuthButton(
-            title: "Continue",
-            onTap: () => Get.offAll(HomeScreen()),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: CustomAuthButton(
+              title: "Continue",
+              onTap: () => Get.offAll(HomeScreen()),
+            ),
           ),
         ],
       ),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/follow_screen.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Finish extends StatefulWidget {
   Finish({Key key}) : super(key: key);
@@ -17,6 +20,8 @@ class Finish extends StatefulWidget {
 class _FinishState extends State<Finish> {
   final LoginController _loginController = Get.find();
   bool isLoad = false;
+  bool isComplete = false;
+  GetStorage box = GetStorage();
 
   sendData() async {
     isLoad = true;
@@ -29,10 +34,39 @@ class _FinishState extends State<Finish> {
       Get.offAll(FollowScreen());
     } else {
       Get.rawSnackbar(
-          title: tr("Error"),
-          message: tr("Oops! Something went wrong"),
-          backgroundColor: Get.theme.primaryColor);
+        message: tr("Oops! Something went wrong"),
+      );
     }
+  }
+
+  Widget pincodeField(BuildContext context) {
+    return PinCodeTextField(
+      backgroundColor: Colors.transparent,
+      pinTheme: PinTheme.defaults(
+          shape: PinCodeFieldShape.box,
+          borderRadius: BorderRadius.circular(5),
+          activeColor: Theme.of(context).primaryColor,
+          selectedColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.black12),
+      appContext: context,
+      length: 4,
+      obscureText: false,
+      autoFocus: true,
+      animationType: AnimationType.fade,
+      keyboardType: TextInputType.number,
+      animationDuration: Duration(milliseconds: 300),
+      onChanged: (val) {
+        if (val.length == 4) {
+          Get.focusScope.unfocus();
+          box.write("register_password", val.toString());
+          isComplete = true;
+          setState(() {});
+        } else {
+          isComplete = false;
+          setState(() {});
+        }
+      },
+    );
   }
 
   @override
@@ -40,40 +74,49 @@ class _FinishState extends State<Finish> {
     return Container(
       child: isLoad
           ? Loading()
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    "assets/images/signup.png",
-                    height: Get.height * 0.3,
-                    width: Get.height * 0.3,
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      "assets/images/signup.png",
+                      height: Get.height * 0.3,
+                      width: Get.height * 0.3,
+                    ),
                   ),
-                ),
-                Text(
-                  "${tr("All set!")}",
-                  style: TextStyle(
-                    fontSize: 20,
+                  const SizedBox(
+                    height: 10,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 100),
-                  onPressed: () {
-                    sendData();
-                  },
-                  color: Get.theme.primaryColor,
-                  child: Text(
-                    "Finish",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ).tr(),
-                )
-              ],
+                  Text(
+                    "${tr("Enter Your Passcode")}",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Get.width * 0.1, vertical: 8),
+                    child: pincodeField(context),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomAuthButton(
+                    onTap: isComplete
+                        ? () {
+                            sendData();
+                          }
+                        : null,
+                    title: "Sign Up",
+                  )
+                ],
+              ),
             ),
     );
   }

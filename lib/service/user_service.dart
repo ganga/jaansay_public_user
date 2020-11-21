@@ -50,12 +50,17 @@ class UserService {
   }
 
   Future<void> updateUser(File photo) async {
+    String fileName = box.read("user_name").toString() +
+        box.read("user_phone").toString() +
+        ".jpg";
+    fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
+    box.write("photo", "${ConnUtils.photoUrl}$fileName");
     Response response =
         await dio.patch("${ConnUtils.url}publicusers/profilephoto",
             data: {
               "user_id": "${box.read("user_id")}",
               "photo": {
-                "file_name": "${box.read("user_id")}.png",
+                "file_name": "$fileName",
                 "file": base64Encode(
                   photo.readAsBytesSync(),
                 ),
@@ -64,12 +69,19 @@ class UserService {
             options: Options(headers: {
               HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
             }));
-    print(response.data);
     return;
   }
 
   Future<bool> createUser() async {
     bool isSuccess = false;
+    String fileName = "";
+    if (box.read("register_profile") != "no photo") {
+      fileName = box.read("register_name").toString() +
+          box.read("register_phone").toString() +
+          ".jpg";
+      fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
+    }
+
     try {
       Response response = await dio.post(
         "${ConnUtils.url}publicusers",
@@ -79,11 +91,13 @@ class UserService {
           "user_dob": "${box.read("register_dob")}",
           "user_pincode": "${box.read("register_pincode")}",
           "user_phone": "${box.read("register_phone")}",
-          "photo": {
-            "file_name":
-                "${box.read("register_name")}${box.read("register_dob")}",
-            "file": "${box.read("register_profile")}",
-          },
+          "user_password": "${box.read("register_password")}",
+          "photo": fileName == ""
+              ? "no photo"
+              : {
+                  "file_name": "$fileName",
+                  "file": "${box.read("register_profile")}",
+                },
           "panchayat_id": "${box.read("register_panchayat")}",
           "type_id": "100"
         },
@@ -92,8 +106,8 @@ class UserService {
       print("${box.read("register_phone")}");
       if (response.data["success"]) {
         AuthService authService = AuthService();
-        final response =
-            await authService.loginUser("+91${box.read("register_phone")}");
+        final response = await authService.loginUser(
+            box.read("register_phone"), box.read("register_password"));
         if (response) {
           print("${box.read("register_panchayat")}");
           isSuccess = true;

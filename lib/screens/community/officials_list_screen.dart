@@ -25,9 +25,9 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
 
-    if (type == '102') {
+    if (type == '103') {
       title = "Appointed Officials and Elected Members";
-    } else if (type == '103') {
+    } else if (type == '102') {
       title = "Associations and Bodies";
     }
 

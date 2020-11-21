@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 
 class Address extends StatefulWidget {
   Address({Key key}) : super(key: key);
@@ -53,12 +54,10 @@ class _AddressState extends State<Address> {
       }
       check = 0;
       setState(() {});
-      print(response.data.toString());
     } catch (e) {
       check = 0;
       setState(() {});
       Get.rawSnackbar(
-          title: "${tr("Error")}",
           message: "${tr("Oops! Something went wrong")}",
           backgroundColor: Get.theme.primaryColor);
     }
@@ -66,8 +65,8 @@ class _AddressState extends State<Address> {
 
   Widget _customTextField(String hint, String label) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
@@ -97,8 +96,8 @@ class _AddressState extends State<Address> {
 
   Widget _dropDown() {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
@@ -121,7 +120,6 @@ class _AddressState extends State<Address> {
         },
         onChanged: (String data) {
           Get.focusScope.unfocus();
-
           panchayat = data;
         },
         items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
@@ -137,11 +135,12 @@ class _AddressState extends State<Address> {
   sendData() {
     if (_pinCode.value == "" || panchayat == "") {
       Get.rawSnackbar(
-          title: "Note",
-          message: "Please fill the fields",
-          backgroundColor: Get.theme.primaryColor);
+        message: "Please fill the fields",
+      );
     } else {
       GetStorage box = GetStorage();
+      print(panchayat);
+      print(spinnerItems.length);
       var index = spinnerItems.indexOf(panchayat);
       panchayat = panchayatList[index].panchayatId;
       box.write("register_pincode", _pinCode.value);
@@ -152,27 +151,17 @@ class _AddressState extends State<Address> {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
         _customTextField("Enter your postal code", "Pincode"),
         check == 1 ? Loading() : _dropDown(),
-        Container(
-          height: _mediaQuery.height * 0.07,
-          width: double.infinity,
-          margin: EdgeInsets.all(8),
-          child: RaisedButton(
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              Get.focusScope.unfocus();
+        CustomAuthButton(
+          title: "Continue",
+          onTap: () {
+            Get.focusScope.unfocus();
 
-              sendData();
-            },
-            child: Text(
-              "Continue",
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ).tr(),
-          ),
+            sendData();
+          },
         )
       ],
     );

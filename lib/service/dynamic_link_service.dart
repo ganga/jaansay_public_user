@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/feed/dynamic_feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
+import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 
 class DynamicLinkService {
@@ -40,7 +41,7 @@ class DynamicLinkService {
           }
         }
       } else {
-        Get.offAll(LoginScreen());
+        Get.offAll(SelectLanguageScreen(), arguments: true);
       }
     } else {
       if (box.hasData("token")) {
@@ -48,7 +49,7 @@ class DynamicLinkService {
           HomeScreen(),
         );
       } else {
-        Get.offAll(LoginScreen());
+        Get.offAll(SelectLanguageScreen(), arguments: true);
       }
     }
   }

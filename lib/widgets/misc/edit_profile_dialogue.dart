@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,7 +11,9 @@ import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class EditProfileDailogue extends StatefulWidget {
-  EditProfileDailogue({Key key}) : super(key: key);
+  Function updatePhoto;
+
+  EditProfileDailogue(this.updatePhoto);
 
   @override
   _EditProfileDailogueState createState() => _EditProfileDailogueState();
@@ -26,6 +29,9 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: pickedFile.path,
+        maxHeight: 512,
+        maxWidth: 512,
+        compressFormat: ImageCompressFormat.jpg,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
@@ -56,9 +62,10 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
       setState(() {});
       UserService userService = UserService();
       await userService.updateUser(_image);
+      widget.updatePhoto();
       isLoad = false;
       setState(() {});
-      Get.close(1);
+      Get.close(2);
     } else {}
   }
 
@@ -66,7 +73,20 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
   Widget build(BuildContext context) {
     return Container(
       child: isLoad
-          ? Loading()
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SpinKitChasingDots(
+                  color: Get.theme.primaryColor,
+                  size: 30,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Please wait").tr(),
+              ],
+            )
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [

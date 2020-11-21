@@ -13,16 +13,19 @@ class AboutMeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: true,
-        iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
           "User Setup",
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
         ).tr(),
       ),
       body: WillPopScope(

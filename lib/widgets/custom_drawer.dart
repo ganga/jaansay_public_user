@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/feedback_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
@@ -20,12 +21,17 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   int curIndex = 0;
   GetStorage box = GetStorage();
+  String img;
 
   profileTile(double height, width) {
     return InkWell(
       onTap: () {
         Get.dialog(AlertDialog(
-          content: EditProfileDailogue(),
+          content: EditProfileDailogue(() {
+            img = box.read("photo");
+            PaintingBinding.instance.imageCache.clear();
+            setState(() {});
+          }),
         ));
       },
       child: Container(
@@ -39,7 +45,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               height: 70,
               width: 70,
               decoration: BoxDecoration(shape: BoxShape.circle),
-              child: ClipOval(child: CustomNetWorkImage(box.read("photo"))),
+              child: ClipOval(child: CustomNetWorkImage(img)),
             ),
             SizedBox(
               height: 10,
@@ -90,6 +96,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    img = box.read("photo");
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
 
@@ -99,19 +112,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
         CustomDivider(),
         drawerItem("Home", MdiIcons.home, () {}, 0),
         drawerItem("Feedback", Icons.feedback, () {
+          Get.close(1);
+
           Get.to(FeedbackScreen());
         }, 1),
         drawerItem("Vocal For Local", Icons.record_voice_over, () {
+          Get.close(1);
+
           Get.to(VocalLocalScreen());
         }, 2),
-        drawerItem("Share", MdiIcons.share, () {
-          Share.share(
-              'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
-              subject: 'This is subject');
+        drawerItem("Language", Icons.language, () {
+          Get.close(1);
+
+          Get.to(SelectLanguageScreen());
         }, 3),
-        drawerItem("About", MdiIcons.information, () {
-          Get.to(AboutScreen());
+        drawerItem("Share", MdiIcons.share, () {
+          Get.close(1);
+
+          Share.share(
+            'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
+          );
         }, 4),
+        drawerItem("About", MdiIcons.information, () {
+          Get.close(1);
+
+          Get.to(AboutScreen());
+        }, 5),
       ],
     );
   }

@@ -104,7 +104,7 @@ class _AlertScreenState extends State<AlertScreen> {
       body: alerts.length == 0
           ? CustomErrorWidget(
               iconData: Icons.add_alert,
-              title: "${tr("No alerts found")}",
+              title: "No alerts found",
             )
           : ListView.builder(
               itemBuilder: (context, index) {

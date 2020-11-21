@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 
 class About extends StatefulWidget {
   About({Key key}) : super(key: key);
@@ -42,8 +43,9 @@ class _AboutState extends State<About> {
           showOtherGender: true,
           verticalAlignedText: false,
           selectedGender: null,
-          selectedGenderTextStyle:
-              TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          selectedGenderTextStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold),
           unSelectedGenderTextStyle:
               TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
           onChanged: (Gender val) {
@@ -64,7 +66,14 @@ class _AboutState extends State<About> {
           animationDuration: Duration(milliseconds: 300),
           isCircular: true,
           // default : true,
-          opacityOfGradient: 0.4,
+          opacityOfGradient: 0.25,
+          linearGradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).primaryColor,
+                Theme.of(context).primaryColor
+              ]),
           padding: const EdgeInsets.all(3),
           size: 50, //default : 40
         ),
@@ -80,6 +89,16 @@ class _AboutState extends State<About> {
       firstDate: DateTime(1950),
       lastDate: DateTime(2010),
       helpText: "Choose the date",
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme:
+                ColorScheme.light(primary: Theme.of(context).primaryColor),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
     );
   }
 
@@ -90,8 +109,8 @@ class _AboutState extends State<About> {
   Widget _customTextField(
       String hint, String label, TextEditingController controller) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
@@ -107,8 +126,8 @@ class _AboutState extends State<About> {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: tr(label),
-          hintText: tr(hint),
+          labelText: label,
+          hintText: hint,
         ),
       ),
     );
@@ -122,6 +141,9 @@ class _AboutState extends State<About> {
     if (pickedFile != null) {
       croppedFile = await ImageCropper.cropImage(
           sourcePath: pickedFile.path,
+          maxHeight: 512,
+          maxWidth: 512,
+          compressFormat: ImageCompressFormat.jpg,
           aspectRatioPresets: [
             CropAspectRatioPreset.square,
             CropAspectRatioPreset.ratio3x2,
@@ -130,7 +152,7 @@ class _AboutState extends State<About> {
             CropAspectRatioPreset.ratio16x9
           ],
           androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Cropper',
+              toolbarTitle: 'Crop Image',
               toolbarColor: Colors.deepOrange,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.original,
@@ -142,20 +164,17 @@ class _AboutState extends State<About> {
     if (pickedFile != null) {
       _image = File(croppedFile.path);
       _isPicked(1);
-    } else {
-      print('No image selected.');
     }
   }
 
   sendData() async {
     if (nameController.text == "" || _selectedDate == null || gender == "") {
       Get.rawSnackbar(
-          title: "${tr("Note")}",
-          message: "${tr("Please fill the fields")}",
-          backgroundColor: Get.theme.primaryColor);
+        message: "${tr("Please fill the fields")}",
+      );
     } else {
       GetStorage box = GetStorage();
-      box.write("register_name", nameController.text);
+      box.write("register_name", nameController.text.trim());
       box.write("register_dob", _selectedDate.toString());
       box.write("register_gender", gender);
       _image == null
@@ -201,64 +220,59 @@ class _AboutState extends State<About> {
             onPressed: () {
               getImage();
             },
-            child: Text("Choose photo").tr(),
+            child: Text(
+              "Choose Photo",
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ).tr(),
           ),
-          _customTextField("Enter your Name", "Full name", nameController),
-          InkWell(
-            onTap: () async {
-              var temp = await _datePicker(context);
-              if (temp != null) {
-                temp = DateFormat("dd-MM-yyyy").format(temp);
-                _selectedDate(temp.toString());
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.all(8),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 30),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+          _customTextField(
+              tr("Enter your Name"), tr("Full Name"), nameController),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 8),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                    () => Text(
-                      _selectedDate.value,
-                      style: TextStyle(color: Colors.grey),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            child: InkWell(
+              onTap: () async {
+                var temp = await _datePicker(context);
+                if (temp != null) {
+                  temp = DateFormat("dd-MM-yyyy").format(temp);
+                  _selectedDate(temp.toString());
+                }
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Obx(
+                      () => Text(
+                        _selectedDate.value,
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
-                  ),
-                  Icon(Icons.calendar_today_outlined),
-                ],
+                    Icon(Icons.calendar_today_outlined),
+                  ],
+                ),
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.all(8),
+            margin: EdgeInsets.symmetric(vertical: 8),
             child: genderPicker(),
           ),
-          Container(
-            height: Get.height * 0.07,
-            width: double.infinity,
-            margin: EdgeInsets.all(8),
-            child: RaisedButton(
-              color: Get.theme.primaryColor,
-              onPressed: () {
+          CustomAuthButton(
+              title: "Next",
+              onTap: () {
                 Get.focusScope.unfocus();
-
                 sendData();
-              },
-              child: Text(
-                "Next",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ).tr(),
-            ),
-          ),
+              })
         ],
       ),
     );

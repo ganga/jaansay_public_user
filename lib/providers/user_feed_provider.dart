@@ -84,4 +84,17 @@ class UserFeedProvider with ChangeNotifier {
       }
     }).toList();
   }
+
+  removeLocalFollow(Official official) {
+    Official tempOfficial;
+    _followReqs.forEach((element) {
+      if (element.officialsId == official.officialsId) {
+        tempOfficial = element;
+      }
+    });
+    if (tempOfficial != null) {
+      _followReqs.remove(tempOfficial);
+      notifyListeners();
+    }
+  }
 }

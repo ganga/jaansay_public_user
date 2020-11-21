@@ -4,15 +4,13 @@ import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class AuthService {
-  Future<bool> loginUser(String phone) async {
-    phone = phone.substring(3);
+  Dio dio = new Dio();
 
-    Dio dio = new Dio();
-
+  Future<bool> loginUser(String phone, String passcode) async {
     try {
       Response response = await dio.post(
-        "${ConnUtils.url}publicusers/signin",
-        data: {"user_phone": phone},
+        "${ConnUtils.url}publicusers/signInUsingPassword",
+        data: {"user_phone": phone, "user_password": passcode},
       );
 
       if (response.data['success']) {
@@ -31,6 +29,33 @@ class AuthService {
       }
     } catch (_) {
       print("error here");
+      return false;
+    }
+  }
+
+  Future<bool> checkUser(String phone) async {
+    final response =
+        await dio.get("${ConnUtils.url}publicusers/checkUser/$phone");
+    if (response.data['message'] == "yes") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> updateUserPasscode(String phone, String code) async {
+    print("$phone,$code");
+    try {
+      final response = await dio.patch("${ConnUtils.url}publicusers/password",
+          data: {"user_phone": phone, "user_password": code});
+      print(response.data.toString());
+      if (response.data['success']) {
+        return await loginUser(phone, code);
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
       return false;
     }
   }

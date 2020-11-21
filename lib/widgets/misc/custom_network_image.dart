@@ -8,14 +8,17 @@ class CustomNetWorkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return photo == "no photo"
-        ? Image.network(
-            "https://qph.fs.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd",
+        ? Image.asset(
+            "assets/images/profileHolder.jpg",
             fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           )
-        : Image.network(
-            "$photo",
+        : FadeInImage(
+            image: NetworkImage("$photo"),
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
+            placeholder: AssetImage("assets/images/profileHolder.jpg"),
           );
   }
 }

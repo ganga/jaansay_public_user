@@ -36,7 +36,7 @@ class _ProfileHeadButtonState extends State<ProfileHeadButton> {
             if (widget.title != "Requested") {
               widget.onTap();
             } else {
-              if (widget.code == null) {
+              if (widget.code == null || widget.code == 0) {
                 widget.onTap();
                 setState(() {});
               }
@@ -51,11 +51,14 @@ class _ProfileHeadButtonState extends State<ProfileHeadButton> {
                 child: Text(
                   widget.code != null
                       ? widget.code == 0
-                          ? "${widget.title}"
+                          ? widget.title == "Requested"
+                              ? "Accept"
+                              : widget.title
                           : "Following"
                       : "Follow",
                   style: TextStyle(
                       color: widget.code != null ? Colors.black : Colors.white),
+                  maxLines: 1,
                 ).tr(),
               ),
             ),

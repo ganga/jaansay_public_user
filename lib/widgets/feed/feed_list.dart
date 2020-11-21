@@ -55,7 +55,6 @@ class FeedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
     feedProvider = Provider.of<UserFeedProvider>(context);
 
     if (!_isCheck) {
@@ -79,7 +78,7 @@ class FeedList extends StatelessWidget {
                         followList(),
                         Expanded(
                           child: CustomErrorWidget(
-                            title: tr("No feeds"),
+                            title: "No feeds",
                             iconData: MdiIcons.nullIcon,
                           ),
                         )

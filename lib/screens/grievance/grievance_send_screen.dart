@@ -36,6 +36,8 @@ class _GrievanceSendScreenState extends State<GrievanceSendScreen> {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: pickedFile.path,
+        maxWidth: 1024,
+        maxHeight: 1024,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,

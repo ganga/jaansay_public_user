@@ -18,7 +18,6 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String verificationId = "";
   String phoneNumber = "";
   GetStorage box = GetStorage();
@@ -26,6 +25,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   Widget pincodeField(BuildContext context) {
     return PinCodeTextField(
+      backgroundColor: Colors.transparent,
       pinTheme: PinTheme.defaults(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
@@ -47,6 +47,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
   Future<void> submitOtp(String otp) async {
+    Get.focusScope.unfocus();
     isLoad = true;
     setState(() {});
     final _phoneAuthCredential = PhoneAuthProvider.credential(
@@ -54,22 +55,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     FirebaseAuth.instance
         .signInWithCredential(_phoneAuthCredential)
         .then((user) async {
-      print("${user.user.phoneNumber}");
-      bool response = await GetIt.I<AuthService>().loginUser(phoneNumber);
-      isLoad = false;
-      setState(() {});
-      if (response) {
-        Get.offAll(HomeScreen());
-      } else {
-        box.write("register_phone", phoneNumber.substring(3));
-        Get.offAll(AboutMeScreen());
-      }
+      box.write("register_phone", phoneNumber.substring(3));
+      Get.to(AboutMeScreen());
     }).catchError((error) {
       isLoad = false;
       setState(() {});
       print("${error.hashCode}");
-      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text("Incorrect OTP, please try again").tr()));
+      Get.rawSnackbar(message: tr("Incorrect OTP, please try again"));
     });
   }
 
@@ -81,8 +73,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         print("Your account is successfully verified");
       },
       verificationFailed: (FirebaseAuthException authException) {
-        _scaffoldKey.currentState.showSnackBar(
-            new SnackBar(content: new Text("Oops! Something went wrong").tr()));
+        Get.rawSnackbar(message: tr("Oops! Something went wrong"));
       },
       codeSent: (String verId, [int forceCodeResent]) {
         Get.rawSnackbar(message: "${tr("OTP sent to your mobile number")}");
@@ -96,15 +87,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
-
     List response = ModalRoute.of(context).settings.arguments;
 
     verificationId = response[0];
     phoneNumber = response[1];
 
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -126,8 +114,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     alignment: Alignment.center,
                     child: Image.asset(
                       "assets/images/l2.png",
-                      height: _mediaQuery.height * 0.3,
-                      width: _mediaQuery.height * 0.3,
+                      height: Get.height * 0.3,
+                      width: Get.height * 0.3,
                     ),
                   ),
                   Text(

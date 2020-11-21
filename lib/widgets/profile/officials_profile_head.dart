@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
@@ -24,6 +25,7 @@ class OfficialsProfileHead extends StatelessWidget {
     final _mediaQuery = MediaQuery.of(context).size;
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
+    final feedProvider = Provider.of<UserFeedProvider>(context, listen: false);
 
     return Card(
       margin: EdgeInsets.only(bottom: 8),
@@ -71,7 +73,7 @@ class OfficialsProfileHead extends StatelessWidget {
                           children: [
                             RatingBar(
                               itemSize: 20,
-                              initialRating: official.averageRating ?? 0,
+                              initialRating: official.averageRating ?? 5,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -98,7 +100,8 @@ class OfficialsProfileHead extends StatelessWidget {
                       SizedBox(
                         height: 2,
                       ),
-                      Text("${official.officialsDescription}"),
+                      if (official.officialsDescription != null)
+                        Text("${official.officialsDescription}"),
                       SizedBox(
                         height: _mediaQuery.height * 0.02,
                       ),
@@ -131,7 +134,8 @@ class OfficialsProfileHead extends StatelessWidget {
                       double.infinity,
                       official.isFollow,
                       "Requested",
-                      () => officialProfileProvider.followUser(official)),
+                      () => officialProfileProvider.followUser(
+                          official, feedProvider)),
                 ),
                 SizedBox(
                   width: 10,

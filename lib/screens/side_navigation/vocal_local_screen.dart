@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/service/vocalforlocal_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -27,7 +28,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
   Widget _customTextField(
       String hint, String label, TextEditingController controller, bool isNum) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
@@ -45,58 +46,6 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
           border: InputBorder.none,
           labelText: tr(label),
           hintText: tr(hint),
-        ),
-      ),
-    );
-  }
-
-  Widget _getMap(LatLng userPosition) {
-    return InkWell(
-      onTap: () {
-        Get.to(LocationPicker());
-      },
-      child: Container(
-        height: Get.height * 0.3,
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: Get.height * 0.05,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Choose location",
-                    style: TextStyle(),
-                  ).tr(),
-                  Icon(Icons.location_on)
-                ],
-              ),
-            ),
-            Expanded(
-              child: GoogleMap(
-                markers: {
-                  Marker(
-                    markerId: MarkerId("marker"),
-                    position: userPosition,
-                  ),
-                },
-                mapToolbarEnabled: false,
-                zoomControlsEnabled: false,
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(13.331781, 74.747334), zoom: 18),
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -155,7 +104,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
 
   sendData() async {
     if (nameController.text == "" || phoneController.text == "") {
-      return;
+      Get.rawSnackbar(message: tr("Please fill all the fields"));
     } else {
       isLoad = true;
       setState(() {});
@@ -230,7 +179,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ).tr(),
               SizedBox(
-                height: 8,
+                height: 16,
               ),
               attachments("Add Location", Icons.location_pin, 1),
               SizedBox(
@@ -238,21 +187,10 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
               ),
               isLoad
                   ? Loading()
-                  : Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.all(8),
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          sendData();
-                        },
-                        child: Text(
-                          "Send",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ).tr(),
-                      ),
-                    ),
+                  : CustomAuthButton(
+                      title: "Send",
+                      onTap: () => sendData(),
+                    )
             ],
           ),
         ),

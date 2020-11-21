@@ -83,7 +83,7 @@ class FeedCard extends StatelessWidget {
           Text(
             feed.feedDescription.toString(),
             textAlign: TextAlign.start,
-            maxLines: isDetail ? 3 : null,
+            maxLines: !isDetail ? 3 : 1000,
             overflow: TextOverflow.ellipsis,
           ),
           SizedBox(

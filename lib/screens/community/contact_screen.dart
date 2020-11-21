@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -78,7 +79,11 @@ class _ContactScreenState extends State<ContactScreen> {
                 settings: RouteSettings(arguments: official),
                 withNavBar: true);
           }),
-          contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {}),
+          contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {
+            Share.share(
+              'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
+            );
+          }),
         ],
       ),
     );

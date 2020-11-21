@@ -61,6 +61,7 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   firebase_dynamic_links:
   provider:
+  geolocator:
 
 dev_dependencies:
   flutter_test:

@@ -14,6 +14,7 @@ import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/about_me_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
+import 'package:jaansay_public_user/screens/login_signup/passcode_screen.dart';
 import 'package:jaansay_public_user/screens/misc/survey_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
@@ -23,7 +24,6 @@ import 'package:provider/provider.dart';
 GetIt getIt = GetIt.instance;
 
 void main() async {
-  GetIt.I.registerLazySingleton(() => AuthService());
   GetIt.I.registerLazySingleton(() => DynamicLinkService());
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
@@ -39,7 +39,7 @@ void main() async {
             create: (_) => OfficialProfileProvider()),
       ],
       child: EasyLocalization(
-        supportedLocales: [Locale('en', 'US')],
+        supportedLocales: [Locale('en', 'US'), Locale('kn', 'IN')],
         path: 'assets/translations',
         fallbackLocale: Locale('en', 'US'),
         child: MyApp(),
@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xffDF5D37),
         primaryColorDark: Color(0xff1E4072),
+        accentColor: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: SplashScreen(),

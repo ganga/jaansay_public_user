@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 
-class Loading extends StatefulWidget {
-  @override
-  _LoadingState createState() => _LoadingState();
-}
-
-class _LoadingState extends State<Loading> {
-  Color _color;
-
-  double height = 0, width = 0;
-
+class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    _color = Theme.of(context).primaryColor;
-    final _mediaQuery = MediaQuery.of(context).size;
-    height = _mediaQuery.height;
-    width = _mediaQuery.width;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SpinKitChasingDots(
-          color: _color,
+          color: Get.theme.primaryColor,
           size: 30,
         ),
         SizedBox(

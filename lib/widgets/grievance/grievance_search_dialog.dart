@@ -21,8 +21,7 @@ class GrievanceSearchDialog extends StatelessWidget {
 
   _searchField(double height, double width, BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: width * 0.01, vertical: height * 0.02),
+      margin: EdgeInsets.symmetric(vertical: height * 0.02),
       width: double.infinity,
       height: 50,
       decoration: BoxDecoration(
@@ -72,7 +71,7 @@ class GrievanceSearchDialog extends StatelessWidget {
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Container(
-      width: _mediaQuery.width * 0.8,
+      width: _mediaQuery.width * 0.9,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

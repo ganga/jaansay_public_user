@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
+import 'package:jaansay_public_user/screens/login_signup/passcode_screen.dart';
+import 'package:jaansay_public_user/service/auth_service.dart';
+import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,36 +25,42 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoad = false;
 
   Future<void> loginPhone() async {
-    ///String phoneNumber = "+919481516278";
-
     if (controller.text.length == 10) {
       isLoad = true;
       setState(() {});
-      String phoneNumber = "+91" + controller.text;
 
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        timeout: const Duration(seconds: 15),
-        verificationCompleted: (AuthCredential authCredential) {
-          print("Your account is successfully verified");
-        },
-        verificationFailed: (FirebaseAuthException authException) {
-          isLoad = false;
-          setState(() {});
-          _scaffoldKey.currentState.showSnackBar(new SnackBar(
-              content: new Text("${tr("Oops! Something went wrong")}")));
-          print("${authException.message}");
-        },
-        codeSent: (String verId, [int forceCodeResent]) {
-          isLoad = false;
-          setState(() {});
-          Navigator.of(context).pushNamed(OtpVerificationScreen.routeName,
-              arguments: [verId, phoneNumber]);
-        },
-        codeAutoRetrievalTimeout: (String verId) {
-          print("TIMEOUT");
-        },
-      );
+      AuthService authService = AuthService();
+      final response = await authService.checkUser(controller.text);
+      if (response) {
+        Get.to(PasscodeScreen(), arguments: controller.text);
+        isLoad = false;
+        setState(() {});
+      } else {
+        String phoneNumber = "+91" + controller.text;
+
+        await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          timeout: const Duration(seconds: 15),
+          verificationCompleted: (AuthCredential authCredential) {
+            print("Your account is successfully verified");
+          },
+          verificationFailed: (FirebaseAuthException authException) {
+            isLoad = false;
+            setState(() {});
+            _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                content: new Text("${tr("Oops! Something went wrong")}")));
+            print("${authException.message}");
+          },
+          codeSent: (String verId, [int forceCodeResent]) {
+            isLoad = false;
+            setState(() {});
+            Get.to(OtpVerificationScreen(), arguments: [verId, phoneNumber]);
+          },
+          codeAutoRetrievalTimeout: (String verId) {
+            print("TIMEOUT");
+          },
+        );
+      }
     } else {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text("Please enter valid phone number").tr()));
@@ -81,16 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "${tr("welcomeTitle")}!",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+                  Text(
+                    "${tr("welcomeTitle")}!",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   Text(
                     "${tr("welcomeSubtitle")}!",
@@ -103,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.grey,
