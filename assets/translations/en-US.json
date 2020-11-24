@@ -118,6 +118,9 @@
   "Enter Your Passcode": "Enter Your Passcode",
   "Incorrect Passcode": "Incorrect Passcode",
   "Sign Up": "Sign Up",
-  "Enter Your New Passcode": "Enter Your New Passcode"
-
+  "Enter Your New Passcode": "Enter Your New Passcode",
+  "Server is under maintenance, please try again after sometime" : "Server is under maintenance, please try again after sometime",
+  "No users found": "No users found",
+  "Enter name": "Enter name",
+  "Enter your feedback here": "Enter your feedback here"
 }

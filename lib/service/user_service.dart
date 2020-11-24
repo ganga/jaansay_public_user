@@ -8,24 +8,28 @@ import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class UserService {
-  Future<List<User>> getAllUsers() async {
+  Future<List<User>> getAllUsers(String districtId) async {
     GetStorage box = GetStorage();
     List<User> users = [];
     Dio dio = Dio();
-    final response = await dio.get("${ConnUtils.url}publicusers",
-        options: Options(headers: {
-          HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}"
-        }));
 
-    if (response.data['success']) {
-      response.data['data']
-          .map(
-            (val) => users.add(
-              User.fromJson(val),
-            ),
-          )
-          .toList();
-    } else {}
+    try {
+      final response = await dio.get(
+          "${ConnUtils.url}publicusers/district/$districtId",
+          options: Options(headers: {
+            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}"
+          }));
+
+      if (response.data['success']) {
+        response.data['data']
+            .map(
+              (val) => users.add(
+                User.fromJson(val),
+              ),
+            )
+            .toList();
+      } else {}
+    } catch (e) {}
 
     return users;
   }
@@ -92,6 +96,7 @@ class UserService {
           "user_pincode": "${box.read("register_pincode")}",
           "user_phone": "${box.read("register_phone")}",
           "user_password": "${box.read("register_password")}",
+          "district_id": "${box.read("register_district")}",
           "photo": fileName == ""
               ? "no photo"
               : {

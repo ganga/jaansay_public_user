@@ -60,27 +60,33 @@ class OfficialTile extends StatelessWidget {
           SizedBox(
             width: 8,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${official.officialsName}",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                "#${official.businesstypeName}",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).primaryColor,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${official.officialsName}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "#${official.businesstypeName}",
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
+            ),
           ),
-          Expanded(child: Container()),
           Obx(() => Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),

@@ -27,12 +27,12 @@ class OfficialProfileProvider with ChangeNotifier {
     return [..._officialTypes];
   }
 
-  getData(String type) async {
+  getData(String type, String districtId) async {
     _isLoad = true;
     _officials.clear();
     _officialTypes.clear();
     OfficialService officialService = OfficialService();
-    _officials = await officialService.getAllOfficialsType(type);
+    _officials = await officialService.getAllOfficialsType(type, districtId);
     _officialTypes = officialService.getOfficialTypes(_officials);
     _isLoad = false;
     notifyListeners();

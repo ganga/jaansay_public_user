@@ -62,6 +62,7 @@ dependencies:
   firebase_dynamic_links:
   provider:
   geolocator:
+  package_info:
 
 dev_dependencies:
   flutter_test:

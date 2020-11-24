@@ -22,6 +22,7 @@ class AuthService {
         box.write("photo", user.photo);
         box.write("user_id", user.userId);
         box.write("document", user.document);
+        box.write("district_id", user.districtId);
         return true;
       } else {
         print("Failed");

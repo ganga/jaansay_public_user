@@ -7,31 +7,35 @@ import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class OfficialService {
-  Future<List<Official>> getAllOfficialsType(String type) async {
+  Future<List<Official>> getAllOfficialsType(
+      String type, String districtId) async {
     GetStorage box = GetStorage();
 
     List<Official> officials = [];
     Dio dio = Dio();
 
     officials.clear();
-    final response = await dio.get(
-      "${ConnUtils.url}officials/type/${box.read("user_id")}/$type",
-      options: Options(
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}"
-        },
-      ),
-    );
 
-    if (response.data['success']) {
-      response.data['data']
-          .map(
-            (val) => officials.add(
-              Official.fromJson(val),
-            ),
-          )
-          .toList();
-    } else {}
+    try {
+      final response = await dio.get(
+        "${ConnUtils.url}officials/type/district/${box.read("user_id")}/$type/$districtId",
+        options: Options(
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}"
+          },
+        ),
+      );
+
+      if (response.data['success']) {
+        response.data['data']
+            .map(
+              (val) => officials.add(
+                Official.fromJson(val),
+              ),
+            )
+            .toList();
+      } else {}
+    } catch (e) {}
 
     return officials;
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/search_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchUtils searchUtils = SearchUtils();
@@ -24,6 +25,7 @@ class SearchScreen extends StatelessWidget {
           ),
           title: TextField(
             autofocus: true,
+            decoration: InputDecoration(hintText: tr("Enter name")),
             onChanged: (val) {
               searchOfficials(val);
             },

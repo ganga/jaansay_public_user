@@ -19,7 +19,7 @@
   "Panchayat": "ಪಂಚಾಯತ್",
   "All Set": "ಎಲ್ಲಾ ಸೆಟ್",
   "Continue": "ಮುಂದುವರಿಸಿ",
-  "Home": "ಮನೆ",
+  "Home": "ಹೋಮ್",
   "Feedback": "ಪ್ರತಿಕ್ರಿಯೆ",
   "Vocal For Local": "ಸ್ಥಳೀಯರಿಗೆ ಗಾಯನ",
   "Share": "ಹಂಚಿಕೊಳ್ಳಿ",
@@ -117,5 +117,10 @@
   "forgot passcode":"ಪಾಸ್ಕೋಡ್ ಮರೆತುಹೋಗಿದೆ",
   "Enter Your Passcode":"ನಿಮ್ಮ ಪಾಸ್‌ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ",
   "Incorrect Passcode":"ತಪ್ಪಾದ ಪಾಸ್ಕೋಡ್",
-  "Sign Up":"ಸೈನ್ ಅಪ್"
+  "Sign Up":"ಸೈನ್ ಅಪ್",
+  "Enter Your New Passcode": "ನಿಮ್ಮ ಹೊಸ ಪಾಸ್ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ",
+  "Server is under maintenance, please try again after sometime" : "ಸರ್ವರ್ ನಿರ್ವಹಣೆಯಲ್ಲಿದೆ, ದಯವಿಟ್ಟು ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+  "No users found": "ಯಾವುದೇ ಬಳಕೆದಾರರು ಕಂಡುಬಂದಿಲ್ಲ",
+  "Enter name": "ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+  "Enter your feedback here": "ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಇಲ್ಲಿ ನಮೂದಿಸಿ"
 }

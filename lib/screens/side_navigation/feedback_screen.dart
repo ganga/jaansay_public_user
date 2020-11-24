@@ -184,7 +184,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   maxLines: 10,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
-                    hintText: "${tr("Feedback")}",
+                    hintText: "${tr("Enter your feedback here")}",
                   ),
                 ),
               ),

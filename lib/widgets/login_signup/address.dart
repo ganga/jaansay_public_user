@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/panchayat.dart';
+import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -31,35 +32,40 @@ class _AddressState extends State<Address> {
 
   Future getPanchayat() async {
     Response response;
+    spinnerItems.clear();
+    panchayatList.clear();
     Dio dio = new Dio();
     try {
       check = 1;
       setState(() {});
-      response = await dio
-          .get("http://jaansay.com:3000/api/panchayat/" + _pinCode.value);
+      response = await dio.get("${ConnUtils.url}panchayat/" + _pinCode.value);
+      print(response.data.toString());
       if (response.data["success"]) {
         response.data["data"].map((val) {
           panchayatList.add(Panchayat(
-            panchayatId: val["panchayat_id"].toString(),
-            panchayatName: val["panchayat_name"],
-          ));
+              panchayatId: val["panchayat_id"].toString(),
+              panchayatName: val["panchayat_name"],
+              districtId: val['district_id'].toString()));
           spinnerItems.add(val["panchayat_name"]);
         }).toList();
       } else {
         Get.rawSnackbar(
-            title: "${tr("Error")}",
-            message:
-                "${tr("Oops! Service currently unavailable in this pin-code")}",
-            backgroundColor: Get.theme.primaryColor);
+          message:
+              "${tr("Oops! Service currently unavailable in this pin-code")}",
+        );
       }
       check = 0;
       setState(() {});
     } catch (e) {
       check = 0;
       setState(() {});
+      // Get.rawSnackbar(
+      //   message: "${tr("Oops! Something went wrong")}",
+      // );
       Get.rawSnackbar(
-          message: "${tr("Oops! Something went wrong")}",
-          backgroundColor: Get.theme.primaryColor);
+        message:
+            "${tr("Oops! Service currently unavailable in this pin-code")}",
+      );
     }
   }
 
@@ -145,6 +151,8 @@ class _AddressState extends State<Address> {
       panchayat = panchayatList[index].panchayatId;
       box.write("register_pincode", _pinCode.value);
       box.write("register_panchayat", panchayat.toString());
+      box.write(
+          "register_district", panchayatList[index].districtId.toString());
       c.index(2);
     }
   }

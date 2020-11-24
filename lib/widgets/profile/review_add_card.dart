@@ -72,7 +72,7 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                             ),
                             RatingBar(
                               itemSize: 30,
-                              initialRating: 1,
+                              initialRating: 5,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,

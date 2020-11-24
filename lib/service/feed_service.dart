@@ -34,7 +34,7 @@ class FeedService {
     return feeds;
   }
 
-  Future<List<Feed>> getMoreFeeds() async {
+  Future<List> getMoreFeeds(String page) async {
     List<Feed> feeds = [];
     GetStorage box = GetStorage();
 
@@ -45,20 +45,24 @@ class FeedService {
       Dio dio = Dio();
 
       Response response = await dio.get(
-          "${ConnUtils.url}feeds/${box.read("user_id")}/allfeeds",
+          "${ConnUtils.url}feeds/${box.read("user_id")}/allfeeds/page/$page",
           options: Options(
               headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
-
       if (response.data['success']) {
         response.data['data']
             .map((val) => feeds.add(Feed.fromJson(val)))
             .toList();
+        if (response.data['next'] == null) {
+          return [feeds, null];
+        } else {
+          return [feeds, response.data['next']['page']];
+        }
       } else {
         //TODO empty
       }
     } catch (e) {}
 
-    return feeds;
+    return [feeds, null];
   }
 
   likeFeed(String feedId) async {

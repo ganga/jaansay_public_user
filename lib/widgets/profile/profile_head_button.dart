@@ -45,7 +45,7 @@ class _ProfileHeadButtonState extends State<ProfileHeadButton> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -59,6 +59,7 @@ class _ProfileHeadButtonState extends State<ProfileHeadButton> {
                   style: TextStyle(
                       color: widget.code != null ? Colors.black : Colors.white),
                   maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ).tr(),
               ),
             ),

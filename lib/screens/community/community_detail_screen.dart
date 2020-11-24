@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
 import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
@@ -18,12 +20,43 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   bool isCheck = false;
 
   Map count = {};
+  List<Map<String, dynamic>> districtMap = [];
+  List<String> districts = [];
+  GetStorage box = GetStorage();
+  String selectedDistrict = "";
+  String districtId;
 
   getData() async {
     isLoad = true;
     setState(() {});
     MiscService miscService = MiscService();
-    count = await miscService.getUsersCount();
+    districts.clear();
+    districtMap.clear();
+    count.clear();
+    await miscService.getAllCount(count, districtMap);
+    districtMap.map((e) {
+      if (e['district_id'].toString() == box.read('district_id').toString()) {
+        districtId = e['district_id'].toString();
+        selectedDistrict = e['district_name'];
+      }
+      districts.add(e['district_name']);
+    }).toList();
+    isLoad = false;
+    setState(() {});
+  }
+
+  getDistrictData() async {
+    isLoad = true;
+    setState(() {});
+    MiscService miscService = MiscService();
+    count.clear();
+    districtMap.map((e) {
+      if (e['district_name'] == selectedDistrict) {
+        districtId = e['district_id'].toString();
+      }
+    }).toList();
+    await miscService.getAllCountDistrict(
+        count, districtMap, districtId.toString());
     isLoad = false;
     setState(() {});
   }
@@ -47,7 +80,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
               onTap: () {
                 pushNewScreenWithRouteSettings(context,
                     screen: widget,
-                    settings: RouteSettings(arguments: type),
+                    settings: RouteSettings(arguments: [type, districtId]),
                     pageTransitionAnimation: PageTransitionAnimation.cupertino);
               },
               child: Padding(
@@ -57,7 +90,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                   children: [
                     AutoSizeText(
                       tr(title),
-                      style: TextStyle(color: Colors.black, fontSize: 24),
+                      style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                     ),
@@ -98,32 +131,56 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
           : SingleChildScrollView(
               child: Container(
                 width: double.infinity,
-                padding:
-                    EdgeInsets.symmetric(horizontal: _mediaQuery.width * 0.08),
+                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
                 child: Column(
                   children: [
                     SizedBox(
                       height: _mediaQuery.height * 0.03,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: Theme.of(context).primaryColor,
-                          size: 30,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Hiriadka",
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                          border: Border.all(
+                              color: Theme.of(context).primaryColor)),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        underline: Container(),
+                        value: selectedDistrict,
+                        selectedItemBuilder: (BuildContext context) {
+                          return districts.map<Widget>((String item) {
+                            return Container(
+                                alignment: Alignment.center,
+                                child: AutoSizeText(
+                                  item,
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  maxLines: 1,
+                                ));
+                          }).toList();
+                        },
+                        items: districts.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }).toList(),
+                        iconSize: 40,
+                        onChanged: (val) {
+                          selectedDistrict = val;
+                          getDistrictData();
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: _mediaQuery.height * 0.03,

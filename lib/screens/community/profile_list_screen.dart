@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileListScreen extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
   bool isLoad = true;
 
   bool isCheck = false;
+  String districtId;
 
   List<User> users = [];
 
@@ -21,7 +24,7 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
     isLoad = true;
     setState(() {});
     UserService userService = UserService();
-    users = await userService.getAllUsers();
+    users = await userService.getAllUsers(districtId);
     isLoad = false;
     setState(() {});
   }
@@ -56,7 +59,10 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List response = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
+    final type = response[0];
+    districtId = response[1];
 
     if (!isCheck) {
       isCheck = true;
@@ -66,23 +72,28 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
     return Scaffold(
       body: isLoad
           ? Loading()
-          : Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: GridView.builder(
-                itemCount: users.length,
-                padding: EdgeInsets.symmetric(
-                    horizontal: _mediaQuery.width * 0.03,
-                    vertical: _mediaQuery.height * 0.02),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: _mediaQuery.width * 0.03,
-                    mainAxisSpacing: _mediaQuery.height * 0.02),
-                itemBuilder: (context, index) {
-                  return profileCard(context, users[index]);
-                },
-              ),
-            ),
+          : users.length == 0
+              ? CustomErrorWidget(
+                  title: tr("No users found"),
+                  iconData: Icons.supervised_user_circle_sharp,
+                )
+              : Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: GridView.builder(
+                    itemCount: users.length,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: _mediaQuery.width * 0.03,
+                        vertical: _mediaQuery.height * 0.02),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: _mediaQuery.width * 0.03,
+                        mainAxisSpacing: _mediaQuery.height * 0.02),
+                    itemBuilder: (context, index) {
+                      return profileCard(context, users[index]);
+                    },
+                  ),
+                ),
     );
   }
 }

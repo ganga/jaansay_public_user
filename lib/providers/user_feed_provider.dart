@@ -10,6 +10,7 @@ class UserFeedProvider with ChangeNotifier {
   List<Official> _followReqs = [];
   bool _isLoad = true;
   bool _loadMore = true;
+  int page = 1;
 
   List<Feed> get feeds {
     return [..._feeds];
@@ -54,9 +55,13 @@ class UserFeedProvider with ChangeNotifier {
   Future loadMoreFeeds(RefreshController _refreshController) async {
     if (_loadMore) {
       FeedService feedService = FeedService();
-      _feeds = feeds + await feedService.getMoreFeeds();
+      final response = await feedService.getMoreFeeds(page.toString());
+      _feeds += response[0];
+      _loadMore = response[1] == null ? false : true;
+      if (response[1] != null) {
+        page = response[1];
+      }
       _refreshController.loadComplete();
-      _loadMore = false;
     } else {
       _refreshController.loadNoData();
     }
