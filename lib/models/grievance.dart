@@ -1,91 +1,80 @@
-class Grievance {
-  Grievance({
-    this.grievanceId,
-    this.grievanceMessage,
-    this.statusId,
-    this.lattitude,
-    this.longitude,
-    this.updatedAt,
+class GrievanceMaster {
+  GrievanceMaster({
+    this.gmmId,
     this.officialsId,
     this.officialsName,
-    this.officialsDescription,
-    this.officialsEmail,
     this.officialsPhone,
-    this.officialsDesignation,
-    this.officialsAddress,
-    this.officialsWebsite,
-    this.businessHours,
     this.photo,
-    this.typeName,
-    this.businesstypeName,
-    this.media,
-    this.docId,
+    this.message,
   });
 
-  String grievanceId;
-  String grievanceMessage;
-  int statusId;
-  String lattitude;
-  String longitude;
-  String updatedAt;
+  int gmmId;
   int officialsId;
   String officialsName;
-  String officialsDescription;
-  String officialsEmail;
   String officialsPhone;
-  String officialsDesignation;
-  String officialsAddress;
-  String officialsWebsite;
-  String businessHours;
   String photo;
-  String typeName;
-  String businesstypeName;
-  dynamic media;
-  dynamic docId;
+  String message;
 
-  factory Grievance.fromJson(Map<String, dynamic> json) => Grievance(
-        grievanceId: json["grievance_id"],
-        grievanceMessage: json["grievance_message"],
-        statusId: json["status_id"],
-        lattitude: json["lattitude"],
-        longitude: json["longitude"],
-        updatedAt: json["updated_at"],
+  factory GrievanceMaster.fromJson(Map<String, dynamic> json) =>
+      GrievanceMaster(
+        gmmId: json["gmm_id"],
         officialsId: json["officials_id"],
         officialsName: json["officials_name"],
-        officialsDescription: json["officials_description"],
-        officialsEmail: json["officials_email"],
         officialsPhone: json["officials_phone"],
-        officialsDesignation: json["officials_designation"],
-        officialsAddress: json["officials_address"],
-        officialsWebsite: json["officials_website"],
-        businessHours: json["business_hours"],
         photo: json["photo"],
-        typeName: json["type_name"],
-        businesstypeName: json["businesstype_name"],
-        media: json["media"] == null ? [] : json['media'].toString().split(","),
-        docId: json["doc_id"],
+        message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "grievance_id": grievanceId,
-        "grievance_message": grievanceMessage,
-        "status_id": statusId,
-        "lattitude": lattitude,
-        "longitude": longitude,
-        "updated_at": updatedAt,
+        "gmm_id": gmmId,
         "officials_id": officialsId,
         "officials_name": officialsName,
-        "officials_description": officialsDescription,
-        "officials_email": officialsEmail,
         "officials_phone": officialsPhone,
-        "officials_designation": officialsDesignation,
-        "officials_address": officialsAddress,
-        "officials_website": officialsWebsite,
-        "business_hours": businessHours,
         "photo": photo,
-        "type_name": typeName,
-        "businesstype_name": businesstypeName,
-        "media": media,
-        "doc_id": docId,
+        "message": message,
+      };
+}
+
+class Grievance {
+  Grievance({
+    this.messageId,
+    this.gmmId,
+    this.message,
+    this.userId,
+    this.updatedAt,
+    this.userName,
+    this.photo,
+    this.officialsName,
+  });
+
+  int messageId;
+  int gmmId;
+  String message;
+  int userId;
+  DateTime updatedAt;
+  dynamic userName;
+  String photo;
+  String officialsName;
+
+  factory Grievance.fromJson(Map<String, dynamic> json) => Grievance(
+        messageId: json["message_id"],
+        gmmId: json["gmm_id"],
+        message: json["message"],
+        userId: json["user_id"],
+        updatedAt: DateTime.parse(json["updated_at"]),
+        userName: json["user_name"],
+        photo: json["photo"],
+        officialsName: json["officials_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "message_id": messageId,
+        "gmm_id": gmmId,
+        "message": message,
+        "user_id": userId,
+        "updated_at": updatedAt.toIso8601String(),
+        "user_name": userName,
+        "photo": photo,
+        "officials_name": officialsName,
       };
 }

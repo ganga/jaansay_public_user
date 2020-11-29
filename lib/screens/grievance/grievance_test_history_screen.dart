@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/models/grievance.dart';
-import 'package:jaansay_public_user/service/grievance_service.dart';
+import 'package:jaansay_public_user/models/grievance_test.dart';
+import 'package:jaansay_public_user/service/grievance_test_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
@@ -16,7 +16,7 @@ class GrievanceHistoryScreen extends StatefulWidget {
 }
 
 class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
-  List<Grievance> grievances = [];
+  List<GrievanceTest> grievances = [];
 
   bool isLoad = true;
   RefreshController _refreshController =
@@ -30,7 +30,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
     setState(() {});
   }
 
-  grievanceTile(BuildContext context, Grievance grievance) {
+  grievanceTile(BuildContext context, GrievanceTest grievance) {
     String status = grievance.statusId == 3
         ? "Acknowledged"
         : grievance.statusId == 2
