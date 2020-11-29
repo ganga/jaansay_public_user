@@ -1,0 +1,306 @@
+import 'dart:async';
+
+import 'package:bubble/bubble.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/models/message.dart';
+import 'package:jaansay_public_user/screens/survey/survey_screen.dart';
+import 'package:jaansay_public_user/service/message_service.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class MessageDetailScreen extends StatefulWidget {
+  @override
+  _MessageDetailScreenState createState() => _MessageDetailScreenState();
+}
+
+class _MessageDetailScreenState extends State<MessageDetailScreen> {
+  MessageMaster messageMaster;
+  List<Message> messages = [];
+  bool isCheck = false;
+  bool isLoad = true;
+  TextEditingController _messageController = TextEditingController();
+  MessageService messageService = MessageService();
+  ScrollController _scrollController = ScrollController();
+
+  getAllMessages() async {
+    await messageService.getAllMessages(
+        messages, messageMaster.mmId.toString());
+    messages = messages.reversed.toList();
+    isLoad = false;
+    setState(() {});
+  }
+
+  sendMessage() async {
+    if (_messageController.text != null &&
+        _messageController.text.trim().length > 0) {
+      String message = _messageController.text.trim();
+      GetStorage box = GetStorage();
+      final userId = box.read("user_id");
+      messages.insert(
+          0,
+          Message(
+              message: message,
+              isBroadcast: 0,
+              messageId: 0,
+              mmId: messageMaster.mmId,
+              surveyId: null,
+              updatedAt: DateTime.now(),
+              userId: userId));
+      _messageController.clear();
+      setState(() {});
+      await messageService.sendMessage(message, messageMaster);
+    }
+  }
+
+  appBar() {
+    return AppBar(
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+      backgroundColor: Colors.white,
+      titleSpacing: 0,
+      leadingWidth: 50,
+      title: Row(
+        children: [
+          Container(
+            height: 35,
+            width: 35,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: ClipOval(child: CustomNetWorkImage(messageMaster.photo)),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            "${messageMaster.officialsName}",
+            style: TextStyle(
+              color: Get.theme.primaryColor,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        InkWell(
+          borderRadius: BorderRadius.circular(15),
+          onTap: () async {
+            final url = "tel:${messageMaster.officialsPhone}";
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw 'Could not launch $url';
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
+            child: Icon(
+              Icons.call,
+              size: 28,
+              color: Get.theme.primaryColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    messageMaster = ModalRoute.of(context).settings.arguments;
+
+    if (!isCheck) {
+      isCheck = true;
+      getAllMessages();
+    }
+
+    return Scaffold(
+      backgroundColor: Colors.deepOrange.withOpacity(0.05),
+      appBar: appBar(),
+      body: isLoad
+          ? CustomLoading("Please wait")
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    itemCount: messages.length,
+                    reverse: true,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          if (index == messages.length - 1 ||
+                              messages[index]
+                                      .updatedAt
+                                      .difference(messages[index + 1].updatedAt)
+                                      .inDays >
+                                  0)
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: Color(0xffD6EAF8),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                "${DateFormat('d MMMM y').format(messages[index].updatedAt).toUpperCase()}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300, fontSize: 12),
+                              ),
+                            ),
+                          _MessageBubble(messages[index]),
+                          if (messages[index].surveyId != null)
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 16),
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  onPressed: () {
+                                    Get.close(2);
+                                    Get.to(SurveyScreen(), arguments: [
+                                      messages[index].messageId,
+                                      messages[index].surveyId
+                                    ]);
+                                  },
+                                  child: Text(
+                                    "Start Survey",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                _MessageField(_messageController, () => sendMessage())
+              ],
+            ),
+    );
+  }
+}
+
+class _MessageBubble extends StatelessWidget {
+  final Message message;
+
+  _MessageBubble(this.message);
+
+  final GetStorage box = GetStorage();
+
+  @override
+  Widget build(BuildContext context) {
+    bool isUser = message.userId == box.read("user_id");
+
+    return Bubble(
+      alignment: isUser ? Alignment.topRight : Alignment.topLeft,
+      color: message.surveyId != null
+          ? Theme.of(context).primaryColor
+          : Colors.white,
+      nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
+      elevation: 2,
+      margin: BubbleEdges.only(
+          top: 10, left: 10, bottom: message.surveyId != null ? 0 : 5),
+      child: Container(
+        constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.75,
+            minWidth: MediaQuery.of(context).size.width * 0.2),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 5, right: 40, top: 5, left: 5),
+              child: Text(
+                message.message,
+                style: TextStyle(
+                    color:
+                        message.surveyId != null ? Colors.white : Colors.black,
+                    fontSize: 16),
+                textAlign: TextAlign.start,
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Text(
+                DateFormat('HH:mm').format(message.updatedAt),
+                style: TextStyle(
+                    fontSize: 11,
+                    color:
+                        message.surveyId != null ? Colors.white : Colors.black),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MessageField extends StatelessWidget {
+  final TextEditingController _messageController;
+  final Function sendMessage;
+
+  _MessageField(this._messageController, this.sendMessage);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(60)),
+              child: TextField(
+                controller: _messageController,
+                decoration: InputDecoration.collapsed(
+                  hintText: "Enter a message",
+                ),
+                textCapitalization: TextCapitalization.sentences,
+                minLines: 1,
+                maxLines: 4,
+                maxLength: 500,
+                buildCounter: (BuildContext context,
+                        {int currentLength, int maxLength, bool isFocused}) =>
+                    null,
+              ),
+            ),
+          ),
+          Container(
+              height: 45,
+              width: 45,
+              margin: EdgeInsets.only(left: 8),
+              decoration: BoxDecoration(shape: BoxShape.circle),
+              child: ClipOval(
+                child: Material(
+                  color: Theme.of(context).primaryColor,
+                  child: InkWell(
+                    onTap: () {
+                      sendMessage();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 10, right: 7, top: 10, bottom: 10),
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+}

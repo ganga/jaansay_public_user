@@ -30,6 +30,10 @@ class UserFeedProvider with ChangeNotifier {
     FeedService feedService = FeedService();
     _feeds = await feedService.getLastTwoFeeds();
     _followReqs = await feedService.getFollowReqs();
+    if (feeds.length < 3) {
+      page = 1;
+      await loadMoreFeeds(_refreshController);
+    }
     _refreshController.refreshCompleted();
     _isLoad = false;
     _loadMore = true;

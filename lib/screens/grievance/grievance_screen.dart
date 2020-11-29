@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/screens/grievance/grievance_history_screen.dart';
-import 'package:jaansay_public_user/screens/grievance/grievance_send_screen.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/screens/grievance/grievance_history_screen.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/screens/grievance/grievance_send_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceScreen extends StatefulWidget {

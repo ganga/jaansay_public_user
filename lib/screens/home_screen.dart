@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/alert/alert_screen.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
-import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
+import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
@@ -26,14 +26,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PersistentTabController _controller;
 
-  Widget appBarIcon(IconData iconData, BuildContext context) {
+  Widget appBarIcon(
+      IconData iconData, BuildContext context, String tag, Widget screen) {
     return InkWell(
       borderRadius: BorderRadius.circular(15),
       onTap: () {
-        pushNewScreen(context, screen: SearchScreen(), withNavBar: false);
+        pushNewScreen(context, screen: screen, withNavBar: false);
       },
       child: Hero(
-        tag: "search_icon",
+        tag: tag,
         child: Container(
           margin: EdgeInsets.only(right: 10, left: 10),
           child: Icon(
@@ -65,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       centerTitle: true,
       actions: [
-        appBarIcon(Icons.search, context),
+        appBarIcon(Icons.search, context, 'search_icon', SearchScreen()),
+        appBarIcon(Icons.message, context, 'message_icon', MessageScreen()),
       ],
     );
   }

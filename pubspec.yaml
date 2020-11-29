@@ -63,6 +63,7 @@ dependencies:
   provider:
   geolocator:
   package_info:
+  bubble:
 
 dev_dependencies:
   flutter_test:
