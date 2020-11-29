@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
+import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
+import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
@@ -130,12 +133,16 @@ class OfficialsProfileHead extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(
-                      double.infinity,
-                      official.isFollow,
-                      "Requested",
-                      () => officialProfileProvider.followUser(
-                          official, feedProvider)),
+                  child: ProfileHeadButton(double.infinity, 0, "Message", () {
+                    pushNewScreenWithRouteSettings(
+                      context,
+                      screen: MessageDetailScreen(),
+                      withNavBar: false,
+                      settings: RouteSettings(
+                        arguments: [false, official],
+                      ),
+                    );
+                  }),
                 ),
                 SizedBox(
                   width: 10,
@@ -149,6 +156,15 @@ class OfficialsProfileHead extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(
+              height: _mediaQuery.height * 0.01,
+            ),
+            ProfileHeadButton(
+                double.infinity,
+                official.isFollow,
+                "Requested",
+                () =>
+                    officialProfileProvider.followUser(official, feedProvider)),
           ],
         ),
       ),

@@ -59,6 +59,33 @@ class MessageService {
     }
   }
 
+  Future<void> getAllMessagesUsingOfficialId(
+      List<Message> messages, String officialId) async {
+    try {
+      Dio dio = new Dio();
+      GetStorage box = GetStorage();
+
+      Response response = await dio.get(
+        "${ConnUtils.url}messages/allmessages/official/$officialId/user/${box.read("user_id")}",
+        options: Options(
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
+          },
+        ),
+      );
+      if (response.data['success']) {
+        response.data['data'].map((val) {
+          messages.add(Message.fromJson(val));
+        }).toList();
+        return;
+      } else {
+        return;
+      }
+    } catch (e) {
+      return;
+    }
+  }
+
   Future<bool> sendMessage(String message, MessageMaster messageMaster) async {
     try {
       Dio dio = new Dio();
@@ -70,6 +97,38 @@ class MessageService {
         data: {
           "message": message,
           "official_id": messageMaster.officialsId.toString(),
+          "user_id": userId.toString(),
+          "sender_id": userId.toString()
+        },
+        options: Options(
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
+          },
+        ),
+      );
+      if (response.data['success']) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> sendMessageUsingOfficialId(
+      String message, String officialId) async {
+    try {
+      Dio dio = new Dio();
+      GetStorage box = GetStorage();
+      final userId = box.read("user_id");
+
+      Response response = await dio.post(
+        "${ConnUtils.url}messages/addmessage",
+        data: {
+          "message": message,
+          "official_id": officialId.toString(),
           "user_id": userId.toString(),
           "sender_id": userId.toString()
         },

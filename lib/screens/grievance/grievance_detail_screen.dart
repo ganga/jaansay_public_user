@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
@@ -17,6 +18,7 @@ class GrievanceDetailScreen extends StatefulWidget {
 class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
   GrievanceMaster grievanceMaster;
   List<Grievance> grievances = [];
+  Official official;
   bool isCheck = false;
   bool isLoad = true;
   TextEditingController _messageController = TextEditingController();
@@ -24,8 +26,11 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
   ScrollController _scrollController = ScrollController();
 
   getAllGrievances() async {
-    await grievanceService.getAllGrievances(
-        grievances, grievanceMaster.gmmId.toString());
+    grievanceMaster != null
+        ? await grievanceService.getAllGrievances(
+            grievances, grievanceMaster.gmmId.toString())
+        : await grievanceService.getAllGrievancesUsingOfficialId(
+            grievances, official.officialsId.toString());
     grievances = grievances.reversed.toList();
     isLoad = false;
     setState(() {});
@@ -42,13 +47,16 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
         Grievance(
             message: message,
             messageId: 0,
-            gmmId: grievanceMaster.gmmId,
+            gmmId: grievanceMaster == null ? 0 : grievanceMaster.gmmId,
             updatedAt: DateTime.now(),
             userId: userId),
       );
       _messageController.clear();
       setState(() {});
-      await grievanceService.sendMessage(message, grievanceMaster);
+      grievanceMaster == null
+          ? await grievanceService.sendMessageUsingOfficialId(
+              message, official.officialsId.toString())
+          : await grievanceService.sendMessage(message, grievanceMaster);
     }
   }
 
@@ -66,13 +74,16 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: ClipOval(child: CustomNetWorkImage(grievanceMaster.photo)),
+            child: ClipOval(
+                child: CustomNetWorkImage(grievanceMaster == null
+                    ? official.photo
+                    : grievanceMaster.photo)),
           ),
           SizedBox(
             width: 10,
           ),
           Text(
-            "${grievanceMaster.officialsName}",
+            "${grievanceMaster == null ? official.officialsName : grievanceMaster.officialsName}",
             style: TextStyle(
               color: Get.theme.primaryColor,
             ),
@@ -83,7 +94,8 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
         InkWell(
           borderRadius: BorderRadius.circular(15),
           onTap: () async {
-            final url = "tel:${grievanceMaster.officialsPhone}";
+            final url =
+                "tel:${grievanceMaster == null ? official.officialsPhone : grievanceMaster.officialsPhone}";
             if (await canLaunch(url)) {
               await launch(url);
             } else {
@@ -105,8 +117,13 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    grievanceMaster = ModalRoute.of(context).settings.arguments;
+    List response = ModalRoute.of(context).settings.arguments;
 
+    if (response[0]) {
+      grievanceMaster = response[1];
+    } else {
+      official = response[1];
+    }
     if (!isCheck) {
       isCheck = true;
       getAllGrievances();

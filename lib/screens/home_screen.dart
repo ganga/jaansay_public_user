@@ -55,13 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: () {
           Get.to(AboutScreen());
         },
-        child: Hero(
-          tag: "mainlogo",
-          child: Image.asset(
-            "assets/images/logo.png",
-            fit: BoxFit.contain,
-            height: 32,
-          ),
+        child: Image.asset(
+          "assets/images/logo.png",
+          fit: BoxFit.contain,
+          height: 32,
         ),
       ),
       centerTitle: true,

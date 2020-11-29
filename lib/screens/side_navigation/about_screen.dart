@@ -23,13 +23,10 @@ class AboutScreen extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: Hero(
-              tag: "mainlogo",
-              child: Image.asset(
-                "assets/images/logo.png",
-                height: Get.width * 0.3,
-                width: Get.width * 0.3,
-              ),
+            child: Image.asset(
+              "assets/images/logo.png",
+              height: Get.width * 0.3,
+              width: Get.width * 0.3,
             ),
           ),
           Padding(

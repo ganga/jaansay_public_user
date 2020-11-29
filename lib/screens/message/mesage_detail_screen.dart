@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/message.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/survey/survey_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
@@ -21,6 +22,7 @@ class MessageDetailScreen extends StatefulWidget {
 class _MessageDetailScreenState extends State<MessageDetailScreen> {
   MessageMaster messageMaster;
   List<Message> messages = [];
+  Official official;
   bool isCheck = false;
   bool isLoad = true;
   TextEditingController _messageController = TextEditingController();
@@ -28,8 +30,11 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   ScrollController _scrollController = ScrollController();
 
   getAllMessages() async {
-    await messageService.getAllMessages(
-        messages, messageMaster.mmId.toString());
+    messageMaster != null
+        ? await messageService.getAllMessages(
+            messages, messageMaster.mmId.toString())
+        : await messageService.getAllMessagesUsingOfficialId(
+            messages, official.officialsId.toString());
     messages = messages.reversed.toList();
     isLoad = false;
     setState(() {});
@@ -42,18 +47,22 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       GetStorage box = GetStorage();
       final userId = box.read("user_id");
       messages.insert(
-          0,
-          Message(
-              message: message,
-              isBroadcast: 0,
-              messageId: 0,
-              mmId: messageMaster.mmId,
-              surveyId: null,
-              updatedAt: DateTime.now(),
-              userId: userId));
+        0,
+        Message(
+            message: message,
+            isBroadcast: 0,
+            messageId: 0,
+            mmId: messageMaster == null ? 0 : messageMaster.mmId,
+            surveyId: null,
+            updatedAt: DateTime.now(),
+            userId: userId),
+      );
       _messageController.clear();
       setState(() {});
-      await messageService.sendMessage(message, messageMaster);
+      messageMaster != null
+          ? await messageService.sendMessage(message, messageMaster)
+          : await messageService.sendMessageUsingOfficialId(
+              message, official.officialsId.toString());
     }
   }
 
@@ -71,13 +80,16 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: ClipOval(child: CustomNetWorkImage(messageMaster.photo)),
+            child: ClipOval(
+                child: CustomNetWorkImage(messageMaster == null
+                    ? official.photo
+                    : messageMaster.photo)),
           ),
           SizedBox(
             width: 10,
           ),
           Text(
-            "${messageMaster.officialsName}",
+            "${messageMaster == null ? official.officialsName : messageMaster.officialsName}",
             style: TextStyle(
               color: Get.theme.primaryColor,
             ),
@@ -88,7 +100,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
         InkWell(
           borderRadius: BorderRadius.circular(15),
           onTap: () async {
-            final url = "tel:${messageMaster.officialsPhone}";
+            final url =
+                "tel:${messageMaster == null ? official.officialsPhone : messageMaster.officialsPhone}";
             if (await canLaunch(url)) {
               await launch(url);
             } else {
@@ -110,7 +123,13 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    messageMaster = ModalRoute.of(context).settings.arguments;
+    List response = ModalRoute.of(context).settings.arguments;
+
+    if (response[0]) {
+      messageMaster = response[1];
+    } else {
+      official = response[1];
+    }
 
     if (!isCheck) {
       isCheck = true;

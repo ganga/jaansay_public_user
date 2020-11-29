@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/screens/grievance/grievance_test_send_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
@@ -75,9 +76,9 @@ class _ContactScreenState extends State<ContactScreen> {
           }),
           contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert, () {
             pushNewScreenWithRouteSettings(context,
-                screen: GrievanceSendScreen(),
-                settings: RouteSettings(arguments: official),
-                withNavBar: true);
+                screen: GrievanceDetailScreen(),
+                settings: RouteSettings(arguments: [false, official]),
+                withNavBar: false);
           }),
           contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {
             Share.share(

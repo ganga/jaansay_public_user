@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GrievanceScreen extends StatefulWidget {
   @override
@@ -17,10 +18,15 @@ class GrievanceScreen extends StatefulWidget {
 class _GrievanceScreenState extends State<GrievanceScreen> {
   bool isLoad = true;
   List<GrievanceMaster> _grievanceMasters = [];
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   getMessageMasters() async {
+    _grievanceMasters.clear();
     GrievanceService grievanceService = GrievanceService();
     await grievanceService.getGrievanceMasters(_grievanceMasters);
+    _refreshController.refreshCompleted();
+
     _grievanceMasters.removeWhere((element) {
       return element.message == null;
     });
@@ -47,12 +53,18 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
                     iconData: MdiIcons.messageAlertOutline,
                     title: "No messages found",
                   )
-                : ListView.builder(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    itemCount: _grievanceMasters.length,
-                    itemBuilder: (context, index) {
-                      return _MessageTile(_grievanceMasters[index]);
-                    },
+                : SmartRefresher(
+                    enablePullDown: true,
+                    header: ClassicHeader(),
+                    onRefresh: () => getMessageMasters(),
+                    controller: _refreshController,
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      itemCount: _grievanceMasters.length,
+                      itemBuilder: (context, index) {
+                        return _MessageTile(_grievanceMasters[index]);
+                      },
+                    ),
                   ),
       ),
     );
@@ -71,7 +83,9 @@ class _MessageTile extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Get.to(GrievanceDetailScreen(), arguments: grievanceMaster);
+            Get.to(GrievanceDetailScreen(),
+                arguments: [true, grievanceMaster],
+                transition: Transition.rightToLeft);
           },
           child: Container(
             padding: EdgeInsets.only(

@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserMessageScreen extends StatefulWidget {
   @override
@@ -17,13 +18,17 @@ class UserMessageScreen extends StatefulWidget {
 class _UserMessageScreenState extends State<UserMessageScreen> {
   bool isLoad = true;
   List<MessageMaster> _messageMasters = [];
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   getMessageMasters() async {
+    _messageMasters.clear();
     MessageService messageService = MessageService();
     await messageService.getMessageMasters(_messageMasters);
     _messageMasters.removeWhere((element) {
       return element.message == null;
     });
+    _refreshController.refreshCompleted();
     isLoad = false;
     setState(() {});
   }
@@ -47,12 +52,18 @@ class _UserMessageScreenState extends State<UserMessageScreen> {
                     iconData: MdiIcons.messageAlertOutline,
                     title: "No messages found",
                   )
-                : ListView.builder(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    itemCount: _messageMasters.length,
-                    itemBuilder: (context, index) {
-                      return _MessageTile(_messageMasters[index]);
-                    },
+                : SmartRefresher(
+                    enablePullDown: true,
+                    header: ClassicHeader(),
+                    onRefresh: () => getMessageMasters(),
+                    controller: _refreshController,
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      itemCount: _messageMasters.length,
+                      itemBuilder: (context, index) {
+                        return _MessageTile(_messageMasters[index]);
+                      },
+                    ),
                   ),
       ),
     );
@@ -71,7 +82,9 @@ class _MessageTile extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Get.to(MessageDetailScreen(), arguments: messageMaster);
+            Get.to(MessageDetailScreen(),
+                arguments: [true, messageMaster],
+                transition: Transition.rightToLeft);
           },
           child: Container(
             padding: EdgeInsets.only(
