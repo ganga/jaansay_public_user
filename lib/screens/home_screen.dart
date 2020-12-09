@@ -7,7 +7,9 @@ import 'package:jaansay_public_user/screens/community/community_detail_screen.da
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
+import 'package:jaansay_public_user/screens/misc/vocal_home_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
+import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       FeedList(),
       CommunityDetailsScreen(),
       GrievanceScreen(),
-      AlertScreen(),
+      VocalHomeScreen(),
     ];
   }
 
@@ -99,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
         inactiveColor: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.add_alert),
-        title: tr("Alert"),
+        icon: Icon(Icons.record_voice_over),
+        title: tr("Vocal for Local"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),

@@ -137,49 +137,72 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                     SizedBox(
                       height: _mediaQuery.height * 0.03,
                     ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(5),
+                    //       color: Colors.white,
+                    //       border: Border.all(
+                    //           color: Theme.of(context).primaryColor)),
+                    //   child: DropdownButton<String>(
+                    //     isExpanded: true,
+                    //     underline: Container(),
+                    //     value: selectedDistrict,
+                    //     selectedItemBuilder: (BuildContext context) {
+                    //       return districts.map<Widget>((String item) {
+                    //         return Container(
+                    //             alignment: Alignment.center,
+                    //             child: AutoSizeText(
+                    //               item,
+                    //               style: TextStyle(
+                    //                 fontSize: 22,
+                    //                 fontWeight: FontWeight.w600,
+                    //               ),
+                    //               maxLines: 1,
+                    //             ));
+                    //       }).toList();
+                    //     },
+                    //     items: districts.map((String value) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: value,
+                    //         child: Text(
+                    //           value,
+                    //           style: TextStyle(
+                    //             fontSize: 18,
+                    //             fontWeight: FontWeight.w500,
+                    //           ),
+                    //           textAlign: TextAlign.center,
+                    //         ),
+                    //       );
+                    //     }).toList(),
+                    //     iconSize: 40,
+                    //     onChanged: (val) {
+                    //       selectedDistrict = val;
+                    //       getDistrictData();
+                    //     },
+                    //   ),
+                    // ),
                     Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor)),
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        underline: Container(),
-                        value: selectedDistrict,
-                        selectedItemBuilder: (BuildContext context) {
-                          return districts.map<Widget>((String item) {
-                            return Container(
-                                alignment: Alignment.center,
-                                child: AutoSizeText(
-                                  item,
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  maxLines: 1,
-                                ));
-                          }).toList();
-                        },
-                        items: districts.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                        }).toList(),
-                        iconSize: 40,
-                        onChanged: (val) {
-                          selectedDistrict = val;
-                          getDistrictData();
-                        },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            "Udupi",
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(

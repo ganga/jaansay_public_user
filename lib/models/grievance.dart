@@ -1,6 +1,6 @@
 class GrievanceMaster {
   GrievanceMaster({
-    this.gmmId,
+    this.mmId,
     this.officialsId,
     this.officialsName,
     this.officialsPhone,
@@ -8,7 +8,7 @@ class GrievanceMaster {
     this.message,
   });
 
-  int gmmId;
+  int mmId;
   int officialsId;
   String officialsName;
   String officialsPhone;
@@ -17,64 +17,59 @@ class GrievanceMaster {
 
   factory GrievanceMaster.fromJson(Map<String, dynamic> json) =>
       GrievanceMaster(
-        gmmId: json["gmm_id"],
-        officialsId: json["officials_id"],
-        officialsName: json["officials_name"],
-        officialsPhone: json["officials_phone"],
-        photo: json["photo"],
-        message: json["message"],
-      );
+          mmId: json["mm_id"],
+          officialsId: json["officials_id"],
+          officialsName: json["officials_name"],
+          officialsPhone: json["officials_phone"],
+          photo: json["photo"],
+          message: json['message']);
 
   Map<String, dynamic> toJson() => {
-        "gmm_id": gmmId,
+        "mm_id": mmId,
         "officials_id": officialsId,
         "officials_name": officialsName,
         "officials_phone": officialsPhone,
         "photo": photo,
-        "message": message,
+        'message': message,
       };
 }
 
 class Grievance {
   Grievance({
     this.messageId,
-    this.gmmId,
+    this.mmId,
     this.message,
     this.userId,
     this.updatedAt,
-    this.userName,
-    this.photo,
-    this.officialsName,
+    this.surveyId,
+    this.type,
   });
 
   int messageId;
-  int gmmId;
+  int mmId;
   String message;
   int userId;
   DateTime updatedAt;
-  dynamic userName;
-  String photo;
-  String officialsName;
+  int surveyId;
+  int type;
 
   factory Grievance.fromJson(Map<String, dynamic> json) => Grievance(
         messageId: json["message_id"],
-        gmmId: json["gmm_id"],
+        mmId: json["mm_id"],
         message: json["message"],
         userId: json["user_id"],
         updatedAt: DateTime.parse(json["updated_at"]),
-        userName: json["user_name"],
-        photo: json["photo"],
-        officialsName: json["officials_name"],
+        surveyId: json["survey_id"] == null ? null : json["survey_id"],
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
         "message_id": messageId,
-        "gmm_id": gmmId,
+        "mm_id": mmId,
         "message": message,
         "user_id": userId,
         "updated_at": updatedAt.toIso8601String(),
-        "user_name": userName,
-        "photo": photo,
-        "officials_name": officialsName,
+        "survey_id": surveyId == null ? null : surveyId,
+        "type": type,
       };
 }

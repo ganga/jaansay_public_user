@@ -76,7 +76,7 @@ class OfficialService {
         options: Options(
             headers: {HttpHeaders.authorizationHeader: "Bearer ${token}"}),
       );
-
+      print(response.data);
       if (response.data['success']) {
         if (response.data['data'] != null) {
           response.data['data'].map((val) {
@@ -124,5 +124,28 @@ class OfficialService {
     }
 
     return officials;
+  }
+
+  Future<Official> getOfficialById(String officialId) async {
+    GetStorage box = GetStorage();
+
+    Official official;
+    Dio dio = Dio();
+
+    final response = await dio.get(
+      "${ConnUtils.url}officials/${box.read('user_id')}/$officialId",
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}"
+        },
+      ),
+    );
+
+    print(response.data);
+    if (response.data['success']) {
+      official = Official.fromJson(response.data['data']);
+    }
+
+    return official;
   }
 }

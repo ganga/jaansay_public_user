@@ -19,7 +19,7 @@ class ReviewAddCard extends StatefulWidget {
 class _ReviewAddCardState extends State<ReviewAddCard> {
   TextEditingController controller = TextEditingController();
   GetStorage box = GetStorage();
-  String rating = "1";
+  String rating = "5";
   bool isLoad = false;
 
   addReview() async {

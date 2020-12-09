@@ -1,11 +1,12 @@
 class MessageMaster {
-  MessageMaster(
-      {this.mmId,
-      this.officialsId,
-      this.officialsName,
-      this.officialsPhone,
-      this.photo,
-      this.message});
+  MessageMaster({
+    this.mmId,
+    this.officialsId,
+    this.officialsName,
+    this.officialsPhone,
+    this.photo,
+    this.message,
+  });
 
   int mmId;
   int officialsId;
@@ -28,7 +29,7 @@ class MessageMaster {
         "officials_name": officialsName,
         "officials_phone": officialsPhone,
         "photo": photo,
-        'message': message
+        'message': message,
       };
 }
 
@@ -40,7 +41,7 @@ class Message {
     this.userId,
     this.updatedAt,
     this.surveyId,
-    this.isBroadcast,
+    this.type,
   });
 
   int messageId;
@@ -49,7 +50,7 @@ class Message {
   int userId;
   DateTime updatedAt;
   int surveyId;
-  int isBroadcast;
+  int type;
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
         messageId: json["message_id"],
@@ -58,7 +59,7 @@ class Message {
         userId: json["user_id"],
         updatedAt: DateTime.parse(json["updated_at"]),
         surveyId: json["survey_id"] == null ? null : json["survey_id"],
-        isBroadcast: json["is_broadcast"],
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -68,6 +69,6 @@ class Message {
         "user_id": userId,
         "updated_at": updatedAt.toIso8601String(),
         "survey_id": surveyId == null ? null : surveyId,
-        "is_broadcast": isBroadcast,
+        "type": type,
       };
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 
@@ -15,7 +17,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   List<Review> reviews = [];
   Review userReview;
   bool isCheck = false;
-  String officialId = "";
+  Official official;
 
   getData() async {
     isLoad = true;
@@ -23,7 +25,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     reviews.clear();
     userReview = null;
     OfficialService officialService = OfficialService();
-    final List response = await officialService.getOfficialRatings(officialId);
+    final List response = await officialService
+        .getOfficialRatings(official.officialsId.toString());
     userReview = response[0];
     reviews = response[1];
     isLoad = false;
@@ -34,23 +37,31 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Widget build(BuildContext context) {
     if (!isCheck) {
       isCheck = true;
-      officialId = ModalRoute.of(context).settings.arguments;
+      official = ModalRoute.of(context).settings.arguments;
       getData();
     }
 
     return Scaffold(
       body: isLoad
           ? Loading()
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return index == 0
-                    ? userReview == null
-                        ? ReviewAddCard(officialId, getData)
-                        : ReviewCard(userReview)
-                    : ReviewCard(reviews[index - 1]);
-              },
-              itemCount: reviews.length + 1,
-            ),
+          : reviews.length == 0 && official.isFollow != 1
+              ? CustomErrorWidget(
+                  title: "No reviews",
+                  iconData: Icons.not_interested,
+                )
+              : ListView.builder(
+                  itemBuilder: (context, index) {
+                    return index == 0
+                        ? userReview == null
+                            ? official.isFollow != 1
+                                ? SizedBox.shrink()
+                                : ReviewAddCard(
+                                    official.officialsId.toString(), getData)
+                            : ReviewCard(userReview)
+                        : ReviewCard(reviews[index - 1]);
+                  },
+                  itemCount: reviews.length + 1,
+                ),
     );
   }
 }

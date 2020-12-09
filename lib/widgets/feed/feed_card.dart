@@ -54,20 +54,17 @@ class FeedCard extends StatelessWidget {
         : SizedBox(
             height: 250.0,
             width: width,
-            child: Hero(
-              tag: "${feed.feedId}",
-              child: Carousel(
-                images: feed.media.map((e) {
-                  return _getImg(e, context);
-                }).toList(),
-                dotSize: 4.0,
-                dotSpacing: 15.0,
-                dotColor: Get.theme.accentColor,
-                indicatorBgPadding: 5.0,
-                dotBgColor: Colors.transparent,
-                borderRadius: false,
-                autoplay: false,
-              ),
+            child: Carousel(
+              images: feed.media.map((e) {
+                return _getImg(e, context);
+              }).toList(),
+              dotSize: 4.0,
+              dotSpacing: 15.0,
+              dotColor: Get.theme.accentColor,
+              indicatorBgPadding: 5.0,
+              dotBgColor: Colors.transparent,
+              borderRadius: false,
+              autoplay: false,
             ));
   }
 

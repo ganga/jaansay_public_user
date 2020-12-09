@@ -50,12 +50,12 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
         0,
         Message(
             message: message,
-            isBroadcast: 0,
             messageId: 0,
             mmId: messageMaster == null ? 0 : messageMaster.mmId,
             surveyId: null,
             updatedAt: DateTime.now(),
-            userId: userId),
+            userId: userId,
+            type: 0),
       );
       _messageController.clear();
       setState(() {});
@@ -153,11 +153,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                       return Column(
                         children: [
                           if (index == messages.length - 1 ||
-                              messages[index]
-                                      .updatedAt
-                                      .difference(messages[index + 1].updatedAt)
-                                      .inDays >
-                                  0)
+                              messages[index].updatedAt.day !=
+                                  messages[index + 1].updatedAt.day)
                             Container(
                               margin: EdgeInsets.symmetric(vertical: 8),
                               padding: EdgeInsets.symmetric(

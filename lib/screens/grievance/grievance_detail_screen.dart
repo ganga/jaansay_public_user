@@ -28,7 +28,7 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
   getAllGrievances() async {
     grievanceMaster != null
         ? await grievanceService.getAllGrievances(
-            grievances, grievanceMaster.gmmId.toString())
+            grievances, grievanceMaster.mmId.toString())
         : await grievanceService.getAllGrievancesUsingOfficialId(
             grievances, official.officialsId.toString());
     grievances = grievances.reversed.toList();
@@ -47,9 +47,10 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
         Grievance(
             message: message,
             messageId: 0,
-            gmmId: grievanceMaster == null ? 0 : grievanceMaster.gmmId,
+            mmId: grievanceMaster == null ? 0 : grievanceMaster.mmId,
             updatedAt: DateTime.now(),
-            userId: userId),
+            userId: userId,
+            type: 3),
       );
       _messageController.clear();
       setState(() {});

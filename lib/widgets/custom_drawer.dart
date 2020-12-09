@@ -114,17 +114,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
         drawerItem("Feedback", Icons.feedback, () {
           Get.close(1);
 
-          Get.to(FeedbackScreen());
+          Get.to(FeedbackScreen(), transition: Transition.leftToRight);
         }, 1),
         drawerItem("Vocal For Local", Icons.record_voice_over, () {
           Get.close(1);
 
-          Get.to(VocalLocalScreen());
+          Get.to(VocalLocalScreen(), transition: Transition.leftToRight);
         }, 2),
         drawerItem("Language", Icons.language, () {
           Get.close(1);
 
-          Get.to(SelectLanguageScreen());
+          Get.to(SelectLanguageScreen(), transition: Transition.leftToRight);
         }, 3),
         drawerItem("Share", MdiIcons.share, () {
           Get.close(1);
@@ -136,7 +136,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         drawerItem("About", MdiIcons.information, () {
           Get.close(1);
 
-          Get.to(AboutScreen());
+          Get.to(AboutScreen(), transition: Transition.leftToRight);
         }, 5),
       ],
     );

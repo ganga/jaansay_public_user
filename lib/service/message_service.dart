@@ -13,7 +13,7 @@ class MessageService {
       final userId = box.read("user_id");
 
       Response response = await dio.get(
-        "${ConnUtils.url}messages/users/$userId",
+        "${ConnUtils.url}messages/users/$userId/type/0",
         options: Options(
           headers: {
             HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
@@ -39,7 +39,7 @@ class MessageService {
       GetStorage box = GetStorage();
 
       Response response = await dio.get(
-        "${ConnUtils.url}messages/allmessages/$messageId",
+        "${ConnUtils.url}messages/allmessages/grievance/$messageId/type/0",
         options: Options(
           headers: {
             HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
@@ -66,7 +66,7 @@ class MessageService {
       GetStorage box = GetStorage();
 
       Response response = await dio.get(
-        "${ConnUtils.url}messages/allmessages/official/$officialId/user/${box.read("user_id")}",
+        "${ConnUtils.url}messages/allmessages/official/$officialId/user/${box.read("user_id")}/type/1",
         options: Options(
           headers: {
             HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
@@ -98,7 +98,8 @@ class MessageService {
           "message": message,
           "official_id": messageMaster.officialsId.toString(),
           "user_id": userId.toString(),
-          "sender_id": userId.toString()
+          "sender_id": userId.toString(),
+          "type": "0"
         },
         options: Options(
           headers: {
@@ -130,7 +131,8 @@ class MessageService {
           "message": message,
           "official_id": officialId.toString(),
           "user_id": userId.toString(),
-          "sender_id": userId.toString()
+          "sender_id": userId.toString(),
+          "type": "0"
         },
         options: Options(
           headers: {

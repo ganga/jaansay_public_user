@@ -61,7 +61,7 @@ class ReviewCard extends StatelessWidget {
                   SizedBox(
                     height: 2,
                   ),
-                  Text("${review.ratingMessage}"),
+                  Text("${review.ratingMessage ?? ''}"),
                   SizedBox(
                     height: _mediaQuery.height * 0.02,
                   ),

@@ -17,7 +17,8 @@ class Official {
       this.typeName,
       this.businesstypeName,
       this.isFollow,
-      this.isRating});
+      this.isRating,
+      this.isPrivate});
 
   int officialsId;
   String officialsName;
@@ -37,6 +38,7 @@ class Official {
   String businesstypeName;
   dynamic isFollow;
   int isRating;
+  int isPrivate;
 
   factory Official.fromJson(Map<String, dynamic> json) => Official(
       officialsId: json["officials_id"],
@@ -58,7 +60,8 @@ class Official {
       typeName: json["type_name"],
       businesstypeName: json["businesstype_name"],
       isFollow: json["is_follow"],
-      isRating: json["is_rating"]);
+      isRating: json["is_rating"],
+      isPrivate: json['is_private']);
 
   Map<String, dynamic> toJson() => {
         "officials_id": officialsId,
@@ -79,5 +82,6 @@ class Official {
         "businesstype_name": businesstypeName,
         "is_follow": isFollow,
         "is_rating": isRating,
+        "is_private": isPrivate
       };
 }

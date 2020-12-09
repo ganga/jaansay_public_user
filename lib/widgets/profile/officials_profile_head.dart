@@ -68,7 +68,7 @@ class OfficialsProfileHead extends StatelessWidget {
                               screen: ReviewScreen(),
                               withNavBar: true,
                               settings: RouteSettings(
-                                arguments: official.officialsId.toString(),
+                                arguments: official,
                               ));
                         },
                         child: Row(
@@ -114,7 +114,7 @@ class OfficialsProfileHead extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: _mediaQuery.height * 0.01,
+              height: _mediaQuery.height * 0.015,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,7 +125,7 @@ class OfficialsProfileHead extends StatelessWidget {
                         screen: ReviewScreen(),
                         withNavBar: true,
                         settings: RouteSettings(
-                          arguments: official.officialsId.toString(),
+                          arguments: official,
                         ));
                   }),
                 ),
@@ -156,15 +156,20 @@ class OfficialsProfileHead extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: _mediaQuery.height * 0.01,
-            ),
-            ProfileHeadButton(
-                double.infinity,
-                official.isFollow,
-                "Requested",
-                () =>
-                    officialProfileProvider.followUser(official, feedProvider)),
+            if (official.typeName != "Association")
+              Column(
+                children: [
+                  SizedBox(
+                    height: _mediaQuery.height * 0.01,
+                  ),
+                  ProfileHeadButton(
+                      double.infinity,
+                      official.isFollow,
+                      "Requested",
+                      () => officialProfileProvider.followUser(
+                          official, feedProvider)),
+                ],
+              ),
           ],
         ),
       ),
