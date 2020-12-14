@@ -99,7 +99,8 @@ class MessageService {
           "official_id": messageMaster.officialsId.toString(),
           "user_id": userId.toString(),
           "sender_id": userId.toString(),
-          "type": "0"
+          "type": "0",
+          "message_type": "0"
         },
         options: Options(
           headers: {
@@ -132,7 +133,8 @@ class MessageService {
           "official_id": officialId.toString(),
           "user_id": userId.toString(),
           "sender_id": userId.toString(),
-          "type": "0"
+          "type": "0",
+          "message_type": "0"
         },
         options: Options(
           headers: {

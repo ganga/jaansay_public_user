@@ -100,7 +100,8 @@ class GrievanceService {
           "official_id": grievanceMaster.officialsId.toString(),
           "user_id": userId.toString(),
           "sender_id": userId.toString(),
-          "type": "3"
+          "type": "3",
+          "message_type": "0"
         },
         options: Options(
           headers: {
@@ -133,7 +134,8 @@ class GrievanceService {
           "official_id": officialId.toString(),
           "user_id": userId.toString(),
           "sender_id": userId.toString(),
-          "type": "3"
+          "type": "3",
+          "message_type": "0"
         },
         options: Options(
           headers: {

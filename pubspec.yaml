@@ -64,6 +64,7 @@ dependencies:
   geolocator:
   package_info:
   bubble:
+  chewie:
 
 dev_dependencies:
   flutter_test:

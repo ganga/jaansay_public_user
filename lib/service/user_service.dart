@@ -36,6 +36,7 @@ class UserService {
 
   GetStorage box = GetStorage();
   Dio dio = Dio();
+
   Future<void> addReview(
       String officialId, String rating, String message) async {
     Response response = await dio.post("${ConnUtils.url}ratings",
@@ -54,25 +55,46 @@ class UserService {
   }
 
   Future<void> updateUser(File photo) async {
+    // String fileName = box.read("user_name").toString() +
+    //     box.read("user_phone").toString() +
+    //     ".jpg";
+    // fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
+    // box.write("photo", "${ConnUtils.photoUrl}$fileName");
+    // Response response =
+    //     await dio.patch("${ConnUtils.url}publicusers/profilephoto",
+    //         data: {
+    //           "user_id": "${box.read("user_id")}",
+    //           "photo": {
+    //             "file_name": "$fileName",
+    //             "file": base64Encode(
+    //               photo.readAsBytesSync(),
+    //             ),
+    //           }
+    //         },
+    //         options: Options(headers: {
+    //           HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
+    //         }));
+    // return;
     String fileName = box.read("user_name").toString() +
         box.read("user_phone").toString() +
         ".jpg";
     fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
     box.write("photo", "${ConnUtils.photoUrl}$fileName");
-    Response response =
-        await dio.patch("${ConnUtils.url}publicusers/profilephoto",
-            data: {
-              "user_id": "${box.read("user_id")}",
-              "photo": {
-                "file_name": "$fileName",
-                "file": base64Encode(
-                  photo.readAsBytesSync(),
-                ),
-              }
-            },
+
+    final formData = FormData.fromMap({
+      "user_id": "${box.read("user_id")}",
+      "media": await MultipartFile.fromFile(photo.path, filename: fileName),
+    });
+    final response = await dio
+        .patch("${ConnUtils.url}publicusers/profilephoto",
+            data: formData,
             options: Options(headers: {
               HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
-            }));
+            }))
+        .catchError((e) {
+      print(e.toString());
+    });
+    print(response.data);
     return;
   }
 

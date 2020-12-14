@@ -51,7 +51,7 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
             : _grievanceMasters.length == 0
                 ? CustomErrorWidget(
                     iconData: MdiIcons.messageAlertOutline,
-                    title: "No messages found",
+                    title: "No grievances found",
                   )
                 : SmartRefresher(
                     enablePullDown: true,

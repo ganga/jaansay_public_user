@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bubble/bubble.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,11 +9,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/message/message_media_screen.dart';
 import 'package:jaansay_public_user/screens/survey/survey_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   @override
@@ -31,8 +34,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
   getAllMessages() async {
     messageMaster != null
-        ? await messageService.getAllMessages(
-            messages, messageMaster.mmId.toString())
+        ? await messageService.getAllMessagesUsingOfficialId(
+            messages, messageMaster.officialsId.toString())
         : await messageService.getAllMessagesUsingOfficialId(
             messages, official.officialsId.toString());
     messages = messages.reversed.toList();
@@ -49,13 +52,15 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       messages.insert(
         0,
         Message(
-            message: message,
-            messageId: 0,
-            mmId: messageMaster == null ? 0 : messageMaster.mmId,
-            surveyId: null,
-            updatedAt: DateTime.now(),
-            userId: userId,
-            type: 0),
+          message: message,
+          messageId: 0,
+          mmId: messageMaster == null ? 0 : messageMaster.mmId,
+          surveyId: null,
+          updatedAt: DateTime.now(),
+          userId: userId,
+          type: 0,
+          messageType: 0,
+        ),
       );
       _messageController.clear();
       setState(() {});
@@ -168,7 +173,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                     fontWeight: FontWeight.w300, fontSize: 12),
                               ),
                             ),
-                          _MessageBubble(messages[index]),
+                          _MessageBubble(
+                              messages[index], messageMaster, official),
                           if (messages[index].surveyId != null)
                             Align(
                               alignment: Alignment.centerLeft,
@@ -204,55 +210,146 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   }
 }
 
-class _MessageBubble extends StatelessWidget {
+class _MessageBubble extends StatefulWidget {
   final Message message;
+  final MessageMaster messageMaster;
+  final Official official;
 
-  _MessageBubble(this.message);
+  _MessageBubble(this.message, this.messageMaster, this.official);
 
+  @override
+  __MessageBubbleState createState() => __MessageBubbleState();
+}
+
+class __MessageBubbleState extends State<_MessageBubble> {
   final GetStorage box = GetStorage();
+
+  VideoPlayerController _controller;
+  bool isUser;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isUser = widget.message.userId == box.read("user_id");
+    if (widget.message.messageType == 2) {
+      _controller = VideoPlayerController.network(
+        widget.message.message,
+      )..initialize().then((_) {
+          _controller.pause();
+          setState(() {});
+        });
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (_controller != null) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool isUser = message.userId == box.read("user_id");
-
-    return Bubble(
-      alignment: isUser ? Alignment.topRight : Alignment.topLeft,
-      color: message.surveyId != null
-          ? Theme.of(context).primaryColor
-          : Colors.white,
-      nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
-      elevation: 2,
-      margin: BubbleEdges.only(
-          top: 10, left: 10, bottom: message.surveyId != null ? 0 : 5),
-      child: Container(
-        constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.75,
-            minWidth: MediaQuery.of(context).size.width * 0.2),
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 5, right: 40, top: 5, left: 5),
-              child: Text(
-                message.message,
-                style: TextStyle(
-                    color:
-                        message.surveyId != null ? Colors.white : Colors.black,
-                    fontSize: 16),
-                textAlign: TextAlign.start,
-              ),
-            ),
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: Text(
-                DateFormat('HH:mm').format(message.updatedAt),
-                style: TextStyle(
-                    fontSize: 11,
-                    color:
-                        message.surveyId != null ? Colors.white : Colors.black),
-              ),
-            )
-          ],
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () {
+        if (widget.message.messageType != 0) {
+          Get.to(MessageMediaScreen(), arguments: [
+            widget.message,
+            widget.messageMaster,
+            widget.official
+          ]);
+        }
+      },
+      child: Bubble(
+        alignment: isUser ? Alignment.topRight : Alignment.topLeft,
+        color: widget.message.surveyId != null
+            ? Theme.of(context).primaryColor
+            : Colors.white,
+        nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
+        elevation: 2,
+        margin: BubbleEdges.only(
+            top: 10, left: 10, bottom: widget.message.surveyId != null ? 0 : 5),
+        child: Container(
+          constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
+              minWidth: MediaQuery.of(context).size.width * 0.2),
+          child: Stack(
+            children: [
+              widget.message.messageType == 0
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 5, right: 40, top: 5, left: 5),
+                      child: Text(
+                        widget.message.message,
+                        style: TextStyle(
+                            color: widget.message.surveyId != null
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 16),
+                        textAlign: TextAlign.start,
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 18, right: 0, top: 0, left: 0),
+                      child: widget.message.messageType == 1
+                          ? Hero(
+                              tag: widget.message.messageId.toString(),
+                              child: Image.network(
+                                widget.message.message,
+                                width: double.infinity,
+                                height: 250,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              height: 200,
+                              alignment: Alignment.center,
+                              child: _controller?.value?.initialized ?? false
+                                  ? Stack(
+                                      children: [
+                                        VideoPlayer(_controller),
+                                        BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                              sigmaX: 2, sigmaY: 2),
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            color: Colors.grey.withOpacity(0.2),
+                                          ),
+                                        ),
+                                        Align(
+                                            alignment: Alignment.center,
+                                            child: Icon(
+                                              Icons.play_arrow,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              size: 60,
+                                            )),
+                                      ],
+                                    )
+                                  : CircularProgressIndicator(),
+                            ),
+                    ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Text(
+                  DateFormat('HH:mm').format(widget.message.updatedAt),
+                  style: TextStyle(
+                      fontSize: 11,
+                      color: widget.message.surveyId != null
+                          ? Colors.white
+                          : Colors.black),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

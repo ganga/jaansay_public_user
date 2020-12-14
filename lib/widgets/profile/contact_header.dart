@@ -44,7 +44,8 @@ class ContactHeader extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ReviewScreen()));
+                        builder: (context) => ReviewScreen(),
+                        settings: RouteSettings(arguments: official)));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
