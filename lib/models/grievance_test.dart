@@ -65,27 +65,4 @@ class GrievanceTest {
         media: json["media"] == null ? [] : json['media'].toString().split(","),
         docId: json["doc_id"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "grievance_id": grievanceId,
-        "grievance_message": grievanceMessage,
-        "status_id": statusId,
-        "lattitude": lattitude,
-        "longitude": longitude,
-        "updated_at": updatedAt,
-        "officials_id": officialsId,
-        "officials_name": officialsName,
-        "officials_description": officialsDescription,
-        "officials_email": officialsEmail,
-        "officials_phone": officialsPhone,
-        "officials_designation": officialsDesignation,
-        "officials_address": officialsAddress,
-        "officials_website": officialsWebsite,
-        "business_hours": businessHours,
-        "photo": photo,
-        "type_name": typeName,
-        "businesstype_name": businesstypeName,
-        "media": media,
-        "doc_id": docId,
-      };
 }

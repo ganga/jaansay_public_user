@@ -85,3 +85,40 @@ class Official {
         "is_private": isPrivate
       };
 }
+
+class OfficialDocument {
+  OfficialDocument({
+    this.dorId,
+    this.docId,
+    this.officialId,
+    this.docName,
+    this.isDocument,
+    this.isVerified,
+  });
+
+  int dorId;
+  int docId;
+  int officialId;
+  String docName;
+  int isDocument;
+  int isVerified;
+
+  factory OfficialDocument.fromJson(Map<String, dynamic> json) =>
+      OfficialDocument(
+        dorId: json["dor_id"],
+        docId: json["doc_id"],
+        officialId: json["official_id"],
+        docName: json["doc_name"],
+        isDocument: json["is_document"],
+        isVerified: json["is_verified"] == null ? 0 : json["is_verified"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "dor_id": dorId,
+        "doc_id": docId,
+        "official_id": officialId,
+        "doc_name": docName,
+        "is_document": isDocument,
+        "is_verified": isVerified == null ? null : isVerified,
+      };
+}

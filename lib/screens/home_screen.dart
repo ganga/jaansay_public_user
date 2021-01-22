@@ -1,15 +1,17 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jaansay_public_user/screens/alert/alert_screen.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
+import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/screens/misc/vocal_home_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
-import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -27,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   PersistentTabController _controller;
+  bool isCheck = false;
 
   Widget appBarIcon(
       IconData iconData, BuildContext context, String tag, Widget screen) {
@@ -113,18 +116,62 @@ class _HomeScreenState extends State<HomeScreen> {
     GetStorage box = GetStorage();
     FirebaseMessaging fbm = FirebaseMessaging();
     fbm.subscribeToTopic(box.read("user_id").toString());
-    fbm.subscribeToTopic("all");
+    fbm.subscribeToTopic("user_test_001");
+    fbm.configure(
+      onLaunch: (Map<String, dynamic> message) async {
+        log("onLaunch: $message");
+        if (message['data']['type'] == "message") {
+          pushNewScreenWithRouteSettings(context,
+              screen: MessageDetailScreen(),
+              settings: RouteSettings(
+                arguments: [
+                  false,
+                  Official(
+                    photo: message['data']['photo'],
+                    officialsPhone: message['data']['phone'],
+                    officialsName: message['data']['name'],
+                    officialsId: int.parse(message['data']['id']),
+                  )
+                ],
+              ),
+              withNavBar: false);
+        }
+      },
+      onResume: (Map<String, dynamic> message) async {
+        log("OnResume: $message");
+        if (message['data']['type'] == "message") {
+          pushNewScreenWithRouteSettings(context,
+              screen: MessageDetailScreen(),
+              settings: RouteSettings(
+                arguments: [
+                  false,
+                  Official(
+                    photo: message['data']['photo'],
+                    officialsPhone: message['data']['phone'],
+                    officialsName: message['data']['name'],
+                    officialsId: int.parse(message['data']['id']),
+                  )
+                ],
+              ),
+              withNavBar: false);
+        }
+      },
+    );
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fbmSubscribe();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!isCheck) {
+      isCheck = true;
+      fbmSubscribe();
+    }
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: appBar(context),

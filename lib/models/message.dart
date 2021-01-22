@@ -54,7 +54,7 @@ class Message {
   String message;
   int userId;
   DateTime updatedAt;
-  int surveyId;
+  String surveyId;
   int type;
   int messageType;
   String userName;
@@ -66,8 +66,10 @@ class Message {
         mmId: json["mm_id"],
         message: json["message"],
         userId: json["user_id"],
-        updatedAt: DateTime.parse(json["updated_at"]),
-        surveyId: json["survey_id"] == null ? null : json["survey_id"],
+        updatedAt: DateTime.parse(json["updated_at"])
+            .add(Duration(hours: 5, minutes: 30)),
+        surveyId:
+            json["survey_id"] == null ? null : json["survey_id"].toString(),
         type: json["type"],
         messageType: json["message_type"],
         userName: json["user_name"] == null ? null : json["user_name"],

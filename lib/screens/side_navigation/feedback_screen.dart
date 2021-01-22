@@ -141,9 +141,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       );
     } else {
       Get.rawSnackbar(
-          title: "${tr("Error")}",
-          message: "${tr("Feedback cant be empty")}",
-          backgroundColor: Get.theme.primaryColor);
+        message: "${tr("Feedback cannot be empty")}",
+      );
     }
   }
 

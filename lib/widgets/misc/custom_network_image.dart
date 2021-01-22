@@ -17,6 +17,8 @@ class CustomNetWorkImage extends StatelessWidget {
         : FadeInImage(
             image: NetworkImage("$photo"),
             fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
             alignment: Alignment.topCenter,
             placeholder: AssetImage("assets/images/profileHolder.jpg"),
           );

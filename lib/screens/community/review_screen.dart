@@ -15,6 +15,8 @@ class ReviewScreen extends StatefulWidget {
 class _ReviewScreenState extends State<ReviewScreen> {
   bool isLoad = true;
   List<Review> reviews = [];
+  List<OfficialDocument> officialDocuments = [];
+
   Review userReview;
   bool isCheck = false;
   Official official;
@@ -24,7 +26,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
     setState(() {});
     reviews.clear();
     userReview = null;
+
     OfficialService officialService = OfficialService();
+    officialDocuments.clear();
+    await officialService.getOfficialDocuments(
+        officialDocuments, official.officialsId.toString());
     final List response = await officialService
         .getOfficialRatings(official.officialsId.toString());
     userReview = response[0];

@@ -65,8 +65,9 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       _messageController.clear();
       setState(() {});
       messageMaster != null
-          ? await messageService.sendMessage(message, messageMaster)
-          : await messageService.sendMessageUsingOfficialId(
+          ? await messageService.sendMessage(
+              message, messageMaster.officialsId.toString())
+          : await messageService.sendMessage(
               message, official.officialsId.toString());
     }
   }
@@ -175,7 +176,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             ),
                           _MessageBubble(
                               messages[index], messageMaster, official),
-                          if (messages[index].surveyId != null)
+                          if (messages[index].messageType == 4)
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
@@ -231,7 +232,6 @@ class __MessageBubbleState extends State<_MessageBubble> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isUser = widget.message.userId == box.read("user_id");
     if (widget.message.messageType == 2) {
       _controller = VideoPlayerController.network(
         widget.message.message,
@@ -253,6 +253,8 @@ class __MessageBubbleState extends State<_MessageBubble> {
 
   @override
   Widget build(BuildContext context) {
+    isUser = widget.message.userId == box.read("user_id");
+
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -267,13 +269,13 @@ class __MessageBubbleState extends State<_MessageBubble> {
       },
       child: Bubble(
         alignment: isUser ? Alignment.topRight : Alignment.topLeft,
-        color: widget.message.surveyId != null
+        color: widget.message.messageType == 4
             ? Theme.of(context).primaryColor
             : Colors.white,
         nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
         elevation: 2,
         margin: BubbleEdges.only(
-            top: 10, left: 10, bottom: widget.message.surveyId != null ? 0 : 5),
+            top: 10, left: 10, bottom: widget.message.messageType == 4 ? 0 : 5),
         child: Container(
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.75,
@@ -287,7 +289,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                       child: Text(
                         widget.message.message,
                         style: TextStyle(
-                            color: widget.message.surveyId != null
+                            color: widget.message.messageType == 4
                                 ? Colors.white
                                 : Colors.black,
                             fontSize: 16),
@@ -343,7 +345,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                   DateFormat('HH:mm').format(widget.message.updatedAt),
                   style: TextStyle(
                       fontSize: 11,
-                      color: widget.message.surveyId != null
+                      color: widget.message.messageType == 4
                           ? Colors.white
                           : Colors.black),
                 ),

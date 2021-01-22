@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
@@ -12,6 +14,7 @@ import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
@@ -28,7 +31,7 @@ class OfficialsProfileHead extends StatelessWidget {
     final _mediaQuery = MediaQuery.of(context).size;
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
-    final feedProvider = Provider.of<UserFeedProvider>(context, listen: false);
+    final feedProvider = Provider.of<UserFeedProvider>(context);
 
     return Card(
       margin: EdgeInsets.only(bottom: 8),
@@ -170,9 +173,202 @@ class OfficialsProfileHead extends StatelessWidget {
                           official, feedProvider)),
                 ],
               ),
+            if (official.isFollow == 1)
+              _OfficialDocumentSection(official.officialsId)
           ],
         ),
       ),
     );
+  }
+}
+
+class _OfficialDocumentSection extends StatefulWidget {
+  final int officialId;
+
+  _OfficialDocumentSection(this.officialId);
+
+  @override
+  __OfficialDocumentSectionState createState() =>
+      __OfficialDocumentSectionState();
+}
+
+class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
+  bool isLoad = true;
+  List<OfficialDocument> officialDocuments = [];
+  OfficialService officialService = OfficialService();
+
+  getAllDocuments() async {
+    isLoad = true;
+    setState(() {});
+    officialDocuments.clear();
+    await officialService.getOfficialDocuments(
+        officialDocuments, widget.officialId.toString());
+    isLoad = false;
+    setState(() {});
+  }
+
+  pickImage(OfficialDocument officialDocument) async {
+    File _image;
+
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      File croppedFile = await ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          maxHeight: 1000,
+          maxWidth: 1000,
+          compressFormat: ImageCompressFormat.jpg,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+      if (croppedFile != null) {
+        _image = File(croppedFile.path);
+        sendData(_image, officialDocument);
+      } else {
+        isLoad = false;
+        setState(() {});
+      }
+    } else {
+      isLoad = false;
+      setState(() {});
+    }
+  }
+
+  sendData(File image, OfficialDocument officialDocument) async {
+    isLoad = true;
+    setState(() {});
+    OfficialService officialService = OfficialService();
+    await officialService.addUserDocument(
+        image,
+        officialDocument.officialId.toString(),
+        officialDocument.docId.toString());
+    getAllDocuments();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAllDocuments();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoad
+        ? Container()
+        : officialDocuments.length == 0
+            ? SizedBox.shrink()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    "Documents requested from business",
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: officialDocuments.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child:
+                                      Text(officialDocuments[index].docName)),
+                              (officialDocuments[index].isVerified == 0)
+                                  ? Container(
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color: officialDocuments[index]
+                                                        .isDocument ==
+                                                    0
+                                                ? Theme.of(context).primaryColor
+                                                : Colors.black,
+                                            width: 0.5),
+                                        color: officialDocuments[index]
+                                                    .isDocument ==
+                                                0
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.black.withOpacity(0.01),
+                                      ),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          splashColor: Colors.white,
+                                          onTap: () {
+                                            if (officialDocuments[index]
+                                                    .isDocument ==
+                                                0) {
+                                              pickImage(
+                                                  officialDocuments[index]);
+                                            }
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5, horizontal: 5),
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  officialDocuments[index]
+                                                              .isDocument ==
+                                                          0
+                                                      ? "Upload Document"
+                                                      : "Pending Approval",
+                                                  style: TextStyle(
+                                                      color: officialDocuments[
+                                                                      index]
+                                                                  .isDocument ==
+                                                              0
+                                                          ? Colors.white
+                                                          : Colors.black),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.done_outline_sharp,
+                                      color: Colors.green,
+                                    ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              );
   }
 }

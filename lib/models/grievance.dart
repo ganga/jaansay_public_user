@@ -58,7 +58,8 @@ class Grievance {
         mmId: json["mm_id"],
         message: json["message"],
         userId: json["user_id"],
-        updatedAt: DateTime.parse(json["updated_at"]),
+        updatedAt: DateTime.parse(json["updated_at"])
+            .add(Duration(hours: 5, minutes: 30)),
         surveyId: json["survey_id"] == null ? null : json["survey_id"],
         type: json["type"],
       );

@@ -48,24 +48,24 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
         width: double.infinity,
         child: isLoad
             ? Loading()
-            : _grievanceMasters.length == 0
-                ? CustomErrorWidget(
-                    iconData: MdiIcons.messageAlertOutline,
-                    title: "No grievances found",
-                  )
-                : SmartRefresher(
-                    enablePullDown: true,
-                    header: ClassicHeader(),
-                    onRefresh: () => getMessageMasters(),
-                    controller: _refreshController,
-                    child: ListView.builder(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      itemCount: _grievanceMasters.length,
-                      itemBuilder: (context, index) {
-                        return _MessageTile(_grievanceMasters[index]);
-                      },
-                    ),
-                  ),
+            : SmartRefresher(
+                enablePullDown: true,
+                header: ClassicHeader(),
+                onRefresh: () => getMessageMasters(),
+                controller: _refreshController,
+                child: _grievanceMasters.length == 0
+                    ? CustomErrorWidget(
+                        iconData: MdiIcons.messageAlertOutline,
+                        title: "No grievances found",
+                      )
+                    : ListView.builder(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        itemCount: _grievanceMasters.length,
+                        itemBuilder: (context, index) {
+                          return _MessageTile(_grievanceMasters[index]);
+                        },
+                      ),
+              ),
       ),
     );
   }

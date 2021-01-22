@@ -76,7 +76,6 @@ class OfficialService {
         options: Options(
             headers: {HttpHeaders.authorizationHeader: "Bearer ${token}"}),
       );
-      print(response.data);
       if (response.data['success']) {
         if (response.data['data'] != null) {
           response.data['data'].map((val) {
@@ -147,5 +146,63 @@ class OfficialService {
     }
 
     return official;
+  }
+
+  getOfficialDocuments(
+      List<OfficialDocument> officialDocuments, String officialId) async {
+    GetStorage box = GetStorage();
+
+    Official official;
+    Dio dio = Dio();
+
+    final response = await dio.get(
+      "${ConnUtils.url}documents/alldocuments/official/$officialId/user/${box.read('user_id')}",
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}"
+        },
+      ),
+    );
+
+    print(response.data);
+    if (response.data['success']) {
+      if (response.data != null) {
+        response.data['data'].map((e) {
+          officialDocuments.add(OfficialDocument.fromJson(e));
+        }).toList();
+      }
+    }
+
+    return;
+  }
+
+  addUserDocument(File photo, String officialId, String docId) async {
+    GetStorage box = GetStorage();
+    Dio dio = Dio();
+    String fileName = (box.read("user_name").toString() +
+                box.read("user_phone").toString() +
+                docId +
+                officialId)
+            .toString() +
+        ".jpg";
+    fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
+
+    final formData = FormData.fromMap({
+      "user_id": "${box.read("user_id")}",
+      "official_id": officialId,
+      "doc_id": docId,
+      "media": await MultipartFile.fromFile(photo.path, filename: fileName),
+    });
+    final response = await dio
+        .post("${ConnUtils.url}documents/adduserdocuments",
+            data: formData,
+            options: Options(headers: {
+              HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
+            }))
+        .catchError((e) {
+      print(e.toString());
+    });
+    print(response.data);
+    return;
   }
 }
