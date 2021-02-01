@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/community/profile_screen.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
@@ -53,9 +54,13 @@ class OfficialTile extends StatelessWidget {
       onTap: () {
         // pushNewScreenWithRouteSettings(context,
         //     screen: ProfileScreen(),
-        //     withNavBar: true,
-        //     settings: RouteSettings(arguments: [true, official]),
-        //     pageTransitionAnimation: PageTransitionAnimation.cupertino);
+        //     settings: RouteSettings(
+        //         arguments: [false, official.officialsId.toString()]),
+        //     pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        //     withNavBar: true);
+        Get.to(ProfileFullScreen(),
+            arguments: [false, official.officialsId.toString()],
+            transition: Transition.rightToLeft);
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),

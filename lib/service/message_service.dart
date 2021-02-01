@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/message.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class MessageService {
@@ -110,24 +111,9 @@ class MessageService {
         ),
       );
       if (response.data['success']) {
-        await dio.post(
-          "https://fcm.googleapis.com/fcm/send",
-          data: {
-            "notification": {
-              "title": box.read("user_name"),
-              "body": message,
-              "click_action": "FLUTTER_NOTIFICATION_CLICK",
-              "icon": "http://jaansay.com/logo.png"
-            },
-            "to": "/topics/official_test_001"
-          },
-          options: Options(
-            headers: {
-              HttpHeaders.authorizationHeader:
-                  "key=AAAAvyUrLIs:APA91bE8YAhAlWSGKVxOQnj1747vxLecE4ABRSh2ZpatGjp00rCLiQLUMaT6iyiijDyR5RLmiWxZeZ2-SdkGCSRK9NV0ZI_6AFVWMSGr7E3jk4dGEOfJ4sxmyWibiOA_msRIBVB2I1te",
-            },
-          ),
-        );
+        NotificationService notificationService = NotificationService();
+        await notificationService.sendNotificationToUser(box.read("user_name"),
+            message, officialId.toString(), {"type": "message"});
         return true;
       } else {
         return false;
@@ -137,39 +123,4 @@ class MessageService {
       return false;
     }
   }
-  //
-  // Future<bool> sendMessageUsingOfficialId(
-  //     String message, String officialId) async {
-  //   try {
-  //     Dio dio = new Dio();
-  //     GetStorage box = GetStorage();
-  //     final userId = box.read("user_id");
-  //
-  //     Response response = await dio.post(
-  //       "${ConnUtils.url}messages/addmessage",
-  //       data: {
-  //         "message": message,
-  //         "official_id": officialId.toString(),
-  //         "user_id": userId.toString(),
-  //         "sender_id": userId.toString(),
-  //         "type": "0",
-  //         "message_type": "0",
-  //         "updated_at": DateTime.now().toString()
-  //       },
-  //       options: Options(
-  //         headers: {
-  //           HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
-  //         },
-  //       ),
-  //     );
-  //     if (response.data['success']) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return false;
-  //   }
-  // }
 }

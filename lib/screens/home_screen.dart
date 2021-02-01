@@ -36,7 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return InkWell(
       borderRadius: BorderRadius.circular(15),
       onTap: () {
-        pushNewScreen(context, screen: screen, withNavBar: false);
+        pushNewScreen(
+          context,
+          screen: screen,
+          withNavBar: false,
+        );
       },
       child: Hero(
         tag: tag,
@@ -77,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _buildScreens() {
     return [
       FeedList(),
-      CommunityDetailsScreen(),
+      //CommunityDetailsScreen(),
       GrievanceScreen(),
       VocalHomeScreen(),
     ];
@@ -91,12 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.group),
-        title: tr("Community"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.group),
+      //   title: tr("Community"),
+      //   activeColor: Theme.of(context).primaryColor,
+      //   inactiveColor: Colors.grey,
+      // ),
       PersistentBottomNavBarItem(
         icon: Icon(MdiIcons.messageAlert),
         title: tr("Grievance"),
@@ -115,45 +119,17 @@ class _HomeScreenState extends State<HomeScreen> {
   fbmSubscribe() {
     GetStorage box = GetStorage();
     FirebaseMessaging fbm = FirebaseMessaging();
-    fbm.subscribeToTopic(box.read("user_id").toString());
-    fbm.subscribeToTopic("user_test_001");
     fbm.configure(
       onLaunch: (Map<String, dynamic> message) async {
         log("onLaunch: $message");
         if (message['data']['type'] == "message") {
-          pushNewScreenWithRouteSettings(context,
-              screen: MessageDetailScreen(),
-              settings: RouteSettings(
-                arguments: [
-                  false,
-                  Official(
-                    photo: message['data']['photo'],
-                    officialsPhone: message['data']['phone'],
-                    officialsName: message['data']['name'],
-                    officialsId: int.parse(message['data']['id']),
-                  )
-                ],
-              ),
-              withNavBar: false);
+          pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
         }
       },
       onResume: (Map<String, dynamic> message) async {
         log("OnResume: $message");
         if (message['data']['type'] == "message") {
-          pushNewScreenWithRouteSettings(context,
-              screen: MessageDetailScreen(),
-              settings: RouteSettings(
-                arguments: [
-                  false,
-                  Official(
-                    photo: message['data']['photo'],
-                    officialsPhone: message['data']['phone'],
-                    officialsName: message['data']['name'],
-                    officialsId: int.parse(message['data']['id']),
-                  )
-                ],
-              ),
-              withNavBar: false);
+          pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
         }
       },
     );

@@ -26,8 +26,6 @@ class ScreenProgress extends StatelessWidget {
       children: <Widget>[
         _buildColumn("About", tick1),
         line(_mediaQuery),
-        _buildColumn("Location", tick2),
-        line(_mediaQuery),
         _buildColumn("Finish", tick3),
       ],
     );
@@ -47,16 +45,6 @@ class ScreenProgress extends StatelessWidget {
 
   Widget tick1() {
     return c.index.value > 0
-        ? tick(
-            true,
-          )
-        : tick(
-            false,
-          );
-  }
-
-  Widget tick2() {
-    return c.index.value > 1
         ? tick(
             true,
           )

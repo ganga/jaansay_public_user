@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/survey.dart';
+import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/survey_service.dart';
 import 'package:jaansay_public_user/widgets/survey/survey_bottom_button.dart';
 import 'package:jaansay_public_user/widgets/survey/survey_qa_section.dart';
@@ -16,7 +17,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
   );
   List<Survey> surveys = [];
   bool isLoad = true;
-  int surveyId;
+  String surveyId;
   bool isCheck = false;
   var curIndex = 0.obs;
   List surveyAnswers = [];
@@ -47,7 +48,8 @@ class _SurveyScreenState extends State<SurveyScreen> {
         setState(() {});
         await surveyService.addSurvey(
             surveyAnswers, surveyId.toString(), messageId);
-        Get.close(1);
+        Get.offAll(HomeScreen());
+        Get.rawSnackbar(message: 'Survey response submitted. Thank you');
       }
     } else {
       _controller.animateToPage(curIndex.value + 1,

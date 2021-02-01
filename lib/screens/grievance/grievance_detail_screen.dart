@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +25,11 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
   TextEditingController _messageController = TextEditingController();
   GrievanceService grievanceService = GrievanceService();
   ScrollController _scrollController = ScrollController();
+  OfficialService officialService = OfficialService();
+
+  List<OfficialDocument> officialDocuments = [];
+
+  bool isSend = true;
 
   getAllGrievances() async {
     grievanceMaster != null
@@ -31,6 +37,15 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
             grievances, grievanceMaster.officialsId.toString())
         : await grievanceService.getAllGrievances(
             grievances, official.officialsId.toString());
+    await officialService.getOfficialDocuments(
+        officialDocuments,
+        official?.officialsId?.toString() ??
+            grievanceMaster.officialsId.toString());
+    officialDocuments.map((e) {
+      if (e.isVerified != 1) {
+        isSend = false;
+      }
+    }).toList();
     grievances = grievances.reversed.toList();
     isLoad = false;
     setState(() {});
@@ -173,7 +188,15 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
                     },
                   ),
                 ),
-                _MessageField(_messageController, () => sendGrievance())
+                isSend
+                    ? _MessageField(_messageController, () => sendGrievance())
+                    : Container(
+                        color: Colors.black.withAlpha(25),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        child: Text(
+                            "Please add the requested documents to send messages to this official."),
+                      )
               ],
             ),
     );

@@ -2,6 +2,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feed/dynamic_feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
@@ -31,6 +32,7 @@ class DynamicLinkService {
       print('_handleDeepLink | deeplink: $deepLink');
 
       var isFeed = deepLink.pathSegments.contains('feed');
+      var isOfficial = deepLink.pathSegments.contains('official');
 
       if (box.hasData("token")) {
         if (isFeed) {
@@ -38,6 +40,15 @@ class DynamicLinkService {
 
           if (feedId != null) {
             Get.offAll(DynamicFeedDetailScreen(), arguments: feedId);
+          }
+        }
+        if (isOfficial) {
+          var officialId = deepLink.queryParameters['id'];
+
+          if (officialId != null) {
+            Get.to(ProfileFullScreen(),
+                arguments: [false, officialId.toString()],
+                transition: Transition.rightToLeft);
           }
         }
       } else {

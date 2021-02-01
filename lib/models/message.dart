@@ -36,18 +36,19 @@ class MessageMaster {
 }
 
 class Message {
-  Message(
-      {this.messageId,
-      this.mmId,
-      this.message,
-      this.userId,
-      this.updatedAt,
-      this.surveyId,
-      this.type,
-      this.messageType,
-      this.photo,
-      this.userName,
-      this.officialsName});
+  Message({
+    this.messageId,
+    this.mmId,
+    this.message,
+    this.userId,
+    this.updatedAt,
+    this.surveyId,
+    this.type,
+    this.messageType,
+    this.userName,
+    this.photo,
+    this.officialsName,
+  });
 
   int messageId;
   int mmId;
@@ -57,7 +58,7 @@ class Message {
   String surveyId;
   int type;
   int messageType;
-  String userName;
+  dynamic userName;
   String photo;
   String officialsName;
 
@@ -68,13 +69,25 @@ class Message {
         userId: json["user_id"],
         updatedAt: DateTime.parse(json["updated_at"])
             .add(Duration(hours: 5, minutes: 30)),
-        surveyId:
-            json["survey_id"] == null ? null : json["survey_id"].toString(),
+        surveyId: json["survey_id"] == null ? null : json["survey_id"],
         type: json["type"],
         messageType: json["message_type"],
-        userName: json["user_name"] == null ? null : json["user_name"],
-        photo: json["photo"] == null ? null : json["photo"],
-        officialsName:
-            json["officials_name"] == null ? null : json["officials_name"],
+        userName: json["user_name"],
+        photo: json["photo"],
+        officialsName: json["officials_name"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "message_id": messageId,
+        "mm_id": mmId,
+        "message": message,
+        "user_id": userId,
+        "updated_at": updatedAt.toIso8601String(),
+        "survey_id": surveyId == null ? null : surveyId,
+        "type": type,
+        "message_type": messageType,
+        "user_name": userName,
+        "photo": photo,
+        "officials_name": officialsName,
+      };
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class GrievanceService {
@@ -110,24 +111,9 @@ class GrievanceService {
         ),
       );
       if (response.data['success']) {
-        await dio.post(
-          "https://fcm.googleapis.com/fcm/send",
-          data: {
-            "notification": {
-              "title": box.read("user_name"),
-              "body": message,
-              "click_action": "FLUTTER_NOTIFICATION_CLICK",
-              "icon": "http://jaansay.com/logo.png"
-            },
-            "to": "/topics/official_test_001"
-          },
-          options: Options(
-            headers: {
-              HttpHeaders.authorizationHeader:
-                  "key=AAAAvyUrLIs:APA91bE8YAhAlWSGKVxOQnj1747vxLecE4ABRSh2ZpatGjp00rCLiQLUMaT6iyiijDyR5RLmiWxZeZ2-SdkGCSRK9NV0ZI_6AFVWMSGr7E3jk4dGEOfJ4sxmyWibiOA_msRIBVB2I1te",
-            },
-          ),
-        );
+        NotificationService notificationService = NotificationService();
+        await notificationService.sendNotificationToUser(box.read("user_name"),
+            message, officialId.toString(), {"type": "message"});
         return true;
       } else {
         return false;

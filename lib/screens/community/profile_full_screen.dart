@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/models/feed.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
-import 'package:jaansay_public_user/screens/community/review_screen.dart';
-import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -15,12 +13,12 @@ import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileFullScreen extends StatefulWidget {
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _ProfileFullScreenState createState() => _ProfileFullScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileFullScreenState extends State<ProfileFullScreen> {
   bool isCheck = false;
   bool isLoad = true;
   bool isReview = false;
@@ -52,6 +50,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          isLoad ? 'Profile' : official.officialsName,
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ),
+      ),
       body: isLoad
           ? CustomLoading('Please wait')
           : SingleChildScrollView(

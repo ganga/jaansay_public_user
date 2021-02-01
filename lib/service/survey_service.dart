@@ -28,6 +28,7 @@ class SurveyService {
         return;
       }
     } catch (e) {
+      print(e);
       return;
     }
   }
@@ -43,7 +44,7 @@ class SurveyService {
         data: {
           'survey_id': surveyId,
           "survey_answers": surveyAnswers,
-          "user_id": box.read("user_id"),
+          "user_id": box.read("user_id").toString(),
           "updated_at": DateTime.now().toString()
         },
         options: Options(

@@ -40,6 +40,7 @@ class AboutMeScreen extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.all(8),
@@ -52,7 +53,6 @@ class AboutMeScreen extends StatelessWidget {
                     index: _loginController.index.value,
                     children: [
                       About(),
-                      Address(),
                       Finish(),
                     ],
                   ),

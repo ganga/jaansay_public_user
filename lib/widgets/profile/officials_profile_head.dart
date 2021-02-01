@@ -137,14 +137,20 @@ class OfficialsProfileHead extends StatelessWidget {
                 ),
                 Expanded(
                   child: ProfileHeadButton(double.infinity, 0, "Message", () {
-                    pushNewScreenWithRouteSettings(
-                      context,
-                      screen: MessageDetailScreen(),
-                      withNavBar: false,
-                      settings: RouteSettings(
-                        arguments: [false, official],
-                      ),
-                    );
+                    if (official.isFollow == 1) {
+                      pushNewScreenWithRouteSettings(
+                        context,
+                        screen: MessageDetailScreen(),
+                        withNavBar: false,
+                        settings: RouteSettings(
+                          arguments: [false, official],
+                        ),
+                      );
+                    } else {
+                      Get.rawSnackbar(
+                          message:
+                              'You need to follow this business to communicate with them');
+                    }
                   }),
                 ),
                 SizedBox(
@@ -358,10 +364,15 @@ class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
                                         ),
                                       ),
                                     )
-                                  : Icon(
-                                      Icons.done_outline_sharp,
-                                      color: Colors.green,
-                                    ),
+                                  : (officialDocuments[index].isVerified == 1)
+                                      ? Icon(
+                                          Icons.done,
+                                          color: Colors.green,
+                                        )
+                                      : Icon(
+                                          Icons.close,
+                                          color: Colors.red,
+                                        ),
                             ],
                           ),
                         );

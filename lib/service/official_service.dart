@@ -202,6 +202,25 @@ class OfficialService {
         .catchError((e) {
       print(e.toString());
     });
+    await dio.post(
+      "https://fcm.googleapis.com/fcm/send",
+      data: {
+        "notification": {
+          "title": "Document Approval",
+          "body":
+              box.read("user_name") + " has sent document for verification.",
+          "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          "icon": "http://jaansay.com/logo.png"
+        },
+        "to": "/topics/$officialId"
+      },
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader:
+              "key=AAAAvyUrLIs:APA91bE8YAhAlWSGKVxOQnj1747vxLecE4ABRSh2ZpatGjp00rCLiQLUMaT6iyiijDyR5RLmiWxZeZ2-SdkGCSRK9NV0ZI_6AFVWMSGr7E3jk4dGEOfJ4sxmyWibiOA_msRIBVB2I1te",
+        },
+      ),
+    );
     print(response.data);
     return;
   }

@@ -12,6 +12,7 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/message/message_media_screen.dart';
 import 'package:jaansay_public_user/screens/survey/survey_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,6 +32,10 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   TextEditingController _messageController = TextEditingController();
   MessageService messageService = MessageService();
   ScrollController _scrollController = ScrollController();
+  OfficialService officialService = OfficialService();
+  List<OfficialDocument> officialDocuments = [];
+
+  bool isSend = true;
 
   getAllMessages() async {
     messageMaster != null
@@ -38,6 +43,16 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
             messages, messageMaster.officialsId.toString())
         : await messageService.getAllMessagesUsingOfficialId(
             messages, official.officialsId.toString());
+    officialDocuments.clear();
+    await officialService.getOfficialDocuments(
+        officialDocuments,
+        official?.officialsId?.toString() ??
+            messageMaster.officialsId.toString());
+    officialDocuments.map((e) {
+      if (e.isVerified != 1) {
+        isSend = false;
+      }
+    }).toList();
     messages = messages.reversed.toList();
     isLoad = false;
     setState(() {});
@@ -176,7 +191,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             ),
                           _MessageBubble(
                               messages[index], messageMaster, official),
-                          if (messages[index].messageType == 4)
+                          if (messages[index].type == 4)
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
@@ -185,7 +200,6 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   onPressed: () {
-                                    Get.close(2);
                                     Get.to(SurveyScreen(), arguments: [
                                       messages[index].messageId,
                                       messages[index].surveyId
@@ -204,7 +218,15 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                     },
                   ),
                 ),
-                _MessageField(_messageController, () => sendMessage())
+                isSend
+                    ? _MessageField(_messageController, () => sendMessage())
+                    : Container(
+                        color: Colors.black.withAlpha(25),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        child: Text(
+                            "Please add the requested documents to send messages to this official."),
+                      )
               ],
             ),
     );
@@ -269,13 +291,13 @@ class __MessageBubbleState extends State<_MessageBubble> {
       },
       child: Bubble(
         alignment: isUser ? Alignment.topRight : Alignment.topLeft,
-        color: widget.message.messageType == 4
+        color: widget.message.type == 4
             ? Theme.of(context).primaryColor
             : Colors.white,
         nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
         elevation: 2,
         margin: BubbleEdges.only(
-            top: 10, left: 10, bottom: widget.message.messageType == 4 ? 0 : 5),
+            top: 10, left: 10, bottom: widget.message.type == 4 ? 0 : 5),
         child: Container(
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.75,
@@ -289,7 +311,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                       child: Text(
                         widget.message.message,
                         style: TextStyle(
-                            color: widget.message.messageType == 4
+                            color: widget.message.type == 4
                                 ? Colors.white
                                 : Colors.black,
                             fontSize: 16),
@@ -345,7 +367,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                   DateFormat('HH:mm').format(widget.message.updatedAt),
                   style: TextStyle(
                       fontSize: 11,
-                      color: widget.message.messageType == 4
+                      color: widget.message.type == 4
                           ? Colors.white
                           : Colors.black),
                 ),

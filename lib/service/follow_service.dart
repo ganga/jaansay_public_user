@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class FollowService {
@@ -24,12 +25,14 @@ class FollowService {
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
     );
 
-    if(response.data["success"]){
-      FirebaseMessaging fbm=FirebaseMessaging();
-      fbm.subscribeToTopic("${officialId}follow");
+    if (response.data["success"]) {
+      NotificationService notificationService = NotificationService();
+      await notificationService.sendNotificationToUser(
+          "New Follower",
+          "${box.read("user_name")} has started following you.",
+          officialId.toString(),
+          {"type": "follow"});
     }
-
-    print(response.data);
 
     return true;
   }

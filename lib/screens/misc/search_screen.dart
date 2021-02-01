@@ -25,7 +25,7 @@ class SearchScreen extends StatelessWidget {
           ),
           title: TextField(
             autofocus: true,
-            decoration: InputDecoration(hintText: tr("Enter name")),
+            decoration: InputDecoration.collapsed(hintText: tr("Enter name")),
             onChanged: (val) {
               searchOfficials(val);
             },

@@ -168,7 +168,7 @@ class _AboutState extends State<About> {
   }
 
   sendData() async {
-    if (nameController.text == "" || _selectedDate == null || gender == "") {
+    if (nameController.text == "") {
       Get.rawSnackbar(
         message: "${tr("Please fill the fields")}",
       );
@@ -193,10 +193,9 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: 10,
+            width: Get.height * 0.2,
           ),
           Container(
             height: 125,
@@ -227,52 +226,19 @@ class _AboutState extends State<About> {
           ),
           _customTextField(
               tr("Enter your Name"), tr("Full Name"), nameController),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 8),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-              ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: InkWell(
-              onTap: () async {
-                var temp = await _datePicker(context);
-                if (temp != null) {
-                  temp = DateFormat("dd-MM-yyyy").format(temp);
-                  _selectedDate(temp.toString());
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Obx(
-                      () => Text(
-                        _selectedDate.value,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                    Icon(Icons.calendar_today_outlined),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 8),
-            child: genderPicker(),
+          SizedBox(
+            width: 16,
           ),
           CustomAuthButton(
-              title: "Next",
-              onTap: () {
-                Get.focusScope.unfocus();
-                sendData();
-              })
+            title: "Next",
+            onTap: () {
+              Get.focusScope.unfocus();
+              sendData();
+            },
+          ),
+          SizedBox(
+            width: 10,
+          ),
         ],
       ),
     );
