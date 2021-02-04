@@ -25,6 +25,7 @@ class OfficialTile extends StatelessWidget {
     final userId = box.read("user_id");
     final token = box.read("token");
 
+    print(userId);
     Dio dio = Dio();
     Response response = await dio.post(
       "${ConnUtils.url}follow",
@@ -52,12 +53,6 @@ class OfficialTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // pushNewScreenWithRouteSettings(context,
-        //     screen: ProfileScreen(),
-        //     settings: RouteSettings(
-        //         arguments: [false, official.officialsId.toString()]),
-        //     pageTransitionAnimation: PageTransitionAnimation.cupertino,
-        //     withNavBar: true);
         Get.to(ProfileFullScreen(),
             arguments: [false, official.officialsId.toString()],
             transition: Transition.rightToLeft);
@@ -102,7 +97,7 @@ class OfficialTile extends StatelessWidget {
                 ],
               ),
             ),
-            if (official.typeName != "Association")
+            if (official.isPrivate == 0)
               Obx(() => Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),

@@ -35,21 +35,26 @@ class DynamicLinkService {
       var isOfficial = deepLink.pathSegments.contains('official');
 
       if (box.hasData("token")) {
-        if (isFeed) {
-          var feedId = deepLink.queryParameters['id'];
+        if (int.parse(box.read("user_id").toString()) > 1000) {
+          if (isFeed) {
+            var feedId = deepLink.queryParameters['id'];
 
-          if (feedId != null) {
-            Get.offAll(DynamicFeedDetailScreen(), arguments: feedId);
+            if (feedId != null) {
+              Get.offAll(DynamicFeedDetailScreen(), arguments: feedId);
+            }
           }
-        }
-        if (isOfficial) {
-          var officialId = deepLink.queryParameters['id'];
+          if (isOfficial) {
+            var officialId = deepLink.queryParameters['id'];
 
-          if (officialId != null) {
-            Get.to(ProfileFullScreen(),
-                arguments: [false, officialId.toString()],
-                transition: Transition.rightToLeft);
+            if (officialId != null) {
+              Get.to(ProfileFullScreen(),
+                  arguments: [false, officialId.toString()],
+                  transition: Transition.rightToLeft);
+            }
           }
+        } else {
+          box.erase();
+          Get.offAll(SelectLanguageScreen(), arguments: true);
         }
       } else {
         Get.offAll(SelectLanguageScreen(), arguments: true);

@@ -6,8 +6,8 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class SearchUtils {
-  Future<List<Official>> searchUsers(String val) async {
-    List<Official> _officials = [];
+  Future<List<Official>> searchUsers(
+      String val, List<Official> officials) async {
     GetStorage box = GetStorage();
 
     String token = box.read("token");
@@ -20,13 +20,12 @@ class SearchUtils {
             headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
     if (response.data['success']) {
+      print(response.data);
       response.data['data']
-          .map((val) => _officials.add(Official.fromJson(val)))
+          .map((val) => officials.add(Official.fromJson(val)))
           .toList();
     } else {
       //TODO empty
     }
-
-    return _officials;
   }
 }

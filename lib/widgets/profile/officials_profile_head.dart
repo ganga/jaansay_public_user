@@ -165,7 +165,7 @@ class OfficialsProfileHead extends StatelessWidget {
                 ),
               ],
             ),
-            if (official.typeName != "Association")
+            if (official.isPrivate == 0 || official.isFollow == 1)
               Column(
                 children: [
                   SizedBox(

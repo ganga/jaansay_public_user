@@ -129,34 +129,36 @@ class _ContactScreenState extends State<ContactScreen> {
     official = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: Card(
-        margin: EdgeInsets.zero,
-        child: Container(
-          child: Column(
-            children: [
-              ContactHeader(),
-              Expanded(
-                child: GoogleMap(
-                  mapToolbarEnabled: false,
-                  zoomControlsEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(double.parse(official.lattitude),
-                          double.parse(official.longitude)),
-                      zoom: 18),
-                  markers: {
-                    Marker(
-                        markerId: MarkerId("marker"),
-                        position: LatLng(double.parse(official.lattitude),
-                            double.parse(official.longitude)))
-                  },
+      body: SafeArea(
+        child: Card(
+          margin: EdgeInsets.zero,
+          child: Container(
+            child: Column(
+              children: [
+                ContactHeader(),
+                Expanded(
+                  child: GoogleMap(
+                    mapToolbarEnabled: false,
+                    zoomControlsEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(double.parse(official.lattitude),
+                            double.parse(official.longitude)),
+                        zoom: 18),
+                    markers: {
+                      Marker(
+                          markerId: MarkerId("marker"),
+                          position: LatLng(double.parse(official.lattitude),
+                              double.parse(official.longitude)))
+                    },
+                  ),
                 ),
-              ),
-              addressSection(context),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: CustomDivider()),
-              contactSection(context)
-            ],
+                addressSection(context),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: CustomDivider()),
+                contactSection(context)
+              ],
+            ),
           ),
         ),
       ),

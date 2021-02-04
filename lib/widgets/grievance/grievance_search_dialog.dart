@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/utils/search_utils.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class GrievanceSearchDialog extends StatelessWidget {
+class GrievanceSearchDialog extends StatefulWidget {
   final Function updateUser;
 
   GrievanceSearchDialog(this.updateUser);
 
+  @override
+  _GrievanceSearchDialogState createState() => _GrievanceSearchDialogState();
+}
+
+class _GrievanceSearchDialogState extends State<GrievanceSearchDialog> {
   SearchUtils searchUtils = SearchUtils();
-  var _officials = [].obs;
+
+  List<Official> _officials = [];
 
   searchOfficials(String val) async {
     if (val.length > 2) {
       _officials.clear();
-      _officials.value = await searchUtils.searchUsers(val);
+      await searchUtils.searchUsers(val, _officials);
+      _officials.removeWhere(
+          (element) => (element.isPrivate == 1 && element.isFollow != 1));
+      setState(() {});
     }
   }
 
@@ -76,15 +86,15 @@ class GrievanceSearchDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _searchField(_mediaQuery.height, _mediaQuery.width, context),
-          Obx(() => Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return GrievanceUserTile(
-                        _officials[index], true, updateUser);
-                  },
-                  itemCount: _officials.length,
-                ),
-              ))
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return GrievanceUserTile(
+                    _officials[index], true, widget.updateUser);
+              },
+              itemCount: _officials.length,
+            ),
+          )
         ],
       ),
     );

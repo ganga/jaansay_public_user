@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
@@ -132,9 +133,12 @@ class __ReviewSectionState extends State<_ReviewSection> {
       child: isLoad
           ? Loading()
           : reviews.length == 0 && widget.official.isFollow != 1
-              ? CustomErrorWidget(
-                  title: "No reviews",
-                  iconData: Icons.not_interested,
+              ? Container(
+                  margin: EdgeInsets.only(top: Get.height * 0.1),
+                  child: CustomErrorWidget(
+                    title: "No reviews",
+                    iconData: Icons.not_interested,
+                  ),
                 )
               : ListView.builder(
                   physics: NeverScrollableScrollPhysics(),

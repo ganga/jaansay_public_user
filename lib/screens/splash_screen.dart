@@ -49,15 +49,8 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           barrierDismissible: false,
         );
-      } else if (updateCheck.version == "-1") {
-        Future.delayed(
-            Duration(
-              milliseconds: 500,
-            ), () async {
-          DynamicLinkService dynamicLinkService = DynamicLinkService();
-          await dynamicLinkService.handleDynamicLinks();
-        });
-      } else if (version == updateCheck.version) {
+      } else if (updateCheck.version == "-1" ||
+          version == updateCheck.version) {
         Future.delayed(
             Duration(
               milliseconds: 500,

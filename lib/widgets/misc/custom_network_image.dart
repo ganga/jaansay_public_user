@@ -7,7 +7,7 @@ class CustomNetWorkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return photo == "no photo"
+    return photo == null || photo == "no photo"
         ? Image.asset(
             "assets/images/profileHolder.jpg",
             fit: BoxFit.cover,

@@ -58,7 +58,7 @@ class Message {
   String surveyId;
   int type;
   int messageType;
-  dynamic userName;
+  String userName;
   String photo;
   String officialsName;
 
@@ -69,25 +69,13 @@ class Message {
         userId: json["user_id"],
         updatedAt: DateTime.parse(json["updated_at"])
             .add(Duration(hours: 5, minutes: 30)),
-        surveyId: json["survey_id"] == null ? null : json["survey_id"],
+        surveyId:
+            json["survey_id"] == null ? null : json['survey_id'].toString(),
         type: json["type"],
         messageType: json["message_type"],
-        userName: json["user_name"],
-        photo: json["photo"],
-        officialsName: json["officials_name"],
+        userName: json["user_name"] == null ? null : json["user_name"],
+        photo: json["photo"] == null ? null : json["photo"],
+        officialsName:
+            json["officials_name"] == null ? null : json["officials_name"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "message_id": messageId,
-        "mm_id": mmId,
-        "message": message,
-        "user_id": userId,
-        "updated_at": updatedAt.toIso8601String(),
-        "survey_id": surveyId == null ? null : surveyId,
-        "type": type,
-        "message_type": messageType,
-        "user_name": userName,
-        "photo": photo,
-        "officials_name": officialsName,
-      };
 }

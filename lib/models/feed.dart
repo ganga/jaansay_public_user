@@ -37,8 +37,7 @@ class Feed {
         userId: json["user_id"],
         typeId: json["type_id"],
         docId: json["doc_id"],
-        updatedAt: DateTime.parse(json["updated_at"])
-            .add(Duration(hours: 5, minutes: 30)),
+        updatedAt: DateTime.parse(json["updated_at"]),
         officialsName: json["officials_name"],
         photo: json["photo"],
         typeName: json["type_name"],

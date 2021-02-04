@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -20,9 +21,13 @@ class ProfileFullScreen extends StatefulWidget {
 
 class _ProfileFullScreenState extends State<ProfileFullScreen> {
   bool isCheck = false;
+
   bool isLoad = true;
+
   bool isReview = false;
+
   Official official;
+
   List<Review> reviews = [];
 
   getOfficialById(String officialId, OfficialFeedProvider feedProvider) async {
@@ -140,9 +145,12 @@ class __ReviewSectionState extends State<_ReviewSection> {
       child: isLoad
           ? Loading()
           : reviews.length == 0 && widget.official.isFollow != 1
-              ? CustomErrorWidget(
-                  title: "No reviews",
-                  iconData: Icons.not_interested,
+              ? Container(
+                  margin: EdgeInsets.only(top: Get.height * 0.1),
+                  child: CustomErrorWidget(
+                    title: "No reviews",
+                    iconData: Icons.not_interested,
+                  ),
                 )
               : ListView.builder(
                   physics: NeverScrollableScrollPhysics(),

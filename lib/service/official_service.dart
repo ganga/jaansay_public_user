@@ -140,7 +140,6 @@ class OfficialService {
       ),
     );
 
-    print(response.data);
     if (response.data['success']) {
       official = Official.fromJson(response.data['data']);
     }

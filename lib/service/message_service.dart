@@ -93,6 +93,7 @@ class MessageService {
       GetStorage box = GetStorage();
       final userId = box.read("user_id");
 
+      print(officialId);
       Response response = await dio.post(
         "${ConnUtils.url}messages/addmessage",
         data: {
@@ -116,6 +117,7 @@ class MessageService {
             message, officialId.toString(), {"type": "message"});
         return true;
       } else {
+        print(response.data);
         return false;
       }
     } catch (e) {

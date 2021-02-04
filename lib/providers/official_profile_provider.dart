@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/utils/conn_utils.dart';
+import 'package:jaansay_public_user/utils/search_utils.dart';
 
 class OfficialProfileProvider with ChangeNotifier {
   bool _isLoad = true;
@@ -38,6 +39,31 @@ class OfficialProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  getOfficialById(String officialId) async {
+    _isLoad = true;
+    _officials.clear();
+    _officialTypes.clear();
+    OfficialService officialService = OfficialService();
+    _officials.add(await officialService.getOfficialById(officialId));
+    _officialTypes = officialService.getOfficialTypes(_officials);
+    _isLoad = false;
+    notifyListeners();
+  }
+
+  searchOfficial(String val) async {
+    if (val.length > 2) {
+      SearchUtils searchUtils = SearchUtils();
+      _isLoad = true;
+
+      _officials.clear();
+      await searchUtils.searchUsers(val, _officials);
+      _officials.removeWhere(
+          (element) => (element.isPrivate == 1 && element.isFollow != 1));
+      _isLoad = false;
+      notifyListeners();
+    }
+  }
+
   followUser(Official official, UserFeedProvider userFeedProvider) async {
     if (official.isFollow != null && official.isFollow == 0) {
       _officials[_officials.indexOf(official)].isFollow = 1;
@@ -46,6 +72,7 @@ class OfficialProfileProvider with ChangeNotifier {
 
       FollowService followService = FollowService();
       followService.followUser(official.officialsId);
+      notifyListeners();
     } else {
       _officials[_officials.indexOf(official)].isFollow = 1;
       notifyListeners();
@@ -66,6 +93,7 @@ class OfficialProfileProvider with ChangeNotifier {
         options: Options(
             headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
       );
+      notifyListeners();
     }
   }
 }
