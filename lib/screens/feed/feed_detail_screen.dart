@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 
 class FeedDetailScreen extends StatelessWidget {

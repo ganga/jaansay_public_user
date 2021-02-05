@@ -1,11 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/login_signup/about.dart';
-import 'package:jaansay_public_user/widgets/login_signup/address.dart';
 import 'package:jaansay_public_user/widgets/login_signup/finish.dart';
 import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class AboutMeScreen extends StatelessWidget {
   AboutMeScreen({Key key}) : super(key: key);

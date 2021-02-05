@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
@@ -8,7 +9,6 @@ import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class FeedList extends StatelessWidget {
   bool _isCheck = false;

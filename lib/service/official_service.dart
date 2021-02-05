@@ -57,7 +57,7 @@ class OfficialService {
     final response = await dioService.getData("ratings/$officialId");
     if (response != null) {
       response['data'].map((val) {
-        if (val['user_id'] == userId) {
+        if (val['user_id'].toString() == userId) {
           userReview = Review.fromJson(val);
         } else {
           reviews.add(Review.fromJson(val));

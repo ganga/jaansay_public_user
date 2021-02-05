@@ -1,5 +1,3 @@
-import 'package:get_storage/get_storage.dart';
-
 class Constants {
   static const productionUrl = "https://jaansay.com/api/";
   static const testUrl = "https://jaansay.com/api/test/";

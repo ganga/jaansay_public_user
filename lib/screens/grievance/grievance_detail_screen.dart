@@ -32,11 +32,11 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
   bool isSend = true;
 
   getAllGrievances() async {
-    grievanceMaster != null
-        ? await grievanceService.getAllGrievances(
-            grievances, grievanceMaster.officialsId.toString())
-        : await grievanceService.getAllGrievances(
-            grievances, official.officialsId.toString());
+    await grievanceService.getAllGrievances(
+        grievances,
+        grievanceMaster?.officialsId?.toString() ??
+            official.officialsId.toString());
+
     await officialService.getOfficialDocuments(
         officialDocuments,
         official?.officialsId?.toString() ??
@@ -99,10 +99,12 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
           SizedBox(
             width: 10,
           ),
-          Text(
-            "${grievanceMaster == null ? official.officialsName : grievanceMaster.officialsName}",
-            style: TextStyle(
-              color: Get.theme.primaryColor,
+          Expanded(
+            child: Text(
+              "${grievanceMaster == null ? official.officialsName : grievanceMaster.officialsName}",
+              style: TextStyle(
+                color: Get.theme.primaryColor,
+              ),
             ),
           ),
         ],

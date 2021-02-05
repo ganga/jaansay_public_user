@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,6 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class OfficialTile extends StatelessWidget {
   final Official official;
@@ -95,6 +95,9 @@ class OfficialTile extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              width: 8,
             ),
             if (official.isPrivate == 0)
               Obx(() => Container(

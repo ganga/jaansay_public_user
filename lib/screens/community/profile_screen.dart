@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
-import 'package:jaansay_public_user/screens/community/review_screen.dart';
-import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -19,10 +16,11 @@ import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   bool isCheck = false;
-  Official official;
 
   @override
   Widget build(BuildContext context) {
+    Official official;
+
     List response = ModalRoute.of(context).settings.arguments;
     final feedProvider = Provider.of<OfficialFeedProvider>(context);
     final officialProvider = Provider.of<OfficialProfileProvider>(context);

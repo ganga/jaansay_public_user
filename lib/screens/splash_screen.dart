@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/update_check.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
     if (response.data["success"]) {
       UpdateCheck updateCheck = UpdateCheck.fromJson(response.data['data']);
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
       String version = packageInfo.version;
       print(updateCheck.version);
       if (updateCheck.version == "0") {

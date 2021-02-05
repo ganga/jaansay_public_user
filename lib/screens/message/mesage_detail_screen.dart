@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:bubble/bubble.dart';
@@ -38,11 +37,11 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   bool isSend = true;
 
   getAllMessages() async {
-    messageMaster != null
-        ? await messageService.getAllMessagesUsingOfficialId(
-            messages, messageMaster.officialsId.toString())
-        : await messageService.getAllMessagesUsingOfficialId(
-            messages, official.officialsId.toString());
+    await messageService.getAllMessagesUsingOfficialId(
+        messages,
+        messageMaster?.officialsId?.toString() ??
+            official.officialsId.toString());
+
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments,

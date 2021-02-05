@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceSearchDialog extends StatefulWidget {
   final Function updateUser;

@@ -16,6 +16,7 @@ class OfficialProfileProvider with ChangeNotifier {
   List<Official> _officials = [];
   List<String> _officialTypes = [];
   Official _official;
+  bool _isSearching = false;
 
   bool get isLoad {
     return _isLoad;
@@ -57,15 +58,20 @@ class OfficialProfileProvider with ChangeNotifier {
   }
 
   searchOfficial(String val) async {
-    if (val.length > 2) {
+    if (val.length > 2 && !_isSearching) {
+      _isSearching = true;
       OfficialService officialService = OfficialService();
       _isLoad = true;
-
       _officials.clear();
       await officialService.searchOfficials(val, _officials);
       _officials.removeWhere(
           (element) => (element.isPrivate == 1 && element.isFollow != 1));
       _isLoad = false;
+      _isSearching = false;
+
+      notifyListeners();
+    } else if (!_isSearching) {
+      _officials.clear();
       notifyListeners();
     }
   }

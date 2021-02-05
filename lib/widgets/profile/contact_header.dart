@@ -1,9 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class ContactHeader extends StatelessWidget {
   Official official;
