@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
-import 'package:jaansay_public_user/utils/search_utils.dart';
 
 class OfficialProfileProvider with ChangeNotifier {
   bool _isLoad = true;
@@ -59,11 +58,11 @@ class OfficialProfileProvider with ChangeNotifier {
 
   searchOfficial(String val) async {
     if (val.length > 2) {
-      SearchUtils searchUtils = SearchUtils();
+      OfficialService officialService = OfficialService();
       _isLoad = true;
 
       _officials.clear();
-      await searchUtils.searchUsers(val, _officials);
+      await officialService.searchOfficials(val, _officials);
       _officials.removeWhere(
           (element) => (element.isPrivate == 1 && element.isFollow != 1));
       _isLoad = false;
@@ -82,7 +81,7 @@ class OfficialProfileProvider with ChangeNotifier {
 
     Dio dio = Dio();
     Response response = await dio.post(
-      "${ConnUtils.url}follow",
+      "${Constants.url}follow",
       data: {
         "official_id": "${_official.officialsId}",
         "user_id": "$userId",
@@ -114,7 +113,7 @@ class OfficialProfileProvider with ChangeNotifier {
 
       Dio dio = Dio();
       Response response = await dio.post(
-        "${ConnUtils.url}follow",
+        "${Constants.url}follow",
         data: {
           "official_id": "${official.officialsId}",
           "user_id": "$userId",

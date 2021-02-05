@@ -108,7 +108,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
     } else {
       isLoad = true;
       setState(() {});
-      VocalforlocalService vocalforlocalService = VocalforlocalService();
+      VocalForLocalService vocalforlocalService = VocalForLocalService();
       await vocalforlocalService.addStore(
         shopName: nameController.text,
         phone: phoneController.text,

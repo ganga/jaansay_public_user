@@ -24,7 +24,7 @@ class _GrievanceHistoryScreenState extends State<GrievanceHistoryScreen> {
   getData() async {
     grievances.clear();
     GrievanceService grievanceService = GrievanceService();
-    grievances = await grievanceService.getAllUserGrievances();
+    await grievanceService.getAllUserGrievances(grievances);
     isLoad = false;
     _refreshController.refreshCompleted();
     setState(() {});

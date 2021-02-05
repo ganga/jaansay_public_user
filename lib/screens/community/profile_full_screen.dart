@@ -117,10 +117,8 @@ class __ReviewSectionState extends State<_ReviewSection> {
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments, widget.official.officialsId.toString());
-    final List response = await officialService
-        .getOfficialRatings(widget.official.officialsId.toString());
-    userReview = response[0];
-    reviews = response[1];
+    userReview = await officialService.getOfficialRatings(
+        widget.official.officialsId.toString(), reviews);
     isLoad = false;
     setState(() {});
   }

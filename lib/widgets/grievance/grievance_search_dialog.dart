@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/utils/search_utils.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/grievance/grievance_user_tile.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -15,14 +14,14 @@ class GrievanceSearchDialog extends StatefulWidget {
 }
 
 class _GrievanceSearchDialogState extends State<GrievanceSearchDialog> {
-  SearchUtils searchUtils = SearchUtils();
+  OfficialService officialService = OfficialService();
 
   List<Official> _officials = [];
 
   searchOfficials(String val) async {
     if (val.length > 2) {
       _officials.clear();
-      await searchUtils.searchUsers(val, _officials);
+      await officialService.searchOfficials(val, _officials);
       _officials.removeWhere(
           (element) => (element.isPrivate == 1 && element.isFollow != 1));
       setState(() {});

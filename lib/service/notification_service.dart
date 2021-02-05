@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:jaansay_public_user/constants/constants.dart';
 
 class NotificationService {
   Dio dio = new Dio();
-  String serverCode =
-      "key=AAAAvyUrLIs:APA91bE8YAhAlWSGKVxOQnj1747vxLecE4ABRSh2ZpatGjp00rCLiQLUMaT6iyiijDyR5RLmiWxZeZ2-SdkGCSRK9NV0ZI_6AFVWMSGr7E3jk4dGEOfJ4sxmyWibiOA_msRIBVB2I1te";
+  String serverCode = Constants.notificationServerCode;
 
   Future sendNotificationToUser(
     String title,

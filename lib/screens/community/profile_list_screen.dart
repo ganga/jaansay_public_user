@@ -23,8 +23,9 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
   getData() async {
     isLoad = true;
     setState(() {});
+    users.clear();
     UserService userService = UserService();
-    users = await userService.getAllUsers(districtId);
+    await userService.getAllUsers(districtId, users);
     isLoad = false;
     setState(() {});
   }

@@ -1,27 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
-import 'package:jaansay_public_user/utils/search_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatelessWidget {
-  // SearchUtils searchUtils = SearchUtils();
-
-  // List<Official> _officials = [];
-  //
-  // searchOfficials(String val) async {
-  //   if (val.length > 2) {
-  //     _officials.clear();
-  //     await searchUtils.searchUsers(val, _officials);
-  //     _officials.removeWhere(
-  //         (element) => (element.isPrivate == 1 && element.isFollow != 1));
-  //     setState(() {});
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final officialProfileProvider =

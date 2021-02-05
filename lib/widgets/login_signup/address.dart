@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/panchayat.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -38,7 +38,7 @@ class _AddressState extends State<Address> {
     try {
       check = 1;
       setState(() {});
-      response = await dio.get("${ConnUtils.url}panchayat/" + _pinCode.value);
+      response = await dio.get("${Constants.url}panchayat/" + _pinCode.value);
       print(response.data.toString());
       if (response.data["success"]) {
         response.data["data"].map((val) {

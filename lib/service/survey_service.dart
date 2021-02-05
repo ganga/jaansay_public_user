@@ -3,71 +3,34 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/survey.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
+import 'package:jaansay_public_user/service/dio_service.dart';
 
 class SurveyService {
-  Future<void> getSurvey(List<Survey> surveys, String surveyId) async {
-    try {
-      Dio dio = new Dio();
-      GetStorage box = GetStorage();
+  String userId = GetStorage().read("user_id").toString();
+  DioService dioService = DioService();
 
-      Response response = await dio.get(
-        "${ConnUtils.url}survey/$surveyId",
-        options: Options(
-          headers: {
-            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
-          },
-        ),
-      );
-      if (response.data['success']) {
-        response.data['data'].map((val) {
-          surveys.add(Survey.fromJson(val));
-        }).toList();
-        return;
-      } else {
-        return;
-      }
-    } catch (e) {
-      print(e);
-      return;
+  Future<void> getSurvey(List<Survey> surveys, String surveyId) async {
+    final response = await dioService.getData("survey/$surveyId");
+    if (response != null) {
+      response['data'].map((val) {
+        surveys.add(Survey.fromJson(val));
+      }).toList();
     }
   }
 
   Future<void> addSurvey(
       List surveyAnswers, String surveyId, String messageId) async {
-    try {
-      Dio dio = new Dio();
-      GetStorage box = GetStorage();
+    final response = await dioService.postData("survey/answers", {
+      'survey_id': surveyId,
+      "survey_answers": surveyAnswers,
+      "user_id": userId,
+      "updated_at": DateTime.now().toString()
+    });
 
-      Response response = await dio.post(
-        "${ConnUtils.url}survey/answers",
-        data: {
-          'survey_id': surveyId,
-          "survey_answers": surveyAnswers,
-          "user_id": box.read("user_id").toString(),
-          "updated_at": DateTime.now().toString()
-        },
-        options: Options(
-          headers: {
-            HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
-          },
-        ),
+    if (response != null) {
+      await dioService.deleteData(
+        "messages/$messageId",
       );
-      if (response.data['success']) {
-        Response response = await dio.delete(
-          "${ConnUtils.url}messages/$messageId",
-          options: Options(
-            headers: {
-              HttpHeaders.authorizationHeader: "Bearer ${box.read("token")}",
-            },
-          ),
-        );
-        return;
-      } else {
-        return;
-      }
-    } catch (e) {
-      return;
     }
   }
 }

@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/update_check.dart';
-import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,7 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   checkLogin() async {
     Dio dio = new Dio();
-    final response = await dio.get("${ConnUtils.url}updatecheck/0");
+    final response = await dio.get("${Constants.url}updatecheck/0");
     if (response.data["success"]) {
       UpdateCheck updateCheck = UpdateCheck.fromJson(response.data['data']);
       PackageInfo packageInfo = await PackageInfo.fromPlatform();

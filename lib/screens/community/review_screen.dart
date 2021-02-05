@@ -31,10 +31,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments, official.officialsId.toString());
-    final List response = await officialService
-        .getOfficialRatings(official.officialsId.toString());
-    userReview = response[0];
-    reviews = response[1];
+    userReview = await officialService
+        .getOfficialRatings(official.officialsId.toString(), reviews);
     isLoad = false;
     setState(() {});
   }
