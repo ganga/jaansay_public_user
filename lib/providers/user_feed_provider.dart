@@ -25,6 +25,7 @@ class UserFeedProvider with ChangeNotifier {
   }
 
   Future getFeedData(RefreshController _refreshController) async {
+    _isLoad = true;
     _feeds.clear();
     _followReqs.clear();
     FeedService feedService = FeedService();

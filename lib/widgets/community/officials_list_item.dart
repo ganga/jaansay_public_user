@@ -34,10 +34,10 @@ class BusinessListItem extends StatelessWidget {
             ],
           ));
         } else {
-          pushNewScreenWithRouteSettings(context,
-              screen: ProfileScreen(),
-              settings: RouteSettings(arguments: [true, official]),
-              pageTransitionAnimation: PageTransitionAnimation.cupertino);
+          // pushNewScreenWithRouteSettings(context,
+          //     screen: ProfileScreen(),
+          //     settings: RouteSettings(arguments: [true, official]),
+          //     pageTransitionAnimation: PageTransitionAnimation.cupertino);
         }
       },
       child: Container(
