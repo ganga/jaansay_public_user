@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
@@ -22,16 +23,16 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 class OfficialsProfileHead extends StatelessWidget {
-  final Official official;
+  final OfficialProfileProvider officialProfileProvider;
+  final OfficialFeedProvider officialFeedProvider;
 
-  OfficialsProfileHead(this.official);
+  OfficialsProfileHead(this.officialProfileProvider, this.officialFeedProvider);
 
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
-    final officialProfileProvider =
-        Provider.of<OfficialProfileProvider>(context);
-    final feedProvider = Provider.of<UserFeedProvider>(context);
+
+    Official official = officialProfileProvider.official;
 
     return Card(
       margin: EdgeInsets.only(bottom: 8),
@@ -175,8 +176,8 @@ class OfficialsProfileHead extends StatelessWidget {
                       double.infinity,
                       official.isFollow,
                       "Requested",
-                      () => officialProfileProvider.followUser(
-                          official, feedProvider)),
+                      () => officialProfileProvider
+                          .followOfficial(officialFeedProvider)),
                 ],
               ),
             if (official.isFollow == 1)

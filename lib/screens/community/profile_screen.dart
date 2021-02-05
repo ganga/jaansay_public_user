@@ -4,6 +4,7 @@ import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
@@ -16,51 +17,39 @@ import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatefulWidget {
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreen extends StatelessWidget {
   bool isCheck = false;
-  bool isLoad = true;
-  bool isReview = false;
   Official official;
-  List<Review> reviews = [];
-
-  getOfficialById(String officialId, OfficialFeedProvider feedProvider) async {
-    OfficialService officialService = OfficialService();
-    official = await officialService.getOfficialById(officialId);
-    feedProvider.getFeedData(official);
-    isLoad = false;
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     List response = ModalRoute.of(context).settings.arguments;
     final feedProvider = Provider.of<OfficialFeedProvider>(context);
+    final officialProvider = Provider.of<OfficialProfileProvider>(context);
 
     if (!isCheck) {
       isCheck = true;
       if (response[0]) {
-        isLoad = false;
         official = response[1];
         feedProvider.getFeedData(official);
       } else {
-        getOfficialById(response[1], feedProvider);
+        officialProvider.getOfficialById(response[1], feedProvider);
       }
     }
 
+    if (!officialProvider.isLoad) {
+      official = officialProvider.official;
+    }
+
     return Scaffold(
-      body: isLoad
+      body: officialProvider.isLoad
           ? CustomLoading('Please wait')
           : SingleChildScrollView(
               child: Container(
                 width: double.infinity,
                 child: Column(
                   children: [
-                    OfficialsProfileHead(official),
+                    OfficialsProfileHead(officialProvider, feedProvider),
                     official.isFollow == 1
                         ? feedProvider.getLoading()
                             ? Loading()

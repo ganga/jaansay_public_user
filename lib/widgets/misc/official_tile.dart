@@ -53,6 +53,7 @@ class OfficialTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        Get.close(1);
         Get.to(ProfileFullScreen(),
             arguments: [false, official.officialsId.toString()],
             transition: Transition.rightToLeft);

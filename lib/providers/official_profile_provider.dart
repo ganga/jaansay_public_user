@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
@@ -15,6 +16,7 @@ class OfficialProfileProvider with ChangeNotifier {
 
   List<Official> _officials = [];
   List<String> _officialTypes = [];
+  Official _official;
 
   bool get isLoad {
     return _isLoad;
@@ -28,6 +30,10 @@ class OfficialProfileProvider with ChangeNotifier {
     return [..._officialTypes];
   }
 
+  Official get official {
+    return _official;
+  }
+
   getData(String type, String districtId) async {
     _isLoad = true;
     _officials.clear();
@@ -39,13 +45,14 @@ class OfficialProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  getOfficialById(String officialId) async {
+  getOfficialById(
+      String officialId, OfficialFeedProvider officialFeedProvider) async {
     _isLoad = true;
-    _officials.clear();
-    _officialTypes.clear();
     OfficialService officialService = OfficialService();
-    _officials.add(await officialService.getOfficialById(officialId));
-    _officialTypes = officialService.getOfficialTypes(_officials);
+    _official = await officialService.getOfficialById(officialId);
+    if (_official.isFollow == 1) {
+      officialFeedProvider.getFeedData(_official);
+    }
     _isLoad = false;
     notifyListeners();
   }
@@ -62,6 +69,30 @@ class OfficialProfileProvider with ChangeNotifier {
       _isLoad = false;
       notifyListeners();
     }
+  }
+
+  followOfficial(OfficialFeedProvider officialFeedProvider) async {
+    _official.isFollow = 1;
+    notifyListeners();
+    officialFeedProvider.getFeedData(_official);
+
+    GetStorage box = GetStorage();
+    final userId = box.read("user_id");
+    final token = box.read("token");
+
+    Dio dio = Dio();
+    Response response = await dio.post(
+      "${ConnUtils.url}follow",
+      data: {
+        "official_id": "${_official.officialsId}",
+        "user_id": "$userId",
+        "is_follow": "1",
+        "updated_at": "${DateTime.now()}"
+      },
+      options:
+          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+    );
+    notifyListeners();
   }
 
   followUser(Official official, UserFeedProvider userFeedProvider) async {

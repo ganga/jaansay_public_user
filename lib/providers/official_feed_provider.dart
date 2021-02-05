@@ -20,6 +20,7 @@ class OfficialFeedProvider with ChangeNotifier {
   getFeedData(Official official) async {
     _feeds.clear();
     _isLoad = true;
+    notifyListeners();
 
     FeedService feedService = FeedService();
     _feeds = await feedService.getUserFeeds(official.officialsId);

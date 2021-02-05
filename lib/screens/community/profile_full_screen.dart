@@ -4,6 +4,7 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
@@ -14,86 +15,78 @@ import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 import 'package:provider/provider.dart';
 
-class ProfileFullScreen extends StatefulWidget {
-  @override
-  _ProfileFullScreenState createState() => _ProfileFullScreenState();
-}
-
-class _ProfileFullScreenState extends State<ProfileFullScreen> {
+class ProfileFullScreen extends StatelessWidget {
   bool isCheck = false;
 
-  bool isLoad = true;
-
-  bool isReview = false;
-
   Official official;
-
-  List<Review> reviews = [];
-
-  getOfficialById(String officialId, OfficialFeedProvider feedProvider) async {
-    OfficialService officialService = OfficialService();
-    official = await officialService.getOfficialById(officialId);
-    feedProvider.getFeedData(official);
-    isLoad = false;
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     List response = ModalRoute.of(context).settings.arguments;
     final feedProvider = Provider.of<OfficialFeedProvider>(context);
+    final officialProvider = Provider.of<OfficialProfileProvider>(context);
 
     if (!isCheck) {
       isCheck = true;
       if (response[0]) {
-        isLoad = false;
         official = response[1];
         feedProvider.getFeedData(official);
       } else {
-        getOfficialById(response[1], feedProvider);
+        officialProvider.getOfficialById(response[1], feedProvider);
       }
     }
 
+    if (!officialProvider.isLoad) {
+      official = officialProvider.official;
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor: Colors.white,
-        title: Text(
-          isLoad ? 'Profile' : official.officialsName,
-          style: TextStyle(
-            color: Get.theme.primaryColor,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+          backgroundColor: Colors.white,
+          title: Text(
+            officialProvider.isLoad || officialProvider.official == null
+                ? 'Profile'
+                : official.officialsName,
+            style: TextStyle(
+              color: Get.theme.primaryColor,
+            ),
           ),
         ),
-      ),
-      body: isLoad
-          ? CustomLoading('Please wait')
-          : SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    OfficialsProfileHead(official),
-                    official.isFollow == 1
-                        ? feedProvider.getLoading()
-                            ? Loading()
-                            : ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: feedProvider.feeds.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return FeedCard(
-                                    feed: feedProvider.feeds[index],
-                                    isDetail: false,
-                                    isBusiness: true,
-                                  );
-                                },
-                              )
-                        : _ReviewSection(official),
-                  ],
+        body: WillPopScope(
+          onWillPop: () async {
+            await Get.offAll(HomeScreen());
+            return false;
+          },
+          child: officialProvider.isLoad || officialProvider.official == null
+              ? CustomLoading('Please wait')
+              : SingleChildScrollView(
+                  child: Container(
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        OfficialsProfileHead(officialProvider, feedProvider),
+                        official.isFollow == 1
+                            ? feedProvider.getLoading()
+                                ? Loading()
+                                : ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: feedProvider.feeds.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return FeedCard(
+                                        feed: feedProvider.feeds[index],
+                                        isDetail: false,
+                                        isBusiness: true,
+                                      );
+                                    },
+                                  )
+                            : _ReviewSection(official),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-    );
+        ));
   }
 }
 
