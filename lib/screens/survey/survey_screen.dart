@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/survey.dart';
@@ -151,7 +152,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                   nextPage();
                 },
                 text: curIndex.value != surveys.length - 1
-                    ? "Continue"
+                    ? tr("Continue")
                     : "Finish",
                 backColor: curIndex.value == surveys.length - 1
                     ? Theme.of(context).primaryColor

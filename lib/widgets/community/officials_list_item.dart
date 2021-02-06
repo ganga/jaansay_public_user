@@ -2,9 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/screens/community/profile_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BusinessListItem extends StatelessWidget {
   final Official official;
