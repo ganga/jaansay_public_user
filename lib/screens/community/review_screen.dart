@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
@@ -31,8 +32,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments, official.officialsId.toString());
-    userReview = await officialService
-        .getOfficialRatings(official.officialsId.toString(), reviews);
+    userReview = await officialService.getOfficialRatings(
+        official.officialsId.toString(), reviews);
     isLoad = false;
     setState(() {});
   }
@@ -46,6 +47,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Reviews",
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ),
+      ),
       body: isLoad
           ? Loading()
           : reviews.length == 0 && official.isFollow != 1

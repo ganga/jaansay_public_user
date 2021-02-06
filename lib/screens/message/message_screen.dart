@@ -26,8 +26,19 @@ class _MessageScreenState extends State<MessageScreen> {
     MessageService messageService = MessageService();
     await messageService.getMessageMasters(_messageMasters);
     _messageMasters.removeWhere((element) {
-      return element.message == null;
+      return (element.message == null || element.officialsId == 7777777);
     });
+    _messageMasters.insert(
+        0,
+        MessageMaster(
+          message: "Chat with JaanSay team.",
+          officialsId: 7777777,
+          officialsName: "JaanSay",
+          photo: "http://jaansay.com/media/officials/jaansay_official.png",
+          officialsPhone: "9980793399",
+          messageType: 0,
+        ));
+
     _refreshController.refreshCompleted();
     isLoad = false;
     setState(() {});

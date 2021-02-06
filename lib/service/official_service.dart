@@ -73,7 +73,7 @@ class OfficialService {
 
     final response = await dioService.getData("officials");
     if (response != null) {
-      response.data['data']
+      response['data']
           .map(
             (val) => officials.add(
               Official.fromJson(val),

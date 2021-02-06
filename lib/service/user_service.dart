@@ -63,7 +63,7 @@ class UserService {
       fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
     }
 
-    final response = dioService.postData("publicusers", {
+    final response = await dioService.postData("publicusers", {
       "user_name": "${box.read("register_name")}",
       "user_gender": "${box.read("register_gender")}",
       "user_dob": "${box.read("register_dob")}",
@@ -84,6 +84,7 @@ class UserService {
       AuthService authService = AuthService();
       final response = await authService.loginUser(
           box.read("register_phone"), box.read("register_password"));
+
       if (response) {
         isSuccess = true;
       }

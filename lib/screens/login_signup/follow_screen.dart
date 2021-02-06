@@ -2,20 +2,17 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
 
 class FollowScreen extends StatefulWidget {
   @override
@@ -157,54 +154,55 @@ class _OfficialTile extends StatelessWidget {
           SizedBox(
             width: 8,
           ),
-          if (official.isPrivate == 0)
-            Obx(() => Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                          color: isAllowFollow.value
-                              ? Theme.of(context).primaryColor
-                              : Colors.black54,
-                          width: 0.5),
+          Obx(
+            () => Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
                       color: isAllowFollow.value
                           ? Theme.of(context).primaryColor
-                          : Colors.black.withOpacity(0.01)),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.white,
-                      onTap: () {
-                        if (official.isFollow == 0) {
-                          official.isFollow = 1;
-                          isAllowFollow(false);
-                          FollowService followService = FollowService();
-                          followService.followUser(official.officialsId);
-                        } else if (isAllowFollow.value) {
-                          isAllowFollow(false);
-                          official.isFollow = 1;
-                          followUser(official.officialsId);
-                        }
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              isAllowFollow.value ? "Follow" : "Following",
-                              style: TextStyle(
-                                  color: isAllowFollow.value
-                                      ? Colors.white
-                                      : Colors.black),
-                            ).tr(),
-                          ),
-                        ),
+                          : Colors.black54,
+                      width: 0.5),
+                  color: isAllowFollow.value
+                      ? Theme.of(context).primaryColor
+                      : Colors.black.withOpacity(0.01)),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  splashColor: Colors.white,
+                  onTap: () {
+                    if (official.isFollow == 0) {
+                      official.isFollow = 1;
+                      isAllowFollow(false);
+                      FollowService followService = FollowService();
+                      followService.followUser(official.officialsId);
+                    } else if (isAllowFollow.value) {
+                      isAllowFollow(false);
+                      official.isFollow = 1;
+                      followUser(official.officialsId);
+                    }
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          isAllowFollow.value ? "Follow" : "Following",
+                          style: TextStyle(
+                              color: isAllowFollow.value
+                                  ? Colors.white
+                                  : Colors.black),
+                        ).tr(),
                       ),
                     ),
                   ),
-                ))
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

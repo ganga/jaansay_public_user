@@ -13,7 +13,6 @@ class AuthService {
         "${Constants.url}publicusers/signInUsingPassword",
         data: {"user_phone": phone, "user_password": passcode},
       );
-
       if (response.data['success']) {
         User user = User.fromJson(response.data['data']);
         GetStorage box = GetStorage();
