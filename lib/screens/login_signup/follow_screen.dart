@@ -68,7 +68,7 @@ class _FollowScreenState extends State<FollowScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: CustomAuthButton(
-              title: "Continue",
+              title: tr("Continue"),
               onTap: () => Get.offAll(HomeScreen()),
             ),
           ),
@@ -190,7 +190,7 @@ class _OfficialTile extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          isAllowFollow.value ? "Follow" : "Following",
+                          isAllowFollow.value ? tr("Follow") : tr("Following"),
                           style: TextStyle(
                               color: isAllowFollow.value
                                   ? Colors.white

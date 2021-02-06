@@ -183,7 +183,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
                     width: 10,
                   ),
                   Text(
-                    feed.isLiked > 0 ? "${"Liked"}" : "${"Like"}",
+                    feed.isLiked > 0 ? "${tr("Liked")}" : "${tr("Like")}",
                     style: TextStyle(
                         color: feed.isLiked > 0
                             ? Get.theme.primaryColor
@@ -200,8 +200,8 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
           child: InkWell(
             onTap: () {
               Share.share(
-                  'Check this feed on the JaanSay mobile app. ${feed.feedTitle}',
-                  subject: 'Check out this post');
+                  '${tr("Check this feed on the JaanSay mobile app.")} ${feed.feedTitle}',
+                  subject: "${tr('Check out this post')}");
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10),

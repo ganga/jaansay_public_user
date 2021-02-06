@@ -7,6 +7,8 @@ import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class ReviewScreen extends StatefulWidget {
   @override
@@ -51,7 +53,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         title: Text(
-          "Reviews",
+          tr("Reviews"),
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
@@ -61,7 +63,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ? Loading()
           : reviews.length == 0 && official.isFollow != 1
               ? CustomErrorWidget(
-                  title: "No reviews",
+                  title: "${tr("No reviews")}",
                   iconData: Icons.not_interested,
                 )
               : ListView.builder(

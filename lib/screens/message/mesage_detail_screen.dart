@@ -125,7 +125,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
             if (await canLaunch(url)) {
               await launch(url);
             } else {
-              throw 'Could not launch $url';
+              throw '${tr("Could not launch")} $url';
             }
           },
           child: Container(
@@ -207,7 +207,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                   child: Text(
                                     "Start Survey",
                                     style: TextStyle(color: Colors.white),
-                                  ),
+                                  ).tr(),
                                   color: Theme.of(context).primaryColor,
                                 ),
                               ),
@@ -224,7 +224,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         child: Text(
-                            "Please add the requested documents to send messages to this official."),
+                            "Please add the requested documents to send messages to this official.").tr(),
                       )
               ],
             ),

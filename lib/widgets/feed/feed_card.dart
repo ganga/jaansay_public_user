@@ -183,7 +183,7 @@ class FeedCard extends StatelessWidget {
             onTap: () {
               Share.share(
                   'Check this feed on the JaanSay mobile app. ${feed.feedTitle}',
-                  subject: 'Check out this post');
+                  subject: "${tr('Check out this post')}");
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10),

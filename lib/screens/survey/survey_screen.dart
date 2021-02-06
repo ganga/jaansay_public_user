@@ -50,7 +50,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
         await surveyService.addSurvey(
             surveyAnswers, surveyId.toString(), messageId);
         Get.offAll(HomeScreen());
-        Get.rawSnackbar(message: 'Survey response submitted. Thank you');
+        Get.rawSnackbar(message: tr('Survey response submitted. Thank you'));
       }
     } else {
       _controller.animateToPage(curIndex.value + 1,
@@ -104,7 +104,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         title: Text(
-          'Survey',
+          "${tr('Survey')}",
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),

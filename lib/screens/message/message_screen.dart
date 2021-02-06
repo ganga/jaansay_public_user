@@ -9,6 +9,8 @@ import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class MessageScreen extends StatefulWidget {
   @override
@@ -31,9 +33,9 @@ class _MessageScreenState extends State<MessageScreen> {
     _messageMasters.insert(
         0,
         MessageMaster(
-          message: "Chat with JaanSay team.",
+          message: tr("Chat with JaanSay team."),
           officialsId: 7777777,
-          officialsName: "JaanSay",
+          officialsName: tr("JaanSay"),
           photo: "http://jaansay.com/media/officials/jaansay_official.png",
           officialsPhone: "9980793399",
           messageType: 0,
@@ -62,7 +64,7 @@ class _MessageScreenState extends State<MessageScreen> {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
       ),
       body: Container(
         width: double.infinity,
@@ -71,7 +73,7 @@ class _MessageScreenState extends State<MessageScreen> {
             : _messageMasters.length == 0
                 ? CustomErrorWidget(
                     iconData: MdiIcons.messageAlertOutline,
-                    title: "No messages found",
+                    title: "${tr("No messages found")}",
                   )
                 : SmartRefresher(
                     enablePullDown: true,

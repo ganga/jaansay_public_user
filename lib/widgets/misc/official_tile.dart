@@ -135,7 +135,8 @@ class OfficialTile extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                isAllowFollow.value ? "Follow" : "Following",
+                                isAllowFollow.value ? "${tr("Follow")}"
+                                    : "${tr("Following")}",
                                 style: TextStyle(
                                     color: isAllowFollow.value
                                         ? Colors.white

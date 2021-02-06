@@ -99,7 +99,7 @@ class GrievanceUserTile extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        isSearch ? "Add" : "Change",
+                        isSearch ? "${tr("Add")}": "${tr("Change")}",
                         style: TextStyle(color: Colors.white),
                       ).tr(),
                     ),

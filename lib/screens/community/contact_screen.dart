@@ -46,12 +46,12 @@ class _ContactScreenState extends State<ContactScreen> {
               height: 8,
             ),
             Text(
-              title,
+              tr(title),
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   letterSpacing: 1.1,
                   fontSize: 12),
-            ).tr(),
+            ),
           ],
         ),
       ),

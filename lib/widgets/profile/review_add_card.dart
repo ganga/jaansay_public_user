@@ -56,7 +56,6 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -170,14 +169,14 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                   child: Column(
                     children: [
                       CustomErrorWidget(
-                        title: "Documents not verified",
+                        title: "${tr("Documents not verified")}",
                         iconData: Icons.file_present,
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       Text(
-                          "Please upload the requested documents to add reviews"),
+                          "Please upload the requested documents to add reviews").tr(),
                     ],
                   ),
                 ),

@@ -80,7 +80,7 @@ class FeedList extends StatelessWidget {
                         followList(),
                         Expanded(
                           child: CustomErrorWidget(
-                            title: "No feeds",
+                            title: "${tr("No feeds")}",
                             iconData: MdiIcons.nullIcon,
                           ),
                         )

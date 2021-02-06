@@ -198,7 +198,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                             "Udupi",
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.w500),
-                          ),
+                          ).tr(),
                           const SizedBox(
                             width: 8,
                           ),

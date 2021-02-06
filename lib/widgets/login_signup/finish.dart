@@ -112,7 +112,7 @@ class _FinishState extends State<Finish> {
                             sendData();
                           }
                         : null,
-                    title: "Sign Up",
+                    title: "${tr("Sign Up")}",
                   )
                 ],
               ),

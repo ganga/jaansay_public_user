@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Text(
                   "Close",
                   style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
+                ).tr(),
               ),
             ],
           ),
@@ -62,14 +62,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Text(
                   "Close",
                   style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
+                ).tr(),
               ),
               FlatButton(
                 onPressed: () => launch(updateCheck.updateLink),
                 child: Text(
                   "Update",
                   style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
+                ).tr(),
               ),
             ],
           ),
@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Hero(
-              tag: "mainlogo",
+              tag: tr("mainlogo"),
               child: Image.asset(
                 "assets/images/logo.png",
                 height: _mediaQuery.width * 0.2,
@@ -115,14 +115,14 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             RichText(
               text: TextSpan(
-                  text: 'Jaan',
+                  text: "${tr('Jaan')}",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.w600),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Say',
+                      text: "${tr('Say')}",
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 24,

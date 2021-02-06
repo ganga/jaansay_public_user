@@ -65,7 +65,7 @@ class _PasscodeOtpScreenState extends State<PasscodeOtpScreen> {
       phoneNumber: "+91" + phoneNumber,
       timeout: const Duration(seconds: 15),
       verificationCompleted: (AuthCredential authCredential) {
-        print("Your account is successfully verified");
+        print("${tr("Your account is successfully verified")}");
       },
       verificationFailed: (FirebaseAuthException authException) {
         Get.rawSnackbar(message: tr("Oops! Something went wrong"));
@@ -79,7 +79,7 @@ class _PasscodeOtpScreenState extends State<PasscodeOtpScreen> {
         setState(() {});
       },
       codeAutoRetrievalTimeout: (String verId) {
-        print("TIMEOUT");
+        print("${tr("TIMEOUT")}");
       },
     );
   }

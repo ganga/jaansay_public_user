@@ -29,7 +29,7 @@ class SearchScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             onTap: () {},
             child: Hero(
-              tag: "search_icon",
+              tag: "${tr("search_icon")}",
               child: Container(
                 margin: EdgeInsets.only(right: 10, left: 10),
                 child: Icon(

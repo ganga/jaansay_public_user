@@ -44,7 +44,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                   Get.offAll(SplashScreen());
                 } else {
                   Get.rawSnackbar(
-                      message: "You have already select this language");
+                      message: tr("You have already select this language"));
                 }
               } else {
                 String languageCode = code == 'IN' ? 'kn' : 'en';

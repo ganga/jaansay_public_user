@@ -67,7 +67,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       phoneNumber: phoneNumber,
       timeout: const Duration(seconds: 15),
       verificationCompleted: (AuthCredential authCredential) {
-        print("Your account is successfully verified");
+        print("${tr("Your account is successfully verified")}");
       },
       verificationFailed: (FirebaseAuthException authException) {
         Get.rawSnackbar(message: tr("Oops! Something went wrong"));
@@ -77,7 +77,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         verificationId = verId;
       },
       codeAutoRetrievalTimeout: (String verId) {
-        print("TIMEOUT");
+        print("${tr("TIMEOUT")}");
       },
     );
   }

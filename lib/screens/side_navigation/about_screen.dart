@@ -33,14 +33,14 @@ class AboutScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: RichText(
               text: TextSpan(
-                  text: 'Jaan',
+                  text:"${tr('Jaan')}",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
                       fontWeight: FontWeight.w600),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Say',
+                      text: "${tr('Say')}",
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 30,

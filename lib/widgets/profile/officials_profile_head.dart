@@ -15,6 +15,8 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class OfficialsProfileHead extends StatelessWidget {
   final OfficialProfileProvider officialProfileProvider;
@@ -118,7 +120,7 @@ class OfficialsProfileHead extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "Reviews", () {
+                  child: ProfileHeadButton(double.infinity, 0, "${tr("Reviews")}", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ReviewScreen(),
                         withNavBar: true,
@@ -131,7 +133,7 @@ class OfficialsProfileHead extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "Message", () {
+                  child: ProfileHeadButton(double.infinity, 0, "${tr("Message")}", () {
                     if (official.isFollow == 1) {
                       pushNewScreenWithRouteSettings(
                         context,
@@ -144,7 +146,9 @@ class OfficialsProfileHead extends StatelessWidget {
                     } else {
                       Get.rawSnackbar(
                           message:
-                              'You need to follow this business to communicate with them');
+                          "${
+                        tr('You need to follow this business to communicate with them')
+                      }");
                     }
                   }),
                 ),
@@ -152,7 +156,7 @@ class OfficialsProfileHead extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "Contact", () {
+                  child: ProfileHeadButton(double.infinity, 0, "${tr("Contact")}", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ContactScreen(),
                         settings: RouteSettings(arguments: official));
@@ -281,7 +285,7 @@ class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
                   Text(
                     "Documents requested from business",
                     style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 8,
                   ),
@@ -352,7 +356,7 @@ class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                ),
+                                                ).tr(),
                                               ),
                                             ),
                                           ),

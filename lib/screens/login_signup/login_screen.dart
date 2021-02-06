@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           phoneNumber: phoneNumber,
           timeout: const Duration(seconds: 15),
           verificationCompleted: (AuthCredential authCredential) {
-            print("Your account is successfully verified");
+            print("${tr("Your account is successfully verified")}");
           },
           verificationFailed: (FirebaseAuthException authException) {
             isLoad = false;
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Get.to(OtpVerificationScreen(), arguments: [verId, phoneNumber]);
           },
           codeAutoRetrievalTimeout: (String verId) {
-            print("TIMEOUT");
+            print("${tr("TIMEOUT")}");
           },
         );
       }
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Hero(
-                      tag: "mainlogo",
+                      tag: "${tr("mainlogo")}",
                       child: Image.asset(
                         "assets/images/logo.png",
                         height: _mediaQuery.width * 0.3,
@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   CustomAuthButton(
                     onTap: loginPhone,
-                    title: "login",
+                    title: "${tr("login")}",
                   ),
                 ],
               ),

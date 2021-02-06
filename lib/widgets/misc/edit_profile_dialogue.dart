@@ -52,7 +52,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
       _image = File(croppedFile.path);
       _isPicked(1);
     } else {
-      print('No image selected.');
+      print("${tr('No image selected.')}");
     }
   }
 

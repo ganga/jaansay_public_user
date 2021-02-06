@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class BusinessListItem extends StatelessWidget {
   final Official official;
@@ -16,9 +18,9 @@ class BusinessListItem extends StatelessWidget {
         print("${official.isPrivate} , ${official.isFollow}");
         if (official.isPrivate == 1 && official.isFollow == null) {
           Get.dialog(AlertDialog(
-            title: Text("Private Association"),
+            title: Text("Private Association").tr(),
             content: Text(
-                "Sorry, this is an private association. Only users part of this assocation can view the details. Please contact the admin to join this group."),
+                "Sorry, this is an private association. Only users part of this assocation can view the details. Please contact the admin to join this group.").tr(),
             actions: [
               FlatButton(
                 onPressed: () {
@@ -27,7 +29,7 @@ class BusinessListItem extends StatelessWidget {
                 child: Text(
                   "Okay",
                   style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
+                ).tr(),
               )
             ],
           ));

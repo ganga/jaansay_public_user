@@ -87,7 +87,7 @@ class _AboutState extends State<About> {
       initialDate: DateTime.now().subtract(Duration(days: 5000)),
       firstDate: DateTime(1950),
       lastDate: DateTime(2010),
-      helpText: "Choose the date",
+      helpText: "${tr("Choose the date")}",
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData.light().copyWith(
@@ -151,7 +151,7 @@ class _AboutState extends State<About> {
             CropAspectRatioPreset.ratio16x9
           ],
           androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Crop Image',
+              toolbarTitle: "${tr('Crop Image')}",
               toolbarColor: Colors.deepOrange,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.original,
