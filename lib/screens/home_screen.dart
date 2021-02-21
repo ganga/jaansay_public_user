@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.record_voice_over),
-        title: tr("Vocal for Local"),
+        title: tr("Vocal For Local"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),
