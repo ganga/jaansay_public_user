@@ -1,11 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
-import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/community/officials_list_group.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:provider/provider.dart';
 

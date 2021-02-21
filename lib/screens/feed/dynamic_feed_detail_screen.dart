@@ -3,20 +3,19 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/feed_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
-import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class DynamicFeedDetailScreen extends StatefulWidget {
   @override
@@ -43,7 +42,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
       Dio dio = Dio();
 
       Response response = await dio.get(
-          "${ConnUtils.url}feeds/${box.read("user_id")}/allfeeds/$feedId",
+          "${Constants.url}feeds/${box.read("user_id")}/allfeeds/$feedId",
           options: Options(
               headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
 
@@ -184,7 +183,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
                     width: 10,
                   ),
                   Text(
-                    feed.isLiked > 0 ? "${"Liked"}" : "${"Like"}",
+                    feed.isLiked > 0 ? "${tr("Liked")}" : "${tr("Like")}",
                     style: TextStyle(
                         color: feed.isLiked > 0
                             ? Get.theme.primaryColor
@@ -201,8 +200,8 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
           child: InkWell(
             onTap: () {
               Share.share(
-                  'Check this feed on the JaanSay mobile app. ${feed.feedTitle}',
-                  subject: 'Check out this post');
+                  '${tr("Check this feed on the JaanSay mobile app.")} ${feed.feedTitle}',
+                  subject: "${tr('Check out this post')}");
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
@@ -264,36 +263,10 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
             ? Loading()
             : Container(
                 child: SingleChildScrollView(
-                  child: true
-                      ? FeedCard(
-                          isDetail: true,
-                          feed: feed,
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 10),
-                            FeedTopDetails(feed),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (feed.docId == 0) _midDetail(),
-                                _bottomDetail(),
-                                if (feed.docId == 2) _midPdfDetail(),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            ),
-                            _likeShare(context),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
+                  child: FeedCard(
+                    isDetail: true,
+                    feed: feed,
+                  ),
                 ),
               ),
       ),

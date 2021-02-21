@@ -1,35 +1,22 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/service/dio_service.dart';
 import 'package:jaansay_public_user/service/notification_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 
 class FollowService {
+  String userId = GetStorage().read("user_id").toString();
+  DioService dioService = DioService();
+
   Future<bool> followUser(int officialId) async {
-    GetStorage box = GetStorage();
-
-    final token = box.read("token");
-    final userId = box.read("user_id");
-
-    Dio dio = Dio();
-    Response response = await dio.patch(
-      "${ConnUtils.url}follow",
-      data: {
-        "is_follow": "1",
-        "official_id": officialId.toString(),
-        "user_id": userId.toString()
-      },
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
-
-    if (response.data["success"]) {
+    final response = await dioService.patchData("follow", {
+      "is_follow": "1",
+      "official_id": officialId.toString(),
+      "user_id": userId.toString()
+    });
+    if (response != null) {
       NotificationService notificationService = NotificationService();
       await notificationService.sendNotificationToUser(
           "New Follower",
-          "${box.read("user_name")} has started following you.",
+          "$userId has started following you.",
           officialId.toString(),
           {"type": "follow"});
     }
@@ -38,19 +25,7 @@ class FollowService {
   }
 
   Future<bool> rejectFollow(int officialId) async {
-    GetStorage box = GetStorage();
-
-    final token = box.read("token");
-    final userId = box.read("user_id");
-
-    Dio dio = Dio();
-    Response response = await dio.delete(
-      "${ConnUtils.url}follow/${userId}/${officialId}",
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
-
-    print(response.data);
+    await dioService.deleteData("follow/$userId/$officialId");
 
     return true;
   }

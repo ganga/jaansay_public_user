@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/feed.dart';
-import 'package:jaansay_public_user/screens/community/profile_screen.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -15,9 +15,10 @@ class FeedTopDetails extends StatelessWidget {
     return InkWell(
       onTap: () {
         pushNewScreenWithRouteSettings(context,
-            screen: ProfileScreen(),
+            screen: ProfileFullScreen(),
             settings: RouteSettings(arguments: [false, feed.userId.toString()]),
-            pageTransitionAnimation: PageTransitionAnimation.cupertino);
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            withNavBar: false);
       },
       child: Container(
         margin: EdgeInsets.only(left: 16, right: 16),

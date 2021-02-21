@@ -1,13 +1,11 @@
-import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/passcode_otp_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class PasscodeChangeScreen extends StatefulWidget {
   @override

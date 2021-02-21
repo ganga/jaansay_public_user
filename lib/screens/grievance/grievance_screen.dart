@@ -9,6 +9,8 @@ import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class GrievanceScreen extends StatefulWidget {
   @override
@@ -56,7 +58,7 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
                 child: _grievanceMasters.length == 0
                     ? CustomErrorWidget(
                         iconData: MdiIcons.messageAlertOutline,
-                        title: "No grievances found",
+                        title: tr("No grievances found"),
                       )
                     : ListView.builder(
                         padding: EdgeInsets.symmetric(vertical: 15),

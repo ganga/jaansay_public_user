@@ -1,26 +1,22 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
-import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
-import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class OfficialsProfileHead extends StatelessWidget {
   final OfficialProfileProvider officialProfileProvider;
@@ -124,7 +120,7 @@ class OfficialsProfileHead extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "Reviews", () {
+                  child: ProfileHeadButton(double.infinity, 0, "${tr("Reviews")}", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ReviewScreen(),
                         withNavBar: true,
@@ -137,7 +133,7 @@ class OfficialsProfileHead extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "Message", () {
+                  child: ProfileHeadButton(double.infinity, 0, "${tr("Message")}", () {
                     if (official.isFollow == 1) {
                       pushNewScreenWithRouteSettings(
                         context,
@@ -150,7 +146,9 @@ class OfficialsProfileHead extends StatelessWidget {
                     } else {
                       Get.rawSnackbar(
                           message:
-                              'You need to follow this business to communicate with them');
+                          "${
+                        tr('You need to follow this business to communicate with them')
+                      }");
                     }
                   }),
                 ),
@@ -158,7 +156,7 @@ class OfficialsProfileHead extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "Contact", () {
+                  child: ProfileHeadButton(double.infinity, 0, "${tr("Contact")}", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ContactScreen(),
                         settings: RouteSettings(arguments: official));
@@ -287,7 +285,7 @@ class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
                   Text(
                     "Documents requested from business",
                     style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
+                  ).tr(),
                   const SizedBox(
                     height: 8,
                   ),
@@ -358,7 +356,7 @@ class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                ),
+                                                ).tr(),
                                               ),
                                             ),
                                           ),

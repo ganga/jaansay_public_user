@@ -149,11 +149,10 @@
   "No image selected.": "ಯಾವುದೇ ಚಿತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಿಲ್ಲ",
   "You need to follow this business to communicate with them": "ಅವರೊಂದಿಗೆ ಸಂವಹನ ನಡೆಸಲು ನೀವು ಈ ವ್ಯವಹಾರವನ್ನು ಅನುಸರಿಸಬೇಕು",
   "Documents requested from business": "ವ್ಯವಹಾರದಿಂದ ವಿನಂತಿಸಿದ ದಾಖಲೆಗಳು",
-  "Upload Document": "ಡಾಕ್ಯುಮೆಂಟ್ ಅನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
-  "Pending Approval": "ಅನುಮೋದನೆಗಾಗಿ ಕಾಯಿರಿ",
-  "Documents not verified": "ದಾಖಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ",
+  "Upload Document": "Upload Document",
+  "Pending Approval": "Pending Approval",
+  "Documents not verified": "Documents not verified",
   "Please upload the requested documents to add reviews": "Please upload the requested documents to add reviews",
   "Check this feed on the JaanSay mobile app.": "Check this feed on the JaanSay mobile app.",
-  "Could not launch": "Could not launch",
-  "Message":"ಸಂದೇಶ"
+  "Could not launch": "Could not launch"
 }
