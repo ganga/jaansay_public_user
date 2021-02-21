@@ -3,7 +3,6 @@ import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/service/feed_service.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OfficialFeedProvider with ChangeNotifier {
   List<Feed> _feeds = [];

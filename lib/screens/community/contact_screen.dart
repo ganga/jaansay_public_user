@@ -1,15 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/screens/grievance/grievance_test_send_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class ContactScreen extends StatefulWidget {
   @override
@@ -46,12 +46,12 @@ class _ContactScreenState extends State<ContactScreen> {
               height: 8,
             ),
             Text(
-              title,
+              tr(title),
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   letterSpacing: 1.1,
                   fontSize: 12),
-            ).tr(),
+            ),
           ],
         ),
       ),
@@ -75,10 +75,15 @@ class _ContactScreenState extends State<ContactScreen> {
             }
           }),
           contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert, () {
-            pushNewScreenWithRouteSettings(context,
-                screen: GrievanceDetailScreen(),
-                settings: RouteSettings(arguments: [false, official]),
-                withNavBar: false);
+            if (official.isFollow == 1) {
+              pushNewScreenWithRouteSettings(context,
+                  screen: GrievanceDetailScreen(),
+                  settings: RouteSettings(arguments: [false, official]),
+                  withNavBar: false);
+            } else {
+              Get.rawSnackbar(
+                  message: "You need to follow the user to send grievances");
+            }
           }),
           contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {
             Share.share(

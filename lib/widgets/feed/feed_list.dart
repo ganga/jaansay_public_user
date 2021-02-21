@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
@@ -8,7 +9,6 @@ import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class FeedList extends StatelessWidget {
   bool _isCheck = false;
@@ -59,7 +59,7 @@ class FeedList extends StatelessWidget {
 
     if (!_isCheck) {
       _isCheck = true;
-      feedProvider.getFeedData(_refreshController);
+      feedProvider.loadMoreFeeds(_refreshController, true);
     }
 
     return feedProvider.getLoading()
@@ -69,8 +69,10 @@ class FeedList extends StatelessWidget {
               enablePullDown: true,
               enablePullUp: true,
               header: ClassicHeader(),
-              onRefresh: () => feedProvider.getFeedData(_refreshController),
-              onLoading: () => feedProvider.loadMoreFeeds(_refreshController),
+              onRefresh: () =>
+                  feedProvider.loadMoreFeeds(_refreshController, true),
+              onLoading: () =>
+                  feedProvider.loadMoreFeeds(_refreshController, false),
               controller: _refreshController,
               child: feedProvider.feeds.length == 0
                   ? Column(
@@ -78,7 +80,7 @@ class FeedList extends StatelessWidget {
                         followList(),
                         Expanded(
                           child: CustomErrorWidget(
-                            title: "No feeds",
+                            title: "${tr("No feeds")}",
                             iconData: MdiIcons.nullIcon,
                           ),
                         )

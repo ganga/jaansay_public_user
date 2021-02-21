@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
@@ -46,7 +47,7 @@ class ProfileFullScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           title: Text(
             officialProvider.isLoad || officialProvider.official == null
-                ? 'Profile'
+                ? "${tr('Profile')}"
                 : official.officialsName,
             style: TextStyle(
               color: Get.theme.primaryColor,
@@ -117,17 +118,14 @@ class __ReviewSectionState extends State<_ReviewSection> {
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments, widget.official.officialsId.toString());
-    final List response = await officialService
-        .getOfficialRatings(widget.official.officialsId.toString());
-    userReview = response[0];
-    reviews = response[1];
+    userReview = await officialService.getOfficialRatings(
+        widget.official.officialsId.toString(), reviews);
     isLoad = false;
     setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -141,7 +139,7 @@ class __ReviewSectionState extends State<_ReviewSection> {
               ? Container(
                   margin: EdgeInsets.only(top: Get.height * 0.1),
                   child: CustomErrorWidget(
-                    title: "No reviews",
+                    title: tr("No reviews"),
                     iconData: Icons.not_interested,
                   ),
                 )

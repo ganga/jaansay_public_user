@@ -1,18 +1,16 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
-import 'package:jaansay_public_user/screens/community/profile_screen.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class OfficialTile extends StatelessWidget {
   final Official official;
@@ -28,7 +26,7 @@ class OfficialTile extends StatelessWidget {
     print(userId);
     Dio dio = Dio();
     Response response = await dio.post(
-      "${ConnUtils.url}follow",
+      "${Constants.url}follow",
       data: {
         "official_id": "$officialId",
         "user_id": "$userId",
@@ -98,6 +96,9 @@ class OfficialTile extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              width: 8,
+            ),
             if (official.isPrivate == 0)
               Obx(() => Container(
                     decoration: BoxDecoration(
@@ -134,7 +135,8 @@ class OfficialTile extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                isAllowFollow.value ? "Follow" : "Following",
+                                isAllowFollow.value ? "${tr("Follow")}"
+                                    : "${tr("Following")}",
                                 style: TextStyle(
                                     color: isAllowFollow.value
                                         ? Colors.white

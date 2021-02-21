@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/models/official.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 class FollowButton extends StatelessWidget {
   final bool isFollow;

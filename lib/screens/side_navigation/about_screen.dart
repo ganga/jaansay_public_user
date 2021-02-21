@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key key}) : super(key: key);
@@ -33,14 +33,14 @@ class AboutScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: RichText(
               text: TextSpan(
-                  text: 'Jaan',
+                  text:"${tr('Jaan')}",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
                       fontWeight: FontWeight.w600),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Say',
+                      text: "${tr('Say')}",
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 30,

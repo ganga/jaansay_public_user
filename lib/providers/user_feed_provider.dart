@@ -24,23 +24,24 @@ class UserFeedProvider with ChangeNotifier {
     return _isLoad;
   }
 
-  Future getFeedData(RefreshController _refreshController) async {
-    _feeds.clear();
-    _followReqs.clear();
-    FeedService feedService = FeedService();
-    _feeds = await feedService.getLastTwoFeeds();
-    _followReqs = await feedService.getFollowReqs();
-    if (feeds.length < 3) {
-      page = 1;
-      await loadMoreFeeds(_refreshController);
-    }
-    _refreshController.refreshCompleted();
-    _isLoad = false;
-    _loadMore = true;
-    _refreshController.resetNoData();
-    notifyListeners();
-    return;
-  }
+  // Future getFeedData(RefreshController _refreshController) async {
+  //   _isLoad = true;
+  //   _feeds.clear();
+  //   _followReqs.clear();
+  //   FeedService feedService = FeedService();
+  //   // _feeds = await feedService.getLastTwoFeeds();
+  //   // _followReqs = await feedService.getFollowReqs();
+  //   if (_feeds.length < 3) {
+  //     page = 1;
+  //     await loadMoreFeeds(_refreshController);
+  //   }
+  //   _refreshController.refreshCompleted();
+  //   _isLoad = false;
+  //   _loadMore = true;
+  //   _refreshController.resetNoData();
+  //   notifyListeners();
+  //   return;
+  // }
 
   acceptFollow(Official official) {
     _followReqs.remove(official);
@@ -56,19 +57,29 @@ class UserFeedProvider with ChangeNotifier {
     followService.rejectFollow(official.officialsId);
   }
 
-  Future loadMoreFeeds(RefreshController _refreshController) async {
+  Future loadMoreFeeds(
+      RefreshController _refreshController, bool isRefresh) async {
+    if (isRefresh) {
+      _feeds.clear();
+      _loadMore = true;
+      _isLoad = true;
+      page = 1;
+      _refreshController.resetNoData();
+    } else {
+      page++;
+    }
     if (_loadMore) {
       FeedService feedService = FeedService();
       final response = await feedService.getMoreFeeds(page.toString());
       _feeds += response[0];
       _loadMore = response[1] == null ? false : true;
-      if (response[1] != null) {
-        page = response[1];
-      }
       _refreshController.loadComplete();
+      _refreshController.refreshCompleted();
     } else {
       _refreshController.loadNoData();
     }
+    _isLoad = false;
+
     notifyListeners();
     return;
   }

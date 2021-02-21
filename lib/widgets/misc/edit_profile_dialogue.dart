@@ -1,17 +1,17 @@
 import 'dart:io';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class EditProfileDailogue extends StatefulWidget {
-  Function updatePhoto;
+  final Function updatePhoto;
 
   EditProfileDailogue(this.updatePhoto);
 
@@ -52,7 +52,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
       _image = File(croppedFile.path);
       _isPicked(1);
     } else {
-      print('No image selected.');
+      print("${tr('No image selected.')}");
     }
   }
 

@@ -10,6 +10,8 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class GrievanceDetailScreen extends StatefulWidget {
   @override
@@ -32,11 +34,11 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
   bool isSend = true;
 
   getAllGrievances() async {
-    grievanceMaster != null
-        ? await grievanceService.getAllGrievances(
-            grievances, grievanceMaster.officialsId.toString())
-        : await grievanceService.getAllGrievances(
-            grievances, official.officialsId.toString());
+    await grievanceService.getAllGrievances(
+        grievances,
+        grievanceMaster?.officialsId?.toString() ??
+            official.officialsId.toString());
+
     await officialService.getOfficialDocuments(
         officialDocuments,
         official?.officialsId?.toString() ??
@@ -99,10 +101,12 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
           SizedBox(
             width: 10,
           ),
-          Text(
-            "${grievanceMaster == null ? official.officialsName : grievanceMaster.officialsName}",
-            style: TextStyle(
-              color: Get.theme.primaryColor,
+          Expanded(
+            child: Text(
+              "${grievanceMaster == null ? official.officialsName : grievanceMaster.officialsName}",
+              style: TextStyle(
+                color: Get.theme.primaryColor,
+              ),
             ),
           ),
         ],
@@ -116,7 +120,7 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
             if (await canLaunch(url)) {
               await launch(url);
             } else {
-              throw 'Could not launch $url';
+              throw '${tr("Could not launch")} $url';
             }
           },
           child: Container(
@@ -195,7 +199,7 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         child: Text(
-                            "Please add the requested documents to send messages to this official."),
+                            "Please add the requested documents to send messages to this official.").tr(),
                       )
               ],
             ),
@@ -270,7 +274,7 @@ class _MessageField extends StatelessWidget {
               child: TextField(
                 controller: _messageController,
                 decoration: InputDecoration.collapsed(
-                  hintText: "Enter a message",
+                  hintText: tr("Enter a message"),
                 ),
                 textCapitalization: TextCapitalization.sentences,
                 minLines: 1,

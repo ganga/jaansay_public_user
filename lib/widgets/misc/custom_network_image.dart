@@ -15,7 +15,7 @@ class CustomNetWorkImage extends StatelessWidget {
             height: double.infinity,
           )
         : FadeInImage(
-            image: NetworkImage("$photo"),
+            image: NetworkImage(photo.toString()),
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,

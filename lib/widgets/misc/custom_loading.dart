@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomLoading extends StatelessWidget {
   final String title;
@@ -17,7 +18,7 @@ class CustomLoading extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Text("$title"),
+          Text(tr("$title")),
         ],
       ),
     );

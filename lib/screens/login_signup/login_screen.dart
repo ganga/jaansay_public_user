@@ -1,14 +1,12 @@
-import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/passcode_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
-import 'package:jaansay_public_user/utils/conn_utils.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "login";
@@ -42,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           phoneNumber: phoneNumber,
           timeout: const Duration(seconds: 15),
           verificationCompleted: (AuthCredential authCredential) {
-            print("Your account is successfully verified");
+            print("${tr("Your account is successfully verified")}");
           },
           verificationFailed: (FirebaseAuthException authException) {
             isLoad = false;
@@ -57,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Get.to(OtpVerificationScreen(), arguments: [verId, phoneNumber]);
           },
           codeAutoRetrievalTimeout: (String verId) {
-            print("TIMEOUT");
+            print("${tr("TIMEOUT")}");
           },
         );
       }
@@ -83,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Hero(
-                      tag: "mainlogo",
+                      tag: "${tr("mainlogo")}",
                       child: Image.asset(
                         "assets/images/logo.png",
                         height: _mediaQuery.width * 0.3,
@@ -134,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   CustomAuthButton(
                     onTap: loginPhone,
-                    title: "login",
+                    title: "${tr("login")}",
                   ),
                 ],
               ),
