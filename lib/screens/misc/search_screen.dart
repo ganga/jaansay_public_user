@@ -5,10 +5,17 @@ import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatelessWidget {
+  bool isCheck = false;
+
   @override
   Widget build(BuildContext context) {
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
+
+    if (!isCheck) {
+      isCheck = true;
+      officialProfileProvider.clearOfficials();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +36,7 @@ class SearchScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             onTap: () {},
             child: Hero(
-              tag: "${tr("search_icon")}",
+              tag: "search_icon",
               child: Container(
                 margin: EdgeInsets.only(right: 10, left: 10),
                 child: Icon(

@@ -59,7 +59,7 @@ class FeedList extends StatelessWidget {
 
     if (!_isCheck) {
       _isCheck = true;
-      feedProvider.loadMoreFeeds(_refreshController, true);
+      feedProvider.loadFeeds(_refreshController, true);
     }
 
     return feedProvider.getLoading()
@@ -69,10 +69,9 @@ class FeedList extends StatelessWidget {
               enablePullDown: true,
               enablePullUp: true,
               header: ClassicHeader(),
-              onRefresh: () =>
-                  feedProvider.loadMoreFeeds(_refreshController, true),
+              onRefresh: () => feedProvider.loadFeeds(_refreshController, true),
               onLoading: () =>
-                  feedProvider.loadMoreFeeds(_refreshController, false),
+                  feedProvider.loadFeeds(_refreshController, false),
               controller: _refreshController,
               child: feedProvider.feeds.length == 0
                   ? Column(

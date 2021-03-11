@@ -11,7 +11,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class MessageScreen extends StatefulWidget {
   @override
   _MessageScreenState createState() => _MessageScreenState();
@@ -33,7 +32,7 @@ class _MessageScreenState extends State<MessageScreen> {
     _messageMasters.insert(
         0,
         MessageMaster(
-          message: tr("Chat with JaanSay team."),
+          message: tr("Have any feedback for us?"),
           officialsId: 7777777,
           officialsName: tr("JaanSay"),
           photo: "http://jaansay.com/media/officials/jaansay_official.png",

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:bubble/bubble.dart';
@@ -33,15 +34,15 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   ScrollController _scrollController = ScrollController();
   OfficialService officialService = OfficialService();
   List<OfficialDocument> officialDocuments = [];
-
+  bool sendingMessage = false;
   bool isSend = true;
+  Timer messageTimer;
 
   getAllMessages() async {
     await messageService.getAllMessagesUsingOfficialId(
         messages,
         messageMaster?.officialsId?.toString() ??
             official.officialsId.toString());
-
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments,
@@ -57,9 +58,26 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     setState(() {});
   }
 
+  checkNewMessages() async {
+    if (!sendingMessage) {
+      List<Message> tempMessages = [];
+      await messageService.getAllMessagesUsingOfficialId(
+          tempMessages,
+          messageMaster?.officialsId?.toString() ??
+              official.officialsId.toString());
+      tempMessages = tempMessages.reversed.toList();
+      if (tempMessages.first.messageId != messages.first.messageId) {
+        messages.clear();
+        messages = [...tempMessages];
+        setState(() {});
+      }
+    }
+  }
+
   sendMessage() async {
     if (_messageController.text != null &&
         _messageController.text.trim().length > 0) {
+      sendingMessage = true;
       String message = _messageController.text.trim();
       GetStorage box = GetStorage();
       final userId = box.read("user_id");
@@ -83,6 +101,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
               message, messageMaster.officialsId.toString())
           : await messageService.sendMessage(
               message, official.officialsId.toString());
+      sendingMessage = false;
     }
   }
 
@@ -142,6 +161,14 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   }
 
   @override
+  void dispose() {
+    messageTimer.cancel();
+
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List response = ModalRoute.of(context).settings.arguments;
 
@@ -154,6 +181,9 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     if (!isCheck) {
       isCheck = true;
       getAllMessages();
+      messageTimer = Timer.periodic(Duration(seconds: 3), (timer) {
+        checkNewMessages();
+      });
     }
 
     return Scaffold(
@@ -224,7 +254,8 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         child: Text(
-                            "Please add the requested documents to send messages to this official.").tr(),
+                                "Please add the requested documents to send messages to this official.")
+                            .tr(),
                       )
               ],
             ),

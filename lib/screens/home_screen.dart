@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PersistentTabController _controller;
+  PersistentTabController _controller = PersistentTabController();
   bool isCheck = false;
 
   Widget appBarIcon(
@@ -78,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _buildScreens() {
     return [
       FeedList(),
-      //CommunityDetailsScreen(),
-      GrievanceScreen(),
+      CommunityDetailsScreen(),
+      GrievanceScreen(() => _controller.jumpToTab(1)),
       VocalHomeScreen(),
     ];
   }
@@ -92,12 +93,12 @@ class _HomeScreenState extends State<HomeScreen> {
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
       ),
-      // PersistentBottomNavBarItem(
-      //   icon: Icon(Icons.group),
-      //   title: tr("Community"),
-      //   activeColor: Theme.of(context).primaryColor,
-      //   inactiveColor: Colors.grey,
-      // ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.group),
+        title: tr("Community"),
+        activeColor: Theme.of(context).primaryColor,
+        inactiveColor: Colors.grey,
+      ),
       PersistentBottomNavBarItem(
         icon: Icon(MdiIcons.messageAlert),
         title: tr("Grievance"),

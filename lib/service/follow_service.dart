@@ -7,16 +7,17 @@ class FollowService {
   DioService dioService = DioService();
 
   Future<bool> followUser(int officialId) async {
-    final response = await dioService.patchData("follow", {
+    final response = await dioService.postData("follow", {
       "is_follow": "1",
       "official_id": officialId.toString(),
-      "user_id": userId.toString()
+      "user_id": userId.toString(),
+      "updated_at": "${DateTime.now()}"
     });
     if (response != null) {
       NotificationService notificationService = NotificationService();
       await notificationService.sendNotificationToUser(
           "New Follower",
-          "$userId has started following you.",
+          "${GetStorage().read("user_name").toString()} has started following you.",
           officialId.toString(),
           {"type": "follow"});
     }

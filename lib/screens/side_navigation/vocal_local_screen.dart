@@ -158,9 +158,20 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   "assets/images/localshop.png",
-                  height: Get.width * 0.5,
-                  width: Get.width * 0.5,
+                  height: Get.width * 0.4,
+                  width: Get.width * 0.4,
                 ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "Can't find local business near you?\nPlease let us know & we will add them here.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ).tr(),
+              SizedBox(
+                height: 16,
               ),
               _customTextField("Enter Business name", "Business Name",
                   nameController, false),

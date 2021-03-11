@@ -2,9 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BusinessListItem extends StatelessWidget {
   final Official official;
@@ -20,7 +21,8 @@ class BusinessListItem extends StatelessWidget {
           Get.dialog(AlertDialog(
             title: Text("Private Association").tr(),
             content: Text(
-                "Sorry, this is an private association. Only users part of this assocation can view the details. Please contact the admin to join this group.").tr(),
+                    "Sorry, this is an private association. Only users part of this assocation can view the details. Please contact the admin to join this group.")
+                .tr(),
             actions: [
               FlatButton(
                 onPressed: () {
@@ -34,10 +36,9 @@ class BusinessListItem extends StatelessWidget {
             ],
           ));
         } else {
-          // pushNewScreenWithRouteSettings(context,
-          //     screen: ProfileScreen(),
-          //     settings: RouteSettings(arguments: [true, official]),
-          //     pageTransitionAnimation: PageTransitionAnimation.cupertino);
+          Get.to(ProfileFullScreen(),
+              arguments: [false, official.officialsId.toString()],
+              transition: Transition.rightToLeft);
         }
       },
       child: Container(

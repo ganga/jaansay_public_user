@@ -7,7 +7,14 @@ class CustomNetWorkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return photo == null || photo == "no photo"
+    String filteredPhoto = photo;
+    if (photo != null && photo != "no photo" && photo != '') {
+      filteredPhoto = photo.toString().replaceAll(' ', '%20');
+    }
+
+    return filteredPhoto == null ||
+            filteredPhoto == "no photo" ||
+            filteredPhoto == ''
         ? Image.asset(
             "assets/images/profileHolder.jpg",
             fit: BoxFit.cover,
@@ -15,7 +22,7 @@ class CustomNetWorkImage extends StatelessWidget {
             height: double.infinity,
           )
         : FadeInImage(
-            image: NetworkImage(photo.toString()),
+            image: NetworkImage(filteredPhoto.toString()),
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,

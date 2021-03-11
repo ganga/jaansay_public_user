@@ -69,72 +69,77 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
       body: isLoad
           ? Loading()
-          : Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Hero(
-                      tag: "${tr("mainlogo")}",
-                      child: Image.asset(
-                        "assets/images/logo.png",
-                        height: _mediaQuery.width * 0.3,
-                        width: _mediaQuery.width * 0.3,
+          : SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.2,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Hero(
+                        tag: "${tr("mainlogo")}",
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          height: _mediaQuery.width * 0.3,
+                          width: _mediaQuery.width * 0.3,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    "${tr("welcomeTitle")}!",
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    "${tr("welcomeSubtitle")}!",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
+                    Text(
+                      "${tr("welcomeTitle")}!",
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      "${tr("welcomeSubtitle")}!",
+                      style: TextStyle(
+                        fontSize: 20,
                       ),
                     ),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: controller,
-                      onSubmitted: (val) {
-                        loginPhone();
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: "${tr("phone")}",
-                        hintText: "${tr("Enter your phone number")}",
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: controller,
+                        onSubmitted: (val) {
+                          loginPhone();
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: "${tr("phone")}",
+                          hintText: "${tr("Enter your phone number")}",
+                        ),
                       ),
                     ),
-                  ),
-                  CustomAuthButton(
-                    onTap: loginPhone,
-                    title: "${tr("login")}",
-                  ),
-                ],
+                    CustomAuthButton(
+                      onTap: loginPhone,
+                      title: "${tr("login")}",
+                    ),
+                  ],
+                ),
               ),
             ),
     );

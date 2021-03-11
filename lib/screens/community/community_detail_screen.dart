@@ -20,27 +20,21 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   bool isCheck = false;
 
   Map count = {};
-  List<Map<String, dynamic>> districtMap = [];
   List<String> districts = [];
   GetStorage box = GetStorage();
   String selectedDistrict = "";
-  String districtId;
+  String districtId = "1";
 
   getData() async {
     isLoad = true;
     setState(() {});
     MiscService miscService = MiscService();
     districts.clear();
-    districtMap.clear();
     count.clear();
-    await miscService.getAllCount(count, districtMap);
-    districtMap.map((e) {
-      if (e['district_id'].toString() == box.read('district_id').toString()) {
-        districtId = e['district_id'].toString();
-        selectedDistrict = e['district_name'];
-      }
-      districts.add(e['district_name']);
-    }).toList();
+    await miscService.getAllCount(
+      count,
+    );
+
     isLoad = false;
     setState(() {});
   }
@@ -50,13 +44,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
     setState(() {});
     MiscService miscService = MiscService();
     count.clear();
-    districtMap.map((e) {
-      if (e['district_name'] == selectedDistrict) {
-        districtId = e['district_id'].toString();
-      }
-    }).toList();
-    await miscService.getAllCountDistrict(
-        count, districtMap, districtId.toString());
+    await miscService.getAllCountDistrict(count, districtId.toString());
     isLoad = false;
     setState(() {});
   }
@@ -123,7 +111,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
     final _mediaQuery = MediaQuery.of(context).size;
     if (!isCheck) {
       isCheck = true;
-      getData();
+      getDistrictData();
     }
     return Scaffold(
       body: isLoad
@@ -208,14 +196,14 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                     SizedBox(
                       height: _mediaQuery.height * 0.03,
                     ),
-                    _dataBox(
-                        "${count['user']}",
-                        "Public Users",
-                        context,
-                        _mediaQuery.height,
-                        _mediaQuery.width,
-                        ProfileListScreen(),
-                        "public"),
+                    // _dataBox(
+                    //     "${count['user']}",
+                    //     "Public Users",
+                    //     context,
+                    //     _mediaQuery.height,
+                    //     _mediaQuery.width,
+                    //     ProfileListScreen(),
+                    //     "public"),
                     _dataBox(
                         "${count['business']}",
                         "Business",

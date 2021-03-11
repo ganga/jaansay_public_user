@@ -17,7 +17,6 @@ import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class OfficialsProfileHead extends StatelessWidget {
   final OfficialProfileProvider officialProfileProvider;
   final OfficialFeedProvider officialFeedProvider;
@@ -120,7 +119,30 @@ class OfficialsProfileHead extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "${tr("Reviews")}", () {
+                  child: ProfileHeadButton(
+                      double.infinity,
+                      official.isFollow,
+                      "Requested",
+                      () => officialProfileProvider
+                          .followOfficial(officialFeedProvider)),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ProfileHeadButton(
+                      double.infinity, 0, "${tr("Contact")}", () {
+                    pushNewScreenWithRouteSettings(context,
+                        screen: ContactScreen(),
+                        settings: RouteSettings(arguments: official));
+                  }),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ProfileHeadButton(
+                      double.infinity, 0, "${tr("Reviews")}", () {
                     pushNewScreenWithRouteSettings(context,
                         screen: ReviewScreen(),
                         withNavBar: true,
@@ -129,55 +151,32 @@ class OfficialsProfileHead extends StatelessWidget {
                         ));
                   }),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "${tr("Message")}", () {
-                    if (official.isFollow == 1) {
-                      pushNewScreenWithRouteSettings(
-                        context,
-                        screen: MessageDetailScreen(),
-                        withNavBar: false,
-                        settings: RouteSettings(
-                          arguments: [false, official],
-                        ),
-                      );
-                    } else {
-                      Get.rawSnackbar(
-                          message:
-                          "${
-                        tr('You need to follow this business to communicate with them')
-                      }");
-                    }
-                  }),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ProfileHeadButton(double.infinity, 0, "${tr("Contact")}", () {
-                    pushNewScreenWithRouteSettings(context,
-                        screen: ContactScreen(),
-                        settings: RouteSettings(arguments: official));
-                  }),
-                ),
               ],
             ),
-            if (official.isPrivate == 0 || official.isFollow == 1)
-              Column(
-                children: [
-                  SizedBox(
-                    height: _mediaQuery.height * 0.01,
-                  ),
-                  ProfileHeadButton(
-                      double.infinity,
-                      official.isFollow,
-                      "Requested",
-                      () => officialProfileProvider
-                          .followOfficial(officialFeedProvider)),
-                ],
-              ),
+            Column(
+              children: [
+                SizedBox(
+                  height: _mediaQuery.height * 0.01,
+                ),
+                ProfileHeadButton(
+                    double.infinity, 0, "${tr("Click here to know more")}", () {
+                  if (official.isFollow == 1) {
+                    pushNewScreenWithRouteSettings(
+                      context,
+                      screen: MessageDetailScreen(),
+                      withNavBar: false,
+                      settings: RouteSettings(
+                        arguments: [false, official],
+                      ),
+                    );
+                  } else {
+                    Get.rawSnackbar(
+                        message:
+                            "${tr('You need to follow this business to communicate with them')}");
+                  }
+                }),
+              ],
+            ),
             if (official.isFollow == 1)
               _OfficialDocumentSection(official.officialsId)
           ],

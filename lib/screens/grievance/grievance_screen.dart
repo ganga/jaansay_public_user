@@ -11,8 +11,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class GrievanceScreen extends StatefulWidget {
+  final Function changeScreen;
+
+  GrievanceScreen(this.changeScreen);
+
   @override
   _GrievanceScreenState createState() => _GrievanceScreenState();
 }
@@ -46,6 +49,16 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          widget.changeScreen();
+        },
+      ),
       body: Container(
         width: double.infinity,
         child: isLoad

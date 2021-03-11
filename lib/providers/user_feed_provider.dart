@@ -24,25 +24,6 @@ class UserFeedProvider with ChangeNotifier {
     return _isLoad;
   }
 
-  // Future getFeedData(RefreshController _refreshController) async {
-  //   _isLoad = true;
-  //   _feeds.clear();
-  //   _followReqs.clear();
-  //   FeedService feedService = FeedService();
-  //   // _feeds = await feedService.getLastTwoFeeds();
-  //   // _followReqs = await feedService.getFollowReqs();
-  //   if (_feeds.length < 3) {
-  //     page = 1;
-  //     await loadMoreFeeds(_refreshController);
-  //   }
-  //   _refreshController.refreshCompleted();
-  //   _isLoad = false;
-  //   _loadMore = true;
-  //   _refreshController.resetNoData();
-  //   notifyListeners();
-  //   return;
-  // }
-
   acceptFollow(Official official) {
     _followReqs.remove(official);
     notifyListeners();
@@ -57,8 +38,7 @@ class UserFeedProvider with ChangeNotifier {
     followService.rejectFollow(official.officialsId);
   }
 
-  Future loadMoreFeeds(
-      RefreshController _refreshController, bool isRefresh) async {
+  Future loadFeeds(RefreshController _refreshController, bool isRefresh) async {
     if (isRefresh) {
       _feeds.clear();
       _loadMore = true;

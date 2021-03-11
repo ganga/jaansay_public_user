@@ -34,12 +34,18 @@ class OfficialProfileProvider with ChangeNotifier {
     return _official;
   }
 
+  clearOfficials() {
+    _officials.clear();
+    _officialTypes.clear();
+  }
+
   getData(String type, String districtId) async {
     _isLoad = true;
     _officials.clear();
     _officialTypes.clear();
     OfficialService officialService = OfficialService();
     _officials = await officialService.getAllOfficialsType(type, districtId);
+    _officials.removeWhere((element) => element.isPrivate == 1);
     _officialTypes = officialService.getOfficialTypes(_officials);
     _isLoad = false;
     notifyListeners();
@@ -85,18 +91,20 @@ class OfficialProfileProvider with ChangeNotifier {
     final userId = box.read("user_id");
     final token = box.read("token");
 
-    Dio dio = Dio();
-    Response response = await dio.post(
-      "${Constants.url}follow",
-      data: {
-        "official_id": "${_official.officialsId}",
-        "user_id": "$userId",
-        "is_follow": "1",
-        "updated_at": "${DateTime.now()}"
-      },
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
+    //Dio dio = Dio();
+    // Response response = await dio.post(
+    //   "${Constants.url}follow",
+    //   data: {
+    //     "official_id": "${_official.officialsId}",
+    //     "user_id": "$userId",
+    //     "is_follow": "1",
+    //     "updated_at": "${DateTime.now()}"
+    //   },
+    //   options:
+    //       Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+    // );
+    FollowService followService = FollowService();
+    await followService.followUser(_official.officialsId);
     notifyListeners();
   }
 

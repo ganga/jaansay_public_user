@@ -1,11 +1,6 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
@@ -83,29 +78,6 @@ class _OfficialTile extends StatelessWidget {
 
   _OfficialTile(this.official);
 
-  Future<bool> followUser(int officialId) async {
-    GetStorage box = GetStorage();
-
-    final userId = box.read("user_id");
-    final token = box.read("token");
-
-    print(userId);
-    Dio dio = Dio();
-    Response response = await dio.post(
-      "${Constants.url}follow",
-      data: {
-        "official_id": "$officialId",
-        "user_id": "$userId",
-        "is_follow": "1",
-        "updated_at": "${DateTime.now()}"
-      },
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
-
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     var isAllowFollow =
@@ -171,16 +143,10 @@ class _OfficialTile extends StatelessWidget {
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    if (official.isFollow == 0) {
-                      official.isFollow = 1;
-                      isAllowFollow(false);
-                      FollowService followService = FollowService();
-                      followService.followUser(official.officialsId);
-                    } else if (isAllowFollow.value) {
-                      isAllowFollow(false);
-                      official.isFollow = 1;
-                      followUser(official.officialsId);
-                    }
+                    FollowService followService = FollowService();
+                    isAllowFollow(false);
+                    official.isFollow = 1;
+                    followService.followUser(official.officialsId);
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
