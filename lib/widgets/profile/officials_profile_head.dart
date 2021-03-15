@@ -8,10 +8,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/screens/catalog/category_screen.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
+import 'package:jaansay_public_user/widgets/catalog/featured_section.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -118,77 +120,93 @@ class OfficialsProfileHead extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: ProfileHeadButton(
-                    title: official.isFollow == 1 ? "Following" : "Follow",
-                    onTap: () {
-                      if (official.isFollow == 0) {
-                        officialProfileProvider.followOfficial(
-                            officialFeedProvider: officialFeedProvider);
-                      }
-                    },
-                    isColor: official.isFollow == 0,
-                  ),
+                ProfileHeadButton(
+                  title: official.isFollow == 1 ? "Following" : "Follow",
+                  onTap: () {
+                    if (official.isFollow == 0) {
+                      officialProfileProvider.followOfficial(
+                          officialFeedProvider: officialFeedProvider);
+                    }
+                  },
+                  isColor: official.isFollow == 0,
                 ),
                 SizedBox(
                   width: 10,
                 ),
-                Expanded(
-                  child: ProfileHeadButton(
-                      title: "${tr("Contact")}",
-                      onTap: () {
-                        pushNewScreenWithRouteSettings(context,
-                            screen: ContactScreen(),
-                            settings: RouteSettings(arguments: official));
-                      }),
-                ),
+                ProfileHeadButton(
+                    title: "${tr("Contact")}",
+                    onTap: () {
+                      pushNewScreenWithRouteSettings(context,
+                          screen: ContactScreen(),
+                          settings: RouteSettings(arguments: official));
+                    }),
                 SizedBox(
                   width: 10,
                 ),
-                Expanded(
-                  child: ProfileHeadButton(
-                    title: "${tr("Reviews")}",
-                    onTap: () {
-                      pushNewScreenWithRouteSettings(
-                        context,
-                        screen: ReviewScreen(),
-                        withNavBar: true,
-                        settings: RouteSettings(
-                          arguments: official,
-                        ),
-                      );
-                    },
-                  ),
+                ProfileHeadButton(
+                  title: "${tr("Reviews")}",
+                  onTap: () {
+                    pushNewScreenWithRouteSettings(
+                      context,
+                      screen: ReviewScreen(),
+                      withNavBar: true,
+                      settings: RouteSettings(
+                        arguments: official,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
-            Column(
+            SizedBox(
+              height: Get.height * 0.01,
+            ),
+            Row(
               children: [
-                SizedBox(
-                  height: Get.height * 0.01,
-                ),
                 ProfileHeadButton(
-                    title: "${tr("Click here to know more")}",
-                    onTap: () {
-                      if (official.isFollow == 1) {
-                        pushNewScreenWithRouteSettings(
-                          context,
-                          screen: MessageDetailScreen(),
-                          withNavBar: false,
-                          settings: RouteSettings(
-                            arguments: [false, official],
-                          ),
-                        );
-                      } else {
-                        Get.rawSnackbar(
-                            message:
-                                "${tr('You need to follow this business to communicate with them')}");
-                      }
-                    }),
+                  title: "${tr("Engage")}",
+                  onTap: () {
+                    if (official.isFollow == 1) {
+                      pushNewScreenWithRouteSettings(
+                        context,
+                        screen: MessageDetailScreen(),
+                        withNavBar: false,
+                        settings: RouteSettings(
+                          arguments: [false, official],
+                        ),
+                      );
+                    } else {
+                      Get.rawSnackbar(
+                          message:
+                              "${tr('You need to follow this business to communicate with them')}");
+                    }
+                  },
+                ),
+                if (official.isCatalog == 1)
+                  Expanded(
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ProfileHeadButton(
+                          title: "${tr("Catalog")}",
+                          onTap: () {
+                            pushNewScreen(
+                              context,
+                              screen: CategoryScreen(official),
+                              withNavBar: false,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
             if (official.isFollow == 1)
-              _OfficialDocumentSection(official.officialsId)
+              _OfficialDocumentSection(official.officialsId),
+            if (official.isCatalog == 1) FeatureSection(official)
           ],
         ),
       ),

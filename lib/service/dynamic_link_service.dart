@@ -1,6 +1,7 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/screens/catalog/product_detail_screen.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feed/dynamic_feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
@@ -30,6 +31,7 @@ class DynamicLinkService {
 
       var isFeed = deepLink.pathSegments.contains('feed');
       var isOfficial = deepLink.pathSegments.contains('official');
+      var isProduct = deepLink.pathSegments.contains('product');
 
       if (box.hasData("token")) {
         if (int.parse(box.read("user_id").toString()) > 1000) {
@@ -47,6 +49,18 @@ class DynamicLinkService {
               Get.to(
                   ProfileFullScreen(
                     officialId: officialId.toString(),
+                    isClose: true,
+                  ),
+                  transition: Transition.rightToLeft);
+            }
+          }
+          if (isProduct) {
+            var productId = deepLink.queryParameters['id'];
+
+            if (productId != null) {
+              Get.to(
+                  ProductDetailScreen(
+                    productId: productId.toString(),
                   ),
                   transition: Transition.rightToLeft);
             }

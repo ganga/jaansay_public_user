@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomNetWorkImage extends StatelessWidget {
   final photo;
+  final assetLink;
 
-  CustomNetWorkImage(this.photo);
+  CustomNetWorkImage(this.photo, {this.assetLink= "assets/images/profileHolder.jpg"});
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class CustomNetWorkImage extends StatelessWidget {
             filteredPhoto == "no photo" ||
             filteredPhoto == ''
         ? Image.asset(
-            "assets/images/profileHolder.jpg",
+            assetLink,
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -27,7 +29,8 @@ class CustomNetWorkImage extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             alignment: Alignment.topCenter,
-            placeholder: AssetImage("assets/images/profileHolder.jpg"),
+            placeholder: AssetImage(assetLink),
           );
   }
+
 }

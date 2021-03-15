@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
+import 'package:jaansay_public_user/screens/catalog/product_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(),
+      home: ProductDetailScreen(),
       routes: {
         PDFViewScreen.routeName: (context) => PDFViewScreen(),
         ImageViewScreen.routeName: (context) => ImageViewScreen(),

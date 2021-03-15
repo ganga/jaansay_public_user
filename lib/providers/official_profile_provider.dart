@@ -105,6 +105,8 @@ class OfficialProfileProvider with ChangeNotifier {
         tempOfficialTypes.add(e.businesstypeName);
       }
     }).toString();
+
+    tempOfficialTypes.sort((a, b) => a.compareTo(b));
     return tempOfficialTypes;
   }
 

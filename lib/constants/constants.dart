@@ -31,4 +31,5 @@ class Constants {
     '2024',
     '2025'
   ];
+  static const productHolderURL = "assets/images/productHolder.png";
 }

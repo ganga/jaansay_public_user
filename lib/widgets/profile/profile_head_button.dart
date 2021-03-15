@@ -10,35 +10,37 @@ class ProfileHeadButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-            color: isColor ? Theme.of(context).primaryColor : Colors.black54,
-            width: 0.5),
-        color: isColor
-            ? Theme.of(context).primaryColor
-            : Colors.black.withOpacity(0.01),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.white,
-          onTap: onTap,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  title,
-                  style:
-                      TextStyle(color: isColor ? Colors.white : Colors.black),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ).tr(),
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+              color: isColor ? Theme.of(context).primaryColor : Colors.black54,
+              width: 0.5),
+          color: isColor
+              ? Theme.of(context).primaryColor
+              : Colors.black.withOpacity(0.01),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Colors.white,
+            onTap: onTap,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style:
+                        TextStyle(color: isColor ? Colors.white : Colors.black),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ).tr(),
+                ),
               ),
             ),
           ),

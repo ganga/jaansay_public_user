@@ -66,6 +66,7 @@ dependencies:
   package_info:
   bubble:
   chewie:
+  flutter_image_compress: null
 
 dev_dependencies:
   flutter_test:
