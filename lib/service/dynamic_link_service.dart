@@ -44,8 +44,10 @@ class DynamicLinkService {
             var officialId = deepLink.queryParameters['id'];
 
             if (officialId != null) {
-              Get.to(ProfileFullScreen(),
-                  arguments: [false, officialId.toString()],
+              Get.to(
+                  ProfileFullScreen(
+                    officialId: officialId.toString(),
+                  ),
                   transition: Transition.rightToLeft);
             }
           }
@@ -58,8 +60,8 @@ class DynamicLinkService {
       }
     } else {
       if (box.hasData("token")) {
-        Get.offAll(
-          HomeScreen(),
+        Get.offAllNamed(
+          HomeScreen.routeName,
         );
       } else {
         Get.offAll(SelectLanguageScreen(), arguments: true);

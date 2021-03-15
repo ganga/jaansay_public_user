@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CustomLoading extends StatelessWidget {
   final String title;
@@ -14,7 +15,10 @@ class CustomLoading extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
+          SpinKitChasingDots(
+            color: Theme.of(context).primaryColor,
+            size: 30,
+          ),
           SizedBox(
             height: 5,
           ),

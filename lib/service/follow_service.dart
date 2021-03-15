@@ -11,7 +11,8 @@ class FollowService {
       "is_follow": "1",
       "official_id": officialId.toString(),
       "user_id": userId.toString(),
-      "updated_at": "${DateTime.now()}"
+      "updated_at": "${DateTime.now()}",
+      "send_sms": "0"
     });
     if (response != null) {
       NotificationService notificationService = NotificationService();

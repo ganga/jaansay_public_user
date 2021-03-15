@@ -18,7 +18,8 @@ class Official {
       this.businesstypeName,
       this.isFollow,
       this.isRating,
-      this.isPrivate});
+      this.isPrivate,
+      this.isCatalog});
 
   int officialsId;
   String officialsName;
@@ -36,9 +37,10 @@ class Official {
   int totalRating;
   String typeName;
   String businesstypeName;
-  dynamic isFollow;
+  int isFollow;
   int isRating;
   int isPrivate;
+  int isCatalog;
 
   factory Official.fromJson(Map<String, dynamic> json) => Official(
       officialsId: json["officials_id"],
@@ -59,31 +61,10 @@ class Official {
       totalRating: json["total_rating"],
       typeName: json["type_name"],
       businesstypeName: json["businesstype_name"],
-      isFollow: json["is_follow"],
+      isFollow: json["is_follow"] == null ? 0 : json["is_follow"],
       isRating: json["is_rating"],
-      isPrivate: json['is_private']);
-
-  Map<String, dynamic> toJson() => {
-        "officials_id": officialsId,
-        "officials_name": officialsName,
-        "officials_description": officialsDescription,
-        "officials_email": officialsEmail,
-        "officials_phone": officialsPhone,
-        "officials_designation": officialsDesignation,
-        "lattitude": lattitude,
-        "longitude": longitude,
-        "officials_address": officialsAddress,
-        "officials_website": officialsWebsite,
-        "business_hours": businessHours,
-        "photo": photo,
-        "average_rating": averageRating,
-        "total_rating": totalRating,
-        "type_name": typeName,
-        "businesstype_name": businesstypeName,
-        "is_follow": isFollow,
-        "is_rating": isRating,
-        "is_private": isPrivate
-      };
+      isPrivate: json['is_private'],
+      isCatalog: json['cc_id'] == null ? 0 : 1);
 }
 
 class OfficialDocument {

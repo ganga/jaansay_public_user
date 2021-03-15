@@ -5,16 +5,13 @@ import 'package:jaansay_public_user/widgets/misc/official_tile.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatelessWidget {
-  bool isCheck = false;
-
   @override
   Widget build(BuildContext context) {
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
 
-    if (!isCheck) {
-      isCheck = true;
-      officialProfileProvider.clearOfficials();
+    if (!officialProfileProvider.initOfficials) {
+      officialProfileProvider.initOfficials = true;
     }
 
     return Scaffold(
@@ -27,7 +24,6 @@ class SearchScreen extends StatelessWidget {
           autofocus: true,
           decoration: InputDecoration.collapsed(hintText: tr("Enter name")),
           onChanged: (val) {
-            //searchOfficials(val);
             officialProfileProvider.searchOfficial(val);
           },
         ),
@@ -51,7 +47,7 @@ class SearchScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return OfficialTile(officialProfileProvider.officials[index]);
+          return OfficialTile(index);
         },
         itemCount: officialProfileProvider.officials.length,
       ),

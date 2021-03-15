@@ -29,28 +29,6 @@ class OfficialService {
     return officials;
   }
 
-  List<String> getOfficialTypes(List<Official> officials) {
-    List<String> officialTypes = [];
-
-    officials.map((e) {
-      if (!officialTypes.contains(e.businesstypeName)) {
-        officialTypes.add(e.businesstypeName);
-      }
-    }).toString();
-    return officialTypes;
-  }
-
-  List<Official> getOfficialOfType(String type, List<Official> officials) {
-    List<Official> tempOfficial = [];
-
-    officials.map((e) {
-      if (e.businesstypeName == type) {
-        tempOfficial.add(e);
-      }
-    }).toString();
-    return tempOfficial;
-  }
-
   getOfficialRatings(String officialId, List<Review> reviews) async {
     Review userReview;
 

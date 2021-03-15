@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
@@ -15,6 +16,7 @@ import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home";
@@ -28,12 +30,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PersistentTabController _controller = PersistentTabController();
   bool isCheck = false;
-
+  OfficialProfileProvider officialProfileProvider;
   Widget appBarIcon(
       IconData iconData, BuildContext context, String tag, Widget screen) {
     return InkWell(
       borderRadius: BorderRadius.circular(15),
       onTap: () {
+        if (tag == 'search_icon') {
+          officialProfileProvider.clearData(allData: true);
+          Get.offAll(HomeScreen());
+        }
         pushNewScreen(
           context,
           screen: screen,
@@ -141,6 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
     if (!isCheck) {
       isCheck = true;
       fbmSubscribe();

@@ -7,7 +7,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserFeedProvider with ChangeNotifier {
   List<Feed> _feeds = [];
-  List<Official> _followReqs = [];
   bool _isLoad = true;
   bool _loadMore = true;
   int page = 1;
@@ -16,26 +15,8 @@ class UserFeedProvider with ChangeNotifier {
     return [..._feeds];
   }
 
-  List<Official> get followReqs {
-    return [..._followReqs];
-  }
-
   bool getLoading() {
     return _isLoad;
-  }
-
-  acceptFollow(Official official) {
-    _followReqs.remove(official);
-    notifyListeners();
-    FollowService followService = FollowService();
-    followService.followUser(official.officialsId);
-  }
-
-  rejectFollow(Official official) {
-    _followReqs.remove(official);
-    notifyListeners();
-    FollowService followService = FollowService();
-    followService.rejectFollow(official.officialsId);
   }
 
   Future loadFeeds(RefreshController _refreshController, bool isRefresh) async {
@@ -83,18 +64,5 @@ class UserFeedProvider with ChangeNotifier {
         notifyListeners();
       }
     }).toList();
-  }
-
-  removeLocalFollow(Official official) {
-    Official tempOfficial;
-    _followReqs.forEach((element) {
-      if (element.officialsId == official.officialsId) {
-        tempOfficial = element;
-      }
-    });
-    if (tempOfficial != null) {
-      _followReqs.remove(tempOfficial);
-      notifyListeners();
-    }
   }
 }

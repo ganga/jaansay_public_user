@@ -225,7 +225,8 @@ class FeedCard extends StatelessWidget {
               pushNewScreenWithRouteSettings(context,
                   screen: FeedDetailScreen(),
                   settings: RouteSettings(arguments: [feed, isBusiness]),
-                  pageTransitionAnimation: PageTransitionAnimation.fade);
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  withNavBar: false);
             }
           },
           child: Container(

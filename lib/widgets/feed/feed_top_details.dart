@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/feed.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class FeedTopDetails extends StatelessWidget {
   final Feed feed;
@@ -12,11 +14,16 @@ class FeedTopDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
     return InkWell(
       onTap: () {
-        pushNewScreenWithRouteSettings(context,
-            screen: ProfileFullScreen(),
-            settings: RouteSettings(arguments: [false, feed.userId.toString()]),
+        officialProfileProvider.clearData(allData: true);
+        pushNewScreen(context,
+            screen: ProfileFullScreen(
+              officialId: feed.userId.toString(),
+            ),
             pageTransitionAnimation: PageTransitionAnimation.cupertino,
             withNavBar: false);
       },

@@ -40,7 +40,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
     }
 
     return Scaffold(
-      body: officialProfileProvider.isLoad
+      body: officialProfileProvider.isListLoad
           ? Loading()
           : officialProfileProvider.officials.length == 0
               ? CustomErrorWidget(
@@ -114,11 +114,10 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => OfficialsListGroup(
-                                selectedType == 'ALL'
-                                    ? officialProfileProvider
-                                        .officialTypes[index]
-                                    : selectedType,
-                                officialProfileProvider.officials),
+                              selectedType == 'ALL'
+                                  ? officialProfileProvider.officialTypes[index]
+                                  : selectedType,
+                            ),
                             itemCount: selectedType == 'ALL'
                                 ? officialProfileProvider.officialTypes.length
                                 : 1,

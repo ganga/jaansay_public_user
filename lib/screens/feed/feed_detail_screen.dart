@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 
 class FeedDetailScreen extends StatelessWidget {
@@ -7,6 +8,16 @@ class FeedDetailScreen extends StatelessWidget {
     final List response = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          response[0].feedDescription,
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Container(
         child: SingleChildScrollView(

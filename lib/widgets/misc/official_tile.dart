@@ -1,59 +1,33 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
-import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:provider/provider.dart';
 
 class OfficialTile extends StatelessWidget {
-  final Official official;
+  final int index;
 
-  OfficialTile(this.official);
-
-  Future<bool> followUser(int officialId) async {
-    GetStorage box = GetStorage();
-
-    final userId = box.read("user_id");
-    final token = box.read("token");
-
-    print(userId);
-    Dio dio = Dio();
-    Response response = await dio.post(
-      "${Constants.url}follow",
-      data: {
-        "official_id": "$officialId",
-        "user_id": "$userId",
-        "is_follow": "1",
-        "updated_at": "${DateTime.now()}"
-      },
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
-    if (response.data["success"]) {
-      FirebaseMessaging fbm = FirebaseMessaging();
-      fbm.subscribeToTopic("${officialId}follow");
-    }
-
-    return true;
-  }
+  OfficialTile(this.index);
 
   @override
   Widget build(BuildContext context) {
-    var isAllowFollow =
-        (official.isFollow == null || official.isFollow == 0).obs;
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context);
+
+    Official official = officialProfileProvider.officials[index];
 
     return InkWell(
       onTap: () {
+        officialProfileProvider.clearData();
+        officialProfileProvider.selectedOfficialIndex = index;
         Get.close(1);
-        Get.to(ProfileFullScreen(),
-            arguments: [false, official.officialsId.toString()],
+        Get.to(
+            ProfileFullScreen(
+              officialId: official.officialsId.toString(),
+            ),
             transition: Transition.rightToLeft);
       },
       child: Container(
@@ -100,54 +74,48 @@ class OfficialTile extends StatelessWidget {
               width: 8,
             ),
             if (official.isPrivate == 0)
-              Obx(() => Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                            color: isAllowFollow.value
-                                ? Theme.of(context).primaryColor
-                                : Colors.black54,
-                            width: 0.5),
-                        color: isAllowFollow.value
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                        color: official.isFollow == 0
                             ? Theme.of(context).primaryColor
-                            : Colors.black.withOpacity(0.01)),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: Colors.white,
-                        onTap: () {
-                          if (official.isFollow == 0) {
-                            official.isFollow = 1;
-                            isAllowFollow(false);
-                            FollowService followService = FollowService();
-                            followService.followUser(official.officialsId);
-                          } else if (isAllowFollow.value) {
-                            isAllowFollow(false);
-                            official.isFollow = 1;
-                            followUser(official.officialsId);
-                          }
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                isAllowFollow.value ? "${tr("Follow")}"
-                                    : "${tr("Following")}",
-                                style: TextStyle(
-                                    color: isAllowFollow.value
-                                        ? Colors.white
-                                        : Colors.black),
-                              ).tr(),
-                            ),
-                          ),
+                            : Colors.black54,
+                        width: 0.5),
+                    color: official.isFollow == 0
+                        ? Theme.of(context).primaryColor
+                        : Colors.black.withOpacity(0.01)),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: Colors.white,
+                    onTap: () {
+                      if (official.isFollow == 0) {
+                        officialProfileProvider.followOfficial(index: index);
+                      }
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            official.isFollow == 0
+                                ? "${tr("Follow")}"
+                                : "${tr("Following")}",
+                            style: TextStyle(
+                                color: official.isFollow == 0
+                                    ? Colors.white
+                                    : Colors.black),
+                          ).tr(),
                         ),
                       ),
                     ),
-                  ))
+                  ),
+                ),
+              )
           ],
         ),
       ),

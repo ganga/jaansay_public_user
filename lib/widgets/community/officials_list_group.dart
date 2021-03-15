@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/service/official_service.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/widgets/community/officials_list_item.dart';
+import 'package:provider/provider.dart';
 
 class OfficialsListGroup extends StatelessWidget {
   final String type;
-  final List<Official> officials;
 
-  OfficialsListGroup(this.type, this.officials);
-
-  OfficialService officialService = OfficialService();
-
-  List<Official> filteredList = [];
+  OfficialsListGroup(this.type);
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context);
 
-    filteredList = officialService.getOfficialOfType(type, officials);
+    List<Official> filteredList =
+        officialProfileProvider.getOfficialsOfType(type);
 
     return Card(
       margin: EdgeInsets.symmetric(
-          horizontal: _mediaQuery.width * 0.04,
-          vertical: _mediaQuery.height * 0.02),
+          horizontal: Get.width * 0.04, vertical: Get.height * 0.02),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(
-            vertical: 10, horizontal: _mediaQuery.width * 0.03),
+        padding:
+            EdgeInsets.symmetric(vertical: 10, horizontal: Get.width * 0.03),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,11 +40,11 @@ class OfficialsListGroup extends StatelessWidget {
                 itemCount: filteredList.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(
-                    horizontal: 5, vertical: _mediaQuery.height * 0.02),
+                    horizontal: 5, vertical: Get.height * 0.02),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: _mediaQuery.width * 0.03,
-                    mainAxisSpacing: _mediaQuery.height * 0.02),
+                    crossAxisSpacing: Get.width * 0.03,
+                    mainAxisSpacing: Get.height * 0.02),
                 itemBuilder: (context, index) {
                   return BusinessListItem(filteredList[index]);
                 },

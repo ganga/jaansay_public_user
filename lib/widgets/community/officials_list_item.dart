@@ -2,10 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class BusinessListItem extends StatelessWidget {
   final Official official;
@@ -14,9 +15,11 @@ class BusinessListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context);
+
     return InkWell(
       onTap: () {
-        print("${official.isPrivate} , ${official.isFollow}");
         if (official.isPrivate == 1 && official.isFollow == null) {
           Get.dialog(AlertDialog(
             title: Text("Private Association").tr(),
@@ -36,9 +39,8 @@ class BusinessListItem extends StatelessWidget {
             ],
           ));
         } else {
-          Get.to(ProfileFullScreen(),
-              arguments: [false, official.officialsId.toString()],
-              transition: Transition.rightToLeft);
+          officialProfileProvider.selectOfficialIndex(official);
+          Get.to(ProfileFullScreen(), transition: Transition.rightToLeft);
         }
       },
       child: Container(

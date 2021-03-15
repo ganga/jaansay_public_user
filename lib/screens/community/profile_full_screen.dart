@@ -17,28 +17,26 @@ import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 import 'package:provider/provider.dart';
 
 class ProfileFullScreen extends StatelessWidget {
-  bool isCheck = false;
+  final String officialId;
+  final bool isClose;
 
-  Official official;
+  ProfileFullScreen({this.officialId = '', this.isClose = false});
 
   @override
   Widget build(BuildContext context) {
-    List response = ModalRoute.of(context).settings.arguments;
     final feedProvider = Provider.of<OfficialFeedProvider>(context);
     final officialProvider = Provider.of<OfficialProfileProvider>(context);
 
-    if (!isCheck) {
-      isCheck = true;
-      if (response[0]) {
-        official = response[1];
-        feedProvider.getFeedData(official);
-      } else {
-        officialProvider.getOfficialById(response[1], feedProvider);
-      }
-    }
+    if (!officialProvider.initProfile) {
+      officialProvider.initProfile = true;
+      if (officialProvider.selectedOfficialIndex != null) {
+        officialProvider.isProfileLoad = false;
 
-    if (!officialProvider.isLoad) {
-      official = officialProvider.official;
+        feedProvider.getFeedData(
+            officialProvider.officials[officialProvider.selectedOfficialIndex]);
+      } else {
+        officialProvider.getOfficialById(officialId, feedProvider);
+      }
     }
 
     return Scaffold(
@@ -46,9 +44,14 @@ class ProfileFullScreen extends StatelessWidget {
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           backgroundColor: Colors.white,
           title: Text(
-            officialProvider.isLoad || officialProvider.official == null
+            officialProvider.isProfileLoad ||
+                    officialProvider.officials[
+                            officialProvider.selectedOfficialIndex] ==
+                        null
                 ? "${tr('Profile')}"
-                : official.officialsName,
+                : officialProvider
+                    .officials[officialProvider.selectedOfficialIndex]
+                    .officialsName,
             style: TextStyle(
               color: Get.theme.primaryColor,
             ),
@@ -56,18 +59,29 @@ class ProfileFullScreen extends StatelessWidget {
         ),
         body: WillPopScope(
           onWillPop: () async {
-            await Get.offAll(HomeScreen());
-            return false;
+            if (isClose) {
+              await Get.offAll(HomeScreen());
+              return false;
+            } else {
+              return true;
+            }
           },
-          child: officialProvider.isLoad || officialProvider.official == null
+          child: officialProvider.isProfileLoad ||
+                  officialProvider
+                          .officials[officialProvider.selectedOfficialIndex] ==
+                      null
               ? CustomLoading('Please wait')
               : SingleChildScrollView(
                   child: Container(
                     width: double.infinity,
                     child: Column(
                       children: [
-                        OfficialsProfileHead(officialProvider, feedProvider),
-                        official.isFollow == 1
+                        OfficialsProfileHead(),
+                        officialProvider
+                                    .officials[
+                                        officialProvider.selectedOfficialIndex]
+                                    .isFollow ==
+                                1
                             ? feedProvider.getLoading()
                                 ? Loading()
                                 : ListView.builder(
@@ -82,7 +96,8 @@ class ProfileFullScreen extends StatelessWidget {
                                       );
                                     },
                                   )
-                            : _ReviewSection(official),
+                            : _ReviewSection(officialProvider.officials[
+                                officialProvider.selectedOfficialIndex]),
                       ],
                     ),
                   ),
@@ -103,7 +118,6 @@ class _ReviewSection extends StatefulWidget {
 class __ReviewSectionState extends State<_ReviewSection> {
   bool isLoad = true;
   List<Review> reviews = [];
-  List<OfficialDocument> officialDocuments = [];
 
   Review userReview;
   bool isCheck = false;
@@ -115,9 +129,7 @@ class __ReviewSectionState extends State<_ReviewSection> {
     userReview = null;
 
     OfficialService officialService = OfficialService();
-    officialDocuments.clear();
-    await officialService.getOfficialDocuments(
-        officialDocuments, widget.official.officialsId.toString());
+
     userReview = await officialService.getOfficialRatings(
         widget.official.officialsId.toString(), reviews);
     isLoad = false;
@@ -149,13 +161,11 @@ class __ReviewSectionState extends State<_ReviewSection> {
                   itemBuilder: (context, index) {
                     return index == 0
                         ? userReview == null
-                            ? widget.official.isFollow != 1
-                                ? SizedBox.shrink()
-                                : ReviewAddCard(
-                                    widget.official.officialsId.toString(),
-                                    getData)
+                            ? SizedBox.shrink()
                             : ReviewCard(userReview)
-                        : ReviewCard(reviews[index - 1]);
+                        : ReviewCard(
+                            reviews[index - 1],
+                          );
                   },
                   itemCount: reviews.length + 1,
                 ),

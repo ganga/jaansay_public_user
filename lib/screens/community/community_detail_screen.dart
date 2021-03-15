@@ -3,11 +3,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
 import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class CommunityDetailsScreen extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class CommunityDetailsScreen extends StatefulWidget {
 }
 
 class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
+  OfficialProfileProvider officialProvider;
   bool isLoad = true;
 
   bool isCheck = false;
@@ -50,10 +53,10 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   }
 
   Widget _dataBox(String number, String title, BuildContext context,
-      double height, double width, Widget widget, String type) {
+      Widget widget, String type) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      margin: EdgeInsets.only(bottom: height * 0.04),
+      margin: EdgeInsets.only(bottom: Get.height * 0.04),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(
@@ -66,6 +69,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                officialProvider.clearData(allData: true);
                 pushNewScreenWithRouteSettings(context,
                     screen: widget,
                     settings: RouteSettings(arguments: [type, districtId]),
@@ -108,7 +112,9 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
+    officialProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
     if (!isCheck) {
       isCheck = true;
       getDistrictData();
@@ -123,53 +129,8 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: _mediaQuery.height * 0.03,
+                      height: Get.height * 0.03,
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(5),
-                    //       color: Colors.white,
-                    //       border: Border.all(
-                    //           color: Theme.of(context).primaryColor)),
-                    //   child: DropdownButton<String>(
-                    //     isExpanded: true,
-                    //     underline: Container(),
-                    //     value: selectedDistrict,
-                    //     selectedItemBuilder: (BuildContext context) {
-                    //       return districts.map<Widget>((String item) {
-                    //         return Container(
-                    //             alignment: Alignment.center,
-                    //             child: AutoSizeText(
-                    //               item,
-                    //               style: TextStyle(
-                    //                 fontSize: 22,
-                    //                 fontWeight: FontWeight.w600,
-                    //               ),
-                    //               maxLines: 1,
-                    //             ));
-                    //       }).toList();
-                    //     },
-                    //     items: districts.map((String value) {
-                    //       return DropdownMenuItem<String>(
-                    //         value: value,
-                    //         child: Text(
-                    //           value,
-                    //           style: TextStyle(
-                    //             fontSize: 18,
-                    //             fontWeight: FontWeight.w500,
-                    //           ),
-                    //           textAlign: TextAlign.center,
-                    //         ),
-                    //       );
-                    //     }).toList(),
-                    //     iconSize: 40,
-                    //     onChanged: (val) {
-                    //       selectedDistrict = val;
-                    //       getDistrictData();
-                    //     },
-                    //   ),
-                    // ),
                     Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -194,7 +155,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: _mediaQuery.height * 0.03,
+                      height: Get.height * 0.03,
                     ),
                     // _dataBox(
                     //     "${count['user']}",
@@ -204,28 +165,18 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                     //     _mediaQuery.width,
                     //     ProfileListScreen(),
                     //     "public"),
-                    _dataBox(
-                        "${count['business']}",
-                        "Business",
-                        context,
-                        _mediaQuery.height,
-                        _mediaQuery.width,
-                        OfficialListScreen(),
-                        "101"),
+                    _dataBox("${count['business']}", "Business", context,
+                        OfficialListScreen(), "101"),
                     _dataBox(
                         "${count['entity']}",
                         "Appointed Officials and Elected Members",
                         context,
-                        _mediaQuery.height,
-                        _mediaQuery.width,
                         OfficialListScreen(),
                         "103"),
                     _dataBox(
                         "${count['association']}",
                         "Associations and Bodies",
                         context,
-                        _mediaQuery.height,
-                        _mediaQuery.width,
                         OfficialListScreen(),
                         "102"),
                   ],

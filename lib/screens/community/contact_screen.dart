@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactScreen extends StatefulWidget {
-  @override
-  _ContactScreenState createState() => _ContactScreenState();
-}
-
-class _ContactScreenState extends State<ContactScreen> {
-  Official official;
-
+class ContactScreen extends StatelessWidget {
   Widget contactSectionItems(
       BuildContext context, String title, IconData iconData, Function onTap) {
     return Flexible(
@@ -58,7 +53,7 @@ class _ContactScreenState extends State<ContactScreen> {
     );
   }
 
-  Widget contactSection(BuildContext context) {
+  Widget contactSection(BuildContext context, Official official) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       width: double.infinity,
@@ -95,7 +90,7 @@ class _ContactScreenState extends State<ContactScreen> {
     );
   }
 
-  Widget addressSection(BuildContext context) {
+  Widget addressSection(BuildContext context, Official official) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 16),
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -131,9 +126,22 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    official = ModalRoute.of(context).settings.arguments;
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context);
+    Official official = officialProfileProvider
+        .officials[officialProfileProvider.selectedOfficialIndex];
 
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Contact",
+          style: TextStyle(
+            color: Get.theme.primaryColor,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Card(
           margin: EdgeInsets.zero,
@@ -157,11 +165,11 @@ class _ContactScreenState extends State<ContactScreen> {
                     },
                   ),
                 ),
-                addressSection(context),
+                addressSection(context, official),
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: CustomDivider()),
-                contactSection(context)
+                contactSection(context, official)
               ],
             ),
           ),

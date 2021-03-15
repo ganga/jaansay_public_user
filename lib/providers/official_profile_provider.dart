@@ -11,133 +11,115 @@ import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 
 class OfficialProfileProvider with ChangeNotifier {
-  bool _isLoad = true;
+  bool initOfficials = false;
+  bool initProfile = false;
 
-  List<Official> _officials = [];
-  List<String> _officialTypes = [];
-  Official _official;
-  bool _isSearching = false;
+  bool isListLoad = true;
+  bool isProfileLoad = true;
 
-  bool get isLoad {
-    return _isLoad;
-  }
+  List<Official> officials = [];
+  List<String> officialTypes = [];
+  bool isSearching = false;
 
-  List<Official> get officials {
-    return [..._officials];
-  }
+  int selectedOfficialIndex;
 
-  List<String> get officialTypes {
-    return [..._officialTypes];
-  }
+  OfficialService officialService = OfficialService();
+  FollowService followService = FollowService();
 
-  Official get official {
-    return _official;
-  }
+  clearData({bool allData = false}) {
+    initProfile = false;
+    isProfileLoad = true;
 
-  clearOfficials() {
-    _officials.clear();
-    _officialTypes.clear();
+    if (allData) {
+      officials.clear();
+      officialTypes.clear();
+      isSearching = false;
+      initOfficials = false;
+      selectedOfficialIndex = null;
+      isListLoad = true;
+    }
   }
 
   getData(String type, String districtId) async {
-    _isLoad = true;
-    _officials.clear();
-    _officialTypes.clear();
-    OfficialService officialService = OfficialService();
-    _officials = await officialService.getAllOfficialsType(type, districtId);
-    _officials.removeWhere((element) => element.isPrivate == 1);
-    _officialTypes = officialService.getOfficialTypes(_officials);
-    _isLoad = false;
+    isListLoad = true;
+    officials.clear();
+    officialTypes.clear();
+    officials = await officialService.getAllOfficialsType(type, districtId);
+    officials.removeWhere((element) => element.isPrivate == 1);
+    officialTypes = getOfficialTypes();
+    isListLoad = false;
     notifyListeners();
   }
 
   getOfficialById(
       String officialId, OfficialFeedProvider officialFeedProvider) async {
-    _isLoad = true;
-    OfficialService officialService = OfficialService();
-    _official = await officialService.getOfficialById(officialId);
-    if (_official.isFollow == 1) {
-      officialFeedProvider.getFeedData(_official);
+    Official tempOfficial = await officialService.getOfficialById(officialId);
+    officials.add(tempOfficial);
+    selectedOfficialIndex = 0;
+    if (officials[selectedOfficialIndex].isFollow == 1) {
+      officialFeedProvider.getFeedData(officials[selectedOfficialIndex]);
     }
-    _isLoad = false;
+    isProfileLoad = false;
     notifyListeners();
   }
 
   searchOfficial(String val) async {
-    if (val.length > 2 && !_isSearching) {
-      _isSearching = true;
-      OfficialService officialService = OfficialService();
-      _isLoad = true;
-      _officials.clear();
-      await officialService.searchOfficials(val, _officials);
-      _officials.removeWhere(
+    if (val.length > 2 && !isSearching) {
+      isSearching = true;
+      isListLoad = true;
+      officials.clear();
+      await officialService.searchOfficials(val, officials);
+      officials.removeWhere(
           (element) => (element.isPrivate == 1 && element.isFollow != 1));
-      _isLoad = false;
-      _isSearching = false;
+      isListLoad = false;
+      isSearching = false;
 
       notifyListeners();
-    } else if (!_isSearching) {
-      _officials.clear();
+    } else if (!isSearching) {
+      officials.clear();
       notifyListeners();
     }
   }
 
-  followOfficial(OfficialFeedProvider officialFeedProvider) async {
-    _official.isFollow = 1;
-    notifyListeners();
-    officialFeedProvider.getFeedData(_official);
+  followOfficial({OfficialFeedProvider officialFeedProvider, int index}) async {
+    if (index != null) {
+      selectedOfficialIndex = index;
+    }
 
-    GetStorage box = GetStorage();
-    final userId = box.read("user_id");
-    final token = box.read("token");
+    if (officialFeedProvider != null) {
+      officialFeedProvider.getFeedData(officials[selectedOfficialIndex]);
+    }
 
-    //Dio dio = Dio();
-    // Response response = await dio.post(
-    //   "${Constants.url}follow",
-    //   data: {
-    //     "official_id": "${_official.officialsId}",
-    //     "user_id": "$userId",
-    //     "is_follow": "1",
-    //     "updated_at": "${DateTime.now()}"
-    //   },
-    //   options:
-    //       Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    // );
-    FollowService followService = FollowService();
-    await followService.followUser(_official.officialsId);
+    officials[selectedOfficialIndex].isFollow = 1;
     notifyListeners();
+
+    await followService
+        .followUser(officials[selectedOfficialIndex].officialsId);
   }
 
-  followUser(Official official, UserFeedProvider userFeedProvider) async {
-    if (official.isFollow != null && official.isFollow == 0) {
-      _officials[_officials.indexOf(official)].isFollow = 1;
-      notifyListeners();
-      userFeedProvider.removeLocalFollow(official);
+  List<String> getOfficialTypes() {
+    List<String> tempOfficialTypes = [];
 
-      FollowService followService = FollowService();
-      followService.followUser(official.officialsId);
-      notifyListeners();
-    } else {
-      _officials[_officials.indexOf(official)].isFollow = 1;
-      notifyListeners();
+    officials.map((e) {
+      if (!tempOfficialTypes.contains(e.businesstypeName)) {
+        tempOfficialTypes.add(e.businesstypeName);
+      }
+    }).toString();
+    return tempOfficialTypes;
+  }
 
-      GetStorage box = GetStorage();
-      final userId = box.read("user_id");
-      final token = box.read("token");
+  List<Official> getOfficialsOfType(String type) {
+    List<Official> tempOfficial = [];
 
-      Dio dio = Dio();
-      Response response = await dio.post(
-        "${Constants.url}follow",
-        data: {
-          "official_id": "${official.officialsId}",
-          "user_id": "$userId",
-          "is_follow": "1",
-          "updated_at": "${DateTime.now()}"
-        },
-        options: Options(
-            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-      );
-      notifyListeners();
-    }
+    officials.map((e) {
+      if (e.businesstypeName == type) {
+        tempOfficial.add(e);
+      }
+    }).toString();
+    return tempOfficial;
+  }
+
+  selectOfficialIndex(Official official) {
+    selectedOfficialIndex = officials.indexOf(official);
   }
 }
