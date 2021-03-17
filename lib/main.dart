@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ProductDetailScreen(),
+      home: SplashScreen(),
       routes: {
         PDFViewScreen.routeName: (context) => PDFViewScreen(),
         ImageViewScreen.routeName: (context) => ImageViewScreen(),

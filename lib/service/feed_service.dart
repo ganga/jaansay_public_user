@@ -2,6 +2,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
 
 class FeedService {
   String userId = GetStorage().read("user_id").toString();
@@ -30,11 +31,18 @@ class FeedService {
     return [feeds, null];
   }
 
-  likeFeed(String feedId) async {
+  likeFeed(String feedId, String officialId) async {
     final response = await dioService.postData("feeds/like", {
       "feed_id": feedId,
       "user_id": userId,
     });
+
+    NotificationService notificationService = NotificationService();
+    await notificationService.sendNotificationToUser(
+        "You got a new like!",
+        "${GetStorage().read("user_name").toString()} has liked your post.",
+        officialId.toString(),
+        {"type": "like"});
   }
 
   Future<List<Feed>> getUserFeeds(int officialId) async {

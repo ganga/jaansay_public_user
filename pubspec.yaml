@@ -67,6 +67,7 @@ dependencies:
   bubble:
   chewie:
   flutter_image_compress: null
+  qr_flutter:
 
 dev_dependencies:
   flutter_test:

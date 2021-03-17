@@ -12,7 +12,7 @@ class FeedDetailScreen extends StatelessWidget {
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         title: Text(
-          response[0].feedDescription,
+          "Post",
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),

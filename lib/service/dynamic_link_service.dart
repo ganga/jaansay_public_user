@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feed/dynamic_feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
+import 'package:jaansay_public_user/screens/referral/friend_referral_screen.dart';
 
 class DynamicLinkService {
   Future handleDynamicLinks() async {
@@ -32,6 +33,7 @@ class DynamicLinkService {
       var isFeed = deepLink.pathSegments.contains('feed');
       var isOfficial = deepLink.pathSegments.contains('official');
       var isProduct = deepLink.pathSegments.contains('product');
+      var isReferral = deepLink.pathSegments.contains('referral');
 
       if (box.hasData("token")) {
         if (int.parse(box.read("user_id").toString()) > 1000) {
@@ -62,6 +64,14 @@ class DynamicLinkService {
                   ProductDetailScreen(
                     productId: productId.toString(),
                   ),
+                  transition: Transition.rightToLeft);
+            }
+          }
+          if (isReferral) {
+            var referralId = deepLink.queryParameters['id'];
+
+            if (referralId != null) {
+              Get.to(FriendReferralScreen(referralId),
                   transition: Transition.rightToLeft);
             }
           }

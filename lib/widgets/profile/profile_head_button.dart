@@ -10,7 +10,8 @@ class ProfileHeadButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
+      flex: 1,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(

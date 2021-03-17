@@ -165,7 +165,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
                 feed.isLiked = 1;
                 feed.likes = feed.likes + 1;
                 setState(() {});
-                await feedService.likeFeed(feed.feedId);
+                await feedService.likeFeed(feed.feedId, feed.userId.toString());
               }
             },
             child: Padding(

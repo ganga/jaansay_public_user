@@ -12,6 +12,7 @@ import 'package:jaansay_public_user/screens/catalog/category_screen.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
+import 'package:jaansay_public_user/screens/referral/user_referral_screen.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/featured_section.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
@@ -183,24 +184,34 @@ class OfficialsProfileHead extends StatelessWidget {
                   },
                 ),
                 if (official.isCatalog == 1)
-                  Expanded(
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ProfileHeadButton(
-                          title: "${tr("Catalog")}",
-                          onTap: () {
-                            pushNewScreen(
-                              context,
-                              screen: CategoryScreen(official),
-                              withNavBar: false,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                if (official.isCatalog == 1)
+                  ProfileHeadButton(
+                    title: "${tr("Catalog")}",
+                    onTap: () {
+                      pushNewScreen(
+                        context,
+                        screen: CategoryScreen(official),
+                        withNavBar: false,
+                      );
+                    },
+                  ),
+                if (official.isReferral != null)
+                  const SizedBox(
+                    width: 10,
+                  ),
+                if (official.isReferral != null)
+                  ProfileHeadButton(
+                    title: "${tr("Refer")}",
+                    onTap: () {
+                      pushNewScreen(
+                        context,
+                        screen: UserReferralScreen(official),
+                        withNavBar: false,
+                      );
+                    },
                   ),
               ],
             ),

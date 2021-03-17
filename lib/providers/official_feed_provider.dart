@@ -33,7 +33,7 @@ class OfficialFeedProvider with ChangeNotifier {
       _feeds[_feeds.indexOf(feed)].likes =
           1 + _feeds[_feeds.indexOf(feed)].likes;
       userFeedProvider.likeLocalFeed(feed);
-      await feedService.likeFeed(feed.feedId);
+      await feedService.likeFeed(feed.feedId, feed.userId.toString());
       notifyListeners();
     }
   }
