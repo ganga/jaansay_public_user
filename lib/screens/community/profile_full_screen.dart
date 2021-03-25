@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/screens/community/profile_description_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
@@ -56,6 +57,37 @@ class ProfileFullScreen extends StatelessWidget {
               color: Get.theme.primaryColor,
             ),
           ),
+          actions: officialProvider.isProfileLoad ||
+                  officialProvider
+                          .officials[officialProvider.selectedOfficialIndex] ==
+                      null
+              ? null
+              : officialProvider
+                          .officials[officialProvider.selectedOfficialIndex]
+                          .detailDescription
+                          .length >
+                      5
+                  ? [
+                      InkWell(
+                        borderRadius: BorderRadius.circular(15),
+                        onTap: () {
+                          Get.to(
+                              ProfileDescriptionScreen(
+                                  officialProvider.officials[
+                                      officialProvider.selectedOfficialIndex]),
+                              transition: Transition.rightToLeft);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 16, left: 10),
+                          child: Icon(
+                            Icons.help_outline,
+                            size: 28,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                    ]
+                  : null,
         ),
         body: WillPopScope(
           onWillPop: () async {

@@ -66,10 +66,12 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           messageMaster?.officialsId?.toString() ??
               official.officialsId.toString());
       tempMessages = tempMessages.reversed.toList();
-      if (tempMessages.first.messageId != messages.first.messageId) {
-        messages.clear();
-        messages = [...tempMessages];
-        setState(() {});
+      if (tempMessages.length > 0) {
+        if (tempMessages.first.messageId != messages.first.messageId) {
+          messages.clear();
+          messages = [...tempMessages];
+          setState(() {});
+        }
       }
     }
   }
@@ -140,7 +142,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           borderRadius: BorderRadius.circular(15),
           onTap: () async {
             final url =
-                "tel:${messageMaster == null ? official.officialsPhone : messageMaster.officialsPhone}";
+                "tel:${messageMaster == null ? official.officialDisplayPhone.length == 0 ? official.officialsPhone : official.officialDisplayPhone : messageMaster.officialDisplayPhone.length == 0 ? messageMaster.officialsPhone : messageMaster.officialDisplayPhone}";
             if (await canLaunch(url)) {
               await launch(url);
             } else {

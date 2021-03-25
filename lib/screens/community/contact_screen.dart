@@ -62,7 +62,8 @@ class ContactScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           contactSectionItems(context, "CALL", MdiIcons.phone, () async {
-            final url = "tel:${official.officialsPhone}";
+            final url =
+                "tel:${official.officialDisplayPhone.length == 0 ? official.officialsPhone : official.officialDisplayPhone}";
             if (await canLaunch(url)) {
               await launch(url);
             } else {

@@ -103,21 +103,22 @@ class OfficialsProfileHead extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 4,
                       ),
                       if (official.officialsDescription != null)
-                        Text("${official.officialsDescription}"),
-                      SizedBox(
-                        height: Get.height * 0.02,
-                      ),
+                        Column(
+                          children: [
+                            Text(
+                              "${official.officialsDescription}",
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 )
               ],
             ),
-            SizedBox(
-              height: Get.height * 0.015,
-            ),
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

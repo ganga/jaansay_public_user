@@ -1,12 +1,12 @@
 class GrievanceMaster {
-  GrievanceMaster({
-    this.mmId,
-    this.officialsId,
-    this.officialsName,
-    this.officialsPhone,
-    this.photo,
-    this.message,
-  });
+  GrievanceMaster(
+      {this.mmId,
+      this.officialsId,
+      this.officialsName,
+      this.officialsPhone,
+      this.photo,
+      this.message,
+      this.officialDisplayPhone});
 
   int mmId;
   int officialsId;
@@ -14,6 +14,7 @@ class GrievanceMaster {
   String officialsPhone;
   String photo;
   String message;
+  String officialDisplayPhone;
 
   factory GrievanceMaster.fromJson(Map<String, dynamic> json) =>
       GrievanceMaster(
@@ -22,7 +23,10 @@ class GrievanceMaster {
           officialsName: json["officials_name"],
           officialsPhone: json["officials_phone"],
           photo: json["photo"],
-          message: json['message']);
+          message: json['message'],
+          officialDisplayPhone: json["official_display_phone"] == null
+              ? ''
+              : json["official_display_phone"]);
 
   Map<String, dynamic> toJson() => {
         "mm_id": mmId,

@@ -52,7 +52,7 @@ class FeedCard extends StatelessWidget {
     return feed.media.length == 0
         ? SizedBox.shrink()
         : SizedBox(
-            height: 250.0,
+            height: Get.height * 0.5,
             width: width,
             child: Carousel(
               images: feed.media.map((e) {

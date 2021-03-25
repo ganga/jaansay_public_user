@@ -12,7 +12,6 @@ import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class GrievanceDetailScreen extends StatefulWidget {
   @override
   _GrievanceDetailScreenState createState() => _GrievanceDetailScreenState();
@@ -116,7 +115,7 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
           borderRadius: BorderRadius.circular(15),
           onTap: () async {
             final url =
-                "tel:${grievanceMaster == null ? official.officialsPhone : grievanceMaster.officialsPhone}";
+                "tel:${grievanceMaster == null ? official.officialDisplayPhone.length == 0 ? official.officialsPhone : official.officialDisplayPhone : grievanceMaster.officialDisplayPhone.length == 0 ? grievanceMaster.officialsPhone : grievanceMaster.officialDisplayPhone}";
             if (await canLaunch(url)) {
               await launch(url);
             } else {
@@ -199,7 +198,8 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         child: Text(
-                            "Please add the requested documents to send messages to this official.").tr(),
+                                "Please add the requested documents to send messages to this official.")
+                            .tr(),
                       )
               ],
             ),

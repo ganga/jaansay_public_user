@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
 
 class UserService {
   String userId = GetStorage().read("user_id").toString();
@@ -35,6 +36,12 @@ class UserService {
       "official_id": "$officialId",
       "updated_at": "${DateTime.now()}"
     });
+    NotificationService notificationService = NotificationService();
+    await notificationService.sendNotificationToUser(
+        GetStorage().read("user_name") + " has rated $rating stars",
+        message,
+        officialId.toString(),
+        {"type": "rating"});
   }
 
   Future<void> updateUser(File photo) async {

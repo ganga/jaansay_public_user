@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/providers/coupon_provider.dart';
+import 'package:jaansay_public_user/screens/coupon/coupon_list_screen.dart';
 import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/feedback_screen.dart';
@@ -11,6 +13,7 @@ import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/misc/edit_profile_dialogue.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -105,12 +108,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context).size;
+    final couponProvider = Provider.of<CouponProvider>(context, listen: false);
 
     return Column(
       children: [
         profileTile(_mediaQuery.height, _mediaQuery.width),
         CustomDivider(),
         drawerItem("Home", MdiIcons.home, () {}, 0),
+        drawerItem("Coupons", MdiIcons.gift, () {
+          couponProvider.clearData();
+          Get.close(1);
+
+          Get.to(CouponListScreen(), transition: Transition.leftToRight);
+        }, 1),
         drawerItem("Feedback", Icons.feedback, () {
           Get.close(1);
 
@@ -120,24 +130,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
           Get.close(1);
 
           Get.to(VocalLocalScreen(), transition: Transition.leftToRight);
-        }, 2),
+        }, 1),
         drawerItem("Language", Icons.language, () {
           Get.close(1);
 
           Get.to(SelectLanguageScreen(), transition: Transition.leftToRight);
-        }, 3),
+        }, 1),
         drawerItem("Share", MdiIcons.share, () {
           Get.close(1);
 
           Share.share(
             'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
           );
-        }, 4),
+        }, 1),
         drawerItem("About", MdiIcons.information, () {
           Get.close(1);
 
           Get.to(AboutScreen(), transition: Transition.leftToRight);
-        }, 5),
+        }, 1),
       ],
     );
   }

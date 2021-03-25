@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -96,9 +98,12 @@ class _FriendReferralScreenState extends State<FriendReferralScreen> {
                             height: 16,
                           ),
                           QrImage(
-                            data: GetStorage().read("user_id").toString() +
-                                '&split&' +
-                                referralCode.rcCode,
+                            data: json.encode({
+                              "type": "referral",
+                              "user_id":
+                                  GetStorage().read("user_id").toString(),
+                              "code": referralCode.rcCode
+                            }),
                             version: QrVersions.auto,
                             size: 200.0,
                           ),

@@ -6,12 +6,15 @@ class MessageMaster {
       this.officialsPhone,
       this.photo,
       this.message,
-      this.messageType});
+      this.messageType,
+      this.officialDisplayPhone});
 
   int mmId;
   int officialsId;
   String officialsName;
   String officialsPhone;
+  String officialDisplayPhone;
+
   String photo;
   String message;
   int messageType;
@@ -23,7 +26,10 @@ class MessageMaster {
       officialsPhone: json["officials_phone"],
       photo: json["photo"],
       message: json['message'],
-      messageType: json['message_type']);
+      messageType: json['message_type'],
+      officialDisplayPhone: json["official_display_phone"] == null
+          ? ''
+          : json["official_display_phone"]);
 
   Map<String, dynamic> toJson() => {
         "mm_id": mmId,
