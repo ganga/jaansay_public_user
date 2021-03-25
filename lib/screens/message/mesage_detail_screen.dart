@@ -5,6 +5,7 @@ import 'package:bubble/bubble.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/message.dart';
@@ -129,10 +130,12 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           SizedBox(
             width: 10,
           ),
-          Text(
-            "${messageMaster == null ? official.officialsName : messageMaster.officialsName}",
-            style: TextStyle(
-              color: Get.theme.primaryColor,
+          Expanded(
+            child: Text(
+              "${messageMaster == null ? official.officialsName : messageMaster.officialsName}",
+              style: TextStyle(
+                color: Get.theme.primaryColor,
+              ),
             ),
           ),
         ],
@@ -340,8 +343,17 @@ class __MessageBubbleState extends State<_MessageBubble> {
                   ? Padding(
                       padding: EdgeInsets.only(
                           bottom: 5, right: 40, top: 5, left: 5),
-                      child: Text(
-                        widget.message.message,
+                      child: SelectableLinkify(
+                        text: widget.message.message,
+                        onOpen: (link) async {
+                          if (await canLaunch(link.url)) {
+                            await launch(link.url);
+                          } else {
+                            throw 'Could not launch $link';
+                          }
+                        },
+                        linkStyle:
+                            TextStyle(color: Theme.of(context).primaryColor),
                         style: TextStyle(
                             color: widget.message.type == 4
                                 ? Colors.white
