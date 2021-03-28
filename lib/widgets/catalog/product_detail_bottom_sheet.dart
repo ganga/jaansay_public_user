@@ -17,7 +17,10 @@ class ProductDetailBottomSheet extends StatelessWidget {
   ProductDetailBottomSheet(this.index, this.product, this.official);
 
   imageCard(String url) {
-    return CustomNetWorkImage(url);
+    return CustomNetWorkImage(
+      url,
+      assetLink: Constants.productHolderURL,
+    );
   }
 
   optionCard(String title, IconData iconData, Function onTap) {

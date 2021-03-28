@@ -4,8 +4,8 @@ class CustomNetWorkImage extends StatelessWidget {
   final photo;
   final assetLink;
 
-  CustomNetWorkImage(this.photo, {this.assetLink= "assets/images/profileHolder.jpg"});
-
+  CustomNetWorkImage(this.photo,
+      {this.assetLink = "assets/images/profileHolder.jpg"});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class CustomNetWorkImage extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
+            alignment: Alignment.topCenter,
           )
         : FadeInImage(
             image: NetworkImage(filteredPhoto.toString()),
@@ -32,5 +33,4 @@ class CustomNetWorkImage extends StatelessWidget {
             placeholder: AssetImage(assetLink),
           );
   }
-
 }
