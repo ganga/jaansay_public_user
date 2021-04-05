@@ -150,7 +150,7 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.deepOrange.withOpacity(0.05),
+      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: appBar(),
       body: isLoad
           ? CustomLoading("Please wait")

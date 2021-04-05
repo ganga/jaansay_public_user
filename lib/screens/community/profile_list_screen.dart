@@ -62,7 +62,6 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
   Widget build(BuildContext context) {
     List response = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
-    final type = response[0];
     districtId = response[1];
 
     if (!isCheck) {

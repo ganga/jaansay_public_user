@@ -149,7 +149,7 @@ class ContactScreen extends StatelessWidget {
           child: Container(
             child: Column(
               children: [
-                ContactHeader(),
+                ContactHeader(official),
                 Expanded(
                   child: GoogleMap(
                     mapToolbarEnabled: false,

@@ -27,7 +27,7 @@ class BusinessListItem extends StatelessWidget {
                     "Sorry, this is an private association. Only users part of this assocation can view the details. Please contact the admin to join this group.")
                 .tr(),
             actions: [
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Get.close(1);
                 },

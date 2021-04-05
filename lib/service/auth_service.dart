@@ -23,7 +23,7 @@ class AuthService {
         box.write("user_id", user.userId);
         box.write("document", user.document);
         box.write("district_id", user.districtId);
-        FirebaseMessaging fbm = FirebaseMessaging();
+        FirebaseMessaging fbm = FirebaseMessaging.instance;
         fbm.subscribeToTopic(box.read("user_id").toString());
         return true;
       } else {

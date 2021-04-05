@@ -8,7 +8,6 @@ import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
-import 'package:jaansay_public_user/screens/catalog/product_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
@@ -23,6 +22,8 @@ GetIt getIt = GetIt.instance;
 void main() async {
   GetIt.I.registerLazySingleton(() => DynamicLinkService());
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   await GetStorage.init();
   await Firebase.initializeApp();
   runApp(
@@ -58,8 +59,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xffDF5D37),
         primaryColorDark: Color(0xff1E4072),
+        primaryColorLight: Color(0xffFBEBE6),
         accentColor: Colors.amber,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.white,
+            primary: Color(0xffDF5D37),
+          ),
+        ),
       ),
       home: SplashScreen(),
       routes: {

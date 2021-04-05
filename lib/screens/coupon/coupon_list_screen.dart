@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_detail_screen.dart';
@@ -76,7 +75,7 @@ class CouponListScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.deepOrange.withOpacity(0.05),
+      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,

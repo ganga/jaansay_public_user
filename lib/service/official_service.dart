@@ -100,8 +100,7 @@ class OfficialService {
       "media": await MultipartFile.fromFile(photo.path, filename: fileName),
     });
 
-    final response =
-        await dioService.postFormData("documents/adduserdocuments", formData);
+    await dioService.postFormData("documents/adduserdocuments", formData);
 
     NotificationService notificationService = NotificationService();
     await notificationService.sendNotificationToUser(

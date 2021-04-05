@@ -6,7 +6,6 @@ import 'package:jaansay_public_user/service/referral_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 
 class UserReferralScreen extends StatefulWidget {

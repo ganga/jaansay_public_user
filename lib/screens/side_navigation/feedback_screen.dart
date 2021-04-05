@@ -88,13 +88,13 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               AlertDialog(
                 title: Text("${tr("Do you want to remove this item")}?"),
                 actions: [
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Get.close(1);
                     },
                     child: Text("No"),
                   ),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       files.removeAt(index);
                       Get.close(1);
@@ -130,7 +130,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           title: Text("Feedback Sent").tr(),
           content: Text("${tr("Your Feedback has been sent")}."),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   Get.close(0);
                 },
@@ -148,7 +148,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
@@ -220,15 +220,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     : Container(
                         width: double.infinity,
                         margin: EdgeInsets.only(bottom: 24),
-                        child: RaisedButton(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          color: Theme.of(context).primaryColor,
+                        child: ElevatedButton(
                           onPressed: () {
                             sendData();
                           },
                           child: Text(
                             "${tr("Send")}",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),
                       );

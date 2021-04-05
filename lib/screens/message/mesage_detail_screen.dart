@@ -192,7 +192,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.deepOrange.withOpacity(0.05),
+      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: appBar(),
       body: isLoad
           ? CustomLoading("Please wait")
@@ -230,9 +230,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                               alignment: Alignment.centerLeft,
                               child: Container(
                                 margin: EdgeInsets.only(left: 16),
-                                child: RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
+                                child: ElevatedButton(
                                   onPressed: () {
                                     Get.to(SurveyScreen(), arguments: [
                                       messages[index].messageId,
@@ -241,9 +239,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                   },
                                   child: Text(
                                     "Start Survey",
-                                    style: TextStyle(color: Colors.white),
                                   ).tr(),
-                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                             )
@@ -343,7 +339,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                   ? Padding(
                       padding: EdgeInsets.only(
                           bottom: 5, right: 40, top: 5, left: 5),
-                      child: SelectableLinkify(
+                      child: Linkify(
                         text: widget.message.message,
                         onOpen: (link) async {
                           if (await canLaunch(link.url)) {
@@ -379,7 +375,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                               width: double.infinity,
                               height: 200,
                               alignment: Alignment.center,
-                              child: _controller?.value?.initialized ?? false
+                              child: _controller?.value?.isInitialized ?? false
                                   ? Stack(
                                       children: [
                                         VideoPlayer(_controller),

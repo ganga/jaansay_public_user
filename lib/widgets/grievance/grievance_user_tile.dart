@@ -22,7 +22,7 @@ class GrievanceUserTile extends StatelessWidget {
     final token = box.read("token");
 
     Dio dio = Dio();
-    Response response = await dio.post(
+    await dio.post(
       "${Constants.url}follow",
       data: {
         "official_id": "$officialId",
@@ -99,7 +99,7 @@ class GrievanceUserTile extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        isSearch ? "${tr("Add")}": "${tr("Change")}",
+                        isSearch ? "${tr("Add")}" : "${tr("Change")}",
                         style: TextStyle(color: Colors.white),
                       ).tr(),
                     ),

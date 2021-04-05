@@ -80,27 +80,6 @@ class _AboutState extends State<About> {
     );
   }
 
-  _datePicker(BuildContext context) async {
-    Get.focusScope.unfocus();
-    return await showDatePicker(
-      context: context,
-      initialDate: DateTime.now().subtract(Duration(days: 5000)),
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2010),
-      helpText: "${tr("Choose the date")}",
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme:
-                ColorScheme.light(primary: Theme.of(context).primaryColor),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child,
-        );
-      },
-    );
-  }
-
   final LoginController _loginController = Get.put(LoginController());
 
   var _selectedDate = "${tr("Choose DOB")}".obs;
@@ -214,7 +193,7 @@ class _AboutState extends State<About> {
           SizedBox(
             width: 8,
           ),
-          FlatButton(
+          TextButton(
             onPressed: () {
               getImage();
             },

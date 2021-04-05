@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
-import 'package:jaansay_public_user/screens/community/profile_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';

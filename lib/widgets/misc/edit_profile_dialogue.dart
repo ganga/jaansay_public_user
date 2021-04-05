@@ -116,7 +116,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                 SizedBox(
                   width: 8,
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     getImage();
                   },
@@ -125,14 +125,12 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ).tr(),
                 ),
-                RaisedButton(
-                  color: Get.theme.primaryColor,
+                ElevatedButton(
                   onPressed: () {
                     sendData();
                   },
                   child: Text(
                     "Update",
-                    style: TextStyle(color: Colors.white),
                   ).tr(),
                 ),
               ],

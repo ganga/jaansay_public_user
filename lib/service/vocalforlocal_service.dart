@@ -11,7 +11,7 @@ class VocalForLocalService {
     String latitude,
     String longitude,
   }) async {
-    final response = await dioService.postData("vocalforlocal", {
+    await dioService.postData("vocalforlocal", {
       "user_id": userId,
       "shop_name": shopName,
       "phone": phone,

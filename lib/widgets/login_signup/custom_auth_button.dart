@@ -12,9 +12,7 @@ class CustomAuthButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 8),
-      child: RaisedButton(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        color: Theme.of(context).primaryColor,
+      child: ElevatedButton(
         onPressed: onTap == null
             ? null
             : () {
@@ -22,7 +20,6 @@ class CustomAuthButton extends StatelessWidget {
               },
         child: Text(
           "$title",
-          style: TextStyle(fontSize: 20, color: Colors.white),
         ).tr(),
       ),
     );

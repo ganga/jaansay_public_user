@@ -128,7 +128,7 @@ class _MessageMediaScreenState extends State<MessageMediaScreen> {
               width: double.infinity,
               height: double.infinity,
               alignment: Alignment.center,
-              child: _controller.value.initialized
+              child: _controller.value.isInitialized
                   ? Stack(
                       children: [
                         AspectRatio(

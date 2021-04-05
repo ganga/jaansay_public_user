@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
             title: Text(updateCheck.updateTitle),
             content: Text(updateCheck.updateDescription),
             actions: [
-              FlatButton(
+              TextButton(
                 onPressed: () => SystemNavigator.pop(),
                 child: Text(
                   "Close",
@@ -57,14 +57,14 @@ class _SplashScreenState extends State<SplashScreen> {
             title: Text(updateCheck.updateTitle),
             content: Text(updateCheck.updateDescription),
             actions: [
-              FlatButton(
+              TextButton(
                 onPressed: () => SystemNavigator.pop(),
                 child: Text(
                   "Close",
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ).tr(),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () => launch(updateCheck.updateLink),
                 child: Text(
                   "Update",

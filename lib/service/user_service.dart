@@ -29,7 +29,7 @@ class UserService {
 
   Future<void> addReview(
       String officialId, String rating, String message) async {
-    final response = await dioService.postData("ratings", {
+    await dioService.postData("ratings", {
       "rating": rating,
       "rating_message": message,
       "user_id": userId,
@@ -54,8 +54,8 @@ class UserService {
       "user_id": userId,
       "media": await MultipartFile.fromFile(photo.path, filename: fileName),
     });
-    final response =
-        await dioService.patchFormData("publicusers/profilephoto", formData);
+
+    await dioService.patchFormData("publicusers/profilephoto", formData);
   }
 
   Future<bool> createUser() async {

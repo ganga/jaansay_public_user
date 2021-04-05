@@ -272,10 +272,19 @@ class _OfficialTile extends StatelessWidget {
                       itemCount: 5,
                       ignoreGestures: true,
                       itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
+                      ratingWidget: RatingWidget(
+                          full: Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          half: Icon(
+                            Icons.star_half,
+                            color: Colors.amber,
+                          ),
+                          empty: Icon(
+                            Icons.star_border,
+                            color: Colors.amber,
+                          )),
                       onRatingUpdate: (rating) {},
                     ),
                     SizedBox(

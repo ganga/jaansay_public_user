@@ -113,10 +113,19 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                                   itemCount: 5,
                                   itemPadding:
                                       EdgeInsets.symmetric(horizontal: 0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
+                                  ratingWidget: RatingWidget(
+                                      full: Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      half: Icon(
+                                        Icons.star_half,
+                                        color: Colors.amber,
+                                      ),
+                                      empty: Icon(
+                                        Icons.star_border,
+                                        color: Colors.amber,
+                                      )),
                                   onRatingUpdate: (val) {
                                     rating = val.toString();
                                   },
@@ -149,14 +158,12 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
+                        child: ElevatedButton(
                           onPressed: () {
                             addReview();
                           },
                           child: Text(
                             "Submit",
-                            style: TextStyle(color: Colors.white),
                           ).tr(),
                         ),
                       )
@@ -175,8 +182,8 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
                       const SizedBox(
                         height: 8,
                       ),
-                      Text(
-                          "Please upload the requested documents to add reviews").tr(),
+                      Text("Please upload the requested documents to add reviews")
+                          .tr(),
                     ],
                   ),
                 ),

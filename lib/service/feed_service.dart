@@ -32,7 +32,7 @@ class FeedService {
   }
 
   likeFeed(String feedId, String officialId) async {
-    final response = await dioService.postData("feeds/like", {
+    await dioService.postData("feeds/like", {
       "feed_id": feedId,
       "user_id": userId,
     });

@@ -129,7 +129,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: pincodeField(context),
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       "${tr("otpResend")}",
                       style: TextStyle(

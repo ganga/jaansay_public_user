@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
@@ -96,47 +93,37 @@ class _HomeScreenState extends State<HomeScreen> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: tr("Home"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.group),
         title: tr("Community"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(MdiIcons.messageAlert),
         title: tr("Grievance"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.record_voice_over),
         title: tr("Vocal For Local"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
+        activeColorPrimary: Theme.of(context).primaryColor,
+        inactiveColorPrimary: Colors.grey,
       ),
     ];
   }
 
   fbmSubscribe() {
-    GetStorage box = GetStorage();
-    FirebaseMessaging fbm = FirebaseMessaging();
-    fbm.configure(
-      onLaunch: (Map<String, dynamic> message) async {
-        log("onLaunch: $message");
-        if (message['data']['type'] == "message") {
-          pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
-        }
-      },
-      onResume: (Map<String, dynamic> message) async {
-        log("OnResume: $message");
-        if (message['data']['type'] == "message") {
-          pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
-        }
-      },
-    );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(message.data);
+      if (message.data['type'] == "message") {
+        pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
+      }
+    });
   }
 
   @override
@@ -155,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       appBar: appBar(context),
       drawer: SafeArea(
         child: Drawer(
@@ -163,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: PersistentTabView(
+        context,
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),

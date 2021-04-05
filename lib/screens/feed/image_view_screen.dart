@@ -10,15 +10,11 @@ class ImageViewScreen extends StatefulWidget {
 }
 
 class _ImageViewScreenState extends State<ImageViewScreen> {
-  Color _color;
-  bool _isLoading = true;
   bool code = false;
   String passValue = "";
 
   @override
   Widget build(BuildContext context) {
-    _color = Theme.of(context).primaryColor;
-    final _mediaQuery = MediaQuery.of(context).size;
     passValue = ModalRoute.of(context).settings.arguments as String;
 
     return Center(

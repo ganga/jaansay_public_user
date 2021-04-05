@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/login_signup/follow_screen.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -17,7 +16,6 @@ class Finish extends StatefulWidget {
 }
 
 class _FinishState extends State<Finish> {
-  final LoginController _loginController = Get.find();
   bool isLoad = false;
   bool isComplete = false;
   GetStorage box = GetStorage();

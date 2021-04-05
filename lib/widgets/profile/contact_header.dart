@@ -6,11 +6,12 @@ import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class ContactHeader extends StatelessWidget {
-  Official official;
+  final Official official;
+
+  ContactHeader(this.official);
 
   @override
   Widget build(BuildContext context) {
-    official = ModalRoute.of(context).settings.arguments;
     final _mediaQuery = MediaQuery.of(context).size;
 
     return Container(
@@ -60,10 +61,19 @@ class ContactHeader extends StatelessWidget {
                         itemCount: 5,
                         ignoreGestures: true,
                         itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
+                        ratingWidget: RatingWidget(
+                            full: Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            half: Icon(
+                              Icons.star_half,
+                              color: Colors.amber,
+                            ),
+                            empty: Icon(
+                              Icons.star_border,
+                              color: Colors.amber,
+                            )),
                         onRatingUpdate: (rating) {},
                       ),
                       SizedBox(

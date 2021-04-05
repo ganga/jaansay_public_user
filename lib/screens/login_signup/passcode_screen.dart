@@ -102,7 +102,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                         horizontal: Get.width * 0.1, vertical: 8),
                     child: pincodeField(context),
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       "${tr("forgot passcode")}",
                       style: TextStyle(

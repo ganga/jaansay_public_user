@@ -40,7 +40,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
               if (!isFirst) {
                 if (!isActive) {
                   String languageCode = code == 'IN' ? 'kn' : 'en';
-                  context.locale = Locale(languageCode, code);
+                  context.setLocale(Locale(languageCode, code));
                   Get.offAll(SplashScreen());
                 } else {
                   Get.rawSnackbar(
@@ -48,7 +48,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                 }
               } else {
                 String languageCode = code == 'IN' ? 'kn' : 'en';
-                context.locale = Locale(languageCode, code);
+                context.setLocale(Locale(languageCode, code));
                 Future.delayed(Duration(milliseconds: 100),
                     () => Get.offAll(LoginScreen()));
               }

@@ -120,7 +120,7 @@ class _VocalHomeScreenState extends State<VocalHomeScreen> {
           title: Text("Successful").tr(),
           content: Text("${tr("Your request has been sent")}."),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   Get.close(0);
                 },
@@ -182,12 +182,10 @@ class _VocalHomeScreenState extends State<VocalHomeScreen> {
               ),
               isLoad
                   ? Loading()
-                  : RaisedButton(
+                  : ElevatedButton(
                       onPressed: () => sendData(),
-                      color: Theme.of(context).primaryColor,
                       child: Text(
                         "Send",
-                        style: TextStyle(color: Colors.white),
                       ).tr(),
                     ),
             ],

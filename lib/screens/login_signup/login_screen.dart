@@ -45,8 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
           verificationFailed: (FirebaseAuthException authException) {
             isLoad = false;
             setState(() {});
-            _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                content: new Text("${tr("Oops! Something went wrong")}")));
+            Get.rawSnackbar(message: tr("Oops! Something went wrong"));
+
             print("${authException.message}");
           },
           codeSent: (String verId, [int forceCodeResent]) {
@@ -60,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } else {
-      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text("Please enter valid phone number").tr()));
+      Get.rawSnackbar(message: tr("Please enter valid phone number"));
     }
   }
 

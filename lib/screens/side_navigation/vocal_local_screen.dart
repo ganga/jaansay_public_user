@@ -123,7 +123,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
           title: Text("Successful").tr(),
           content: Text("${tr("Your request has been sent")}."),
           actions: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   Get.close(0);
                 },

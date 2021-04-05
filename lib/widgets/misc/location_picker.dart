@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
 
@@ -65,16 +64,12 @@ class _LocationPickerState extends State<LocationPicker> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         updateLocation(userPosition.latitude.toString(),
                             userPosition.longitude.toString());
                         Navigator.pop(context);
                       },
-                      padding: EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 30,
-                      ),
                       child: Text(
                         "Select Location",
                         style: TextStyle(
@@ -82,10 +77,6 @@ class _LocationPickerState extends State<LocationPicker> {
                           fontSize: 20,
                         ),
                       ).tr(),
-                      color: Get.theme.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
                     ),
                   ),
                 )
