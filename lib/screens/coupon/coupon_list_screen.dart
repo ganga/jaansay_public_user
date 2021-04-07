@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_detail_screen.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 import 'package:provider/provider.dart';
@@ -75,7 +76,6 @@ class CouponListScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
@@ -88,24 +88,29 @@ class CouponListScreen extends StatelessWidget {
       ),
       body: couponProvider.isCouponLoad
           ? Loading()
-          : GridView.builder(
-              itemCount: couponProvider.coupons.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: Get.height * 0.02),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              itemBuilder: (context, index) => Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+          : couponProvider.coupons.length == 0
+              ? CustomErrorWidget(
+                  title: "No coupons found",
+                  iconData: Icons.card_giftcard,
+                )
+              : GridView.builder(
+                  itemCount: couponProvider.coupons.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: Get.height * 0.02),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  itemBuilder: (context, index) => Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: couponCard(couponProvider, index),
+                    ),
+                  ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: couponCard(couponProvider, index),
-                ),
-              ),
-            ),
     );
   }
 }

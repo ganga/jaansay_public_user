@@ -22,7 +22,8 @@ class Official {
       this.isCatalog,
       this.isReferral,
       this.detailDescription,
-      this.officialDisplayPhone});
+      this.officialDisplayPhone,
+      this.kmId});
 
   int officialsId;
   String officialsName;
@@ -47,6 +48,7 @@ class Official {
   int isCatalog;
   int isReferral;
   String detailDescription;
+  int kmId;
 
   factory Official.fromJson(Map<String, dynamic> json) => Official(
       officialsId: json["officials_id"],
@@ -76,7 +78,8 @@ class Official {
           json["detail_description"] == null ? '' : json["detail_description"],
       officialDisplayPhone: json["official_display_phone"] == null
           ? ''
-          : json["official_display_phone"]);
+          : json["official_display_phone"],
+      kmId: json["km_id"]);
 }
 
 class OfficialDocument {

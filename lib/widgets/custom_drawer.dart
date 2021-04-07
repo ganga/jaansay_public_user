@@ -26,7 +26,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   GetStorage box = GetStorage();
   String img;
 
-  profileTile(double height, width) {
+  profileTile() {
     return InkWell(
       onTap: () {
         Get.dialog(AlertDialog(
@@ -39,7 +39,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       },
       child: Container(
         padding: EdgeInsets.symmetric(
-            vertical: height * 0.05, horizontal: width * 0.08),
+            vertical: Get.height * 0.05, horizontal: Get.width * 0.08),
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,12 +107,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
     final couponProvider = Provider.of<CouponProvider>(context, listen: false);
 
     return Column(
       children: [
-        profileTile(_mediaQuery.height, _mediaQuery.width),
+        profileTile(),
         CustomDivider(),
         drawerItem("Home", MdiIcons.home, () {}, 0),
         drawerItem("Coupons", MdiIcons.gift, () {

@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jaansay_public_user/models/keys.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
@@ -13,8 +14,10 @@ import 'package:jaansay_public_user/screens/community/contact_screen.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
 import 'package:jaansay_public_user/screens/referral/user_referral_screen.dart';
+import 'package:jaansay_public_user/service/key_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/featured_section.dart';
+import 'package:jaansay_public_user/widgets/loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -127,7 +130,48 @@ class OfficialsProfileHead extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                ProfileHeadButton(
+                  title: "${tr("Engage")}",
+                  onTap: () {
+                    if (official.isFollow == 1) {
+                      pushNewScreenWithRouteSettings(
+                        context,
+                        screen: MessageDetailScreen(),
+                        withNavBar: false,
+                        settings: RouteSettings(
+                          arguments: [false, official],
+                        ),
+                      );
+                    } else {
+                      Get.rawSnackbar(
+                          message:
+                              "${tr('You need to follow this business to communicate with them')}");
+                    }
+                  },
+                ),
+                if (official.isCatalog == 1)
+                  const SizedBox(
+                    width: 10,
+                  ),
+                if (official.isCatalog == 1)
+                  ProfileHeadButton(
+                    title: "${tr("View Shop")}",
+                    onTap: () {
+                      pushNewScreen(
+                        context,
+                        screen: CategoryScreen(official),
+                        withNavBar: false,
+                      );
+                    },
+                  ),
+              ],
+            ),
+            SizedBox(
+              height: Get.height * 0.01,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -169,69 +213,362 @@ class OfficialsProfileHead extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Row(
-              children: [
-                ProfileHeadButton(
-                  title: "${tr("Engage")}",
-                  onTap: () {
-                    if (official.isFollow == 1) {
-                      pushNewScreenWithRouteSettings(
-                        context,
-                        screen: MessageDetailScreen(),
-                        withNavBar: false,
-                        settings: RouteSettings(
-                          arguments: [false, official],
-                        ),
-                      );
-                    } else {
-                      Get.rawSnackbar(
-                          message:
-                              "${tr('You need to follow this business to communicate with them')}");
-                    }
-                  },
-                ),
-                if (official.isCatalog == 1)
+            if (official.isReferral != null && official.isFollow == 1)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   const SizedBox(
-                    width: 10,
+                    height: 12,
                   ),
-                if (official.isCatalog == 1)
-                  ProfileHeadButton(
-                    title: "${tr("Catalog")}",
-                    onTap: () {
-                      pushNewScreen(
-                        context,
-                        screen: CategoryScreen(official),
-                        withNavBar: false,
-                      );
-                    },
+                  Text(
+                    "Refer & Earn",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
-                if (official.isReferral != null)
                   const SizedBox(
-                    width: 10,
+                    height: 4,
                   ),
-                if (official.isReferral != null)
-                  ProfileHeadButton(
-                    title: "${tr("Refer")}",
-                    onTap: () {
-                      pushNewScreen(
-                        context,
-                        screen: UserReferralScreen(official),
-                        withNavBar: false,
-                      );
-                    },
+                  Text(
+                      "Generate referral link and share this personalised link directly with your friends."),
+                  const SizedBox(
+                    height: 8,
                   ),
-              ],
-            ),
+                  Row(
+                    children: [
+                      ProfileHeadButton(
+                        isColor: true,
+                        title: "${tr("Start Referring")}",
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: UserReferralScreen(official),
+                            withNavBar: false,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             if (official.isFollow == 1)
               _OfficialDocumentSection(official.officialsId),
-            if (official.isCatalog == 1) FeatureSection(official)
+            if (official.isCatalog == 1) FeatureSection(official),
+            if (official.kmId != null && official.isFollow == 1)
+              _KeySection(official)
           ],
         ),
       ),
     );
+  }
+}
+
+class _KeySection extends StatefulWidget {
+  final Official official;
+
+  _KeySection(this.official);
+
+  @override
+  __KeySectionState createState() => __KeySectionState();
+}
+
+class __KeySectionState extends State<_KeySection> {
+  List<KeyMaster> keyMasters = [];
+
+  KeyService keyService = KeyService();
+  int curIndex = 0;
+  bool isLoad = true;
+  PageController _pageController = PageController();
+  double pageHeight = 180;
+  TextEditingController controller = TextEditingController();
+  DateTime tempDate;
+  bool isAnswerAll = false;
+
+  getOfficialKeysById() async {
+    await keyService.getKeysByOfficialIdForUser(
+        keyMasters, widget.official.officialsId);
+    if (keyMasters[curIndex].ktId == 1) {
+      pageHeight = 180 + keyMasters[curIndex].optionIds.length * 50.0;
+    } else {
+      pageHeight = 180;
+    }
+    controller.clear();
+    if (keyMasters[curIndex].answer != null) {
+      if (keyMasters[curIndex].ktId == 3) {
+        controller.text = keyMasters[curIndex].answer;
+      } else if (keyMasters[curIndex].ktId == 2) {
+        controller.text = DateFormat("dd MMMM yyyy")
+            .format(DateTime.parse(keyMasters[curIndex].answer));
+      }
+    } else {
+      controller.text = '';
+    }
+    tempDate = null;
+    isLoad = false;
+    checkAnswer();
+    setState(() {});
+  }
+
+  _datePicker() async {
+    tempDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
+      helpText: "Choose the date",
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme:
+                ColorScheme.light(primary: Theme.of(context).primaryColor),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
+    );
+    if (tempDate != null) {
+      controller.text = DateFormat("dd MMMM yyyy").format(tempDate);
+      setState(() {});
+    }
+  }
+
+  checkAnswer() {
+    isAnswerAll = true;
+    keyMasters.map((e) {
+      if (e.answer == null) {
+        isAnswerAll = false;
+      }
+    }).toList();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getOfficialKeysById();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoad
+        ? SizedBox.shrink()
+        : Container(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(isAnswerAll
+                    ? "You have answered all the questions"
+                    : "Answer these questions to avail offers and benefits from this business."),
+                const SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: pageHeight,
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (val) {
+                      curIndex = val;
+                      if (keyMasters[curIndex].ktId == 1) {
+                        pageHeight =
+                            180 + keyMasters[curIndex].optionIds.length * 60.0;
+                      } else {
+                        pageHeight = 180;
+                      }
+                      controller.clear();
+                      if (keyMasters[curIndex].answer != null) {
+                        if (keyMasters[curIndex].ktId == 3) {
+                          controller.text = keyMasters[curIndex].answer;
+                        } else if (keyMasters[curIndex].ktId == 2) {
+                          controller.text = DateFormat("dd MMMM yyyy").format(
+                              DateTime.parse(keyMasters[curIndex].answer));
+                        }
+                      } else {
+                        controller.text = '';
+                      }
+                      tempDate = null;
+                      setState(() {});
+                    },
+                    children: keyMasters.map((key) {
+                      return SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Question",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                              Text(
+                                key.name,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              if (key.description.length > 0)
+                                Text(key.description),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              if (key.ktId == 2)
+                                Container(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        labelText: "Your Answer",
+                                        hintText: "Click here to add a date"),
+                                    readOnly: true,
+                                    controller: controller,
+                                    onTap: () {
+                                      if (key.answer == null) {
+                                        _datePicker();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              if (key.ktId == 3)
+                                Container(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        labelText: "Your Answer",
+                                        hintText: "Enter your answer here"),
+                                    readOnly: key.answer != null,
+                                    controller: controller,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                  ),
+                                ),
+                              if (key.ktId == 1)
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: key.options.map((e) {
+                                    int index = key.options.indexOf(e);
+                                    return Card(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 4, vertical: 4),
+                                        child: Material(
+                                          color: e == key.answer
+                                              ? Theme.of(context)
+                                                  .primaryColor
+                                                  .withOpacity(0.1)
+                                              : Colors.transparent,
+                                          child: RadioListTile(
+                                            onChanged: (val) {
+                                              if (key.answer == null) {
+                                                key.answer = e;
+                                                checkAnswer();
+
+                                                setState(() {});
+                                                keyService.addKeyAnswer(
+                                                    kmId: key.kmId,
+                                                    optionId:
+                                                        key.optionIds[index],
+                                                    answer: e);
+                                                _pageController.nextPage(
+                                                    duration: Duration(
+                                                        milliseconds: 200),
+                                                    curve: Curves.easeIn);
+                                              }
+                                            },
+                                            title: Text(e),
+                                            groupValue: key.answer,
+                                            value: e,
+                                            activeColor:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ));
+                                  }).toList(),
+                                ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              (key.ktId == 1)
+                                  ? SizedBox.shrink()
+                                  : (key.answer == null)
+                                      ? Align(
+                                          alignment: Alignment.center,
+                                          child: ElevatedButton(
+                                              onPressed: () {
+                                                if (key.ktId == 3) {
+                                                  if (controller.text.length >
+                                                      0) {
+                                                    key.answer =
+                                                        controller.text;
+                                                    checkAnswer();
+
+                                                    setState(() {});
+                                                    keyService.addKeyAnswer(
+                                                        kmId: key.kmId,
+                                                        optionId: 0,
+                                                        answer:
+                                                            controller.text);
+                                                    _pageController.nextPage(
+                                                        duration: Duration(
+                                                            milliseconds: 200),
+                                                        curve: Curves.easeIn);
+                                                  }
+                                                } else {
+                                                  if (tempDate != null) {
+                                                    key.answer =
+                                                        tempDate.toString();
+                                                    tempDate = null;
+                                                    checkAnswer();
+                                                    setState(() {});
+                                                    keyService.addKeyAnswer(
+                                                        kmId: key.kmId,
+                                                        optionId: 0,
+                                                        answer: key.answer);
+                                                    _pageController.nextPage(
+                                                        duration: Duration(
+                                                            milliseconds: 200),
+                                                        curve: Curves.easeIn);
+                                                  }
+                                                }
+                                              },
+                                              child: Text("Submit")),
+                                        )
+                                      : SizedBox.shrink(),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Row(
+                  children: keyMasters
+                      .map(
+                        (e) => Flexible(
+                          flex: 1,
+                          child: Container(
+                            width: double.infinity,
+                            height: 8,
+                            margin: EdgeInsets.only(right: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: e.answer == null
+                                  ? Colors.transparent
+                                  : Colors.green,
+                              border: Border.all(
+                                  color: curIndex == keyMasters.indexOf(e)
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.black,
+                                  width: curIndex == keyMasters.indexOf(e)
+                                      ? 1
+                                      : 0.5),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                )
+              ],
+            ),
+          );
   }
 }
 

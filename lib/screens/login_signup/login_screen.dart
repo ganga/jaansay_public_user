@@ -123,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller: controller,
+                        autofocus: true,
                         onSubmitted: (val) {
                           loginPhone();
                         },

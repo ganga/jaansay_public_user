@@ -31,7 +31,7 @@ class ProfileHeadButton extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 5),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(

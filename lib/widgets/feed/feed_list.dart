@@ -14,11 +14,9 @@ class FeedList extends StatelessWidget {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  UserFeedProvider feedProvider;
-
   @override
   Widget build(BuildContext context) {
-    feedProvider = Provider.of<UserFeedProvider>(context);
+    UserFeedProvider feedProvider = Provider.of<UserFeedProvider>(context);
 
     if (!_isCheck) {
       _isCheck = true;

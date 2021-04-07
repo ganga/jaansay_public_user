@@ -23,12 +23,6 @@ class FeedCard extends StatelessWidget {
 
   FeedCard({this.feed, this.isDetail, this.isBusiness});
 
-  Color _color;
-  double height = 0, width = 0;
-
-  UserFeedProvider _userFeedProvider;
-  OfficialFeedProvider _businessFeedProvider;
-
   Widget _getImg(String url, BuildContext context) {
     return InkWell(
       onTap: isDetail
@@ -41,10 +35,8 @@ class FeedCard extends StatelessWidget {
           : null,
       child: CachedNetworkImage(
         imageUrl: url,
-        fit: BoxFit.cover,
-        height: double.infinity,
+        fit: BoxFit.fitWidth,
         width: double.infinity,
-        alignment: Alignment.topCenter,
       ),
     );
   }
@@ -54,7 +46,7 @@ class FeedCard extends StatelessWidget {
         ? SizedBox.shrink()
         : SizedBox(
             height: Get.height * 0.5,
-            width: width,
+            width: Get.width,
             child: Carousel(
               images: feed.media.map((e) {
                 return _getImg(e, context);
@@ -62,6 +54,7 @@ class FeedCard extends StatelessWidget {
               dotSize: 4.0,
               dotSpacing: 15.0,
               dotColor: Get.theme.accentColor,
+              dotIncreasedColor: Get.theme.primaryColor,
               indicatorBgPadding: 5.0,
               dotBgColor: Colors.transparent,
               borderRadius: false,
@@ -108,7 +101,7 @@ class FeedCard extends StatelessWidget {
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        shadowColor: _color,
+        shadowColor: Get.theme.primaryColor,
         elevation: 2,
         child: Container(
           width: 75,
@@ -116,7 +109,7 @@ class FeedCard extends StatelessWidget {
           alignment: Alignment.center,
           child: Icon(
             MdiIcons.filePdfBox,
-            color: _color,
+            color: Get.theme.primaryColor,
             size: 30,
           ),
         ),
@@ -135,7 +128,8 @@ class FeedCard extends StatelessWidget {
             itemCount: feed.media.length));
   }
 
-  Widget _likeShare(BuildContext context) {
+  Widget _likeShare(BuildContext context, UserFeedProvider _userFeedProvider,
+      OfficialFeedProvider _businessFeedProvider) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,7 +205,8 @@ class FeedCard extends StatelessWidget {
     );
   }
 
-  mainBody(BuildContext context) {
+  mainBody(BuildContext context, UserFeedProvider _userFeedProvider,
+      OfficialFeedProvider _businessFeedProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -245,25 +240,23 @@ class FeedCard extends StatelessWidget {
             ),
           ),
         ),
-        _likeShare(Get.context),
+        _likeShare(Get.context, _userFeedProvider, _businessFeedProvider),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    _businessFeedProvider = Provider.of<OfficialFeedProvider>(context);
-    _userFeedProvider = Provider.of<UserFeedProvider>(context);
-
-    _color = Theme.of(context).primaryColor;
-    final _mediaQuery = MediaQuery.of(context).size;
-    height = _mediaQuery.height;
-    width = _mediaQuery.width;
+    OfficialFeedProvider _businessFeedProvider =
+        Provider.of<OfficialFeedProvider>(context);
+    UserFeedProvider _userFeedProvider = Provider.of<UserFeedProvider>(context);
 
     return isDetail
         ? Container(
-            child: mainBody(context),
+            child: mainBody(context, _userFeedProvider, _businessFeedProvider),
           )
-        : Card(margin: EdgeInsets.only(bottom: 10), child: mainBody(context));
+        : Card(
+            margin: EdgeInsets.only(bottom: 10),
+            child: mainBody(context, _userFeedProvider, _businessFeedProvider));
   }
 }
