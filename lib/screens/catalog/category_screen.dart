@@ -9,38 +9,12 @@ import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor: Colors.white,
-        title: Text(
-          "Catalog",
-          style: TextStyle(
-            color: Get.theme.primaryColor,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [_CategorySection()],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CategorySection extends StatelessWidget {
   categoryCard(int index, CatalogProvider catalogProvider) {
     Category category = catalogProvider.categories[index];
 
     return InkWell(
       onTap: () {
+        catalogProvider.clearData();
         catalogProvider.selectedCategoryIndex = index;
         Get.to(ProductsScreen(), transition: Transition.rightToLeft);
       },
@@ -76,43 +50,60 @@ class _CategorySection extends StatelessWidget {
       catalogProvider.initCategory = true;
       catalogProvider.getAllCategories();
     }
-
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Categories",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Catalog",
+          style: TextStyle(
+            color: Get.theme.primaryColor,
           ),
-          const SizedBox(
-            height: 16,
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Categories",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                catalogProvider.isCategoryLoad
+                    ? CustomLoading("Please wait")
+                    : GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: catalogProvider.categories.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 1 / 1.2,
+                            crossAxisSpacing: Get.width * 0.03,
+                            mainAxisSpacing: Get.height * 0.02),
+                        itemBuilder: (context, index) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.black, width: 0.5),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: categoryCard(index, catalogProvider),
+                          ),
+                        ),
+                      )
+              ],
+            ),
           ),
-          catalogProvider.isCategoryLoad
-              ? CustomLoading("Please wait")
-              : GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: catalogProvider.categories.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 1 / 1.2,
-                      crossAxisSpacing: Get.width * 0.03,
-                      mainAxisSpacing: Get.height * 0.02),
-                  itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black, width: 0.5),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: categoryCard(index, catalogProvider),
-                    ),
-                  ),
-                )
-        ],
+        ),
       ),
     );
   }

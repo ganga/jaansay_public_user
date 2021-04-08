@@ -66,6 +66,8 @@ dependencies:
   qr_flutter:
   import_sorter: ^4.4.2
   get_it: ^6.0.0
+  badges: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

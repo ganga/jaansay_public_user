@@ -165,6 +165,7 @@ class OfficialsProfileHead extends StatelessWidget {
                   ProfileHeadButton(
                     title: "${tr("View Shop")}",
                     onTap: () {
+                      catalogProvider.clearData(allData: true);
                       catalogProvider.selectedOfficial = official;
                       pushNewScreen(
                         context,

@@ -1,13 +1,17 @@
+import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
+import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -90,7 +94,34 @@ class ProductsScreen extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          CatalogDiscountTextWidget(product.cpCost, product.cpDiscountCost)
+          CatalogDiscountTextWidget(product.cpCost, product.cpDiscountCost),
+          if (catalogProvider.isOrder)
+            Column(
+              children: [
+                const SizedBox(
+                  height: 4,
+                ),
+                Container(
+                  width: double.infinity,
+                  child: product.quantity == null
+                      ? ElevatedButton(
+                          onPressed: () =>
+                              catalogProvider.addItemToCart(product.cpId),
+                          child: Text("Add to Cart"),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            Get.to(CartScreen(),
+                                transition: Transition.rightToLeft);
+                          },
+                          child: Text("Item in Cart"),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              onPrimary: Get.theme.primaryColor),
+                        ),
+                )
+              ],
+            ),
         ],
       ),
     );
@@ -137,7 +168,7 @@ class ProductsScreen extends StatelessWidget {
                     catalogProvider.notify();
                   },
                   child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
+                    margin: EdgeInsets.only(left: 10, right: 8),
                     child: Icon(
                       Icons.search,
                       size: 28,
@@ -154,7 +185,7 @@ class ProductsScreen extends StatelessWidget {
                     catalogProvider.getAllProducts();
                   },
                   child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
+                    margin: EdgeInsets.only(left: 10, right: 8),
                     child: Icon(
                       Icons.close,
                       size: 28,
@@ -162,6 +193,30 @@ class ProductsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+          if (catalogProvider.isOrder)
+            InkWell(
+              borderRadius: BorderRadius.circular(15),
+              onTap: () {
+                Get.to(CartScreen(), transition: Transition.rightToLeft);
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 10, right: 22),
+                alignment: Alignment.center,
+                child: Badge(
+                  badgeContent: Text(
+                    catalogProvider.cartProducts.length.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  position: BadgePosition.bottomEnd(),
+                  showBadge: catalogProvider.cartProducts.length != 0,
+                  child: Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 28,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
       body: catalogProvider.isProductLoad
