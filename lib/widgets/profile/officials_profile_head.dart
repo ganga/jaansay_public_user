@@ -7,6 +7,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/keys.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/catalog_provider.dart';
+import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/category_screen.dart';
@@ -32,6 +34,9 @@ class OfficialsProfileHead extends StatelessWidget {
 
     final officialFeedProvider =
         Provider.of<OfficialFeedProvider>(context, listen: false);
+
+    final catalogProvider =
+        Provider.of<CatalogProvider>(context, listen: false);
 
     Official official = officialProfileProvider
         .officials[officialProfileProvider.selectedOfficialIndex];
@@ -160,9 +165,10 @@ class OfficialsProfileHead extends StatelessWidget {
                   ProfileHeadButton(
                     title: "${tr("View Shop")}",
                     onTap: () {
+                      catalogProvider.selectedOfficial = official;
                       pushNewScreen(
                         context,
-                        screen: CategoryScreen(official),
+                        screen: CategoryScreen(),
                         withNavBar: false,
                       );
                     },

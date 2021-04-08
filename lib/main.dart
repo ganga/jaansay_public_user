@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
@@ -36,6 +37,8 @@ void main() async {
         ChangeNotifierProvider<OfficialProfileProvider>(
             create: (_) => OfficialProfileProvider()),
         ChangeNotifierProvider<CouponProvider>(create: (_) => CouponProvider()),
+        ChangeNotifierProvider<CatalogProvider>(
+            create: (_) => CatalogProvider()),
       ],
       child: EasyLocalization(
         supportedLocales: [Locale('en', 'US'), Locale('kn', 'IN')],

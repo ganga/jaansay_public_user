@@ -2,61 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
-import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/service/catalog_service.dart';
-import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
+import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
+import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ProductsScreen extends StatefulWidget {
-  final Official official;
-  final Category category;
+class ProductsScreen extends StatelessWidget {
+  productCard(int index, CatalogProvider catalogProvider) {
+    Product product = catalogProvider.products[index];
 
-  ProductsScreen({this.official, this.category});
-
-  @override
-  _ProductsScreenState createState() => _ProductsScreenState();
-}
-
-class _ProductsScreenState extends State<ProductsScreen> {
-  List<Product> products = [];
-  int currentProductPage = 1;
-  CatalogService catalogService = CatalogService();
-  RefreshController productRefreshController = RefreshController();
-  bool isLoad = true;
-  String productSearchValue = '';
-  bool isProductSearch = false;
-
-  getAllProducts() async {
-    if (currentProductPage == 1) {
-      products.clear();
-      productRefreshController.resetNoData();
-    }
-    products.clear();
-    final response = await catalogService.getProducts(
-        products,
-        widget.category.ccId,
-        productSearchValue,
-        currentProductPage,
-        widget.official.officialsId.toString());
-    productRefreshController.refreshCompleted();
-    productRefreshController.loadComplete();
-    if (response == null) {
-      productRefreshController.loadNoData();
-    }
-    isLoad = false;
-    setState(() {});
-  }
-
-  productCard(int index) {
     return InkWell(
       onTap: () {
+        catalogProvider.selectedProductIndex = index;
+
         Get.bottomSheet(
-          ProductDetailBottomSheet(index, products[index], widget.official),
+          ProductDetailBottomSheet(),
           isScrollControlled: true,
         );
       },
@@ -67,20 +32,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
             child: Stack(
               children: [
                 CustomNetWorkImage(
-                  products[index].cpPhoto.length == 0
-                      ? ''
-                      : products[index].cpPhoto.first,
+                  product.cpPhoto.length == 0 ? '' : product.cpPhoto.first,
                   assetLink: Constants.productHolderURL,
                 ),
-                if (products[index].cpPriority == 1 ||
-                    products[index].cpStock == 0)
+                if (product.cpPriority == 1 || product.cpStock == 0)
                   Positioned(
                     left: 0,
                     top: 0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (products[index].cpStock == 0)
+                        if (product.cpStock == 0)
                           Container(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2, horizontal: 6),
@@ -91,7 +53,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           ),
-                        if (products[index].cpPriority == 1)
+                        if (product.cpPriority == 1)
                           Container(
                             padding: EdgeInsets.symmetric(
                                 vertical: 2, horizontal: 6),
@@ -113,14 +75,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
             height: 8,
           ),
           Text(
-            products[index].cpName,
+            product.cpName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(),
           ),
-          if (products[index].cpDescription.length > 0)
+          if (product.cpDescription.length > 0)
             Text(
-              products[index].cpDescription.toString(),
+              product.cpDescription.toString(),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
@@ -128,51 +90,51 @@ class _ProductsScreenState extends State<ProductsScreen> {
           const SizedBox(
             height: 4,
           ),
-          CatalogDiscountTextWidget(
-              products[index].cpCost, products[index].cpDiscountCost)
+          CatalogDiscountTextWidget(product.cpCost, product.cpDiscountCost)
         ],
       ),
     );
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getAllProducts();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final catalogProvider = Provider.of<CatalogProvider>(context);
+
+    if (!catalogProvider.initProduct) {
+      catalogProvider.initProduct = true;
+      catalogProvider.getAllProducts();
+    }
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
-        title: isProductSearch
+        title: catalogProvider.isProductSearch
             ? Container(
                 child: TextField(
                   decoration:
                       InputDecoration.collapsed(hintText: "Enter product name"),
                   autofocus: true,
                   onChanged: (val) {
-                    productSearchValue = val;
-                    getAllProducts();
+                    catalogProvider.productSearchValue = val;
+                    catalogProvider.getAllProducts();
                   },
                 ),
               )
             : Text(
-                widget.category.ccName,
+                catalogProvider
+                    .categories[catalogProvider.selectedCategoryIndex].ccName,
                 style: TextStyle(
                   color: Get.theme.primaryColor,
                 ),
               ),
         actions: [
-          !isProductSearch
+          !catalogProvider.isProductSearch
               ? InkWell(
                   borderRadius: BorderRadius.circular(15),
                   onTap: () {
-                    isProductSearch = true;
-                    setState(() {});
+                    catalogProvider.isProductSearch = true;
+                    catalogProvider.notify();
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 10, right: 10),
@@ -186,10 +148,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
               : InkWell(
                   borderRadius: BorderRadius.circular(15),
                   onTap: () {
-                    productSearchValue = '';
-                    isProductSearch = false;
-                    setState(() {});
-                    getAllProducts();
+                    catalogProvider.productSearchValue = '';
+                    catalogProvider.isProductSearch = false;
+                    catalogProvider.notify();
+                    catalogProvider.getAllProducts();
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: 10, right: 10),
@@ -202,10 +164,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ),
         ],
       ),
-      body: isLoad
+      body: catalogProvider.isProductLoad
           ? CustomLoading("Please wait")
           : Container(
-              child: products.length == 0
+              child: catalogProvider.products.length == 0
                   ? CustomErrorWidget(
                       title: "No products found",
                       iconData: Icons.exposure_zero,
@@ -215,16 +177,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       enablePullUp: true,
                       header: ClassicHeader(),
                       onRefresh: () {
-                        currentProductPage = 1;
-                        getAllProducts();
+                        catalogProvider.currentProductPage = 1;
+                        catalogProvider.getAllProducts();
                       },
                       onLoading: () {
-                        currentProductPage++;
-                        getAllProducts();
+                        catalogProvider.currentProductPage++;
+                        catalogProvider.getAllProducts();
                       },
-                      controller: productRefreshController,
+                      controller: catalogProvider.productRefreshController,
                       child: GridView.builder(
-                        itemCount: products.length,
+                        itemCount: catalogProvider.products.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: 1 / 1.4,
                             crossAxisCount: 2,
@@ -233,7 +195,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         itemBuilder: (context, index) {
-                          return productCard(index);
+                          return productCard(index, catalogProvider);
                         },
                       ),
                     ),

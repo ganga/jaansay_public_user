@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
-import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/products_screen.dart';
-import 'package:jaansay_public_user/service/catalog_service.dart';
-import 'package:jaansay_public_user/widgets/catalog/featured_section.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatelessWidget {
-  final Official official;
-
-  CategoryScreen(this.official);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +27,7 @@ class CategoryScreen extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
-            children: [FeatureSection(official), _CategorySection(official)],
+            children: [_CategorySection()],
           ),
         ),
       ),
@@ -40,52 +35,27 @@ class CategoryScreen extends StatelessWidget {
   }
 }
 
-class _CategorySection extends StatefulWidget {
-  final Official official;
+class _CategorySection extends StatelessWidget {
+  categoryCard(int index, CatalogProvider catalogProvider) {
+    Category category = catalogProvider.categories[index];
 
-  _CategorySection(this.official);
-
-  @override
-  __CategorySectionState createState() => __CategorySectionState();
-}
-
-class __CategorySectionState extends State<_CategorySection> {
-  CatalogService catalogService = CatalogService();
-
-  bool isLoad = true;
-  List<Category> categories = [];
-
-  getAllCategories() async {
-    isLoad = true;
-    categories.clear();
-    await catalogService.getAllCategories(
-        categories, widget.official.officialsId.toString());
-    isLoad = false;
-    setState(() {});
-  }
-
-  categoryCard(int index) {
     return InkWell(
       onTap: () {
-        Get.to(
-            ProductsScreen(
-              category: categories[index],
-              official: widget.official,
-            ),
-            transition: Transition.rightToLeft);
+        catalogProvider.selectedCategoryIndex = index;
+        Get.to(ProductsScreen(), transition: Transition.rightToLeft);
       },
       child: Column(
         children: [
           Expanded(
             child: CustomNetWorkImage(
-              categories[index].ccPhoto,
+              category.ccPhoto,
               assetLink: Constants.productHolderURL,
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: Text(
-              categories[index].ccName,
+              category.ccName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -99,14 +69,14 @@ class __CategorySectionState extends State<_CategorySection> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getAllCategories();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final catalogProvider = Provider.of<CatalogProvider>(context);
+
+    if (!catalogProvider.initCategory) {
+      catalogProvider.initCategory = true;
+      catalogProvider.getAllCategories();
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16),
       child: Column(
@@ -119,12 +89,12 @@ class __CategorySectionState extends State<_CategorySection> {
           const SizedBox(
             height: 16,
           ),
-          isLoad
+          catalogProvider.isCategoryLoad
               ? CustomLoading("Please wait")
               : GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: categories.length,
+                  itemCount: catalogProvider.categories.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       childAspectRatio: 1 / 1.2,
@@ -138,7 +108,7 @@ class __CategorySectionState extends State<_CategorySection> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: categoryCard(index),
+                      child: categoryCard(index, catalogProvider),
                     ),
                   ),
                 )

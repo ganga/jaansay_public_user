@@ -118,3 +118,24 @@ class OfficialDocument {
         "is_verified": isVerified == null ? null : isVerified,
       };
 }
+
+class OfficialUtility {
+  OfficialUtility({
+    this.utilityId,
+    this.utilityName,
+  });
+
+  int utilityId;
+  String utilityName;
+
+  factory OfficialUtility.fromJson(Map<String, dynamic> json) =>
+      OfficialUtility(
+        utilityId: json["utility_id"],
+        utilityName: json["utility_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "utility_id": utilityId,
+        "utility_name": utilityName,
+      };
+}

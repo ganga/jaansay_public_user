@@ -65,11 +65,11 @@ class __FeatureSectionState extends State<FeatureSection> {
                         margin: EdgeInsets.only(right: 16),
                         child: InkWell(
                           onTap: () {
-                            Get.bottomSheet(
-                              ProductDetailBottomSheet(index,
-                                  featuredProducts[index], widget.official),
-                              isScrollControlled: true,
-                            );
+                            // Get.bottomSheet(
+                            //   ProductDetailBottomSheet(index,
+                            //       featuredProducts[index], widget.official),
+                            //   isScrollControlled: true,
+                            // );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

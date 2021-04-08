@@ -3,19 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
-import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class ProductDetailBottomSheet extends StatelessWidget {
-  final int index;
-  final Product product;
-  final Official official;
-
-  ProductDetailBottomSheet(this.index, this.product, this.official);
-
   imageCard(String url) {
     return CustomNetWorkImage(
       url,
@@ -56,6 +51,10 @@ class ProductDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final catalogProvider = Provider.of<CatalogProvider>(context);
+    Product product =
+        catalogProvider.products[catalogProvider.selectedProductIndex];
+
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -139,7 +138,7 @@ class ProductDetailBottomSheet extends StatelessWidget {
             CustomDivider(),
             optionCard("Share", Icons.share, () {
               Share.share(
-                'Check out this product from ${official.officialsName}.\n${product.cpName}, ${product.cpDescription}.\n\nClick here to view more details ${product.cpUrl}',
+                'Check out this product from ${catalogProvider.selectedOfficial.officialsName}.\n${product.cpName}, ${product.cpDescription}.\n\nClick here to view more details ${product.cpUrl}',
               );
             }),
           ],
