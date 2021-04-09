@@ -288,6 +288,7 @@ class __KeySectionState extends State<_KeySection> {
   TextEditingController controller = TextEditingController();
   DateTime tempDate;
   bool isAnswerAll = false;
+  int totalAnswered = 0;
 
   getOfficialKeysById() async {
     await keyService.getKeysByOfficialIdForUser(
@@ -309,8 +310,9 @@ class __KeySectionState extends State<_KeySection> {
       controller.text = '';
     }
     tempDate = null;
-    isLoad = false;
     checkAnswer();
+
+    isLoad = false;
     setState(() {});
   }
 
@@ -318,8 +320,8 @@ class __KeySectionState extends State<_KeySection> {
     tempDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2030),
       helpText: "Choose the date",
       builder: (BuildContext context, Widget child) {
         return Theme(
@@ -339,12 +341,20 @@ class __KeySectionState extends State<_KeySection> {
   }
 
   checkAnswer() {
+    totalAnswered = 0;
     isAnswerAll = true;
     keyMasters.map((e) {
       if (e.answer == null) {
         isAnswerAll = false;
+      } else {
+        totalAnswered++;
       }
     }).toList();
+    if (!isLoad && isAnswerAll) {
+      Get.rawSnackbar(
+          message:
+              "Thank you for your time. You will be getting personalised offers from this business.");
+    }
     setState(() {});
   }
 
@@ -358,7 +368,7 @@ class __KeySectionState extends State<_KeySection> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoad
+    return isLoad || isAnswerAll
         ? SizedBox.shrink()
         : Container(
             width: double.infinity,
@@ -499,44 +509,43 @@ class __KeySectionState extends State<_KeySection> {
                                       ? Align(
                                           alignment: Alignment.center,
                                           child: ElevatedButton(
-                                              onPressed: () {
-                                                if (key.ktId == 3) {
-                                                  if (controller.text.length >
-                                                      0) {
-                                                    key.answer =
-                                                        controller.text;
-                                                    checkAnswer();
+                                            onPressed: () {
+                                              if (key.ktId == 3) {
+                                                if (controller.text.length >
+                                                    0) {
+                                                  key.answer = controller.text;
+                                                  checkAnswer();
 
-                                                    setState(() {});
-                                                    keyService.addKeyAnswer(
-                                                        kmId: key.kmId,
-                                                        optionId: 0,
-                                                        answer:
-                                                            controller.text);
-                                                    _pageController.nextPage(
-                                                        duration: Duration(
-                                                            milliseconds: 200),
-                                                        curve: Curves.easeIn);
-                                                  }
-                                                } else {
-                                                  if (tempDate != null) {
-                                                    key.answer =
-                                                        tempDate.toString();
-                                                    tempDate = null;
-                                                    checkAnswer();
-                                                    setState(() {});
-                                                    keyService.addKeyAnswer(
-                                                        kmId: key.kmId,
-                                                        optionId: 0,
-                                                        answer: key.answer);
-                                                    _pageController.nextPage(
-                                                        duration: Duration(
-                                                            milliseconds: 200),
-                                                        curve: Curves.easeIn);
-                                                  }
+                                                  setState(() {});
+                                                  keyService.addKeyAnswer(
+                                                      kmId: key.kmId,
+                                                      optionId: 0,
+                                                      answer: controller.text);
+                                                  _pageController.nextPage(
+                                                      duration: Duration(
+                                                          milliseconds: 200),
+                                                      curve: Curves.easeIn);
                                                 }
-                                              },
-                                              child: Text("Submit")),
+                                              } else {
+                                                if (tempDate != null) {
+                                                  key.answer =
+                                                      tempDate.toString();
+                                                  tempDate = null;
+                                                  checkAnswer();
+                                                  setState(() {});
+                                                  keyService.addKeyAnswer(
+                                                      kmId: key.kmId,
+                                                      optionId: 0,
+                                                      answer: key.answer);
+                                                  _pageController.nextPage(
+                                                      duration: Duration(
+                                                          milliseconds: 200),
+                                                      curve: Curves.easeIn);
+                                                }
+                                              }
+                                            },
+                                            child: Text("Submit"),
+                                          ),
                                         )
                                       : SizedBox.shrink(),
                             ],
@@ -547,31 +556,41 @@ class __KeySectionState extends State<_KeySection> {
                   ),
                 ),
                 Row(
-                  children: keyMasters
-                      .map(
-                        (e) => Flexible(
-                          flex: 1,
-                          child: Container(
-                            width: double.infinity,
-                            height: 8,
-                            margin: EdgeInsets.only(right: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: e.answer == null
-                                  ? Colors.transparent
-                                  : Colors.green,
-                              border: Border.all(
-                                  color: curIndex == keyMasters.indexOf(e)
-                                      ? Theme.of(context).primaryColor
-                                      : Colors.black,
-                                  width: curIndex == keyMasters.indexOf(e)
-                                      ? 1
-                                      : 0.5),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
+                  children: [
+                    Text("$totalAnswered/${keyMasters.length}"),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: keyMasters
+                            .map(
+                              (e) => Flexible(
+                                flex: 1,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 8,
+                                  margin: EdgeInsets.only(right: 5),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: e.answer == null
+                                        ? Colors.transparent
+                                        : Colors.green,
+                                    border: Border.all(
+                                        color: curIndex == keyMasters.indexOf(e)
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.black,
+                                        width: curIndex == keyMasters.indexOf(e)
+                                            ? 1
+                                            : 0.5),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),
