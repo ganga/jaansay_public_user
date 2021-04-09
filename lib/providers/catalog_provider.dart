@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
+import 'package:jaansay_public_user/screens/catalog/order_confirmed_screen.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
+import 'package:jaansay_public_user/utils/misc_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CatalogProvider extends ChangeNotifier {
@@ -11,7 +15,10 @@ class CatalogProvider extends ChangeNotifier {
 
   RefreshController productRefreshController = RefreshController();
 
-  bool isCategoryLoad = true, isProductLoad = true, isAddressLoad = true;
+  bool isCategoryLoad = true,
+      isProductLoad = true,
+      isAddressLoad = true,
+      isCartLoad = false;
   bool initCategory = false, initProduct = false, initAddress = false;
   bool isProductSearch = false;
   bool isOrder = false;
@@ -36,6 +43,7 @@ class CatalogProvider extends ChangeNotifier {
     currentProductPage = 1;
     selectedProductIndex = null;
     initAddress = false;
+    isCartLoad = false;
     if (allData) {
       isCategoryLoad = true;
       initCategory = false;
@@ -118,6 +126,47 @@ class CatalogProvider extends ChangeNotifier {
         ),
       ),
     );
+  }
+
+  placeOrder() async {
+    isCartLoad = true;
+    notifyListeners();
+    List<String> cpId = [];
+    List<int> quantity = [];
+    List<int> itemCost = [];
+    List<int> itemDiscountCost = [];
+    int totalCost = 0;
+    int totalDiscountCost = 0;
+
+    String orderId = MiscUtils.getRandomId(8).toUpperCase();
+
+    cartProducts.map((e) {
+      cpId.add(e.cpId);
+      quantity.add(e.quantity);
+      itemCost.add(e.cpCost * e.quantity);
+      itemDiscountCost.add(e.cpDiscountCost * e.quantity);
+      totalCost += e.cpCost * e.quantity;
+      totalDiscountCost += e.cpDiscountCost * e.quantity;
+    }).toList();
+
+    await catalogService.addOrder(
+        quantity: quantity,
+        officialId: selectedOfficial.officialsId,
+        addressId: selectedAddressId,
+        orderId: orderId,
+        cost: totalCost,
+        deliveryTypeId: selectedAddressId == 0 ? 1 : 2,
+        discountCount: totalDiscountCost,
+        itemCost: itemCost,
+        itemDiscountCost: itemDiscountCost,
+        cpId: cpId);
+    NotificationService notificationService = NotificationService();
+    await notificationService.sendNotificationToUser(
+        "New Order",
+        "${GetStorage().read("user_name").toString()} has placed an order.",
+        selectedOfficial.officialsId.toString(),
+        {"type": "order"});
+    Get.off(OrderConfirmedScreen(), transition: Transition.rightToLeft);
   }
 
   updateCartQuantity(int quantity, Product product) async {

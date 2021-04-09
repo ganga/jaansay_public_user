@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/survey.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/survey_service.dart';
-import 'package:jaansay_public_user/widgets/survey/survey_bottom_button.dart';
+import 'package:jaansay_public_user/widgets/survey/bottom_button.dart';
 import 'package:jaansay_public_user/widgets/survey/survey_qa_section.dart';
 
 class SurveyScreen extends StatefulWidget {
@@ -147,7 +147,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               ),
             ),
             Obx(
-              () => SurveyBottomButton(
+              () => BottomButton(
                 onTap: () {
                   nextPage();
                 },

@@ -7,10 +7,11 @@ import 'package:jaansay_public_user/screens/catalog/address_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:jaansay_public_user/widgets/catalog/home_delivery_section.dart';
 import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
-import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/custom_dialog.dart';
+import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
-import 'package:jaansay_public_user/widgets/survey/survey_bottom_button.dart';
+import 'package:jaansay_public_user/widgets/survey/bottom_button.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -29,38 +30,65 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Column(
+      body: catalogProvider.cartProducts.length == 0
+          ? CustomErrorWidget(
+              title: "No products in your cart ",
+              iconData: Icons.shopping_cart_outlined,
+            )
+          : catalogProvider.isCartLoad
+              ? Loading()
+              : Column(
                   children: [
-                    _AddressSection(),
-                    ListView.builder(
-                      itemCount: catalogProvider.cartProducts.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return _CartItem(index);
-                      },
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          child: Column(
+                            children: [
+                              _AddressSection(),
+                              ListView.builder(
+                                itemCount: catalogProvider.cartProducts.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return _CartItem(index);
+                                },
+                              ),
+                              _PriceDetailSection(),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    _PriceDetailSection(),
+                    BottomButton(
+                      onTap: () {
+                        if (catalogProvider.selectedAddressId == null) {
+                          Get.rawSnackbar(
+                              message: "Please add a delivery address",
+                              mainButton: TextButton(
+                                child: Text("Add Address"),
+                                onPressed: () {
+                                  Get.to(AddressScreen(),
+                                      transition: Transition.rightToLeft);
+                                },
+                              ));
+                        } else {
+                          Get.dialog(CustomDialog(
+                            "Confirm Order",
+                            "Do you want to confirm this order? You cannot cancel this order once it is confirmed.",
+                            positiveButtonText: "Confirm Order",
+                            positiveButtonOnTap: () {
+                              Get.close(1);
+
+                              catalogProvider.placeOrder();
+                            },
+                          ));
+                        }
+                      },
+                      text: "Place Order",
+                      isDisabled: catalogProvider.selectedAddressId == null,
+                    )
                   ],
                 ),
-              ),
-            ),
-          ),
-          SurveyBottomButton(
-            onTap: () {
-              Get.to(AddressScreen(), transition: Transition.rightToLeft);
-            },
-            text: "Place Order",
-            backColor: Theme.of(context).primaryColor,
-            textColor: Colors.white,
-          )
-        ],
-      ),
     );
   }
 }
@@ -80,11 +108,12 @@ class _AddressSection extends StatelessWidget {
         }
       }).toList();
     }
+
     if (catalogProvider.selectedAddressId != null) {
       return Card(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.only(bottom: 16),
           child: Column(
             children: [
               catalogProvider.selectedAddressId == 0
@@ -95,7 +124,7 @@ class _AddressSection extends StatelessWidget {
                       catalogProvider.selectedAddressId,
                       userAddress),
               const SizedBox(
-                height: 8,
+                height: 4,
               ),
               ElevatedButton(
                 onPressed: () {

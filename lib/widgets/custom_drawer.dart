@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
+import 'package:jaansay_public_user/screens/catalog/order_screen.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_list_screen.dart';
 import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
@@ -114,6 +115,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
         profileTile(),
         CustomDivider(),
         drawerItem("Home", MdiIcons.home, () {}, 0),
+        drawerItem("Your Order", Icons.shopping_cart_outlined, () {
+          Get.close(1);
+
+          Get.to(OrderScreen(), transition: Transition.leftToRight);
+        }, 1),
         drawerItem("Coupons", MdiIcons.gift, () {
           couponProvider.clearData();
           Get.close(1);

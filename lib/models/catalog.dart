@@ -135,3 +135,120 @@ class UserAddress {
         "pincode": pincode,
       };
 }
+
+class Order {
+  Order(
+      {this.id,
+      this.orderId,
+      this.userId,
+      this.officialId,
+      this.statusId,
+      this.cost,
+      this.discountCost,
+      this.deliveryTypeId,
+      this.updatedAt,
+      this.createdAt,
+      this.name,
+      this.address,
+      this.city,
+      this.state,
+      this.pincode,
+      this.officialsName,
+      this.officialDisplayPhone,
+      this.officialPhoto,
+      this.statusName,
+      this.deliveryTypeName});
+
+  int id;
+  String orderId;
+  int userId;
+  int officialId;
+  int statusId;
+  int cost;
+  int discountCost;
+  int deliveryTypeId;
+  DateTime updatedAt;
+  DateTime createdAt;
+  String name;
+  String address;
+  String city;
+  String state;
+  int pincode;
+  String officialsName;
+  String officialDisplayPhone;
+  String officialPhoto;
+  String statusName;
+  String deliveryTypeName;
+
+  factory Order.fromJson(Map<String, dynamic> json) => Order(
+      id: json["id"],
+      orderId: json["order_id"],
+      userId: json["user_id"],
+      officialId: json["official_id"],
+      statusId: json["status_id"],
+      cost: json["cost"],
+      discountCost: json["discount_cost"],
+      deliveryTypeId: json["delivery_type_id"],
+      updatedAt: DateTime.parse(json["updated_at"]),
+      createdAt: DateTime.parse(json["created_at"]),
+      name: json["name"],
+      address: json["address"],
+      city: json["city"],
+      state: json["state"],
+      pincode: json["pincode"],
+      officialsName: json["officials_name"],
+      officialDisplayPhone: json["official_display_phone"],
+      officialPhoto: json["official_photo"],
+      statusName: json["status_name"],
+      deliveryTypeName: json["delivery_type_name"]);
+}
+
+class OrderDetail {
+  OrderDetail({
+    this.oiId,
+    this.orderId,
+    this.cpId,
+    this.quantity,
+    this.cost,
+    this.discountCost,
+    this.cpName,
+    this.cpDescription,
+    this.productPhotos,
+  });
+
+  int oiId;
+  int orderId;
+  String cpId;
+  int quantity;
+  int cost;
+  int discountCost;
+  String cpName;
+  String cpDescription;
+  List<String> productPhotos;
+
+  factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
+        oiId: json["oi_id"],
+        orderId: json["order_id"],
+        cpId: json["cp_id"],
+        quantity: json["quantity"],
+        cost: json["cost"],
+        discountCost: json["discount_cost"],
+        cpName: json["cp_name"],
+        cpDescription: json["cp_description"],
+        productPhotos: json["product_photos"] == null
+            ? []
+            : json["product_photos"].toString().split(","),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "oi_id": oiId,
+        "order_id": orderId,
+        "cp_id": cpId,
+        "quantity": quantity,
+        "cost": cost,
+        "discount_cost": discountCost,
+        "cp_name": cpName,
+        "cp_description": cpDescription,
+        "product_photos": productPhotos == null ? null : productPhotos,
+      };
+}

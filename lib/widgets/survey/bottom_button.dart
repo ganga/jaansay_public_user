@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class SurveyBottomButton extends StatelessWidget {
+class BottomButton extends StatelessWidget {
   final Function onTap;
   final String text;
   final Color backColor;
   final Color textColor;
+  final bool isDisabled;
 
-  SurveyBottomButton({this.onTap, this.text, this.backColor, this.textColor});
+  BottomButton(
+      {this.onTap,
+      this.text,
+      this.backColor,
+      this.textColor,
+      this.isDisabled = false});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: backColor,
+      color: isDisabled ? Colors.grey : backColor ?? Get.theme.primaryColor,
       child: InkWell(
         onTap: () {
           onTap();
@@ -23,7 +30,7 @@ class SurveyBottomButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                color: textColor,
+                color: textColor ?? Colors.white,
                 fontSize: 16,
                 letterSpacing: 1.05,
                 fontWeight: FontWeight.w500),

@@ -7,7 +7,7 @@ import 'package:jaansay_public_user/screens/catalog/add_address_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/home_delivery_section.dart';
 import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/survey/survey_bottom_button.dart';
+import 'package:jaansay_public_user/widgets/survey/bottom_button.dart';
 import 'package:provider/provider.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -112,7 +112,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     ),
                   ),
                 ),
-                SurveyBottomButton(
+                BottomButton(
                   onTap: () {
                     Get.close(1);
                   },

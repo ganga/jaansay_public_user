@@ -62,6 +62,13 @@ class CatalogService {
     }
   }
 
+  getAllOrders(List<Order> orders) async {
+    final response = await dioService.getData("catalog/order/user/$userId");
+    if (response != null) {
+      response['data'].map((e) => orders.add(Order.fromJson(e))).toList();
+    }
+  }
+
   Future<bool> checkOrder(String officialId) async {
     final response = await dioService.getData("utility/official/$officialId");
     if (response != null) {
@@ -84,6 +91,32 @@ class CatalogService {
   addItemToCart(String productId) async {
     await dioService
         .postData("catalog/cart", {"cp_id": productId, "user_id": userId});
+  }
+
+  addOrder(
+      {String orderId,
+      int officialId,
+      int cost,
+      int discountCount,
+      List<String> cpId,
+      List<int> quantity,
+      List<int> itemCost,
+      List<int> itemDiscountCost,
+      int deliveryTypeId,
+      int addressId}) async {
+    await dioService.postData("catalog/order", {
+      "order_id": orderId,
+      "user_id": userId,
+      "official_id": officialId,
+      "cost": cost,
+      "discount_cost": discountCount,
+      "cp_id": cpId,
+      "quantity": quantity,
+      "item_cost": itemCost,
+      "item_discount_cost": itemDiscountCost,
+      "delivery_type_id": deliveryTypeId,
+      "address_id": addressId,
+    });
   }
 
   updateCartQuantity(int quantity, int cartId) async {
