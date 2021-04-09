@@ -49,10 +49,10 @@ class DynamicLinkService {
 
             if (officialId != null) {
               Get.to(
-                  ProfileFullScreen(
-                    officialId: officialId.toString(),
-                    isClose: true,
-                  ),
+                  () => ProfileFullScreen(
+                        officialId: officialId.toString(),
+                        isClose: true,
+                      ),
                   transition: Transition.rightToLeft);
             }
           }
@@ -61,9 +61,9 @@ class DynamicLinkService {
 
             if (productId != null) {
               Get.to(
-                  ProductDetailScreen(
-                    productId: productId.toString(),
-                  ),
+                  () => ProductDetailScreen(
+                        productId: productId.toString(),
+                      ),
                   transition: Transition.rightToLeft);
             }
           }
@@ -71,7 +71,7 @@ class DynamicLinkService {
             var referralId = deepLink.queryParameters['id'];
 
             if (referralId != null) {
-              Get.to(FriendReferralScreen(referralId),
+              Get.to(() => FriendReferralScreen(referralId),
                   transition: Transition.rightToLeft);
             }
           }

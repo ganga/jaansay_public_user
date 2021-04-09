@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/catalog/order_detail_screen.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -45,12 +46,17 @@ class _OrderScreenState extends State<OrderScreen> {
       ),
       body: isLoad
           ? Loading()
-          : ListView.builder(
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                return _OrderItem(orders[index]);
-              },
-            ),
+          : orders.length == 0
+              ? CustomErrorWidget(
+                  iconData: Icons.shopping_cart_outlined,
+                  title: "You have no orders",
+                )
+              : ListView.builder(
+                  itemCount: orders.length,
+                  itemBuilder: (context, index) {
+                    return _OrderItem(orders[index]);
+                  },
+                ),
     );
   }
 }
@@ -65,7 +71,8 @@ class _OrderItem extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          Get.to(OrderDetailScreen(order), transition: Transition.rightToLeft);
+          Get.to(() => OrderDetailScreen(order),
+              transition: Transition.rightToLeft);
         },
         child: Column(
           children: [

@@ -88,7 +88,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Get.to(AddAddressScreen(),
+                                  Get.to(() => AddAddressScreen(),
                                       transition: Transition.rightToLeft);
                                 },
                                 child: Container(

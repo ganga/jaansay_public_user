@@ -71,7 +71,7 @@ class ProfileFullScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         onTap: () {
                           Get.to(
-                              ProfileDescriptionScreen(
+                              () => ProfileDescriptionScreen(
                                   officialProvider.officials[
                                       officialProvider.selectedOfficialIndex]),
                               transition: Transition.rightToLeft);

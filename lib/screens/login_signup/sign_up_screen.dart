@@ -68,7 +68,7 @@
 //               child: RaisedButton(
 //                 color: Theme.of(context).primaryColor,
 //                 onPressed: () {
-//                   Get.to(OtpVerificationScreen());
+//                   Get.to(()=>OtpVerificationScreen());
 //                 },
 //                 child: Text(
 //                   "Register",

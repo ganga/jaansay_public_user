@@ -67,7 +67,7 @@ class CartScreen extends StatelessWidget {
                               mainButton: TextButton(
                                 child: Text("Add Address"),
                                 onPressed: () {
-                                  Get.to(AddressScreen(),
+                                  Get.to(() => AddressScreen(),
                                       transition: Transition.rightToLeft);
                                 },
                               ));
@@ -128,7 +128,8 @@ class _AddressSection extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(AddressScreen(), transition: Transition.rightToLeft);
+                  Get.to(() => AddressScreen(),
+                      transition: Transition.rightToLeft);
                 },
                 child: Text("Change or Add Address"),
               )
@@ -149,7 +150,8 @@ class _AddressSection extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(AddressScreen(), transition: Transition.rightToLeft);
+                  Get.to(() => AddressScreen(),
+                      transition: Transition.rightToLeft);
                 },
                 child: Text("Add Delivery Type"),
               )
@@ -314,11 +316,13 @@ class _PriceDetailSection extends StatelessWidget {
     final catalogProvider = Provider.of<CatalogProvider>(context);
 
     int totalCostWithoutDiscount = 0;
-    int totalDiscount = 0;
+    int totalCost = 0;
 
     catalogProvider.cartProducts.map((e) {
       totalCostWithoutDiscount += e.cpCost * e.quantity;
-      totalDiscount += e.cpDiscountCost * e.quantity;
+      totalCost += e.cpDiscountCost == 0
+          ? e.cpCost * e.quantity
+          : e.cpDiscountCost * e.quantity;
     }).toList();
 
     return Card(
@@ -355,13 +359,13 @@ class _PriceDetailSection extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                if (totalDiscount > 0)
+                if (totalCostWithoutDiscount - totalCost > 0)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Discount"),
                       Text(
-                        "₹$totalDiscount",
+                        "₹${totalCostWithoutDiscount - totalCost}",
                         style: TextStyle(color: Colors.green),
                       )
                     ],
@@ -385,7 +389,7 @@ class _PriceDetailSection extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  "₹${totalCostWithoutDiscount - totalDiscount}",
+                  "₹$totalCost",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                 )
               ],
@@ -397,11 +401,11 @@ class _PriceDetailSection extends StatelessWidget {
             width: double.infinity,
             height: 0.5,
           ),
-          if (totalDiscount > 0)
+          if (totalCostWithoutDiscount - totalCost > 0)
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Text(
-                "You will save ₹${totalCostWithoutDiscount - totalDiscount} on this order",
+                "You will save ₹${totalCostWithoutDiscount - totalCost} on this order",
                 style:
                     TextStyle(color: Colors.green, fontWeight: FontWeight.w500),
               ),

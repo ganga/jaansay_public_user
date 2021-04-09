@@ -232,7 +232,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                 margin: EdgeInsets.only(left: 16),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Get.to(SurveyScreen(), arguments: [
+                                    Get.to(() => SurveyScreen(), arguments: [
                                       messages[index].messageId,
                                       messages[index].surveyId
                                     ]);
@@ -313,7 +313,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
       highlightColor: Colors.transparent,
       onTap: () {
         if (widget.message.messageType != 0) {
-          Get.to(MessageMediaScreen(), arguments: [
+          Get.to(() => MessageMediaScreen(), arguments: [
             widget.message,
             widget.messageMaster,
             widget.official

@@ -17,7 +17,7 @@ class CouponListScreen extends StatelessWidget {
     return InkWell(
       onTap: () {
         couponProvider.selectedCouponIndex = index;
-        Get.to(CouponDetailScreen(), transition: Transition.cupertino);
+        Get.to(() => CouponDetailScreen(), transition: Transition.cupertino);
       },
       child: Container(
         padding: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),

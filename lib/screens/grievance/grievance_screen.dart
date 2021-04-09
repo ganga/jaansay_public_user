@@ -98,7 +98,7 @@ class _MessageTile extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Get.to(GrievanceDetailScreen(),
+            Get.to(() => GrievanceDetailScreen(),
                 arguments: [true, grievanceMaster],
                 transition: Transition.rightToLeft);
           },

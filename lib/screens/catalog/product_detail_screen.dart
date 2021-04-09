@@ -316,9 +316,9 @@ class _OfficialTile extends StatelessWidget {
                   splashColor: Colors.white,
                   onTap: () {
                     Get.to(
-                        ProfileFullScreen(
-                          officialId: official.officialsId.toString(),
-                        ),
+                        () => ProfileFullScreen(
+                              officialId: official.officialsId.toString(),
+                            ),
                         transition: Transition.rightToLeft);
                   },
                   child: ClipRRect(

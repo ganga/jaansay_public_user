@@ -109,7 +109,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                           fontSize: 15, color: Theme.of(context).primaryColor),
                     ),
                     onPressed: () {
-                      Get.to(PasscodeOtpScreen(), arguments: phone);
+                      Get.to(() => PasscodeOtpScreen(), arguments: phone);
                     },
                   ),
                 ],

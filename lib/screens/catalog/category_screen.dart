@@ -16,7 +16,7 @@ class CategoryScreen extends StatelessWidget {
       onTap: () {
         catalogProvider.clearData();
         catalogProvider.selectedCategoryIndex = index;
-        Get.to(ProductsScreen(), transition: Transition.rightToLeft);
+        Get.to(() => ProductsScreen(), transition: Transition.rightToLeft);
       },
       child: Column(
         children: [

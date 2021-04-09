@@ -115,31 +115,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
         profileTile(),
         CustomDivider(),
         drawerItem("Home", MdiIcons.home, () {}, 0),
-        drawerItem("Your Order", Icons.shopping_cart_outlined, () {
+        drawerItem("Your Orders", Icons.shopping_cart_outlined, () {
           Get.close(1);
 
-          Get.to(OrderScreen(), transition: Transition.leftToRight);
+          Get.to(() => OrderScreen(), transition: Transition.leftToRight);
         }, 1),
         drawerItem("Coupons", MdiIcons.gift, () {
           couponProvider.clearData();
           Get.close(1);
 
-          Get.to(CouponListScreen(), transition: Transition.leftToRight);
+          Get.to(() => CouponListScreen(), transition: Transition.leftToRight);
         }, 1),
         drawerItem("Feedback", Icons.feedback, () {
           Get.close(1);
 
-          Get.to(FeedbackScreen(), transition: Transition.leftToRight);
+          Get.to(() => FeedbackScreen(), transition: Transition.leftToRight);
         }, 1),
         drawerItem("Vocal For Local", Icons.record_voice_over, () {
           Get.close(1);
 
-          Get.to(VocalLocalScreen(), transition: Transition.leftToRight);
+          Get.to(() => VocalLocalScreen(), transition: Transition.leftToRight);
         }, 1),
         drawerItem("Language", Icons.language, () {
           Get.close(1);
 
-          Get.to(SelectLanguageScreen(), transition: Transition.leftToRight);
+          Get.to(() => SelectLanguageScreen(),
+              transition: Transition.leftToRight);
         }, 1),
         drawerItem("Share", MdiIcons.share, () {
           Get.close(1);
@@ -151,7 +152,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         drawerItem("About", MdiIcons.information, () {
           Get.close(1);
 
-          Get.to(AboutScreen(), transition: Transition.leftToRight);
+          Get.to(() => AboutScreen(), transition: Transition.leftToRight);
         }, 1),
       ],
     );

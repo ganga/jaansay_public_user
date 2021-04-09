@@ -53,7 +53,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         .signInWithCredential(_phoneAuthCredential)
         .then((user) async {
       box.write("register_phone", phoneNumber.substring(3));
-      Get.to(AboutMeScreen());
+      Get.to(() => AboutMeScreen());
     }).catchError((error) {
       isLoad = false;
       setState(() {});

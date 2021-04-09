@@ -41,7 +41,7 @@ class BusinessListItem extends StatelessWidget {
         } else {
           officialProfileProvider.clearData();
           officialProfileProvider.selectOfficialIndex(official);
-          Get.to(ProfileFullScreen(), transition: Transition.rightToLeft);
+          Get.to(() => ProfileFullScreen(), transition: Transition.rightToLeft);
         }
       },
       child: Container(

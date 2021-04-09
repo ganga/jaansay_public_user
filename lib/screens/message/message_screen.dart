@@ -104,7 +104,7 @@ class _MessageTile extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Get.to(MessageDetailScreen(),
+            Get.to(() => MessageDetailScreen(),
                 arguments: [true, messageMaster],
                 transition: Transition.rightToLeft);
           },

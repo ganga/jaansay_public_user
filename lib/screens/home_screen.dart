@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       title: InkWell(
         onTap: () {
-          Get.to(AboutScreen());
+          Get.to(() => AboutScreen());
         },
         child: Image.asset(
           "assets/images/logo.png",

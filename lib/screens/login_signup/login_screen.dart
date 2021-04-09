@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       AuthService authService = AuthService();
       final response = await authService.checkUser(controller.text);
       if (response) {
-        Get.to(PasscodeScreen(), arguments: controller.text);
+        Get.to(() => PasscodeScreen(), arguments: controller.text);
         isLoad = false;
         setState(() {});
       } else {
@@ -52,7 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
           codeSent: (String verId, [int forceCodeResent]) {
             isLoad = false;
             setState(() {});
-            Get.to(OtpVerificationScreen(), arguments: [verId, phoneNumber]);
+            Get.to(() => OtpVerificationScreen(),
+                arguments: [verId, phoneNumber]);
           },
           codeAutoRetrievalTimeout: (String verId) {
             print("${tr("TIMEOUT")}");

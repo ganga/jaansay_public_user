@@ -37,13 +37,12 @@ class CatalogProvider extends ChangeNotifier {
     isProductLoad = true;
     initProduct = false;
     isProductSearch = false;
-    isAddressLoad = true;
     products.clear();
     productSearchValue = '';
     currentProductPage = 1;
     selectedProductIndex = null;
-    initAddress = false;
     isCartLoad = false;
+
     if (allData) {
       isCategoryLoad = true;
       initCategory = false;
@@ -51,6 +50,9 @@ class CatalogProvider extends ChangeNotifier {
       cartProducts.clear();
       categories.clear();
       userAddresses.clear();
+      initAddress = false;
+      isAddressLoad = true;
+
       selectedAddressId = null;
 
       selectedOfficial = null;
@@ -119,13 +121,21 @@ class CatalogProvider extends ChangeNotifier {
       message: "Product added to your cart.",
       mainButton: TextButton(
         onPressed: () {
-          Get.to(CartScreen(), transition: Transition.rightToLeft);
+          Get.to(() => CartScreen(), transition: Transition.rightToLeft);
         },
         child: Text(
           "View Cart",
         ),
       ),
     );
+  }
+
+  addUserAddress(UserAddress userAddress) async {
+    userAddresses.clear();
+    isAddressLoad = true;
+    notifyListeners();
+    await catalogService.addUserAddress(userAddress);
+    getAllUserAddress();
   }
 
   placeOrder() async {
@@ -135,9 +145,8 @@ class CatalogProvider extends ChangeNotifier {
     List<int> quantity = [];
     List<int> itemCost = [];
     List<int> itemDiscountCost = [];
+    int totalCostWithoutDiscount = 0;
     int totalCost = 0;
-    int totalDiscountCost = 0;
-
     String orderId = MiscUtils.getRandomId(8).toUpperCase();
 
     cartProducts.map((e) {
@@ -145,8 +154,10 @@ class CatalogProvider extends ChangeNotifier {
       quantity.add(e.quantity);
       itemCost.add(e.cpCost * e.quantity);
       itemDiscountCost.add(e.cpDiscountCost * e.quantity);
-      totalCost += e.cpCost * e.quantity;
-      totalDiscountCost += e.cpDiscountCost * e.quantity;
+      totalCostWithoutDiscount += e.cpCost * e.quantity;
+      totalCost += e.cpDiscountCost == 0
+          ? e.cpCost * e.quantity
+          : e.cpDiscountCost * e.quantity;
     }).toList();
 
     await catalogService.addOrder(
@@ -154,9 +165,9 @@ class CatalogProvider extends ChangeNotifier {
         officialId: selectedOfficial.officialsId,
         addressId: selectedAddressId,
         orderId: orderId,
-        cost: totalCost,
+        cost: totalCostWithoutDiscount,
         deliveryTypeId: selectedAddressId == 0 ? 1 : 2,
-        discountCount: totalDiscountCost,
+        discountCount: totalCost,
         itemCost: itemCost,
         itemDiscountCost: itemDiscountCost,
         cpId: cpId);

@@ -25,9 +25,9 @@ class OfficialTile extends StatelessWidget {
         officialProfileProvider.selectedOfficialIndex = index;
         Get.close(1);
         Get.to(
-            ProfileFullScreen(
-              officialId: official.officialsId.toString(),
-            ),
+            () => ProfileFullScreen(
+                  officialId: official.officialsId.toString(),
+                ),
             transition: Transition.rightToLeft);
       },
       child: Container(

@@ -111,7 +111,7 @@ class ProductsScreen extends StatelessWidget {
                         )
                       : ElevatedButton(
                           onPressed: () {
-                            Get.to(CartScreen(),
+                            Get.to(() => CartScreen(),
                                 transition: Transition.rightToLeft);
                           },
                           child: Text("Item in Cart"),
@@ -197,7 +197,7 @@ class ProductsScreen extends StatelessWidget {
             InkWell(
               borderRadius: BorderRadius.circular(15),
               onTap: () {
-                Get.to(CartScreen(), transition: Transition.rightToLeft);
+                Get.to(() => CartScreen(), transition: Transition.rightToLeft);
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 22),

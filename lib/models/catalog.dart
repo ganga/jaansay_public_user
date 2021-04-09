@@ -173,7 +173,7 @@ class Order {
   String address;
   String city;
   String state;
-  int pincode;
+  String pincode;
   String officialsName;
   String officialDisplayPhone;
   String officialPhoto;
@@ -239,16 +239,4 @@ class OrderDetail {
             ? []
             : json["product_photos"].toString().split(","),
       );
-
-  Map<String, dynamic> toJson() => {
-        "oi_id": oiId,
-        "order_id": orderId,
-        "cp_id": cpId,
-        "quantity": quantity,
-        "cost": cost,
-        "discount_cost": discountCost,
-        "cp_name": cpName,
-        "cp_description": cpDescription,
-        "product_photos": productPhotos == null ? null : productPhotos,
-      };
 }
