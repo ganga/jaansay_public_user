@@ -40,7 +40,9 @@ class Coupon {
         cmCreatedAt: DateTime.parse(json["cm_created_at"]),
         expireOn: DateTime.parse(json["expire_on"]),
         cuId: json["cu_id"],
-        cuCreatedAt: DateTime.parse(json["cu_created_at"]),
+        cuCreatedAt: json["cu_created_at"] == null
+            ? null
+            : DateTime.parse(json["cu_created_at"]),
         caCreatedAt: json["ca_created_at"] == null
             ? null
             : DateTime.parse(json["ca_created_at"]),

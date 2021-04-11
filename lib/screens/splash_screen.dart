@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/update_check.dart';
@@ -99,36 +100,28 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        height: double.infinity,
+        child: Stack(
           children: [
-            Hero(
-              tag: tr("mainlogo"),
-              child: Image.asset(
-                "assets/images/logo.png",
-                height: _mediaQuery.width * 0.2,
-                width: _mediaQuery.width * 0.2,
+            Align(
+              alignment: Alignment.center,
+              child: Hero(
+                tag: "mainlogo",
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  height: _mediaQuery.width * 0.2,
+                  width: _mediaQuery.width * 0.2,
+                ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            RichText(
-              text: TextSpan(
-                  text: "${tr('Jaan')}",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "${tr('Say')}",
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600),
-                    )
-                  ]),
+            Positioned(
+              right: 0,
+              left: 0,
+              bottom: Get.height * 0.1,
+              child: SpinKitChasingDots(
+                color: Theme.of(context).primaryColor,
+                size: 30,
+              ),
             ),
           ],
         ),

@@ -12,4 +12,12 @@ class CouponService {
       response['data'].map((e) => coupons.add(Coupon.fromJson(e))).toList();
     }
   }
+
+  Future<Coupon> getCouponDetailsByCouponId(String id) async {
+    final response = await dioService.getData("coupon/$id/user/$userId");
+    if (response != null) {
+      return Coupon.fromJson(response['data'][0]);
+    }
+    return null;
+  }
 }

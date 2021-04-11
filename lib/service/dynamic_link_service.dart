@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/catalog/product_detail_screen.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
+import 'package:jaansay_public_user/screens/coupon/coupon_dynamic_screen.dart';
 import 'package:jaansay_public_user/screens/feed/dynamic_feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
@@ -34,6 +35,7 @@ class DynamicLinkService {
       var isOfficial = deepLink.pathSegments.contains('official');
       var isProduct = deepLink.pathSegments.contains('product');
       var isReferral = deepLink.pathSegments.contains('referral');
+      var isCoupon = deepLink.pathSegments.contains('coupon');
 
       if (box.hasData("token")) {
         if (int.parse(box.read("user_id").toString()) > 1000) {
@@ -72,6 +74,14 @@ class DynamicLinkService {
 
             if (referralId != null) {
               Get.to(() => FriendReferralScreen(referralId),
+                  transition: Transition.rightToLeft);
+            }
+          }
+          if (isCoupon) {
+            var id = deepLink.queryParameters['id'];
+
+            if (id != null) {
+              Get.to(() => CouponDynamicScreen(id),
                   transition: Transition.rightToLeft);
             }
           }
