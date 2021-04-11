@@ -230,9 +230,9 @@ class FeedCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (feed.docId == 0) _midDetail(context),
+                if (feed.docId == 1) _midDetail(context),
                 _bottomDetail(),
-                if (feed.docId == 2) _midPdfDetail(),
+                if (feed.docId == 3) _midPdfDetail(),
                 SizedBox(
                   height: 10,
                 ),

@@ -5,7 +5,6 @@ class Feed {
     this.feedDescription,
     this.likes,
     this.userId,
-    this.typeId,
     this.docId,
     this.updatedAt,
     this.officialsName,
@@ -20,7 +19,6 @@ class Feed {
   String feedDescription;
   int likes;
   int userId;
-  int typeId;
   int docId;
   DateTime updatedAt;
   String officialsName;
@@ -35,7 +33,6 @@ class Feed {
         feedDescription: json["feed_description"],
         likes: json["likes"],
         userId: json["user_id"],
-        typeId: json["type_id"],
         docId: json["doc_id"],
         updatedAt: DateTime.parse(json["updated_at"]),
         officialsName: json["officials_name"],

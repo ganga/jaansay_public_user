@@ -120,7 +120,7 @@ class _OrderItem extends StatelessWidget {
                             children: <TextSpan>[
                               TextSpan(text: 'Cost: '),
                               TextSpan(
-                                  text: '₹${order.cost - order.discountCost}',
+                                  text: '₹${order.discountCost}',
                                   style:
                                       TextStyle(fontWeight: FontWeight.w500)),
                             ],

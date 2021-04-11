@@ -61,14 +61,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 onPressed: () => SystemNavigator.pop(),
                 child: Text(
                   "Close",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style: TextStyle(color: Colors.red),
                 ).tr(),
               ),
               TextButton(
                 onPressed: () => launch(updateCheck.updateLink),
                 child: Text(
                   "Update",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style: TextStyle(color: Colors.green),
                 ).tr(),
               ),
             ],
