@@ -33,3 +33,7 @@ class Constants {
   ];
   static const productHolderURL = "assets/images/productHolder.png";
 }
+
+enum CustomContentType { TEXT, IMAGE, VIDEO, PDF }
+
+enum CustomMessageType { PRIVATE, BROADCAST, FEEDBACK, GRIEVANCE, SURVEY }

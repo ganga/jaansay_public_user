@@ -5,8 +5,8 @@ import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:jaansay_public_user/widgets/catalog/home_delivery_section.dart';
 import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final Order order;
@@ -48,7 +48,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         ),
       ),
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : SingleChildScrollView(
               child: Container(
                 child: Column(

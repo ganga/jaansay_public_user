@@ -6,10 +6,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/referral_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class FriendReferralScreen extends StatefulWidget {
@@ -68,7 +68,7 @@ class _FriendReferralScreenState extends State<FriendReferralScreen> {
           return false;
         },
         child: isLoad
-            ? Loading()
+            ? CustomLoading()
             : isError
                 ? CustomErrorWidget(
                     title: "Invalid Code",

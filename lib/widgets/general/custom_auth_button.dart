@@ -22,8 +22,12 @@ class CustomAuthButton extends StatelessWidget {
           "$title",
         ).tr(),
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          padding: EdgeInsets.symmetric(vertical: 16),
+          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
       ),
     );
   }

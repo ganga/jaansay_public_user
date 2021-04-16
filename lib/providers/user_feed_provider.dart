@@ -4,6 +4,8 @@ import 'package:jaansay_public_user/service/feed_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UserFeedProvider with ChangeNotifier {
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   List<Feed> _feeds = [];
   bool _isLoad = true;
   bool _loadMore = true;
@@ -17,13 +19,13 @@ class UserFeedProvider with ChangeNotifier {
     return _isLoad;
   }
 
-  Future loadFeeds(RefreshController _refreshController, bool isRefresh) async {
+  Future loadFeeds(bool isRefresh) async {
     if (isRefresh) {
       _feeds.clear();
       _loadMore = true;
       _isLoad = true;
       page = 1;
-      _refreshController.resetNoData();
+      refreshController.resetNoData();
     } else {
       page++;
     }
@@ -32,10 +34,10 @@ class UserFeedProvider with ChangeNotifier {
       final response = await feedService.getMoreFeeds(page.toString());
       _feeds += response[0];
       _loadMore = response[1] == null ? false : true;
-      _refreshController.loadComplete();
-      _refreshController.refreshCompleted();
+      refreshController.loadComplete();
+      refreshController.refreshCompleted();
     } else {
-      _refreshController.loadNoData();
+      refreshController.loadNoData();
     }
     _isLoad = false;
 

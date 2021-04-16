@@ -1,4 +1,5 @@
 import 'package:bubble/bubble.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -7,10 +8,9 @@ import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceDetailScreen extends StatefulWidget {
   @override
@@ -153,7 +153,7 @@ class _GrievanceDetailScreenState extends State<GrievanceDetailScreen> {
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: appBar(),
       body: isLoad
-          ? CustomLoading("Please wait")
+          ? CustomLoading()
           : Column(
               children: [
                 Expanded(

@@ -8,12 +8,10 @@ import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
-
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -220,7 +218,7 @@ class ProductsScreen extends StatelessWidget {
         ],
       ),
       body: catalogProvider.isProductLoad
-          ? CustomLoading("Please wait")
+          ? CustomLoading()
           : Container(
               child: catalogProvider.products.length == 0
                   ? CustomErrorWidget(

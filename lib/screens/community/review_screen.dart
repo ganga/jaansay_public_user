@@ -1,14 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
-import 'package:easy_localization/easy_localization.dart';
-
 
 class ReviewScreen extends StatefulWidget {
   @override
@@ -60,7 +59,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ),
       ),
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : reviews.length == 0 && official.isFollow != 1
               ? CustomErrorWidget(
                   title: "${tr("No reviews")}",

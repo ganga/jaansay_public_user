@@ -5,9 +5,9 @@ import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/catalog/order_detail_screen.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -45,7 +45,7 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       ),
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : orders.length == 0
               ? CustomErrorWidget(
                   iconData: Icons.shopping_cart_outlined,

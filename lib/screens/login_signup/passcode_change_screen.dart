@@ -4,10 +4,14 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class PasscodeChangeScreen extends StatefulWidget {
+  final String phone;
+
+  PasscodeChangeScreen(this.phone);
+
   @override
   _PasscodeChangeScreenState createState() => _PasscodeChangeScreenState();
 }
@@ -17,36 +21,12 @@ class _PasscodeChangeScreenState extends State<PasscodeChangeScreen> {
 
   bool isLoad = false;
 
-  String phone = "";
-
-  Widget pincodeField(BuildContext context) {
-    return PinCodeTextField(
-      backgroundColor: Colors.transparent,
-      pinTheme: PinTheme.defaults(
-          shape: PinCodeFieldShape.box,
-          borderRadius: BorderRadius.circular(5),
-          activeColor: Theme.of(context).primaryColor,
-          selectedColor: Theme.of(context).primaryColor,
-          inactiveColor: Colors.black12),
-      appContext: context,
-      length: 4,
-      obscureText: false,
-      autoFocus: true,
-      animationType: AnimationType.fade,
-      keyboardType: TextInputType.number,
-      animationDuration: Duration(milliseconds: 300),
-      onChanged: (val) {},
-      onCompleted: (val) {
-        submitPasscode(val);
-      },
-    );
-  }
-
   submitPasscode(String passcode) async {
     isLoad = true;
     setState(() {});
     AuthService authService = AuthService();
-    bool response = await authService.updateUserPasscode(phone, passcode);
+    bool response =
+        await authService.updateUserPasscode(widget.phone, passcode);
     if (response) {
       Get.offAll(HomeScreen());
     } else {
@@ -58,8 +38,6 @@ class _PasscodeChangeScreenState extends State<PasscodeChangeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    phone = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -71,7 +49,7 @@ class _PasscodeChangeScreenState extends State<PasscodeChangeScreen> {
         ),
       ),
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -99,7 +77,7 @@ class _PasscodeChangeScreenState extends State<PasscodeChangeScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: Get.width * 0.1, vertical: 8),
-                    child: pincodeField(context),
+                    child: CustomPinField(submitPasscode, 4),
                   ),
                 ],
               ),

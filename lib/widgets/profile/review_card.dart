@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:jaansay_public_user/models/review.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class ReviewCard extends StatelessWidget {
   final Review review;

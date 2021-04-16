@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/passcode_otp_screen.dart';
+import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
+
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class PasscodeScreen extends StatefulWidget {
   @override
@@ -19,29 +20,6 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
   bool isLoad = false;
 
   String phone = "";
-
-  Widget pincodeField(BuildContext context) {
-    return PinCodeTextField(
-      backgroundColor: Colors.transparent,
-      pinTheme: PinTheme.defaults(
-          shape: PinCodeFieldShape.box,
-          borderRadius: BorderRadius.circular(5),
-          activeColor: Theme.of(context).primaryColor,
-          selectedColor: Theme.of(context).primaryColor,
-          inactiveColor: Colors.black12),
-      appContext: context,
-      length: 4,
-      obscureText: false,
-      autoFocus: true,
-      animationType: AnimationType.fade,
-      keyboardType: TextInputType.number,
-      animationDuration: Duration(milliseconds: 300),
-      onChanged: (val) {},
-      onCompleted: (val) {
-        submitPasscode(val);
-      },
-    );
-  }
 
   submitPasscode(String passcode) async {
     isLoad = true;
@@ -72,7 +50,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
         ),
       ),
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -100,7 +78,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: Get.width * 0.1, vertical: 8),
-                    child: pincodeField(context),
+                    child: CustomPinField(submitPasscode, 4),
                   ),
                   TextButton(
                     child: Text(
@@ -109,7 +87,8 @@ class _PasscodeScreenState extends State<PasscodeScreen> {
                           fontSize: 15, color: Theme.of(context).primaryColor),
                     ),
                     onPressed: () {
-                      Get.to(() => PasscodeOtpScreen(), arguments: phone);
+                      Get.to(() => OtpVerificationScreen(null, phone),
+                          transition: Transition.rightToLeft);
                     },
                   ),
                 ],

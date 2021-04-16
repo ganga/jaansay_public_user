@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/service/referral_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:share/share.dart';
 
 class UserReferralScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _UserReferralScreenState extends State<UserReferralScreen> {
         ),
       ),
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : Stack(
               children: [
                 SingleChildScrollView(

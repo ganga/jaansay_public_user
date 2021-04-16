@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/passcode_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "login";
@@ -19,7 +19,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isLoad = false;
 
   Future<void> loginPhone() async {
@@ -28,9 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {});
 
       AuthService authService = AuthService();
-      final response = await authService.checkUser(controller.text);
+      final response = await authService.checkUser(controller.text.trim());
       if (response) {
-        Get.to(() => PasscodeScreen(), arguments: controller.text);
+        Get.to(() => PasscodeScreen(), arguments: controller.text.trim());
         isLoad = false;
         setState(() {});
       } else {
@@ -52,8 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
           codeSent: (String verId, [int forceCodeResent]) {
             isLoad = false;
             setState(() {});
-            Get.to(() => OtpVerificationScreen(),
-                arguments: [verId, phoneNumber]);
+            Get.to(
+              () => OtpVerificationScreen(verId, controller.text.trim()),
+            );
           },
           codeAutoRetrievalTimeout: (String verId) {
             print("${tr("TIMEOUT")}");
@@ -67,11 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
-      key: _scaffoldKey,
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -87,8 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         tag: "${tr("mainlogo")}",
                         child: Image.asset(
                           "assets/images/logo.png",
-                          height: _mediaQuery.width * 0.3,
-                          width: _mediaQuery.width * 0.3,
+                          height: Get.width * 0.3,
+                          width: Get.width * 0.3,
                         ),
                       ),
                     ),

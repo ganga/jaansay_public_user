@@ -7,8 +7,8 @@ import 'package:jaansay_public_user/screens/community/community_detail_screen.da
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
-import 'package:jaansay_public_user/screens/misc/vocal_home_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
+import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -84,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
       FeedList(),
       CommunityDetailsScreen(),
       GrievanceScreen(() => _controller.jumpToTab(1)),
-      VocalHomeScreen(),
+      VocalLocalScreen(
+        isHome: true,
+      ),
     ];
   }
 

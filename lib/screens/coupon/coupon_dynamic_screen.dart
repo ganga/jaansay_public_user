@@ -7,9 +7,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/coupon_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,7 +87,7 @@ class _CouponDynamicScreenState extends State<CouponDynamicScreen> {
           return false;
         },
         child: isLoad
-            ? Loading()
+            ? CustomLoading()
             : Column(
                 children: [
                   Expanded(

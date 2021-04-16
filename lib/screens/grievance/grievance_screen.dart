@@ -1,15 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceScreen extends StatefulWidget {
   final Function changeScreen;
@@ -62,7 +62,7 @@ class _GrievanceScreenState extends State<GrievanceScreen> {
       body: Container(
         width: double.infinity,
         child: isLoad
-            ? Loading()
+            ? CustomLoading()
             : SmartRefresher(
                 enablePullDown: true,
                 header: ClassicHeader(),

@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 class BusinessListItem extends StatelessWidget {
@@ -53,7 +53,7 @@ class BusinessListItem extends StatelessWidget {
             ),
             AutoSizeText(
               official.officialsName,
-              minFontSize: 14,
+              minFontSize: 12,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

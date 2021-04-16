@@ -5,8 +5,7 @@ import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
-import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class FeatureSection extends StatefulWidget {
   final Official official;

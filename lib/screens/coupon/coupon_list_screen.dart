@@ -4,10 +4,9 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_detail_screen.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
-
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 class CouponListScreen extends StatelessWidget {
@@ -87,7 +86,7 @@ class CouponListScreen extends StatelessWidget {
         ),
       ),
       body: couponProvider.isCouponLoad
-          ? Loading()
+          ? CustomLoading()
           : couponProvider.coupons.length == 0
               ? CustomErrorWidget(
                   title: "No coupons found",

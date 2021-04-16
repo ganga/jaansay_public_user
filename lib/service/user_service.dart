@@ -72,9 +72,6 @@ class UserService {
 
     final response = await dioService.postData("publicusers", {
       "user_name": "${box.read("register_name")}",
-      "user_gender": "${box.read("register_gender")}",
-      "user_dob": "${box.read("register_dob")}",
-      "user_pincode": "${box.read("register_pincode")}",
       "user_phone": "${box.read("register_phone")}",
       "user_password": "${box.read("register_password")}",
       "district_id": "${box.read("register_district")}",
@@ -83,9 +80,7 @@ class UserService {
           : {
               "file_name": "$fileName",
               "file": "${box.read("register_profile")}",
-            },
-      "panchayat_id": "${box.read("register_panchayat")}",
-      "type_id": "100"
+            }
     });
     if (response != null) {
       AuthService authService = AuthService();

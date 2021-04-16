@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
-import 'package:jaansay_public_user/screens/catalog/order_confirmed_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +64,7 @@ class MyApp extends StatelessWidget {
         primaryColorDark: Color(0xff1E4072),
         primaryColorLight: Color(0xffFBEBE6),
         accentColor: Colors.amber,
+        fontFamily: GoogleFonts.poppins().fontFamily,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             onPrimary: Colors.white,
@@ -75,9 +75,7 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
       routes: {
         PDFViewScreen.routeName: (context) => PDFViewScreen(),
-        ImageViewScreen.routeName: (context) => ImageViewScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
-        OtpVerificationScreen.routeName: (context) => OtpVerificationScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
       },
     );

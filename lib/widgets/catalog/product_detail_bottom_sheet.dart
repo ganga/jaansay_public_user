@@ -5,10 +5,11 @@ import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_divider.dart';
 
 class ProductDetailBottomSheet extends StatelessWidget {
   imageCard(String url) {

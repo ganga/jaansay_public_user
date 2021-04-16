@@ -3,8 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/widgets/community/officials_list_group.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 class OfficialListScreen extends StatefulWidget {
@@ -41,7 +41,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
 
     return Scaffold(
       body: officialProfileProvider.isListLoad
-          ? Loading()
+          ? CustomLoading()
           : officialProfileProvider.officials.length == 0
               ? CustomErrorWidget(
                   title: tr("No users found"),

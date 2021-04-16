@@ -6,9 +6,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class ReviewAddCard extends StatefulWidget {
   final String officialId;
@@ -69,7 +69,7 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
           ? Container(
               height: Get.height * 0.2,
               alignment: Alignment.center,
-              child: Loading())
+              child: CustomLoading())
           : isVerified
               ? Container(
                   padding: EdgeInsets.symmetric(

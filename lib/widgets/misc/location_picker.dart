@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class LocationPicker extends StatefulWidget {
   LocationPicker({Key key}) : super(key: key);
@@ -43,7 +43,7 @@ class _LocationPickerState extends State<LocationPicker> {
 
     return Scaffold(
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : Stack(
               children: [
                 GoogleMap(

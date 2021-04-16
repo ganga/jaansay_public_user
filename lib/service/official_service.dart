@@ -46,9 +46,7 @@ class OfficialService {
     return userReview;
   }
 
-  Future<List<Official>> getAllOfficials() async {
-    List<Official> officials = [];
-
+  getAllOfficials(List<Official> officials) async {
     final response = await dioService.getData("officials");
     if (response != null) {
       response['data']
@@ -59,7 +57,6 @@ class OfficialService {
           )
           .toList();
     }
-    return officials;
   }
 
   Future<Official> getOfficialById(String officialId) async {

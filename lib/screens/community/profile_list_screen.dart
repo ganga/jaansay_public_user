@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 
 class ProfileListScreen extends StatefulWidget {
@@ -71,7 +71,7 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
 
     return Scaffold(
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : users.length == 0
               ? CustomErrorWidget(
                   title: tr("No users found"),

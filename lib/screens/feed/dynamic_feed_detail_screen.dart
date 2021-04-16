@@ -9,7 +9,8 @@ import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
+
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class DynamicFeedDetailScreen extends StatefulWidget {
   @override
@@ -81,7 +82,7 @@ class _DynamicFeedDetailScreenState extends State<DynamicFeedDetailScreen> {
           return false;
         },
         child: isLoad
-            ? Loading()
+            ? CustomLoading()
             : Container(
                 child: SingleChildScrollView(
                   child: FeedCard(

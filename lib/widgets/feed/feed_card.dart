@@ -9,9 +9,7 @@ import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
-import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -27,9 +25,8 @@ class FeedCard extends StatelessWidget {
     return InkWell(
       onTap: isDetail
           ? () {
-              pushNewScreenWithRouteSettings(context,
-                  screen: ImageViewScreen(),
-                  settings: RouteSettings(arguments: url),
+              pushNewScreen(context,
+                  screen: ImageViewScreen(url),
                   pageTransitionAnimation: PageTransitionAnimation.fade);
             }
           : null,
@@ -89,43 +86,6 @@ class FeedCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _getDoc(String docPath) {
-    return InkWell(
-      onTap: () {
-        if (!isDetail) {
-          Navigator.of(Get.context)
-              .pushNamed(PDFViewScreen.routeName, arguments: docPath);
-        }
-      },
-      child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        shadowColor: Get.theme.primaryColor,
-        elevation: 2,
-        child: Container(
-          width: 75,
-          height: 75,
-          alignment: Alignment.center,
-          child: Icon(
-            MdiIcons.filePdfBox,
-            color: Get.theme.primaryColor,
-            size: 30,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _midPdfDetail() {
-    return Container(
-        height: 95,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return _getDoc(feed.media[index]);
-            },
-            itemCount: feed.media.length));
   }
 
   Widget _likeShare(BuildContext context, UserFeedProvider _userFeedProvider,
@@ -232,7 +192,6 @@ class FeedCard extends StatelessWidget {
               children: [
                 if (feed.docId == 1) _midDetail(context),
                 _bottomDetail(),
-                if (feed.docId == 3) _midPdfDetail(),
                 SizedBox(
                   height: 10,
                 ),

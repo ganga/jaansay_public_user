@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/screens/login_signup/follow_screen.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_auth_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Finish extends StatefulWidget {
@@ -70,7 +70,7 @@ class _FinishState extends State<Finish> {
   Widget build(BuildContext context) {
     return Container(
       child: isLoad
-          ? Loading()
+          ? CustomLoading()
           : SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

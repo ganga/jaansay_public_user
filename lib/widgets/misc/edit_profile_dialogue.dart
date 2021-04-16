@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class EditProfileDailogue extends StatefulWidget {
   final Function updatePhoto;

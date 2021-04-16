@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
@@ -120,7 +120,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
     }
     return Scaffold(
       body: isLoad
-          ? Loading()
+          ? CustomLoading()
           : SingleChildScrollView(
               child: Container(
                 width: double.infinity,

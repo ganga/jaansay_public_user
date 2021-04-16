@@ -9,9 +9,8 @@ import 'package:jaansay_public_user/screens/community/profile_description_screen
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_error_widget.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/profile/officials_profile_head.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 import 'package:provider/provider.dart';
@@ -101,7 +100,7 @@ class ProfileFullScreen extends StatelessWidget {
                   officialProvider
                           .officials[officialProvider.selectedOfficialIndex] ==
                       null
-              ? CustomLoading('Please wait')
+              ? CustomLoading()
               : SingleChildScrollView(
                   child: Container(
                     width: double.infinity,
@@ -114,7 +113,7 @@ class ProfileFullScreen extends StatelessWidget {
                                     .isFollow ==
                                 1
                             ? feedProvider.getLoading()
-                                ? Loading()
+                                ? CustomLoading()
                                 : ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: feedProvider.feeds.length,
@@ -177,7 +176,7 @@ class __ReviewSectionState extends State<_ReviewSection> {
   Widget build(BuildContext context) {
     return Container(
       child: isLoad
-          ? Loading()
+          ? CustomLoading()
           : reviews.length == 0 && widget.official.isFollow != 1
               ? Container(
                   margin: EdgeInsets.only(top: Get.height * 0.1),

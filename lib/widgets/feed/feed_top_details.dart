@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 

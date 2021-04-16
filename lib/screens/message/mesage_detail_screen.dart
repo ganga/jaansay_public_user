@@ -14,8 +14,8 @@ import 'package:jaansay_public_user/screens/message/message_media_screen.dart';
 import 'package:jaansay_public_user/screens/survey/survey_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -195,7 +195,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: appBar(),
       body: isLoad
-          ? CustomLoading("Please wait")
+          ? CustomLoading()
           : Column(
               children: [
                 Expanded(

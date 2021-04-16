@@ -6,8 +6,8 @@ import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/add_address_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/home_delivery_section.dart';
 import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/survey/bottom_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
 import 'package:provider/provider.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _AddressScreenState extends State<AddressScreen> {
         ),
       ),
       body: catalogProvider.isAddressLoad
-          ? Loading()
+          ? CustomLoading()
           : Column(
               children: [
                 Expanded(

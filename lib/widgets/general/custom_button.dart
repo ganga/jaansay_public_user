@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BottomButton extends StatelessWidget {
   final Function onTap;
@@ -34,6 +35,38 @@ class BottomButton extends StatelessWidget {
                 fontSize: 16,
                 letterSpacing: 1.05,
                 fontWeight: FontWeight.w500),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomAuthButton extends StatelessWidget {
+  final String title;
+  final Function onTap;
+
+  CustomAuthButton({this.title, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: ElevatedButton(
+        onPressed: onTap == null
+            ? null
+            : () {
+                onTap();
+              },
+        child: Text(
+          "$title",
+        ).tr(),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
       ),

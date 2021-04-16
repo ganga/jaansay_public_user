@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/utils/login_controller.dart';
 import 'package:jaansay_public_user/widgets/login_signup/about.dart';
 import 'package:jaansay_public_user/widgets/login_signup/finish.dart';
-import 'package:jaansay_public_user/widgets/misc/screen_progress.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/login_signup/screen_progress.dart';
 
-class AboutMeScreen extends StatelessWidget {
-  AboutMeScreen({Key key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({Key key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
 
   @override

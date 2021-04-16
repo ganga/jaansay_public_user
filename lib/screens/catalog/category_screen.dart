@@ -6,8 +6,8 @@ import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
 import 'package:jaansay_public_user/screens/catalog/products_screen.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -92,7 +92,7 @@ class CategoryScreen extends StatelessWidget {
         ],
       ),
       body: catalogProvider.isCategoryLoad
-          ? CustomLoading("Please wait")
+          ? CustomLoading()
           : SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),

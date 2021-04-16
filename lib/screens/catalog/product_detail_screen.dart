@@ -10,9 +10,9 @@ import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_divider.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:share/share.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -109,7 +109,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             return false;
           },
           child: isProductLoad
-              ? Loading()
+              ? CustomLoading()
               : SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),

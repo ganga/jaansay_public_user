@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/service/vocalforlocal_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class VocalLocalScreen extends StatefulWidget {
-  VocalLocalScreen({Key key}) : super(key: key);
+  final bool isHome;
+
+  VocalLocalScreen({this.isHome = false});
 
   @override
   _VocalLocalScreenState createState() => _VocalLocalScreenState();
@@ -22,32 +25,6 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   bool isLoad = false;
-
-  Widget _customTextField(
-      String hint, String label, TextEditingController controller, bool isNum) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-        ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-      child: TextField(
-        controller: controller,
-        keyboardType: isNum ? TextInputType.number : TextInputType.text,
-        textCapitalization: TextCapitalization.words,
-        textInputAction: TextInputAction.done,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          labelText: tr(label),
-          hintText: tr(hint),
-        ),
-      ),
-    );
-  }
 
   updateLocation(String lat, String lon) {
     latitude = lat;
@@ -138,17 +115,20 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor: Colors.white,
-        title: Text(
-          "Vocal For Local",
-          style: TextStyle(
-            color: Get.theme.primaryColor,
-          ),
-        ).tr(),
-      ),
+      appBar: widget.isHome
+          ? null
+          : AppBar(
+              automaticallyImplyLeading: true,
+              iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+              backgroundColor: Colors.white,
+              title: Text(
+                "Vocal For Local",
+                style: TextStyle(
+                  color: Get.theme.primaryColor,
+                ),
+              ).tr(),
+            ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -158,8 +138,8 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   "assets/images/localshop.png",
-                  height: Get.width * 0.4,
-                  width: Get.width * 0.4,
+                  height: Get.width * 0.3,
+                  width: Get.width * 0.3,
                 ),
               ),
               SizedBox(
@@ -173,13 +153,18 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
               SizedBox(
                 height: 16,
               ),
-              _customTextField("Enter Business name", "Business Name",
-                  nameController, false),
+              CustomTextField(
+                  hint: "Enter Business name",
+                  label: "Business Name",
+                  controller: nameController,
+                  isNum: false),
               SizedBox(
                 height: 16,
               ),
-              _customTextField(
-                  "Enter phone number", "phone", phoneController, true),
+              CustomTextField(
+                  hint: "Enter phone number",
+                  label: "phone",
+                  controller: phoneController),
               SizedBox(
                 height: 16,
               ),
@@ -195,7 +180,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 height: 16,
               ),
               isLoad
-                  ? Loading()
+                  ? CustomLoading()
                   : CustomAuthButton(
                       title: "Send",
                       onTap: () => sendData(),

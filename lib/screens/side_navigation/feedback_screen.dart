@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/service/feedback_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class FeedbackScreen extends StatefulWidget {
   FeedbackScreen({Key key}) : super(key: key);
@@ -216,7 +216,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               ),
               Obx(() {
                 return isLoad.value
-                    ? Loading()
+                    ? CustomLoading()
                     : Container(
                         width: double.infinity,
                         margin: EdgeInsets.only(bottom: 24),

@@ -5,9 +5,9 @@ import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/follow_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
-import 'package:jaansay_public_user/widgets/loading.dart';
-import 'package:jaansay_public_user/widgets/login_signup/custom_auth_button.dart';
-import 'package:jaansay_public_user/widgets/misc/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 
 class FollowScreen extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _FollowScreenState extends State<FollowScreen> {
 
   getData() async {
     OfficialService officialService = OfficialService();
-    officials = await officialService.getAllOfficials();
+    await officialService.getAllOfficials(officials);
     isLoad = false;
     setState(() {});
   }
@@ -49,7 +49,7 @@ class _FollowScreenState extends State<FollowScreen> {
       body: Column(
         children: [
           isLoad
-              ? Loading()
+              ? CustomLoading()
               : Expanded(
                   child: Container(
                     child: ListView.builder(
