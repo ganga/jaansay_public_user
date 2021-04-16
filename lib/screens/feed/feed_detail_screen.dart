@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 
 class FeedDetailScreen extends StatelessWidget {
+  final Feed feed;
+  final bool isBusiness;
+
+  FeedDetailScreen(this.feed, this.isBusiness);
+
   @override
   Widget build(BuildContext context) {
-    final List response = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
@@ -23,8 +27,8 @@ class FeedDetailScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: FeedCard(
             isDetail: true,
-            feed: response[0],
-            isBusiness: response[1],
+            feed: feed,
+            isBusiness: isBusiness,
           ),
         ),
       ),

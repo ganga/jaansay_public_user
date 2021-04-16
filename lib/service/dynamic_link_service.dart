@@ -43,7 +43,7 @@ class DynamicLinkService {
             var feedId = deepLink.queryParameters['id'];
 
             if (feedId != null) {
-              Get.offAll(DynamicFeedDetailScreen(), arguments: feedId);
+              Get.offAll(DynamicFeedDetailScreen(feedId));
             }
           }
           if (isOfficial) {

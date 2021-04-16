@@ -180,9 +180,8 @@ class FeedCard extends StatelessWidget {
         InkWell(
           onTap: () {
             if (!isDetail) {
-              pushNewScreenWithRouteSettings(context,
-                  screen: FeedDetailScreen(),
-                  settings: RouteSettings(arguments: [feed, isBusiness]),
+              pushNewScreen(context,
+                  screen: FeedDetailScreen(feed, isBusiness),
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   withNavBar: false);
             }

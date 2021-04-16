@@ -45,6 +45,16 @@ class FeedService {
         {"type": "like"});
   }
 
+  getFeedbyId(String feedId) async {
+    final response = await dioService.getData("feeds/$userId/allfeeds/$feedId");
+
+    if (response != null) {
+      return Feed.fromJson(response['data'][0]);
+    } else {
+      return null;
+    }
+  }
+
   Future<List<Feed>> getUserFeeds(int officialId) async {
     List<Feed> feeds = [];
 
