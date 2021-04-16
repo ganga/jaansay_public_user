@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/survey.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/survey_service.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
-import 'package:jaansay_public_user/widgets/survey/survey_qa_section.dart';
+import 'package:jaansay_public_user/widgets/general/custom_button.dart';
 
 class SurveyScreen extends StatefulWidget {
   @override
@@ -141,7 +140,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                 scrollDirection: Axis.horizontal,
                 controller: _controller,
                 children: surveys.map((e) {
-                  return SurveyQASection(
+                  return _SurveyQASection(
                       e, surveys.indexOf(e) + 1, addAnswer, surveyAnswers);
                 }).toList(),
               ),
@@ -161,6 +160,98 @@ class _SurveyScreenState extends State<SurveyScreen> {
                     ? Theme.of(context).primaryColor
                     : Colors.white,
               ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SurveyQASection extends StatefulWidget {
+  final Survey survey;
+  final int index;
+  final Function addAnswer;
+  final List surveyAnswers;
+
+  _SurveyQASection(this.survey, this.index, this.addAnswer, this.surveyAnswers);
+
+  @override
+  __SurveyQASectionState createState() => __SurveyQASectionState();
+}
+
+class __SurveyQASectionState extends State<_SurveyQASection> {
+  int value;
+
+  @override
+  Widget build(BuildContext context) {
+    final survey = widget.survey;
+
+    widget.surveyAnswers.map((e) {
+      if (e['sq_id'] == survey.sqId.toString()) {
+        final temp = int.parse(e['so_id']);
+        widget.survey.soId.map((e) {
+          if (int.parse(e.toString()) == temp) {
+            value = widget.survey.soId.indexOf(e);
+          }
+        }).toList();
+      }
+    }).toList();
+
+    return SingleChildScrollView(
+      child: Container(
+        padding:
+            EdgeInsets.only(top: Get.height * 0.18, bottom: Get.height * 0.05),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: Get.width * 0.06),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Question ${widget.index}",
+                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    survey.sqQuestion,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              children: survey.soId.map((e) {
+                return Card(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: Get.width * 0.06, vertical: 4),
+                    child: Material(
+                      color: survey.soId.indexOf(e) == value
+                          ? Theme.of(context).primaryColor.withOpacity(0.1)
+                          : Colors.transparent,
+                      child: RadioListTile(
+                        onChanged: (val) {
+                          widget.addAnswer(
+                              survey.sqId.toString(), e.toString());
+                          value = val;
+                          setState(() {});
+                        },
+                        title: Text(survey.soOption[survey.soId.indexOf(e)]),
+                        groupValue: value,
+                        value: survey.soId.indexOf(e),
+                        activeColor: Theme.of(context).primaryColor,
+                      ),
+                    ));
+              }).toList(),
             )
           ],
         ),

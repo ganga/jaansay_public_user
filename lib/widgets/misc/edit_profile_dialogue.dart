@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/utils/misc_utils.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 
 class EditProfileDailogue extends StatefulWidget {
   final Function updatePhoto;
@@ -21,38 +21,13 @@ class EditProfileDailogue extends StatefulWidget {
 
 class _EditProfileDailogueState extends State<EditProfileDailogue> {
   File _image;
-  var _isPicked = 0.obs;
   bool isLoad = false;
   GetStorage box = GetStorage();
+
   Future getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    File croppedFile = await ImageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        maxHeight: 512,
-        maxWidth: 512,
-        compressFormat: ImageCompressFormat.jpg,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9
-        ],
-        androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ));
-    if (pickedFile != null) {
-      _image = File(croppedFile.path);
-      _isPicked(1);
-    } else {
-      print("${tr('No image selected.')}");
+    _image = await MiscUtils.pickImage();
+    if (_image != null) {
+      setState(() {});
     }
   }
 
@@ -73,20 +48,7 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
   Widget build(BuildContext context) {
     return Container(
       child: isLoad
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SpinKitChasingDots(
-                  color: Get.theme.primaryColor,
-                  size: 30,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Please wait").tr(),
-              ],
-            )
+          ? CustomLoading()
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -97,21 +59,21 @@ class _EditProfileDailogueState extends State<EditProfileDailogue> {
                   height: 125,
                   width: 125,
                   decoration: BoxDecoration(shape: BoxShape.circle),
-                  child: Obx(() => InkWell(
-                        onTap: () {
-                          getImage();
-                        },
-                        child: ClipOval(
-                          child: _isPicked.value == 1
-                              ? Image.file(
-                                  _image,
-                                  fit: BoxFit.cover,
-                                )
-                              : CustomNetWorkImage(
-                                  box.read("photo"),
-                                ),
-                        ),
-                      )),
+                  child: InkWell(
+                    onTap: () {
+                      getImage();
+                    },
+                    child: ClipOval(
+                      child: _image != null
+                          ? Image.file(
+                              _image,
+                              fit: BoxFit.cover,
+                            )
+                          : CustomNetWorkImage(
+                              box.read("photo"),
+                            ),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 8,

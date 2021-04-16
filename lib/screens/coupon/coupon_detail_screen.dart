@@ -5,12 +5,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_divider.dart';
 
 class CouponDetailScreen extends StatelessWidget {
   @override

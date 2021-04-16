@@ -8,7 +8,7 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 
 class ReviewAddCard extends StatefulWidget {
   final String officialId;
@@ -22,6 +22,7 @@ class ReviewAddCard extends StatefulWidget {
 
 class _ReviewAddCardState extends State<ReviewAddCard> {
   TextEditingController controller = TextEditingController();
+  OfficialService officialService = OfficialService();
   GetStorage box = GetStorage();
   String rating = "5";
   bool isLoad = false;
@@ -32,7 +33,6 @@ class _ReviewAddCardState extends State<ReviewAddCard> {
   getData() async {
     isLoad = true;
     setState(() {});
-    OfficialService officialService = OfficialService();
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
         officialDocuments, widget.officialId.toString());

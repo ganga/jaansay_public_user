@@ -6,10 +6,12 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
-import 'package:jaansay_public_user/widgets/feed/feed_top_details.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -171,7 +173,7 @@ class FeedCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 10),
-        FeedTopDetails(feed),
+        _FeedTopDetails(feed),
         SizedBox(
           height: 10,
         ),
@@ -217,5 +219,74 @@ class FeedCard extends StatelessWidget {
         : Card(
             margin: EdgeInsets.only(bottom: 10),
             child: mainBody(context, _userFeedProvider, _businessFeedProvider));
+  }
+}
+
+class _FeedTopDetails extends StatelessWidget {
+  final Feed feed;
+
+  _FeedTopDetails(this.feed);
+
+  @override
+  Widget build(BuildContext context) {
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
+    return InkWell(
+      onTap: () {
+        officialProfileProvider.clearData(allData: true);
+        pushNewScreen(context,
+            screen: ProfileFullScreen(
+              officialId: feed.userId.toString(),
+            ),
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            withNavBar: false);
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(shape: BoxShape.circle),
+              child: ClipOval(child: CustomNetWorkImage(feed.photo)),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${feed.officialsName}",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
+                      TextSpan(
+                          text: "#${feed.typeName} ",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                            color: Theme.of(context).primaryColor,
+                          )),
+                      TextSpan(
+                        text:
+                            DateFormat.yMMMd().add_jm().format(feed.updatedAt),
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.w300),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -19,7 +19,7 @@ import 'package:jaansay_public_user/screens/referral/user_referral_screen.dart';
 import 'package:jaansay_public_user/service/key_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/featured_section.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';

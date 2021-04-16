@@ -24,6 +24,8 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
   String latitude = "0", longitude = "0";
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  VocalForLocalService vocalforlocalService = VocalForLocalService();
+
   bool isLoad = false;
 
   updateLocation(String lat, String lon) {
@@ -83,7 +85,6 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
     } else {
       isLoad = true;
       setState(() {});
-      VocalForLocalService vocalforlocalService = VocalForLocalService();
       await vocalforlocalService.addStore(
         shopName: nameController.text,
         phone: phoneController.text,
@@ -102,7 +103,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Get.close(0);
+                  Get.close(1);
                 },
                 child: Text("Okay").tr())
           ],

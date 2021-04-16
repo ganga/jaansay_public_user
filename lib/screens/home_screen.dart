@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
+import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
-import 'package:jaansay_public_user/widgets/feed/feed_list.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _buildScreens() {
     return [
-      FeedList(),
+      FeedListScreen(),
       CommunityDetailsScreen(),
       GrievanceScreen(() => _controller.jumpToTab(1)),
       VocalLocalScreen(
