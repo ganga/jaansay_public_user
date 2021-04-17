@@ -72,12 +72,11 @@ class OfficialsProfileHead extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          pushNewScreenWithRouteSettings(context,
-                              screen: ReviewScreen(),
-                              withNavBar: true,
-                              settings: RouteSettings(
-                                arguments: official,
-                              ));
+                          pushNewScreen(
+                            context,
+                            screen: ReviewScreen(official),
+                            withNavBar: true,
+                          );
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -140,13 +139,12 @@ class OfficialsProfileHead extends StatelessWidget {
                   title: "${tr("Engage")}",
                   onTap: () {
                     if (official.isFollow == 1) {
-                      pushNewScreenWithRouteSettings(
+                      pushNewScreen(
                         context,
-                        screen: MessageDetailScreen(),
-                        withNavBar: false,
-                        settings: RouteSettings(
-                          arguments: [false, official],
+                        screen: MessageDetailScreen(
+                          official: official,
                         ),
+                        withNavBar: false,
                       );
                     } else {
                       Get.rawSnackbar(
@@ -206,13 +204,10 @@ class OfficialsProfileHead extends StatelessWidget {
                 ProfileHeadButton(
                   title: "${tr("Reviews")}",
                   onTap: () {
-                    pushNewScreenWithRouteSettings(
+                    pushNewScreen(
                       context,
-                      screen: ReviewScreen(),
+                      screen: ReviewScreen(official),
                       withNavBar: true,
-                      settings: RouteSettings(
-                        arguments: official,
-                      ),
                     );
                   },
                 ),

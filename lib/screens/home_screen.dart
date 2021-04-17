@@ -7,6 +7,7 @@ import 'package:jaansay_public_user/screens/community/community_detail_screen.da
 import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
+import 'package:jaansay_public_user/screens/misc/dashboard_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
@@ -74,16 +75,16 @@ class _HomeScreenState extends State<HomeScreen> {
       centerTitle: true,
       actions: [
         appBarIcon(Icons.search, context, 'search_icon', SearchScreen()),
-        appBarIcon(Icons.message, context, 'message_icon', MessageScreen()),
+        //appBarIcon(Icons.message, context, 'message_icon', MessageScreen()),
       ],
     );
   }
 
   List<Widget> _buildScreens() {
     return [
-      FeedListScreen(),
+      DashboardScreen(),
       CommunityDetailsScreen(),
-      GrievanceScreen(() => _controller.jumpToTab(1)),
+      FeedListScreen(),
       VocalLocalScreen(
         isHome: true,
       ),
@@ -105,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(MdiIcons.messageAlert),
-        title: tr("Grievance"),
+        icon: Icon(Icons.dynamic_feed_outlined),
+        title: tr("Feed"),
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Colors.grey,
       ),
@@ -123,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print(message.data);
       if (message.data['type'] == "message") {
-        pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
+        //pushNewScreen(context, screen: MessageScreen(), withNavBar: false);
       }
     });
   }

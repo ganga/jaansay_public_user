@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
@@ -12,7 +13,6 @@ class ContactHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context).size;
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 16),
@@ -21,15 +21,15 @@ class ContactHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: _mediaQuery.width * 0.18,
-            width: _mediaQuery.width * 0.18,
+            height: Get.width * 0.18,
+            width: Get.width * 0.18,
             decoration: BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
               child: CustomNetWorkImage(official.photo),
             ),
           ),
           SizedBox(
-            width: _mediaQuery.width * 0.05,
+            width: Get.width * 0.05,
           ),
           Expanded(
             child: Column(
@@ -44,9 +44,8 @@ class ContactHeader extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ReviewScreen(),
-                        settings: RouteSettings(arguments: official)));
+
+                    Get.to(ReviewScreen(official), transition: Transition.rightToLeft);
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

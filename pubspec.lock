@@ -336,6 +336,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.0"
   gender_picker:
     dependency: "direct main"
     description:
@@ -760,6 +767,13 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  shimmer:
+    dependency: "direct main"
+    description:
+      name: shimmer
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"

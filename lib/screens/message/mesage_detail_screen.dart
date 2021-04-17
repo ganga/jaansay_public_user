@@ -20,14 +20,19 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class MessageDetailScreen extends StatefulWidget {
+  final MessageMaster messageMaster;
+  final Official official;
+
+  MessageDetailScreen({this.messageMaster, this.official});
+
   @override
   _MessageDetailScreenState createState() => _MessageDetailScreenState();
 }
 
 class _MessageDetailScreenState extends State<MessageDetailScreen> {
   MessageMaster messageMaster;
-  List<Message> messages = [];
   Official official;
+  List<Message> messages = [];
   bool isCheck = false;
   bool isLoad = true;
   TextEditingController _messageController = TextEditingController();
@@ -166,6 +171,18 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    messageMaster = widget.messageMaster;
+    official = widget.official;
+    getAllMessages();
+    messageTimer = Timer.periodic(Duration(seconds: 3), (timer) {
+      checkNewMessages();
+    });
+  }
+
+  @override
   void dispose() {
     messageTimer.cancel();
 
@@ -175,22 +192,6 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List response = ModalRoute.of(context).settings.arguments;
-
-    if (response[0]) {
-      messageMaster = response[1];
-    } else {
-      official = response[1];
-    }
-
-    if (!isCheck) {
-      isCheck = true;
-      getAllMessages();
-      messageTimer = Timer.periodic(Duration(seconds: 3), (timer) {
-        checkNewMessages();
-      });
-    }
-
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       appBar: appBar(),

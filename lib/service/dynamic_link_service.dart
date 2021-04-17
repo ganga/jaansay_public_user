@@ -94,8 +94,8 @@ class DynamicLinkService {
       }
     } else {
       if (box.hasData("token")) {
-        Get.offAllNamed(
-          HomeScreen.routeName,
+        Get.offAll(
+          HomeScreen(),
         );
       } else {
         Get.offAll(SelectLanguageScreen(), arguments: true);

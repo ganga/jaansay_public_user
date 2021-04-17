@@ -10,10 +10,7 @@ import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
-import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
-import 'package:jaansay_public_user/screens/feed/pdf_view_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 import 'package:provider/provider.dart';
@@ -72,12 +69,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SplashScreen(),
-      routes: {
-        PDFViewScreen.routeName: (context) => PDFViewScreen(),
-        LoginScreen.routeName: (context) => LoginScreen(),
-        HomeScreen.routeName: (context) => HomeScreen(),
-      },
+      home: HomeScreen(),
     );
   }
 }

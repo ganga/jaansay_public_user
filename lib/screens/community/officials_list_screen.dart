@@ -25,7 +25,6 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
   @override
   Widget build(BuildContext context) {
     List response = ModalRoute.of(context).settings.arguments;
-    final _mediaQuery = MediaQuery.of(context).size;
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
     final type = response[0];
@@ -60,8 +59,8 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                           child: Container(
                             width: double.infinity,
                             padding: EdgeInsets.symmetric(
-                                horizontal: _mediaQuery.width * 0.08,
-                                vertical: _mediaQuery.height * 0.05),
+                                horizontal: Get.width * 0.08,
+                                vertical: Get.height * 0.05),
                             alignment: Alignment.center,
                             child: AutoSizeText(
                               tr(title),
@@ -73,7 +72,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: _mediaQuery.width * 0.04,
+                            horizontal: Get.width * 0.04,
                           ),
                           child: Row(
                             children: [

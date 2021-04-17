@@ -10,6 +10,12 @@ import 'package:jaansay_public_user/widgets/profile/review_add_card.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 
 class ReviewScreen extends StatefulWidget {
+
+  final Official official;
+
+
+  ReviewScreen(this.official);
+
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
 }
@@ -21,7 +27,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   Review userReview;
   bool isCheck = false;
-  Official official;
 
   getData() async {
     isLoad = true;
@@ -32,20 +37,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
     OfficialService officialService = OfficialService();
     officialDocuments.clear();
     await officialService.getOfficialDocuments(
-        officialDocuments, official.officialsId.toString());
+        officialDocuments, widget.official.officialsId.toString());
     userReview = await officialService.getOfficialRatings(
-        official.officialsId.toString(), reviews);
+        widget.official.officialsId.toString(), reviews);
     isLoad = false;
     setState(() {});
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (!isCheck) {
-      isCheck = true;
-      official = ModalRoute.of(context).settings.arguments;
-      getData();
-    }
+
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +68,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       ),
       body: isLoad
           ? CustomLoading()
-          : reviews.length == 0 && official.isFollow != 1
+          : reviews.length == 0 && widget.official.isFollow != 1
               ? CustomErrorWidget(
                   title: "${tr("No reviews")}",
                   iconData: Icons.not_interested,
@@ -69,10 +77,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   itemBuilder: (context, index) {
                     return index == 0
                         ? userReview == null
-                            ? official.isFollow != 1
+                            ? widget.official.isFollow != 1
                                 ? SizedBox.shrink()
                                 : ReviewAddCard(
-                                    official.officialsId.toString(), getData)
+                                    widget.official.officialsId.toString(), getData)
                             : ReviewCard(userReview)
                         : ReviewCard(reviews[index - 1]);
                   },

@@ -10,13 +10,14 @@ import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/feedback_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/misc/edit_profile_dialogue.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_divider.dart';
+import 'general/custom_divider.dart';
+import 'general/custom_network_image.dart';
+
 
 class CustomDrawer extends StatefulWidget {
   @override

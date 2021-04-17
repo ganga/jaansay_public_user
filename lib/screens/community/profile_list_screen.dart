@@ -1,13 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 
 class ProfileListScreen extends StatefulWidget {
+
+  final String districtId;
+
+
+  ProfileListScreen(this.districtId);
+
   @override
   _ProfileListScreenState createState() => _ProfileListScreenState();
 }
@@ -15,8 +22,6 @@ class ProfileListScreen extends StatefulWidget {
 class _ProfileListScreenState extends State<ProfileListScreen> {
   bool isLoad = true;
 
-  bool isCheck = false;
-  String districtId;
 
   List<User> users = [];
 
@@ -25,7 +30,7 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
     setState(() {});
     users.clear();
     UserService userService = UserService();
-    await userService.getAllUsers(districtId, users);
+    await userService.getAllUsers(widget.districtId, users);
     isLoad = false;
     setState(() {});
   }
@@ -59,15 +64,15 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    List response = ModalRoute.of(context).settings.arguments;
-    final _mediaQuery = MediaQuery.of(context).size;
-    districtId = response[1];
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
-    if (!isCheck) {
-      isCheck = true;
-      getData();
-    }
+  @override
+  Widget build(BuildContext context) {
+
 
     return Scaffold(
       body: isLoad
@@ -83,12 +88,12 @@ class _ProfileListScreenState extends State<ProfileListScreen> {
                   child: GridView.builder(
                     itemCount: users.length,
                     padding: EdgeInsets.symmetric(
-                        horizontal: _mediaQuery.width * 0.03,
-                        vertical: _mediaQuery.height * 0.02),
+                        horizontal: Get.width * 0.03,
+                        vertical: Get.height * 0.02),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        crossAxisSpacing: _mediaQuery.width * 0.03,
-                        mainAxisSpacing: _mediaQuery.height * 0.02),
+                        crossAxisSpacing: Get.width * 0.03,
+                        mainAxisSpacing: Get.height * 0.02),
                     itemBuilder: (context, index) {
                       return profileCard(context, users[index]);
                     },
