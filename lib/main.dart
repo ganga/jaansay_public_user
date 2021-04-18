@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
         primaryColorDark: Color(0xff1E4072),
         primaryColorLight: Color(0xffFBEBE6),
         accentColor: Colors.amber,
+        scaffoldBackgroundColor: Colors.blueGrey.shade50,
         fontFamily: GoogleFonts.poppins().fontFamily,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }

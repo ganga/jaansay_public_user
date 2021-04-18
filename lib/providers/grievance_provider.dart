@@ -10,17 +10,20 @@ class GrievanceProvider extends ChangeNotifier {
   GrievanceService grievanceService = GrievanceService();
 
   List<GrievanceMaster> grievanceMasters = [];
+  List<GrievanceReply> grievanceReplies = [];
   List<Official> dashOfficials = [];
   List<File> files = [];
 
   Official selectedOfficial;
+  GrievanceMaster selectedGrievanceMaster;
 
-  bool isDashLoad = true, isMasterLoad = true;
-  bool initDash = false, initMaster = false;
+  bool isDashLoad = true, isMasterLoad = true, isReplyLoad = true;
+  bool initDash = false, initMaster = false, initReply = false;
 
   TextEditingController controller = TextEditingController();
 
   getAllDashMasters() async {
+    dashOfficials.clear();
     await grievanceService.getAllDashGrievances(dashOfficials);
     dashOfficials.add(Official());
     isDashLoad = false;
@@ -28,9 +31,18 @@ class GrievanceProvider extends ChangeNotifier {
   }
 
   getAllGrievanceMasters() async {
+    grievanceMasters.clear();
     await grievanceService.getAlLGrievancesByOfficialId(
         grievanceMasters, selectedOfficial.officialsId.toString());
     isMasterLoad = false;
+    notifyListeners();
+  }
+
+  getAllGrievanceReplies() async {
+    grievanceReplies.clear();
+    await grievanceService.getAlLGrievancesByMasterId(
+        grievanceReplies, selectedGrievanceMaster.id.toString());
+    isReplyLoad = false;
     notifyListeners();
   }
 
@@ -47,15 +59,50 @@ class GrievanceProvider extends ChangeNotifier {
       Get.rawSnackbar(
           message:
               "Your grievance has been sent. We will notify you when there are any updates.");
+      clearData(allData: true);
+      notifyListeners();
+    }
+  }
+
+  addComment() async {
+    String message = controller.text.trim();
+    if (message.length == 0) {
+      Get.rawSnackbar(message: "Please enter your comment");
+    } else {
+      Get.close(1);
+      isReplyLoad = true;
       controller.clear();
       files.clear();
-      grievanceMasters.clear();
-      initMaster = false;
+      notifyListeners();
+      await grievanceService.addReply(
+          files, message, selectedGrievanceMaster.id.toString());
+      Get.rawSnackbar(message: "Your comment has been added.");
+      getAllGrievanceReplies();
       notifyListeners();
     }
   }
 
   notify() {
     notifyListeners();
+  }
+
+  clearData({
+    allData = false,
+  }) {
+    controller.clear();
+
+    grievanceReplies.clear();
+    files.clear();
+
+    selectedGrievanceMaster = null;
+
+    isReplyLoad = true;
+    initReply = false;
+
+    if (allData) {
+      grievanceMasters.clear();
+      isMasterLoad = true;
+      initMaster = false;
+    }
   }
 }

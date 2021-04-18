@@ -193,7 +193,6 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColorLight,
       appBar: appBar(),
       body: isLoad
           ? CustomLoading()

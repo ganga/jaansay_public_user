@@ -8,6 +8,7 @@ import 'package:jaansay_public_user/providers/grievance_provider.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_add_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
+import 'package:jaansay_public_user/widgets/dashboard/grievance_head.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_status.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
@@ -83,10 +84,11 @@ class GrievanceListScreen extends StatelessWidget {
               icon: Icon(
                 Icons.add,
                 color: Colors.white,
+                size: 22,
               ),
               label: Text(
                 "Add Grievance",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 14),
               ),
               onPressed: () {
                 Get.to(() => GrievanceAddScreen(),
@@ -99,116 +101,17 @@ class GrievanceListScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: grievanceProvider.grievanceMasters.length,
                 itemBuilder: (context, index) {
-                  return _ListItem(grievanceProvider.grievanceMasters[index]);
+                  return GrievanceHead(
+                      grievanceProvider.grievanceMasters[index], () {
+                    grievanceProvider.clearData();
+                    grievanceProvider.selectedGrievanceMaster =
+                        grievanceProvider.grievanceMasters[index];
+                    Get.to(() => GrievanceDetailScreen(),
+                        transition: Transition.rightToLeft);
+                  });
                 },
               ),
             ),
-    );
-  }
-}
-
-class _ListItem extends StatelessWidget {
-  final GrievanceMaster grievanceMaster;
-
-  _ListItem(this.grievanceMaster);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        onTap: () {
-          Get.to(GrievanceDetailScreen(grievanceMaster),
-              transition: Transition.rightToLeft);
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.flag_sharp,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "TICKET #${grievanceMaster.ticketNumber}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black.withAlpha(155),
-                            letterSpacing: 0.7),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_today,
-                        size: 21,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        DateFormat("dd MMMM yyyy")
-                            .format(grievanceMaster.createdAt),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black.withAlpha(155),
-                            letterSpacing: 0.7),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 12),
-                height: 0.5,
-                width: double.infinity,
-                color: Colors.black.withAlpha(155),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          grievanceMaster.message,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Icon(Icons.navigate_next)
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              GrievanceStatus(grievanceMaster.isClosed)
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

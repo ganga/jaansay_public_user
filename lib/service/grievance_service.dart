@@ -32,6 +32,16 @@ class GrievanceService {
     }
   }
 
+  getAlLGrievancesByMasterId(
+      List<GrievanceReply> grievanceReply, String masterId) async {
+    final response = await dioService.getData("grievances/reply/$masterId");
+    if (response != null) {
+      response['data']
+          .map((val) => grievanceReply.add(GrievanceReply.fromJson(val)))
+          .toList();
+    }
+  }
+
   addGrievanceMaster(
       List<File> files, String message, String officialId) async {
     String ticketNumber = MiscUtils.getRandomNumberId(7);
@@ -67,6 +77,40 @@ class GrievanceService {
 
     final response =
         await dioService.postFormData("grievances/master", formData);
+
+    if (response != null) {
+      return true;
+    }
+    return false;
+  }
+
+  addReply(List<File> files, String message, String gmId) async {
+    final formData = FormData.fromMap({
+      "message": message,
+      "user_id": userId,
+      "gm_id": gmId,
+      "content_type": 1
+    });
+
+    for (int i = 0; i < files.length; i++) {
+      formData.files.addAll([
+        MapEntry(
+          "media",
+          await MultipartFile.fromFile(
+            files[i].path,
+            filename: (DateTime.now().toString() +
+                    i.toString() +
+                    userId.toString() +
+                    files[i].path.toString())
+                .toString()
+                .replaceAll(" ", ""),
+          ),
+        ),
+      ]);
+    }
+
+    final response =
+        await dioService.postFormData("grievances/reply", formData);
 
     if (response != null) {
       return true;

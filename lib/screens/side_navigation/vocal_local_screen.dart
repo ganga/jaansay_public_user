@@ -129,7 +129,6 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 ),
               ).tr(),
             ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),

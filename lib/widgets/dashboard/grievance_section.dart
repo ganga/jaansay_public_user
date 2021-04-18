@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
-import 'package:jaansay_public_user/screens/grievance/grievance_add_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_list_screen.dart';
 import 'package:jaansay_public_user/widgets/dashboard/dash_list.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +23,7 @@ class GrievanceSection extends StatelessWidget {
       isLoad: grievanceProvider.isDashLoad,
       onTapAdd: () {},
       onTap: (index) {
+        grievanceProvider.clearData(allData: true);
         grievanceProvider.selectedOfficial = officials[index];
         Get.to(() => GrievanceListScreen(), transition: Transition.rightToLeft);
       },
