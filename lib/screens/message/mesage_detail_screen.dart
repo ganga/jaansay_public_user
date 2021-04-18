@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/feedback_survey/survey_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_media_screen.dart';
-import 'package:jaansay_public_user/screens/survey/survey_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
@@ -232,10 +232,10 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                                 margin: EdgeInsets.only(left: 16),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Get.to(() => SurveyScreen(), arguments: [
-                                      messages[index].messageId,
-                                      messages[index].surveyId
-                                    ]);
+                                    // Get.to(() => SurveyScreen(), arguments: [
+                                    //   messages[index].messageId,
+                                    //   messages[index].surveyId
+                                    // ]);
                                   },
                                   child: Text(
                                     "Start Survey",

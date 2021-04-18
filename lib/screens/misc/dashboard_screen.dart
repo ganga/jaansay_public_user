@@ -5,6 +5,7 @@ import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_list_screen.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/message_section.dart';
+import 'package:jaansay_public_user/widgets/dashboard/survey_feedback_section.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +15,14 @@ class DashboardScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         width: double.infinity,
+        padding: EdgeInsets.only(bottom: 16),
         child: Column(
-          children: [MessageSection(), _PromotionSection(), GrievanceSection()],
+          children: [
+            MessageSection(),
+            _PromotionSection(),
+            GrievanceSection(),
+            SurveyFeedbackSection()
+          ],
         ),
       ),
     );

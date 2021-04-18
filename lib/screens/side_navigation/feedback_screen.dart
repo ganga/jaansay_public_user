@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/service/feedback_service.dart';
+import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -117,8 +117,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   sendData() async {
     if (controller.text != "") {
       isLoad(true);
-      FeedbackService feedbackService = FeedbackService();
-      await feedbackService.addFeedback(
+      MiscService miscService = MiscService();
+      await miscService.addFeedback(
         message: controller.text,
         files: files,
       );

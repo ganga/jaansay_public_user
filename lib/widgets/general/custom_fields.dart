@@ -74,8 +74,9 @@ class CustomTextField extends StatelessWidget {
 class LongTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
+  final int minLines;
 
-  LongTextField({this.hint, this.controller});
+  LongTextField({this.hint, this.controller, this.minLines = 5});
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +97,8 @@ class LongTextField extends StatelessWidget {
             fillColor: Color(0xffFBF8F4),
             filled: true),
         controller: controller,
-        minLines: 5,
-        maxLines: 10,
+        minLines: minLines,
+        maxLines: minLines * 2,
         style: TextStyle(fontSize: 13),
         textCapitalization: TextCapitalization.sentences,
       ),

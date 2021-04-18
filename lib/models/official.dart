@@ -88,6 +88,15 @@ class Official {
         typeName: json["type_name"],
         officialDisplayPhone: json["official_display_phone"],
       );
+
+  factory Official.fromFeedbackSurveyJson(Map<String, dynamic> json) =>
+      Official(
+          officialsId: json["officials_id"],
+          officialsName: json["officials_name"],
+          photo: json["photo"],
+          typeName: json["type_name"],
+          officialDisplayPhone: json["official_display_phone"],
+          kmId: int.parse(json['is_feedback']));
 }
 
 class OfficialDocument {

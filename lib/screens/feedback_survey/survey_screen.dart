@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/survey.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/service/survey_service.dart';
+import 'package:jaansay_public_user/service/feedback_survey_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class SurveyScreen extends StatefulWidget {
+  final String surveyId;
+
+  SurveyScreen(this.surveyId);
+
   @override
   _SurveyScreenState createState() => _SurveyScreenState();
 }
@@ -21,8 +26,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
   bool isCheck = false;
   var curIndex = 0.obs;
   List surveyAnswers = [];
-  String messageId;
-  SurveyService surveyService = SurveyService();
+  FeedbackSurveyService surveyService = FeedbackSurveyService();
 
   getSurvey() async {
     await surveyService.getSurvey(surveys, surveyId.toString());
@@ -46,8 +50,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       } else {
         isLoad = true;
         setState(() {});
-        await surveyService.addSurvey(
-            surveyAnswers, surveyId.toString(), messageId);
+        await surveyService.addSurvey(surveyAnswers, surveyId.toString());
         Get.offAll(HomeScreen());
         Get.rawSnackbar(message: tr('Survey response submitted. Thank you'));
       }
@@ -85,19 +88,12 @@ class _SurveyScreenState extends State<SurveyScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    surveyId = widget.surveyId;
+    getSurvey();
   }
 
   @override
   Widget build(BuildContext context) {
-    List response = ModalRoute.of(context).settings.arguments;
-
-    if (!isCheck) {
-      isCheck = !isCheck;
-      messageId = response[0].toString();
-      surveyId = response[1];
-      getSurvey();
-    }
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
@@ -109,61 +105,66 @@ class _SurveyScreenState extends State<SurveyScreen> {
           ),
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Get.width * 0.06,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: surveys.map((e) {
-                  return Obx(() => Container(
-                        height: 5,
-                        width: Get.width * 0.7 / surveys.length,
-                        color: curIndex.value.round() == surveys.indexOf(e)
-                            ? Theme.of(context).primaryColor
-                            : Colors.black.withOpacity(0.2),
-                      ));
-                }).toList(),
-              ),
-            ),
-            Expanded(
-              child: PageView(
-                onPageChanged: (val) {
-                  curIndex(val);
-                },
-                scrollDirection: Axis.horizontal,
-                controller: _controller,
-                children: surveys.map((e) {
-                  return _SurveyQASection(
-                      e, surveys.indexOf(e) + 1, addAnswer, surveyAnswers);
-                }).toList(),
-              ),
-            ),
-            Obx(
-              () => BottomButton(
-                onTap: () {
-                  nextPage();
-                },
-                text: curIndex.value != surveys.length - 1
-                    ? tr("Continue")
-                    : "Finish",
-                backColor: curIndex.value == surveys.length - 1
-                    ? Theme.of(context).primaryColor
-                    : Colors.white,
-                textColor: curIndex.value != surveys.length - 1
-                    ? Theme.of(context).primaryColor
-                    : Colors.white,
-              ),
+      body: isLoad
+          ? CustomLoading(
+              title: "Loading Survey",
             )
-          ],
-        ),
-      ),
+          : Container(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Get.height * 0.02,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Get.width * 0.06,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: surveys.map((e) {
+                        return Obx(() => Container(
+                              height: 5,
+                              width: Get.width * 0.7 / surveys.length,
+                              color:
+                                  curIndex.value.round() == surveys.indexOf(e)
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.black.withOpacity(0.2),
+                            ));
+                      }).toList(),
+                    ),
+                  ),
+                  Expanded(
+                    child: PageView(
+                      onPageChanged: (val) {
+                        curIndex(val);
+                      },
+                      scrollDirection: Axis.horizontal,
+                      controller: _controller,
+                      children: surveys.map((e) {
+                        return _SurveyQASection(e, surveys.indexOf(e) + 1,
+                            addAnswer, surveyAnswers);
+                      }).toList(),
+                    ),
+                  ),
+                  Obx(
+                    () => BottomButton(
+                      onTap: () {
+                        nextPage();
+                      },
+                      text: curIndex.value != surveys.length - 1
+                          ? tr("Continue")
+                          : "Finish",
+                      backColor: curIndex.value == surveys.length - 1
+                          ? Theme.of(context).primaryColor
+                          : Colors.white,
+                      textColor: curIndex.value != surveys.length - 1
+                          ? Theme.of(context).primaryColor
+                          : Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 }

@@ -66,6 +66,11 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         scaffoldBackgroundColor: Colors.blueGrey.shade50,
         fontFamily: GoogleFonts.poppins().fontFamily,
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            primary: Color(0xffDF5D37),
+          ),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             onPrimary: Colors.white,
