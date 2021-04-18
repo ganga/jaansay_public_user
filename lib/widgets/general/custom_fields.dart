@@ -69,3 +69,37 @@ class CustomTextField extends StatelessWidget {
     ;
   }
 }
+
+class LongTextField extends StatelessWidget {
+  final String hint;
+  final TextEditingController controller;
+
+  LongTextField({this.hint, this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: TextField(
+        decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: Theme.of(context).primaryColor, width: 0.5),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+            ),
+            alignLabelWithHint: true,
+            hintText: hint,
+            fillColor: Color(0xffFBF8F4),
+            filled: true),
+        controller: controller,
+        minLines: 5,
+        maxLines: 10,
+        style: TextStyle(fontSize: 13),
+        textCapitalization: TextCapitalization.sentences,
+      ),
+    );
+  }
+}

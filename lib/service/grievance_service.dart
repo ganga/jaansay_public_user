@@ -1,52 +1,88 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
-import 'package:jaansay_public_user/service/notification_service.dart';
+import 'package:jaansay_public_user/utils/misc_utils.dart';
 
 class GrievanceService {
   String userId = GetStorage().read("user_id").toString();
   DioService dioService = DioService();
 
-  getGrievanceMasters(List<GrievanceMaster> grievanceMasters) async {
-    final response = await dioService.getData("messages/users/$userId/type/3");
-
+  getAllDashGrievances(List<Official> officials) async {
+    final response = await dioService.getData("grievances/user/$userId");
     if (response != null) {
-      response['data'].map((val) {
-        grievanceMasters.add(GrievanceMaster.fromJson(val));
-      }).toList();
+      response['data']
+          .map((val) => officials.add(Official.fromJson(val)))
+          .toList();
     }
   }
 
-  getAllGrievances(List<Grievance> grievances, String officialId) async {
-    final response = await dioService.getData(
-        "messages/allmessages/official/$officialId/user/$userId/type/3");
+  getAlLGrievancesByOfficialId(
+      List<GrievanceMaster> grievanceMasters, String officialId) async {
+    final response = await dioService
+        .getData("grievances/official/$officialId/user/$userId");
     if (response != null) {
-      response['data'].map((val) {
-        grievances.add(Grievance.fromJson(val));
-      }).toList();
-      return;
+      response['data']
+          .map((val) => grievanceMasters.add(GrievanceMaster.fromJson(val)))
+          .toList();
     }
   }
 
-  Future<bool> sendGrievance(String message, String officialId) async {
-    final response = await dioService.postData("messages/addmessage", {
+  addGrievanceMaster(
+      List<File> files, String message, String officialId) async {
+    String ticketNumber = MiscUtils.getRandomNumberId(7);
+    String shareLink = await createShareLink(ticketNumber);
+
+    final formData = FormData.fromMap({
       "message": message,
-      "official_id": officialId.toString(),
-      "user_id": userId.toString(),
-      "sender_id": userId.toString(),
-      "type": "3",
-      "message_type": "0",
-      "updated_at": DateTime.now().toString(),
+      "ticket_number": ticketNumber,
+      "user_id": userId,
+      "official_id": officialId,
+      "is_public": 0,
+      "is_closed": 0,
+      "link": shareLink,
+      "content_type": 1
     });
+
+    for (int i = 0; i < files.length; i++) {
+      formData.files.addAll([
+        MapEntry(
+          "media",
+          await MultipartFile.fromFile(
+            files[i].path,
+            filename: (DateTime.now().toString() +
+                    i.toString() +
+                    officialId.toString() +
+                    files[i].path.toString())
+                .toString()
+                .replaceAll(" ", ""),
+          ),
+        ),
+      ]);
+    }
+
+    final response =
+        await dioService.postFormData("grievances/master", formData);
+
     if (response != null) {
-      NotificationService notificationService = NotificationService();
-      await notificationService.sendNotificationToUser(
-          GetStorage().read("user_name"),
-          message,
-          officialId.toString(),
-          {"type": "message"});
       return true;
     }
     return false;
+  }
+
+  Future<String> createShareLink(String id) async {
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://jaansay.page.link',
+      link: Uri.parse('https://www.jaansay.com/grievance?id=$id'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.dev.jaansay_public_user',
+      ),
+    );
+    final dynamicUrl = await parameters.buildShortLink();
+    return dynamicUrl.shortUrl.toString();
   }
 }

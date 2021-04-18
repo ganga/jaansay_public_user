@@ -42,10 +42,22 @@ class DioService {
     }
   }
 
+  /*
+  options: Options(validateStatus: (status) {
+        return status < 600;
+      }
+
+   */
+
   Future postFormData(String url, FormData data,
       {String errorMessage = "Oops something went wrong"}) async {
     try {
-      final response = await dio.post(url, data: data);
+      final response = await dio.post(url, data: data,
+          options: Options(validateStatus: (status) {
+        return status < 600;
+      }));
+
+      print(response);
       if (response.data["success"] && response.data['data'] != null) {
         return response.data;
       } else {

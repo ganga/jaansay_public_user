@@ -34,6 +34,14 @@ class MiscUtils {
         .join();
   }
 
+  static String getRandomNumberId(int size) {
+    var r = Random();
+    const _chars = '1234567890';
+
+    return List.generate(size, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+
   static Future<File> compressImage(
       String path, String name, String extension) async {
     return await FlutterImageCompress.compressAndGetFile(path, name,
@@ -54,9 +62,6 @@ class MiscUtils {
           maxHeight: 1080,
           maxWidth: 1080,
           compressQuality: 80,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-          ],
           androidUiSettings: AndroidUiSettings(
               toolbarTitle: 'Cropper',
               toolbarColor: Colors.deepOrange,

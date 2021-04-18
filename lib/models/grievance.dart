@@ -1,80 +1,63 @@
 class GrievanceMaster {
   GrievanceMaster(
-      {this.mmId,
+      {this.id,
+      this.message,
+      this.isPublic,
+      this.isClosed,
+      this.link,
+      this.createdAt,
       this.officialsId,
       this.officialsName,
       this.officialsPhone,
       this.photo,
-      this.message,
-      this.officialDisplayPhone});
+      this.typeName,
+      this.userId,
+      this.userName,
+      this.userPhone,
+      this.medias,
+      this.contentTypes,
+      this.ticketNumber});
 
-  int mmId;
+  int id;
+  String message;
+  int isPublic;
+  int isClosed;
+  String link;
+  DateTime createdAt;
   int officialsId;
   String officialsName;
   String officialsPhone;
   String photo;
-  String message;
-  String officialDisplayPhone;
+  String typeName;
+  int userId;
+  String userName;
+  String userPhone;
+  String ticketNumber;
+  List medias;
+  List contentTypes;
 
   factory GrievanceMaster.fromJson(Map<String, dynamic> json) =>
       GrievanceMaster(
-          mmId: json["mm_id"],
+          id: json["id"],
+          message: json["message"],
+          isPublic: json["is_public"],
+          isClosed: json["is_closed"],
+          link: json["link"],
+          createdAt: json["created_at"] == null
+              ? null
+              : DateTime.parse(json["created_at"]),
           officialsId: json["officials_id"],
           officialsName: json["officials_name"],
           officialsPhone: json["officials_phone"],
           photo: json["photo"],
-          message: json['message'],
-          officialDisplayPhone: json["official_display_phone"] == null
-              ? ''
-              : json["official_display_phone"]);
-
-  Map<String, dynamic> toJson() => {
-        "mm_id": mmId,
-        "officials_id": officialsId,
-        "officials_name": officialsName,
-        "officials_phone": officialsPhone,
-        "photo": photo,
-        'message': message,
-      };
-}
-
-class Grievance {
-  Grievance({
-    this.messageId,
-    this.mmId,
-    this.message,
-    this.userId,
-    this.updatedAt,
-    this.surveyId,
-    this.type,
-  });
-
-  int messageId;
-  int mmId;
-  String message;
-  int userId;
-  DateTime updatedAt;
-  int surveyId;
-  int type;
-
-  factory Grievance.fromJson(Map<String, dynamic> json) => Grievance(
-        messageId: json["message_id"],
-        mmId: json["mm_id"],
-        message: json["message"],
-        userId: json["user_id"],
-        updatedAt: DateTime.parse(json["updated_at"])
-            .add(Duration(hours: 5, minutes: 30)),
-        surveyId: json["survey_id"] == null ? null : json["survey_id"],
-        type: json["type"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "message_id": messageId,
-        "mm_id": mmId,
-        "message": message,
-        "user_id": userId,
-        "updated_at": updatedAt.toIso8601String(),
-        "survey_id": surveyId == null ? null : surveyId,
-        "type": type,
-      };
+          typeName: json["type_name"],
+          userId: json["user_id"],
+          userName: json["user_name"],
+          userPhone: json["user_phone"],
+          medias:
+              json["media"] == null ? [] : json["media"].toString().split(","),
+          contentTypes: json["content_type"] == null
+              ? []
+              : json["content_type"].toString().split(","),
+          ticketNumber: json['ticket_number']);
 }

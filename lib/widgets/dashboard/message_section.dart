@@ -59,22 +59,18 @@ class _MessageSectionState extends State<MessageSection> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoad
-        ? DashList(
-            isLoad: true,
-          )
-        : DashList(
-            officials: officials,
-            title: "Messages",
-            isLoad: isLoad,
-            onTapAdd: () {},
-            onTap: (index) {
-              Get.to(
-                  () => MessageDetailScreen(
-                        messageMaster: _messageMasters[index],
-                      ),
-                  transition: Transition.rightToLeft);
-            },
-          );
+    return DashList(
+      officials: officials,
+      title: "Messages",
+      isLoad: isLoad,
+      onTapAdd: () {},
+      onTap: (index) {
+        Get.to(
+            () => MessageDetailScreen(
+                  messageMaster: _messageMasters[index],
+                ),
+            transition: Transition.rightToLeft);
+      },
+    );
   }
 }

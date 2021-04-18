@@ -76,7 +76,7 @@ class DashList extends StatelessWidget {
             height: 16,
           ),
           Text(
-            "Messages",
+            title,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 16,

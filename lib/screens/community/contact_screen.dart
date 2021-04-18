@@ -72,10 +72,10 @@ class ContactScreen extends StatelessWidget {
           }),
           contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert, () {
             if (official.isFollow == 1) {
-              pushNewScreenWithRouteSettings(context,
-                  screen: GrievanceDetailScreen(),
-                  settings: RouteSettings(arguments: [false, official]),
-                  withNavBar: false);
+              // pushNewScreenWithRouteSettings(context,
+              //     screen: GrievanceDetailScreen(),
+              //     settings: RouteSettings(arguments: [false, official]),
+              //     withNavBar: false);
             } else {
               Get.rawSnackbar(
                   message: "You need to follow the user to send grievances");

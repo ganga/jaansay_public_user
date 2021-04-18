@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
-import 'package:jaansay_public_user/screens/grievance/grievance_screen.dart';
+import 'package:jaansay_public_user/screens/grievance/grievance_list_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_screen.dart';
 import 'package:jaansay_public_user/screens/misc/dashboard_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';

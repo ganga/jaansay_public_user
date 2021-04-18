@@ -80,6 +80,14 @@ class Official {
           ? ''
           : json["official_display_phone"],
       kmId: json["km_id"]);
+
+  factory Official.fromGrievanceJson(Map<String, dynamic> json) => Official(
+        officialsId: json["officials_id"],
+        officialsName: json["officials_name"],
+        photo: json["photo"],
+        typeName: json["type_name"],
+        officialDisplayPhone: json["official_display_phone"],
+      );
 }
 
 class OfficialDocument {

@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_list_screen.dart';
+import 'package:jaansay_public_user/widgets/dashboard/grievance_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/message_section.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class DashboardScreen extends StatelessWidget {
       child: Container(
         width: double.infinity,
         child: Column(
-          children: [MessageSection(), _PromotionSection()],
+          children: [MessageSection(), _PromotionSection(), GrievanceSection()],
         ),
       ),
     );

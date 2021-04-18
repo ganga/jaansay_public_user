@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
+import 'package:jaansay_public_user/providers/grievance_provider.dart';
 import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
@@ -36,6 +37,8 @@ void main() async {
         ChangeNotifierProvider<CouponProvider>(create: (_) => CouponProvider()),
         ChangeNotifierProvider<CatalogProvider>(
             create: (_) => CatalogProvider()),
+        ChangeNotifierProvider<GrievanceProvider>(
+            create: (_) => GrievanceProvider()),
       ],
       child: EasyLocalization(
         supportedLocales: [Locale('en', 'US'), Locale('kn', 'IN')],
