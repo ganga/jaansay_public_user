@@ -1,50 +1,50 @@
 class AcceptedReferral {
   AcceptedReferral({
-    this.createdAt,
-    this.rrId,
-    this.rrName,
-    this.rrPhoto,
-    this.rrPhone,
-    this.rdId,
-    this.rdName,
-    this.rdPhoto,
-    this.rdPhone,
+    this.raId,
+    this.acceptedAt,
+    this.userId,
+    this.userName,
+    this.userPhone,
+    this.photo,
+    this.description,
+    this.referrerDescription,
+    this.referrerCost,
+    this.officialsId,
+    this.officialsName,
+    this.officialDisplayPhone,
+    this.businesstypeName,
   });
 
-  DateTime createdAt;
-  int rrId;
-  String rrName;
-  String rrPhoto;
-  String rrPhone;
-  int rdId;
-  String rdName;
-  String rdPhoto;
-  String rdPhone;
+  int raId;
+  DateTime acceptedAt;
+  int userId;
+  String userName;
+  String userPhone;
+  String photo;
+  String description;
+  String referrerDescription;
+  int referrerCost;
+  int officialsId;
+  String officialsName;
+  String officialDisplayPhone;
+  String businesstypeName;
 
   factory AcceptedReferral.fromJson(Map<String, dynamic> json) =>
       AcceptedReferral(
-        createdAt: DateTime.parse(json["created_at"]),
-        rrId: json["rr_id"],
-        rrName: json["rr_name"],
-        rrPhoto: json["rr_photo"],
-        rrPhone: json["rr_phone"],
-        rdId: json["rd_id"],
-        rdName: json["rd_name"],
-        rdPhoto: json["rd_photo"],
-        rdPhone: json["rd_phone"],
+        raId: json["ra_id"],
+        acceptedAt: DateTime.parse(json["accepted_at"]),
+        userId: json["user_id"],
+        userName: json["user_name"],
+        userPhone: json["user_phone"],
+        photo: json["photo"],
+        description: json["description"],
+        referrerDescription: json["referrer_description"],
+        referrerCost: json["referrer_cost"],
+        officialsId: json["officials_id"],
+        officialsName: json["officials_name"],
+        officialDisplayPhone: json["official_display_phone"],
+        businesstypeName: json["businesstype_name"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "created_at": createdAt.toIso8601String(),
-        "rr_id": rrId,
-        "rr_name": rrName,
-        "rr_photo": rrPhoto,
-        "rr_phone": rrPhone,
-        "rd_id": rdId,
-        "rd_name": rdName,
-        "rd_photo": rdPhoto,
-        "rd_phone": rdPhone,
-      };
 }
 
 class ReferralCode {

@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomErrorWidget extends StatefulWidget {
+class CustomErrorWidget extends StatelessWidget {
   final String title;
   final IconData iconData;
+  final double height;
 
-  CustomErrorWidget({this.title, this.iconData});
+  CustomErrorWidget({this.title, this.iconData, this.height});
 
-  @override
-  _CustomErrorWidgetState createState() => _CustomErrorWidgetState();
-}
-
-class _CustomErrorWidgetState extends State<CustomErrorWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -26,7 +23,7 @@ class _CustomErrorWidgetState extends State<CustomErrorWidget> {
             decoration: BoxDecoration(
                 color: Colors.red.withOpacity(0.15), shape: BoxShape.circle),
             child: Icon(
-              widget.iconData,
+              iconData,
               color: Colors.red,
             ),
           ),
@@ -34,7 +31,7 @@ class _CustomErrorWidgetState extends State<CustomErrorWidget> {
             height: 16,
           ),
           Text(
-            widget.title,
+            title,
             style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.w500,

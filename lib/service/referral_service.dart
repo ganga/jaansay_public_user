@@ -8,6 +8,15 @@ class ReferralService {
   String userId = GetStorage().read("user_id").toString();
   DioService dioService = DioService();
 
+  getAcceptedReferrals(List<AcceptedReferral> acceptedReferrals) async {
+    final response = await dioService.getData("referral/user/$userId");
+    if (response != null) {
+      response['data'].map((val) {
+        acceptedReferrals.add(AcceptedReferral.fromJson(val));
+      }).toList();
+    }
+  }
+
   getReferralMaster(int officialId) async {
     final response = await dioService.getData("referral/master/$officialId");
     if (response != null) {

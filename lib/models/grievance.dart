@@ -48,7 +48,7 @@ class GrievanceMaster {
               : DateTime.parse(json["created_at"]),
           officialsId: json["officials_id"],
           officialsName: json["officials_name"],
-          officialsPhone: json["officials_phone"],
+          officialsPhone: json["official_display_phone"],
           photo: json["photo"],
           typeName: json["type_name"],
           userId: json["user_id"],

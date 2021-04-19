@@ -4,13 +4,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CustomLoading extends StatelessWidget {
   final String title;
+  final double height;
 
-  CustomLoading({this.title = "Please wait"});
+  CustomLoading({this.title = "Please wait", this.height});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: height,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

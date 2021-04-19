@@ -20,35 +20,38 @@ class FeedListScreen extends StatelessWidget {
       feedProvider.loadFeeds(true);
     }
 
-    return feedProvider.getLoading()
-        ? CustomLoading()
-        : Container(
-            child: SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: true,
-              header: ClassicHeader(),
-              onRefresh: () => feedProvider.loadFeeds(true),
-              onLoading: () => feedProvider.loadFeeds(false),
-              controller: feedProvider.refreshController,
-              child: feedProvider.feeds.length == 0
-                  ? Expanded(
-                      child: CustomErrorWidget(
-                        title: "${tr("No feeds")}",
-                        iconData: MdiIcons.nullIcon,
-                      ),
-                    )
-                  : ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: feedProvider.feeds.length,
-                      shrinkWrap: true,
-                      itemBuilder: (_, index) {
-                        return FeedCard(
-                          feed: feedProvider.feeds[index],
-                          isDetail: false,
-                          isBusiness: false,
-                        );
-                      }),
+    return Container(
+      color: Colors.blueGrey.shade50,
+      child: feedProvider.getLoading()
+          ? CustomLoading()
+          : Container(
+              child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                header: ClassicHeader(),
+                onRefresh: () => feedProvider.loadFeeds(true),
+                onLoading: () => feedProvider.loadFeeds(false),
+                controller: feedProvider.refreshController,
+                child: feedProvider.feeds.length == 0
+                    ? Expanded(
+                        child: CustomErrorWidget(
+                          title: "${tr("No feeds")}",
+                          iconData: MdiIcons.nullIcon,
+                        ),
+                      )
+                    : ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: feedProvider.feeds.length,
+                        shrinkWrap: true,
+                        itemBuilder: (_, index) {
+                          return FeedCard(
+                            feed: feedProvider.feeds[index],
+                            isDetail: false,
+                            isBusiness: false,
+                          );
+                        }),
+              ),
             ),
-          );
+    );
   }
 }

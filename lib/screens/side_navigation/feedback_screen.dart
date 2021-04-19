@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
+import 'package:jaansay_public_user/widgets/general/custom_auth_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -170,21 +172,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   "assets/images/feedback.png",
-                  height: Get.width * 0.5,
-                  width: Get.width * 0.5,
+                  height: Get.width * 0.4,
+                  width: Get.width * 0.4,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: controller,
-                  textCapitalization: TextCapitalization.sentences,
-                  maxLines: 10,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintText: "${tr("Enter your feedback here")}",
-                  ),
-                ),
+              LongTextField(
+                minLines: 10,
+                controller: controller,
+                hint: tr("Enter your feedback here"),
               ),
               const SizedBox(
                 height: 20,
@@ -214,22 +209,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               SizedBox(
                 height: 12,
               ),
-              Obx(() {
-                return isLoad.value
-                    ? CustomLoading()
-                    : Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 24),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            sendData();
-                          },
-                          child: Text(
-                            "${tr("Send")}",
-                          ),
-                        ),
-                      );
-              }),
+              Obx(
+                () {
+                  return isLoad.value
+                      ? CustomLoading()
+                      : CustomAuthButton(
+                          title: tr("Send"),
+                          onTap: () => sendData(),
+                        );
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              )
             ],
           ),
         ),

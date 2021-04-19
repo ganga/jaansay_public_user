@@ -93,4 +93,17 @@ class UserService {
     }
     return isSuccess;
   }
+
+  getPoints(List<UserPoint> userPoints) async {
+    final response = await dioService.getData("follow/user/$userId/score");
+    if (response != null) {
+      response['data']
+          .map(
+            (val) => userPoints.add(
+              UserPoint.fromJson(val),
+            ),
+          )
+          .toList();
+    }
+  }
 }

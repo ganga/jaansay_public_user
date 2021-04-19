@@ -3,8 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_list_screen.dart';
+import 'package:jaansay_public_user/screens/misc/point_screen.dart';
+import 'package:jaansay_public_user/screens/referral/referral_list_screen.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/message_section.dart';
+import 'package:jaansay_public_user/widgets/dashboard/store_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/survey_feedback_section.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +24,8 @@ class DashboardScreen extends StatelessWidget {
             MessageSection(),
             _PromotionSection(),
             GrievanceSection(),
-            SurveyFeedbackSection()
+            SurveyFeedbackSection(),
+            StoreSection()
           ],
         ),
       ),
@@ -106,7 +110,10 @@ class _PromotionSection extends StatelessWidget {
           ),
           Row(
             children: [
-              promotionItem("Points", FontAwesomeIcons.moneyBillWave, () {}),
+              promotionItem("Points", FontAwesomeIcons.moneyBillWave, () {
+                Get.to(() => PointsScreen(),
+                    transition: Transition.rightToLeft);
+              }),
               Container(
                 height: 75,
                 width: 0.5,
@@ -122,7 +129,10 @@ class _PromotionSection extends StatelessWidget {
                 width: 0.5,
                 color: Colors.grey,
               ),
-              promotionItem("Referrals", FontAwesomeIcons.userFriends, () {}),
+              promotionItem("Referrals", FontAwesomeIcons.userFriends, () {
+                Get.to(() => ReferralListScreen(),
+                    transition: Transition.rightToLeft);
+              }),
             ],
           )
         ],

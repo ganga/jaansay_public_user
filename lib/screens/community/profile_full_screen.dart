@@ -113,19 +113,28 @@ class ProfileFullScreen extends StatelessWidget {
                                     .isFollow ==
                                 1
                             ? feedProvider.getLoading()
-                                ? CustomLoading()
-                                : ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: feedProvider.feeds.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return FeedCard(
-                                        feed: feedProvider.feeds[index],
-                                        isDetail: false,
-                                        isBusiness: true,
-                                      );
-                                    },
+                                ? CustomLoading(
+                                    title: "Loading Feeds",
+                                    height: Get.height * 0.3,
                                   )
+                                : feedProvider.feeds.length == 0
+                                    ? CustomErrorWidget(
+                                        title: "No posts",
+                                        iconData: Icons.dynamic_feed_outlined,
+                                        height: Get.height * 0.3,
+                                      )
+                                    : ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: feedProvider.feeds.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return FeedCard(
+                                            feed: feedProvider.feeds[index],
+                                            isDetail: false,
+                                            isBusiness: true,
+                                          );
+                                        },
+                                      )
                             : _ReviewSection(officialProvider.officials[
                                 officialProvider.selectedOfficialIndex]),
                       ],

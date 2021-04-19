@@ -14,32 +14,35 @@ class CategoryScreen extends StatelessWidget {
   categoryCard(int index, CatalogProvider catalogProvider) {
     Category category = catalogProvider.categories[index];
 
-    return InkWell(
-      onTap: () {
-        catalogProvider.clearData();
-        catalogProvider.selectedCategoryIndex = index;
-        Get.to(() => ProductsScreen(), transition: Transition.rightToLeft);
-      },
-      child: Column(
-        children: [
-          Expanded(
-            child: CustomNetWorkImage(
-              category.ccPhoto,
-              assetLink: Constants.productHolderURL,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            child: Text(
-              category.ccName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: () {
+          catalogProvider.clearData();
+          catalogProvider.selectedCategoryIndex = index;
+          Get.to(() => ProductsScreen(), transition: Transition.rightToLeft);
+        },
+        child: Column(
+          children: [
+            Expanded(
+              child: CustomNetWorkImage(
+                category.ccPhoto,
+                assetLink: Constants.productHolderURL,
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                category.ccName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -54,7 +57,6 @@ class CategoryScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,

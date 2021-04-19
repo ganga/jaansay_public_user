@@ -42,7 +42,7 @@ class _SurveyListScreenState extends State<SurveyListScreen> {
             padding: EdgeInsets.symmetric(vertical: 4),
             color: Theme.of(context).primaryColor,
             child: Text(
-              DateFormat('d MMMM y').format(DateTime.now()),
+              DateFormat('d MMMM y').format(surveyMaster.updatedAt),
               style: TextStyle(color: Colors.white),
             ),
           ),

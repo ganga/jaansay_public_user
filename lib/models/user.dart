@@ -55,3 +55,30 @@ class User {
         "district_id": districtId
       };
 }
+
+class UserPoint {
+  UserPoint({
+    this.officialsId,
+    this.officialsName,
+    this.photo,
+    this.officialDisplayPhone,
+    this.businessTypeName,
+    this.score,
+  });
+
+  int officialsId;
+  String officialsName;
+  String photo;
+  String officialDisplayPhone;
+  String businessTypeName;
+  int score;
+
+  factory UserPoint.fromJson(Map<String, dynamic> json) => UserPoint(
+        officialsId: json["officials_id"],
+        officialsName: json["officials_name"],
+        photo: json["photo"],
+        officialDisplayPhone: json["official_display_phone"],
+        businessTypeName: json["businesstype_name"],
+        score: json["score"],
+      );
+}

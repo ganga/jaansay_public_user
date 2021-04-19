@@ -31,19 +31,21 @@ class _SurveyFeedbackSectionState extends State<SurveyFeedbackSection> {
 
   @override
   Widget build(BuildContext context) {
-    return DashList(
-      officials: officials,
-      title: "Feedback / Surveys",
-      isLoad: isLoad,
-      onTap: (index) {
-        if (officials[index].kmId == 1) {
-          Get.to(() => FeedbackListScreen(officials[index]),
-              transition: Transition.rightToLeft);
-        } else {
-          Get.to(() => SurveyListScreen(officials[index]),
-              transition: Transition.rightToLeft);
-        }
-      },
-    );
+    return !isLoad && officials.length == 0
+        ? SizedBox.shrink()
+        : DashList(
+            officials: officials,
+            title: "Feedback / Surveys",
+            isLoad: isLoad,
+            onTap: (index) {
+              if (officials[index].kmId == 1) {
+                Get.to(() => FeedbackListScreen(officials[index]),
+                    transition: Transition.rightToLeft);
+              } else {
+                Get.to(() => SurveyListScreen(officials[index]),
+                    transition: Transition.rightToLeft);
+              }
+            },
+          );
   }
 }

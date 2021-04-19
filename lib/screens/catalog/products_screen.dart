@@ -18,109 +18,126 @@ class ProductsScreen extends StatelessWidget {
   productCard(int index, CatalogProvider catalogProvider) {
     Product product = catalogProvider.products[index];
 
-    return InkWell(
-      onTap: () {
-        catalogProvider.selectedProductIndex = index;
+    return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.hardEdge,
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {
+            catalogProvider.selectedProductIndex = index;
 
-        Get.bottomSheet(
-          ProductDetailBottomSheet(),
-          isScrollControlled: true,
-        );
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                CustomNetWorkImage(
-                  product.cpPhoto.length == 0 ? '' : product.cpPhoto.first,
-                  assetLink: Constants.productHolderURL,
-                ),
-                if (product.cpPriority == 1 || product.cpStock == 0)
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (product.cpStock == 0)
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 6),
-                            decoration: BoxDecoration(color: Colors.red),
-                            child: Text(
-                              "Out of Stock",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                          ),
-                        if (product.cpPriority == 1)
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 6),
-                            decoration:
-                                BoxDecoration(color: Get.theme.primaryColor),
-                            child: Text(
-                              "Featured",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                          ),
-                      ],
+            Get.bottomSheet(
+              ProductDetailBottomSheet(),
+              isScrollControlled: true,
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Stack(
+                  children: [
+                    CustomNetWorkImage(
+                      product.cpPhoto.length == 0 ? '' : product.cpPhoto.first,
+                      assetLink: Constants.productHolderURL,
                     ),
-                  )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Text(
-            product.cpName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(),
-          ),
-          if (product.cpDescription.length > 0)
-            Text(
-              product.cpDescription.toString(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
-            ),
-          const SizedBox(
-            height: 4,
-          ),
-          CatalogDiscountTextWidget(product.cpCost, product.cpDiscountCost),
-          if (catalogProvider.isOrder)
-            Column(
-              children: [
-                const SizedBox(
-                  height: 4,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: product.quantity == null
-                      ? ElevatedButton(
-                          onPressed: () =>
-                              catalogProvider.addItemToCart(product.cpId),
-                          child: Text("Add to Cart"),
-                        )
-                      : ElevatedButton(
-                          onPressed: () {
-                            Get.to(() => CartScreen(),
-                                transition: Transition.rightToLeft);
-                          },
-                          child: Text("Item in Cart"),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Get.theme.primaryColor),
+                    if (product.cpPriority == 1 || product.cpStock == 0)
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (product.cpStock == 0)
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 6),
+                                decoration: BoxDecoration(color: Colors.red),
+                                child: Text(
+                                  "Out of Stock",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            if (product.cpPriority == 1)
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 6),
+                                decoration: BoxDecoration(
+                                    color: Get.theme.primaryColor),
+                                child: Text(
+                                  "Featured",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                          ],
                         ),
-                )
-              ],
-            ),
-        ],
+                      )
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      product.cpName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(),
+                    ),
+                    if (product.cpDescription.length > 0)
+                      Text(
+                        product.cpDescription.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12),
+                      ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    CatalogDiscountTextWidget(
+                        product.cpCost, product.cpDiscountCost),
+                    if (catalogProvider.isOrder)
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            child: product.quantity == null
+                                ? ElevatedButton(
+                                    onPressed: () => catalogProvider
+                                        .addItemToCart(product.cpId),
+                                    child: Text("Add to Cart"),
+                                  )
+                                : ElevatedButton(
+                                    onPressed: () {
+                                      Get.to(() => CartScreen(),
+                                          transition: Transition.rightToLeft);
+                                    },
+                                    child: Text("Item in Cart"),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.white,
+                                        onPrimary: Get.theme.primaryColor),
+                                  ),
+                          )
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

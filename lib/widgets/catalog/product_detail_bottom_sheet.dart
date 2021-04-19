@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
+import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +14,12 @@ import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/
 
 class ProductDetailBottomSheet extends StatelessWidget {
   imageCard(String url) {
-    return CustomNetWorkImage(
-      url,
-      assetLink: Constants.productHolderURL,
+    return InkWell(
+      onTap: () => Get.to(() => ImageViewScreen(url)),
+      child: CustomNetWorkImage(
+        url,
+        assetLink: Constants.productHolderURL,
+      ),
     );
   }
 

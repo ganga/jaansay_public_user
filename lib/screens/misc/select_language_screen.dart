@@ -25,9 +25,8 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
           border: Border.all(
               color: isActive ? Theme.of(context).primaryColor : Colors.black54,
               width: 0.5),
-          color: isActive
-              ? Theme.of(context).primaryColor
-              : Colors.black.withOpacity(0.01)),
+          color:
+              isActive ? Theme.of(context).primaryColor : Colors.grey.shade50),
       width: 120,
       height: 40,
       child: ClipRRect(

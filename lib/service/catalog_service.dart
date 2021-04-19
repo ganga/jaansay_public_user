@@ -78,6 +78,13 @@ class CatalogService {
     }
   }
 
+  getAllDashOfficials(List<Official> officials) async {
+    final response = await dioService.getData("catalog/officials");
+    if (response != null) {
+      response['data'].map((e) => officials.add(Official.fromJson(e))).toList();
+    }
+  }
+
   Future<bool> checkOrder(String officialId) async {
     final response = await dioService.getData("utility/official/$officialId");
     if (response != null) {
