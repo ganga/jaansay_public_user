@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
+import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/widgets/dashboard/dash_list.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 class MessageSection extends StatefulWidget {
   @override
@@ -59,11 +62,23 @@ class _MessageSectionState extends State<MessageSection> {
 
   @override
   Widget build(BuildContext context) {
+    OfficialProfileProvider officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
     return DashList(
       officials: officials,
       title: "Messages",
       isLoad: isLoad,
-      onTapAdd: () {},
+      onTapAdd: () {
+        officialProfileProvider.clearData(allData: true);
+        Get.to(
+            () => SearchScreen(
+                  description:
+                      "Search officiais and businesses and message them your queries.",
+                  iconData: Icons.message_outlined,
+                ),
+            transition: Transition.rightToLeft);
+      },
       onTap: (index) {
         Get.to(
             () => MessageDetailScreen(

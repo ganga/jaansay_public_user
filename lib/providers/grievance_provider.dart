@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/screens/misc/done_screen.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 
 class GrievanceProvider extends ChangeNotifier {
@@ -56,10 +57,18 @@ class GrievanceProvider extends ChangeNotifier {
       notifyListeners();
       await grievanceService.addGrievanceMaster(
           files, message, selectedOfficial.officialsId.toString());
-      Get.rawSnackbar(
-          message:
-              "Your grievance has been sent. We will notify you when there are any updates.");
+      Get.to(
+          DoneScreen(
+            onTap: () => Get.close(1),
+            title: "Grievance Submitted",
+            subTitle:
+                "Your grievance has been sent. You will get a response shortly.",
+          ),
+          transition: Transition.rightToLeft);
       clearData(allData: true);
+      initDash = false;
+      isDashLoad = true;
+      dashOfficials.clear();
       notifyListeners();
     }
   }

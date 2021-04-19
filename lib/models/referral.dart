@@ -1,26 +1,26 @@
 class AcceptedReferral {
-  AcceptedReferral({
-    this.raId,
-    this.acceptedAt,
-    this.userId,
-    this.userName,
-    this.userPhone,
-    this.photo,
-    this.description,
-    this.referrerDescription,
-    this.referrerCost,
-    this.officialsId,
-    this.officialsName,
-    this.officialDisplayPhone,
-    this.businesstypeName,
-  });
+  AcceptedReferral(
+      {this.raId,
+      this.acceptedAt,
+      this.userId,
+      this.userName,
+      this.userPhone,
+      this.description,
+      this.referrerDescription,
+      this.referrerCost,
+      this.officialsId,
+      this.officialsName,
+      this.officialDisplayPhone,
+      this.businesstypeName,
+      this.userPhoto,
+      this.officialPhoto,
+      this.isClosed});
 
   int raId;
   DateTime acceptedAt;
   int userId;
   String userName;
   String userPhone;
-  String photo;
   String description;
   String referrerDescription;
   int referrerCost;
@@ -28,23 +28,27 @@ class AcceptedReferral {
   String officialsName;
   String officialDisplayPhone;
   String businesstypeName;
+  String userPhoto;
+  String officialPhoto;
+  int isClosed;
 
   factory AcceptedReferral.fromJson(Map<String, dynamic> json) =>
       AcceptedReferral(
-        raId: json["ra_id"],
-        acceptedAt: DateTime.parse(json["accepted_at"]),
-        userId: json["user_id"],
-        userName: json["user_name"],
-        userPhone: json["user_phone"],
-        photo: json["photo"],
-        description: json["description"],
-        referrerDescription: json["referrer_description"],
-        referrerCost: json["referrer_cost"],
-        officialsId: json["officials_id"],
-        officialsName: json["officials_name"],
-        officialDisplayPhone: json["official_display_phone"],
-        businesstypeName: json["businesstype_name"],
-      );
+          raId: json["ra_id"],
+          acceptedAt: DateTime.parse(json["accepted_at"]),
+          userId: json["user_id"],
+          userName: json["user_name"],
+          userPhone: json["user_phone"],
+          userPhoto: json["user_photo"],
+          description: json["description"],
+          referrerDescription: json["referrer_description"],
+          referrerCost: json["referrer_cost"],
+          officialsId: json["officials_id"],
+          officialsName: json["officials_name"],
+          officialDisplayPhone: json["official_display_phone"],
+          businesstypeName: json["businesstype_name"],
+          officialPhoto: json['officials_photo'],
+          isClosed: json['is_closed']);
 }
 
 class ReferralCode {

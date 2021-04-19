@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 
@@ -110,12 +112,18 @@ class _PointsScreenState extends State<PointsScreen> {
       ),
       body: isLoad
           ? CustomLoading(title: "Loading your points")
-          : ListView.builder(
-              itemCount: userPoints.length,
-              itemBuilder: (context, index) {
-                return pointItem(userPoints[index]);
-              },
-            ),
+          : userPoints.length == 0
+              ? CustomErrorWidget(
+                  iconData: FontAwesomeIcons.moneyBillWave,
+                  description:
+                      "Follow businesses, officials and groups to gain points. Use these points to avail offers and discounts.",
+                )
+              : ListView.builder(
+                  itemCount: userPoints.length,
+                  itemBuilder: (context, index) {
+                    return pointItem(userPoints[index]);
+                  },
+                ),
     );
   }
 }

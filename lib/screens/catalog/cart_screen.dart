@@ -145,7 +145,6 @@ class _AddressSection extends StatelessWidget {
           child: Column(
             children: [
               Text("To continue to place order, please add your address."),
-              Text("To continue to place order, please add your address."),
               const SizedBox(
                 height: 8,
               ),

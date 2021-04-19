@@ -75,13 +75,7 @@ class GrievanceService {
       ]);
     }
 
-    final response =
-        await dioService.postFormData("grievances/master", formData);
-
-    if (response != null) {
-      return true;
-    }
-    return false;
+    await dioService.postFormData("grievances/master", formData);
   }
 
   addReply(List<File> files, String message, String gmId) async {

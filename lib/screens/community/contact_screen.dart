@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/grievance_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
+import 'package:jaansay_public_user/screens/grievance/grievance_list_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -53,7 +55,8 @@ class ContactScreen extends StatelessWidget {
     );
   }
 
-  Widget contactSection(BuildContext context, Official official) {
+  Widget contactSection(BuildContext context, Official official,
+      GrievanceProvider grievanceProvider) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       width: double.infinity,
@@ -72,10 +75,10 @@ class ContactScreen extends StatelessWidget {
           }),
           contactSectionItems(context, "GRIEVANCE", MdiIcons.messageAlert, () {
             if (official.isFollow == 1) {
-              // pushNewScreenWithRouteSettings(context,
-              //     screen: GrievanceDetailScreen(),
-              //     settings: RouteSettings(arguments: [false, official]),
-              //     withNavBar: false);
+              grievanceProvider.clearData(allData: true);
+              grievanceProvider.selectedOfficial = official;
+              Get.to(() => GrievanceListScreen(),
+                  transition: Transition.rightToLeft);
             } else {
               Get.rawSnackbar(
                   message: "You need to follow the user to send grievances");
@@ -132,6 +135,8 @@ class ContactScreen extends StatelessWidget {
     Official official = officialProfileProvider
         .officials[officialProfileProvider.selectedOfficialIndex];
 
+    final grievanceProvider = Provider.of<GrievanceProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
@@ -170,7 +175,7 @@ class ContactScreen extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: CustomDivider()),
-                contactSection(context, official)
+                contactSection(context, official, grievanceProvider)
               ],
             ),
           ),

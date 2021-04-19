@@ -90,6 +90,8 @@ class CouponListScreen extends StatelessWidget {
           : couponProvider.coupons.length == 0
               ? CustomErrorWidget(
                   title: "No coupons found",
+                  description:
+                      "Complete surveys, answer feedback and questions to get coupons.",
                   iconData: Icons.card_giftcard,
                 )
               : GridView.builder(

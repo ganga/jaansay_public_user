@@ -74,7 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       centerTitle: true,
       actions: [
-        appBarIcon(Icons.search, context, 'search_icon', SearchScreen()),
+        appBarIcon(
+          Icons.search,
+          context,
+          'search_icon',
+          SearchScreen(
+            description:
+                "Search businesses, officials and associations near you by entering their name",
+            iconData: Icons.search,
+          ),
+        ),
         //appBarIcon(Icons.message, context, 'message_icon', MessageScreen()),
       ],
     );

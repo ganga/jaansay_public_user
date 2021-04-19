@@ -150,7 +150,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
           borderRadius: BorderRadius.circular(15),
           onTap: () async {
             final url =
-                "tel:${messageMaster == null ? official.officialDisplayPhone.length == 0 ? official.officialsPhone : official.officialDisplayPhone : messageMaster.officialDisplayPhone.length == 0 ? messageMaster.officialsPhone : messageMaster.officialDisplayPhone}";
+                "tel:${messageMaster == null ? official.officialDisplayPhone : messageMaster.officialDisplayPhone}";
             if (await canLaunch(url)) {
               await launch(url);
             } else {
@@ -225,24 +225,6 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
                             ),
                           _MessageBubble(
                               messages[index], messageMaster, official),
-                          if (messages[index].type == 4)
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 16),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Get.to(() => SurveyScreen(), arguments: [
-                                    //   messages[index].messageId,
-                                    //   messages[index].surveyId
-                                    // ]);
-                                  },
-                                  child: Text(
-                                    "Start Survey",
-                                  ).tr(),
-                                ),
-                              ),
-                            )
                         ],
                       );
                     },
@@ -322,9 +304,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
       },
       child: Bubble(
         alignment: isUser ? Alignment.topRight : Alignment.topLeft,
-        color: widget.message.type == 4
-            ? Theme.of(context).primaryColor
-            : Colors.white,
+        color: isUser ? Theme.of(context).primaryColor : Colors.white,
         nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
         elevation: 2,
         margin: BubbleEdges.only(
@@ -351,9 +331,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                         linkStyle:
                             TextStyle(color: Theme.of(context).primaryColor),
                         style: TextStyle(
-                            color: widget.message.type == 4
-                                ? Colors.white
-                                : Colors.black,
+                            color: isUser ? Colors.white : Colors.black,
                             fontSize: 16),
                         textAlign: TextAlign.start,
                       ),
@@ -407,9 +385,7 @@ class __MessageBubbleState extends State<_MessageBubble> {
                   DateFormat('HH:mm').format(widget.message.updatedAt),
                   style: TextStyle(
                       fontSize: 11,
-                      color: widget.message.type == 4
-                          ? Colors.white
-                          : Colors.black),
+                      color: isUser ? Colors.white : Colors.black),
                 ),
               )
             ],

@@ -11,6 +11,8 @@ class OfficialProfileProvider with ChangeNotifier {
   bool isListLoad = true;
   bool isProfileLoad = true;
 
+  TextEditingController searchController = TextEditingController();
+
   List<Official> officials = [];
   List<String> officialTypes = [];
   bool isSearching = false;

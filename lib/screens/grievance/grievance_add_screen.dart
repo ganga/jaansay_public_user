@@ -10,16 +10,9 @@ import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';
 import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
 import 'package:provider/provider.dart';
 
-class GrievanceAddScreen extends StatefulWidget {
-  @override
-  _GrievanceAddScreenState createState() => _GrievanceAddScreenState();
-}
-
-class _GrievanceAddScreenState extends State<GrievanceAddScreen> {
+class GrievanceAddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final grievanceProvider = Provider.of<GrievanceProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),

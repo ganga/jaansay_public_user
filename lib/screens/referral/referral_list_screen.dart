@@ -1,10 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/screens/referral/accepted_referral_screen.dart';
 import 'package:jaansay_public_user/service/referral_service.dart';
+import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
+import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ReferralListScreen extends StatefulWidget {
   @override
@@ -26,16 +30,17 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
     return Card(
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 4),
-            color: Colors.grey,
-            child: Text(
-              "Offer Availed",
-              style: TextStyle(color: Colors.white),
+          if (acceptedReferral.isClosed == 1)
+            Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(vertical: 4),
+              color: Colors.grey,
+              child: Text(
+                "Offer Availed",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Column(
@@ -47,7 +52,7 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
                       width: 40,
                       decoration: BoxDecoration(shape: BoxShape.circle),
                       clipBehavior: Clip.hardEdge,
-                      child: CustomNetWorkImage(acceptedReferral.photo),
+                      child: CustomNetWorkImage(acceptedReferral.userPhoto),
                     ),
                     const SizedBox(
                       width: 8,
@@ -148,12 +153,21 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       ),
-      body: ListView.builder(
-        itemCount: acceptedReferrals.length,
-        itemBuilder: (context, index) {
-          return referralItem(acceptedReferrals[index]);
-        },
-      ),
+      body: isLoad
+          ? CustomLoading(title: "Loading Referrals")
+          : acceptedReferrals.length == 0
+              ? CustomErrorWidget(
+                  iconData: FontAwesomeIcons.userFriends,
+                  title: "No Referrals",
+                  description:
+                      "Refer your friends to purchase from businesses and get offers. Click on refer & earn in business profile to refer.",
+                )
+              : ListView.builder(
+                  itemCount: acceptedReferrals.length,
+                  itemBuilder: (context, index) {
+                    return referralItem(acceptedReferrals[index]);
+                  },
+                ),
     );
   }
 }

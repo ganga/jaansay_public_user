@@ -29,7 +29,7 @@ class DashList extends StatelessWidget {
       child: Material(
         color: Colors.white,
         child: InkWell(
-          onTap: () {},
+          onTap: onTapAdd,
           child: Icon(
             Icons.add,
             color: Colors.black.withAlpha(180),

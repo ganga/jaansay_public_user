@@ -16,6 +16,7 @@ class AcceptedReferralScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
@@ -34,8 +35,8 @@ class AcceptedReferralScreen extends StatelessWidget {
                 width: Get.width * 0.2,
                 margin: EdgeInsets.only(top: Get.height * 0.07, bottom: 8),
                 decoration: BoxDecoration(shape: BoxShape.circle),
-                child:
-                    ClipOval(child: CustomNetWorkImage(acceptedReferral.photo)),
+                child: ClipOval(
+                    child: CustomNetWorkImage(acceptedReferral.officialPhoto)),
               ),
               Text(
                 acceptedReferral.officialsName,
@@ -72,8 +73,12 @@ class AcceptedReferralScreen extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Text("Show this code to the business and avail the offer."),
-              Text("Your have already used this.")
+              acceptedReferral.isClosed == 0
+                  ? Text(
+                      "Show this code to the business and avail the offer.",
+                      textAlign: TextAlign.center,
+                    )
+                  : Text("Your have availed this offer.")
             ],
           ),
         ),

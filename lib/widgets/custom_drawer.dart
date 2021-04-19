@@ -18,7 +18,6 @@ import 'package:share/share.dart';
 import 'general/custom_divider.dart';
 import 'general/custom_network_image.dart';
 
-
 class CustomDrawer extends StatefulWidget {
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
@@ -121,12 +120,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
           Get.close(1);
 
           Get.to(() => OrderScreen(), transition: Transition.leftToRight);
-        }, 1),
-        drawerItem("Coupons", MdiIcons.gift, () {
-          couponProvider.clearData();
-          Get.close(1);
-
-          Get.to(() => CouponListScreen(), transition: Transition.leftToRight);
         }, 1),
         drawerItem("Feedback", Icons.feedback, () {
           Get.close(1);
