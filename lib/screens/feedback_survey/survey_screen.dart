@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/survey.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
+import 'package:jaansay_public_user/screens/misc/done_screen.dart';
 import 'package:jaansay_public_user/service/feedback_survey_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_button.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class SurveyScreen extends StatefulWidget {
-  final String surveyId;
+  final int surveyId;
 
   SurveyScreen(this.surveyId);
 
@@ -22,64 +23,85 @@ class _SurveyScreenState extends State<SurveyScreen> {
   );
   List<Survey> surveys = [];
   bool isLoad = true;
-  String surveyId;
-  bool isCheck = false;
-  var curIndex = 0.obs;
-  List surveyAnswers = [];
+  int surveyId;
+  int curIndex = 0;
+  List<SurveyAnswer> surveyAnswers = [];
   FeedbackSurveyService surveyService = FeedbackSurveyService();
+  bool isAnswered = false;
 
   getSurvey() async {
     await surveyService.getSurvey(surveys, surveyId.toString());
+    surveys.map((e) {
+      if (e.answerId != null) {
+        surveyAnswers.add(
+          SurveyAnswer(answerId: e.answerId, questionId: e.sqId),
+        );
+        isAnswered = true;
+      }
+    }).toList();
     isLoad = false;
     setState(() {});
   }
 
   nextPage() async {
-    if (curIndex.value == surveys.length - 1) {
-      if (surveyAnswers.length != surveys.length) {
-        List<String> tempSurvey = [];
-        surveyAnswers.map((sa) {
-          tempSurvey.add(sa['sq_id']);
-        }).toList();
-        surveys.map((s) {
-          if (!tempSurvey.contains(s.sqId.toString())) {
-            _controller.animateToPage(surveys.indexOf(s),
-                duration: Duration(milliseconds: 200), curve: Curves.easeIn);
-          }
-        }).toList();
+    if (curIndex == surveys.length - 1) {
+      if (isAnswered) {
+        Get.close(1);
       } else {
-        isLoad = true;
-        setState(() {});
-        await surveyService.addSurvey(surveyAnswers, surveyId.toString());
-        Get.offAll(HomeScreen());
-        Get.rawSnackbar(message: tr('Survey response submitted. Thank you'));
+        if (surveyAnswers.length != surveys.length) {
+          List<int> tempSurvey = [];
+          surveyAnswers.map((sa) {
+            tempSurvey.add(sa.questionId);
+          }).toList();
+          surveys.map((s) {
+            if (!tempSurvey.contains(s.sqId.toString())) {
+              _controller.animateToPage(surveys.indexOf(s),
+                  duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+            }
+          }).toList();
+        } else {
+          isLoad = true;
+          setState(() {});
+          await surveyService.addSurvey(surveyAnswers, surveyId.toString());
+          Get.off(
+              DoneScreen(
+                onTap: () => Get.close(1),
+                title: "Survey Submitted",
+                subTitle:
+                    "Thank you for taking your time to answer this survey. You will start getting personalised offers and discounts when you answer surveys",
+              ),
+              transition: Transition.rightToLeft);
+        }
       }
     } else {
-      _controller.animateToPage(curIndex.value + 1,
+      _controller.animateToPage(curIndex + 1,
           duration: Duration(milliseconds: 200), curve: Curves.easeIn);
     }
   }
 
-  addAnswer(String qId, String oId) {
+  addAnswer(SurveyAnswer surveyAnswer) {
     int flag;
 
     surveyAnswers.map((e) {
-      if (e['sq_id'] == qId) {
+      if (e.questionId == surveyAnswer.questionId) {
         flag = surveyAnswers.indexOf(e);
       }
     }).toList();
 
     if (flag == null) {
-      surveyAnswers.add({
-        "sq_id": qId,
-        "so_id": oId,
-      });
+      surveyAnswers.add(
+        SurveyAnswer(
+            answerId: surveyAnswer.answerId,
+            questionId: surveyAnswer.questionId),
+      );
     } else {
       surveyAnswers.removeAt(flag);
-      surveyAnswers.insert(flag, {
-        "sq_id": qId,
-        "so_id": oId,
-      });
+      surveyAnswers.insert(
+        flag,
+        SurveyAnswer(
+            answerId: surveyAnswer.answerId,
+            questionId: surveyAnswer.questionId),
+      );
     }
     setState(() {});
   }
@@ -122,46 +144,46 @@ class _SurveyScreenState extends State<SurveyScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: surveys.map((e) {
-                        return Obx(() => Container(
-                              height: 5,
-                              width: Get.width * 0.7 / surveys.length,
-                              color:
-                                  curIndex.value.round() == surveys.indexOf(e)
-                                      ? Theme.of(context).primaryColor
-                                      : Colors.black.withOpacity(0.2),
-                            ));
+                        return Container(
+                          height: 5,
+                          width: Get.width * 0.7 / surveys.length,
+                          color: curIndex.round() == surveys.indexOf(e)
+                              ? Theme.of(context).primaryColor
+                              : Colors.black.withOpacity(0.2),
+                        );
                       }).toList(),
                     ),
                   ),
                   Expanded(
                     child: PageView(
                       onPageChanged: (val) {
-                        curIndex(val);
+                        curIndex = val;
+                        setState(() {});
                       },
                       scrollDirection: Axis.horizontal,
                       controller: _controller,
                       children: surveys.map((e) {
                         return _SurveyQASection(e, surveys.indexOf(e) + 1,
-                            addAnswer, surveyAnswers);
+                            isAnswered ? (_) {} : addAnswer, surveyAnswers);
                       }).toList(),
                     ),
                   ),
-                  Obx(
-                    () => BottomButton(
-                      onTap: () {
-                        nextPage();
-                      },
-                      text: curIndex.value != surveys.length - 1
-                          ? tr("Continue")
-                          : "Finish",
-                      backColor: curIndex.value == surveys.length - 1
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
-                      textColor: curIndex.value != surveys.length - 1
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
-                    ),
-                  )
+                  BottomButton(
+                    onTap: () {
+                      nextPage();
+                    },
+                    text: curIndex != surveys.length - 1
+                        ? tr("Continue")
+                        : isAnswered
+                            ? "Close"
+                            : "Finish",
+                    backColor: curIndex == surveys.length - 1
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                    textColor: curIndex != surveys.length - 1
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                  ),
                 ],
               ),
             ),
@@ -169,31 +191,24 @@ class _SurveyScreenState extends State<SurveyScreen> {
   }
 }
 
-class _SurveyQASection extends StatefulWidget {
+class _SurveyQASection extends StatelessWidget {
   final Survey survey;
   final int index;
   final Function addAnswer;
-  final List surveyAnswers;
+  final List<SurveyAnswer> surveyAnswers;
 
   _SurveyQASection(this.survey, this.index, this.addAnswer, this.surveyAnswers);
 
   @override
-  __SurveyQASectionState createState() => __SurveyQASectionState();
-}
-
-class __SurveyQASectionState extends State<_SurveyQASection> {
-  int value;
-
-  @override
   Widget build(BuildContext context) {
-    final survey = widget.survey;
+    int value;
 
-    widget.surveyAnswers.map((e) {
-      if (e['sq_id'] == survey.sqId.toString()) {
-        final temp = int.parse(e['so_id']);
-        widget.survey.soId.map((e) {
-          if (int.parse(e.toString()) == temp) {
-            value = widget.survey.soId.indexOf(e);
+    surveyAnswers.map((e) {
+      if (e.questionId == survey.sqId) {
+        final temp = e.answerId;
+        survey.soId.map((e) {
+          if (e == temp) {
+            value = survey.soId.indexOf(e);
           }
         }).toList();
       }
@@ -212,7 +227,7 @@ class __SurveyQASectionState extends State<_SurveyQASection> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Question ${widget.index}",
+                    "Question $index",
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                   const SizedBox(
@@ -241,10 +256,8 @@ class __SurveyQASectionState extends State<_SurveyQASection> {
                           : Colors.transparent,
                       child: RadioListTile(
                         onChanged: (val) {
-                          widget.addAnswer(
-                              survey.sqId.toString(), e.toString());
-                          value = val;
-                          setState(() {});
+                          addAnswer(SurveyAnswer(
+                              questionId: survey.sqId, answerId: e));
                         },
                         title: Text(survey.soOption[survey.soId.indexOf(e)]),
                         groupValue: value,

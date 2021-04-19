@@ -84,14 +84,16 @@ class LongTextField extends StatelessWidget {
       alignment: Alignment.center,
       child: TextField(
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).primaryColor, width: 0.5),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
-            ),
+            // enabledBorder: OutlineInputBorder(
+            //   borderSide:
+            //       BorderSide(color: Theme.of(context).primaryColor, width: 0.5,),
+            //
+            // ),
+            // focusedBorder: OutlineInputBorder(
+            //   borderSide:
+            //       BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+            // ),
+
             alignLabelWithHint: true,
             hintText: hint,
             fillColor: Color(0xffFBF8F4),

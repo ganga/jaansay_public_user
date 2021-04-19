@@ -20,17 +20,21 @@ class DashList extends StatelessWidget {
 
   addListItem() {
     return Container(
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Colors.black.withAlpha(180),
-        ),
-      ),
+      margin: EdgeInsets.only(bottom: 18, top: 5),
+      decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+        BoxShadow(
+            color: Get.theme.primaryColor, blurRadius: 3, spreadRadius: 0.2)
+      ]),
       clipBehavior: Clip.hardEdge,
-      child: Icon(
-        Icons.add,
-        color: Colors.black.withAlpha(180),
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {},
+          child: Icon(
+            Icons.add,
+            color: Colors.black.withAlpha(180),
+          ),
+        ),
       ),
     );
   }
@@ -113,17 +117,20 @@ class _DashListItem extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: onTap,
-        radius: 30,
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                margin: EdgeInsets.only(top: 2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 width: 50,
                 height: 50,
-                clipBehavior: Clip.hardEdge,
-                child: CustomNetWorkImage(official?.photo ?? ''),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CustomNetWorkImage(official?.photo ?? '')),
               ),
               const SizedBox(
                 height: 4,

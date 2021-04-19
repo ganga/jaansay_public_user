@@ -59,7 +59,7 @@ class GrievanceDetailScreen extends StatelessWidget {
                     },
                     child: Text("COMMENT"),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey.shade100,
+                      primary: Colors.white,
                       onPrimary: Theme.of(context).primaryColor,
                     ),
                   ),

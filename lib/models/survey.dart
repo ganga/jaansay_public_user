@@ -23,35 +23,36 @@ class SurveyMaster {
 }
 
 class Survey {
-  Survey({
-    this.sqId,
-    this.surveyId,
-    this.sqQuestion,
-    this.soId,
-    this.soOption,
-  });
+  Survey(
+      {this.sqId,
+      this.surveyId,
+      this.sqQuestion,
+      this.soId,
+      this.soOption,
+      this.answerId});
 
   int sqId;
   int surveyId;
   String sqQuestion;
-  List soId;
-  List soOption;
+  List<int> soId;
+  List<String> soOption;
+  int answerId;
 
   factory Survey.fromJson(Map<String, dynamic> json) => Survey(
-        sqId: json["sq_id"],
-        surveyId: json["survey_id"],
-        sqQuestion: json["sq_question"],
-        soId: json["so_id"].toString().split(",").toList(),
-        soOption: json["so_option"].toString().split(",").toList(),
-      );
+      sqId: json["sq_id"],
+      surveyId: json["survey_id"],
+      sqQuestion: json["sq_question"],
+      soId:
+          json["so_id"].toString().split(",").map((e) => int.parse(e)).toList(),
+      soOption: json["so_option"].toString().split(",").toList(),
+      answerId: json['sa_id']);
+}
 
-  Map<String, dynamic> toJson() => {
-        "sq_id": sqId,
-        "survey_id": surveyId,
-        "sq_question": sqQuestion,
-        "so_id": soId,
-        "so_option": soOption,
-      };
+class SurveyAnswer {
+  int questionId;
+  int answerId;
+
+  SurveyAnswer({this.questionId, this.answerId});
 }
 
 class FeedbackMaster {

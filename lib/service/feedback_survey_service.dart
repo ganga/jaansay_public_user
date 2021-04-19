@@ -18,7 +18,7 @@ class FeedbackSurveyService {
   }
 
   Future<void> getSurvey(List<Survey> surveys, String surveyId) async {
-    final response = await dioService.getData("survey/$surveyId");
+    final response = await dioService.getData("survey/$surveyId/user/$userId");
     if (response != null) {
       response['data'].map((val) {
         surveys.add(Survey.fromJson(val));
@@ -26,10 +26,13 @@ class FeedbackSurveyService {
     }
   }
 
-  Future<void> addSurvey(List surveyAnswers, String surveyId) async {
+  Future<void> addSurvey(
+      List<SurveyAnswer> surveyAnswers, String surveyId) async {
     await dioService.postData("survey/answers", {
       'survey_id': surveyId,
-      "survey_answers": surveyAnswers,
+      "survey_answers": surveyAnswers
+          .map((e) => {"sq_id": e.questionId, "so_id": e.answerId})
+          .toList(),
       "user_id": userId,
       "updated_at": DateTime.now().toString()
     });

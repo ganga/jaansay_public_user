@@ -12,6 +12,7 @@ import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
+import 'package:jaansay_public_user/screens/misc/done_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 import 'package:provider/provider.dart';

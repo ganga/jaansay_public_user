@@ -165,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
         hideNavigationBarWhenKeyboardShows: true,
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
+
         navBarStyle:
             NavBarStyle.style3, // Choose the nav bar style with this property.
       ),

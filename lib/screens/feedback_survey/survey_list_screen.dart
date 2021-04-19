@@ -81,8 +81,7 @@ class _SurveyListScreenState extends State<SurveyListScreen> {
                   alignment: Alignment.bottomRight,
                   child: TextButton(
                     onPressed: () {
-                      Get.to(
-                          () => SurveyScreen(surveyMaster.surveyId.toString()),
+                      Get.off(() => SurveyScreen(surveyMaster.surveyId),
                           transition: Transition.rightToLeft);
                     },
                     child: Text(
