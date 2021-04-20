@@ -23,7 +23,8 @@ class Official {
       this.isReferral,
       this.detailDescription,
       this.officialDisplayPhone,
-      this.kmId});
+      this.kmId,
+      this.profileLink});
 
   int officialsId;
   String officialsName;
@@ -49,6 +50,7 @@ class Official {
   int isReferral;
   String detailDescription;
   int kmId;
+  String profileLink;
 
   factory Official.fromJson(Map<String, dynamic> json) => Official(
       officialsId: json["officials_id"],
@@ -79,7 +81,8 @@ class Official {
       officialDisplayPhone: json["official_display_phone"] == null
           ? ''
           : json["official_display_phone"],
-      kmId: json["km_id"]);
+      kmId: json["km_id"],
+      profileLink: json['profile_link']);
 
   factory Official.fromGrievanceJson(Map<String, dynamic> json) => Official(
         officialsId: json["officials_id"],

@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/survey.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feedback_survey/survey_screen.dart';
 import 'package:jaansay_public_user/service/feedback_survey_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SurveyListScreen extends StatefulWidget {
@@ -113,32 +116,47 @@ class _SurveyListScreenState extends State<SurveyListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
         titleSpacing: 0,
         leadingWidth: 50,
-        title: Row(
-          children: [
-            Container(
-              height: 35,
-              width: 35,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
+        title: InkWell(
+          onTap: () {
+            officialProfileProvider.clearData(allData: true);
+
+            Get.until((route) => route.isFirst);
+            Get.to(
+              ProfileFullScreen(
+                officialId: official.officialsId.toString(),
               ),
-              child: ClipOval(child: CustomNetWorkImage(official.photo)),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              official.officialsName,
-              style: TextStyle(
-                color: Get.theme.primaryColor,
+            );
+          },
+          child: Row(
+            children: [
+              Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(child: CustomNetWorkImage(official.photo)),
               ),
-            ),
-          ],
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                official.officialsName,
+                style: TextStyle(
+                  color: Get.theme.primaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           InkWell(

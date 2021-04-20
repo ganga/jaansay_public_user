@@ -80,33 +80,36 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                               const SizedBox(
                                 width: 16,
                               ),
-                              DropdownButton(
-                                value: selectedType,
-                                iconEnabledColor:
-                                    Theme.of(context).primaryColor,
-                                items: [
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          'ALL',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        value: 'ALL',
-                                      )
-                                    ] +
-                                    officialProfileProvider.officialTypes
-                                        .map((e) {
-                                      return DropdownMenuItem(
-                                        child: Text(
-                                          e,
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        value: e,
-                                      );
-                                    }).toList(),
-                                onChanged: (val) {
-                                  selectedType = val;
-                                  setState(() {});
-                                },
+                              Expanded(
+                                child: DropdownButton(
+                                  value: selectedType,
+                                  isExpanded: true,
+                                  iconEnabledColor:
+                                      Theme.of(context).primaryColor,
+                                  items: [
+                                        DropdownMenuItem(
+                                          child: Text(
+                                            'ALL',
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          value: 'ALL',
+                                        )
+                                      ] +
+                                      officialProfileProvider.officialTypes
+                                          .map((e) {
+                                        return DropdownMenuItem(
+                                          child: Text(
+                                            e,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          value: e,
+                                        );
+                                      }).toList(),
+                                  onChanged: (val) {
+                                    selectedType = val;
+                                    setState(() {});
+                                  },
+                                ),
                               ),
                             ],
                           ),

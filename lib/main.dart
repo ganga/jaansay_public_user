@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.rightToLeft,
       theme: ThemeData(
         primaryColor: Color(0xffDF5D37),
         primaryColorDark: Color(0xff1E4072),

@@ -162,8 +162,8 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 height: 16,
               ),
               CustomTextField(
-                  hint: "Enter phone number",
-                  label: "phone",
+                  hint: "Enter Phone Number",
+                  label: "Phone",
                   controller: phoneController),
               SizedBox(
                 height: 16,

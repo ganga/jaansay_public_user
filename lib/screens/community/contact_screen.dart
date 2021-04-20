@@ -86,7 +86,7 @@ class ContactScreen extends StatelessWidget {
           }),
           contactSectionItems(context, "SHARE", MdiIcons.shareVariant, () {
             Share.share(
-              'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
+              "Follow ${official.officialsName} on JaanSay to get regular updates and offers.\n\nClick on this link to follow ${official.profileLink}",
             );
           }),
         ],

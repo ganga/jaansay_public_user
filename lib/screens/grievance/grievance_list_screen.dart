@@ -5,8 +5,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_add_screen.dart';
 import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.dart';
+import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/service/grievance_service.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_head.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_status.dart';
@@ -19,6 +22,8 @@ import 'package:url_launcher/url_launcher.dart';
 class GrievanceListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
     final grievanceProvider = Provider.of<GrievanceProvider>(context);
 
     Official official = grievanceProvider.selectedOfficial;
@@ -34,26 +39,38 @@ class GrievanceListScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         titleSpacing: 0,
         leadingWidth: 50,
-        title: Row(
-          children: [
-            Container(
-              height: 35,
-              width: 35,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
+        title: InkWell(
+          onTap: () {
+            officialProfileProvider.clearData(allData: true);
+
+            Get.until((route) => route.isFirst);
+            Get.to(
+              ProfileFullScreen(
+                officialId: official.officialsId.toString(),
               ),
-              child: ClipOval(child: CustomNetWorkImage(official.photo)),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              official.officialsName,
-              style: TextStyle(
-                color: Get.theme.primaryColor,
+            );
+          },
+          child: Row(
+            children: [
+              Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(child: CustomNetWorkImage(official.photo)),
               ),
-            ).tr(),
-          ],
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                official.officialsName,
+                style: TextStyle(
+                  color: Get.theme.primaryColor,
+                ),
+              ).tr(),
+            ],
+          ),
         ),
         actions: [
           InkWell(

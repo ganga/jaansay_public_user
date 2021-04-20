@@ -10,12 +10,15 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feedback_survey/survey_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_media_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -113,37 +116,48 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
     }
   }
 
-  appBar() {
+  appBar(OfficialProfileProvider officialProfileProvider) {
     return AppBar(
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Colors.white,
       titleSpacing: 0,
       leadingWidth: 50,
-      title: Row(
-        children: [
-          Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
+      title: InkWell(
+        onTap: () {
+          officialProfileProvider.clearData(allData: true);
+          Get.off(
+              () => ProfileFullScreen(
+                    officialId: official?.officialsId?.toString() ??
+                        messageMaster.officialsId.toString(),
+                  ),
+              transition: Transition.rightToLeft);
+        },
+        child: Row(
+          children: [
+            Container(
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                  child: CustomNetWorkImage(messageMaster == null
+                      ? official.photo
+                      : messageMaster.photo)),
             ),
-            child: ClipOval(
-                child: CustomNetWorkImage(messageMaster == null
-                    ? official.photo
-                    : messageMaster.photo)),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Text(
-              "${messageMaster == null ? official.officialsName : messageMaster.officialsName}",
-              style: TextStyle(
-                color: Get.theme.primaryColor,
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Text(
+                "${messageMaster == null ? official.officialsName : messageMaster.officialsName}",
+                style: TextStyle(
+                  color: Get.theme.primaryColor,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: [
         InkWell(
@@ -192,8 +206,11 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(officialProfileProvider),
       body: isLoad
           ? CustomLoading()
           : Column(
