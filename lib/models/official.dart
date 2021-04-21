@@ -159,3 +159,10 @@ class OfficialUtility {
         "utility_name": utilityName,
       };
 }
+
+class OfficialType {
+  int typeId;
+  String typeName;
+
+  OfficialType({this.typeId, this.typeName});
+}

@@ -5,46 +5,60 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 class OfficialListScreen extends StatefulWidget {
+  final OfficialType officialType;
+
+  OfficialListScreen(this.officialType);
+
   @override
   _OfficialListScreenState createState() => _OfficialListScreenState();
 }
 
 class _OfficialListScreenState extends State<OfficialListScreen> {
-  String title = "Business";
-  String districtId;
+  OfficialService officialService = OfficialService();
+
+  List<Official> officials = [];
+  List<String> officialTypes = [];
+
   String selectedType = 'ALL';
 
-  bool isCheck = false;
+  bool isLoad = true;
+
+  getData() async {
+    await officialService.getAllOfficialsType(
+        officials, widget.officialType.typeId, "1");
+    officials.removeWhere((element) => element.isPrivate == 1);
+
+    officials.map((e) {
+      if (!officialTypes.contains(e.businesstypeName)) {
+        officialTypes.add(e.businesstypeName);
+      }
+    }).toString();
+
+    officialTypes.sort((a, b) => a.compareTo(b));
+    isLoad = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List response = ModalRoute.of(context).settings.arguments;
-    final officialProfileProvider =
-        Provider.of<OfficialProfileProvider>(context);
-    final type = response[0];
-    districtId = response[1];
-
-    if (type == '103') {
-      title = "Appointed Officials and Elected Members";
-    } else if (type == '102') {
-      title = "Associations and Bodies";
-    }
-
-    if (!isCheck) {
-      isCheck = true;
-      officialProfileProvider.getData(type, districtId);
-    }
-
     return Scaffold(
-      body: officialProfileProvider.isListLoad
+      body: isLoad
           ? CustomLoading()
-          : officialProfileProvider.officials.length == 0
+          : officials.length == 0
               ? CustomErrorWidget(
                   title: tr("No users found"),
                   iconData: Icons.supervised_user_circle_sharp,
@@ -63,7 +77,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                                 vertical: Get.height * 0.05),
                             alignment: Alignment.center,
                             child: AutoSizeText(
-                              tr(title),
+                              tr(widget.officialType.typeName),
                               style:
                                   TextStyle(color: Colors.black, fontSize: 26),
                               maxLines: 1,
@@ -95,8 +109,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                                           value: 'ALL',
                                         )
                                       ] +
-                                      officialProfileProvider.officialTypes
-                                          .map((e) {
+                                      officialTypes.map((e) {
                                         return DropdownMenuItem(
                                           child: Text(
                                             e,
@@ -120,12 +133,12 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) =>
                                 _OfficialsListGroup(
-                              selectedType == 'ALL'
-                                  ? officialProfileProvider.officialTypes[index]
-                                  : selectedType,
-                            ),
+                                    selectedType == 'ALL'
+                                        ? officialTypes[index]
+                                        : selectedType,
+                                    officials),
                             itemCount: selectedType == 'ALL'
-                                ? officialProfileProvider.officialTypes.length
+                                ? officialTypes.length
                                 : 1,
                           ),
                         ),
@@ -139,16 +152,19 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
 
 class _OfficialsListGroup extends StatelessWidget {
   final String type;
+  final List<Official> officials;
 
-  _OfficialsListGroup(this.type);
+  _OfficialsListGroup(this.type, this.officials);
 
   @override
   Widget build(BuildContext context) {
-    final officialProfileProvider =
-        Provider.of<OfficialProfileProvider>(context);
+    List<Official> filteredOfficials = [];
 
-    List<Official> filteredList =
-        officialProfileProvider.getOfficialsOfType(type);
+    officials.map((e) {
+      if (e.businesstypeName == type) {
+        return filteredOfficials.add(e);
+      }
+    }).toList();
 
     return Card(
       margin: EdgeInsets.symmetric(
@@ -169,7 +185,7 @@ class _OfficialsListGroup extends StatelessWidget {
             Container(
               child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: filteredList.length,
+                itemCount: filteredOfficials.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(
                     horizontal: 5, vertical: Get.height * 0.02),
@@ -178,7 +194,7 @@ class _OfficialsListGroup extends StatelessWidget {
                     crossAxisSpacing: Get.width * 0.03,
                     mainAxisSpacing: Get.height * 0.02),
                 itemBuilder: (context, index) {
-                  return _BusinessListItem(filteredList[index]);
+                  return _BusinessListItem(filteredOfficials[index]);
                 },
               ),
             ),
@@ -196,34 +212,10 @@ class _BusinessListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final officialProfileProvider =
-        Provider.of<OfficialProfileProvider>(context);
-
     return InkWell(
       onTap: () {
-        if (official.isPrivate == 1 && official.isFollow == null) {
-          Get.dialog(AlertDialog(
-            title: Text("Private Association").tr(),
-            content: Text(
-                    "Sorry, this is an private association. Only users part of this assocation can view the details. Please contact the admin to join this group.")
-                .tr(),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Get.close(1);
-                },
-                child: Text(
-                  "Okay",
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                ).tr(),
-              )
-            ],
-          ));
-        } else {
-          officialProfileProvider.clearData();
-          officialProfileProvider.selectOfficialIndex(official);
-          Get.to(() => ProfileFullScreen(), transition: Transition.rightToLeft);
-        }
+        Get.to(() => ProfileFullScreen(official.officialsId),
+            transition: Transition.rightToLeft);
       },
       child: Container(
         child: Column(

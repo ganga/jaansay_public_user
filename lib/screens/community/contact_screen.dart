@@ -132,8 +132,7 @@ class ContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
-    Official official = officialProfileProvider
-        .officials[officialProfileProvider.selectedOfficialIndex];
+    Official official = officialProfileProvider.official;
 
     final grievanceProvider = Provider.of<GrievanceProvider>(context);
 

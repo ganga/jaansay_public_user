@@ -36,8 +36,7 @@ class OfficialsProfileHead extends StatelessWidget {
     final catalogProvider =
         Provider.of<CatalogProvider>(context, listen: false);
 
-    Official official = officialProfileProvider
-        .officials[officialProfileProvider.selectedOfficialIndex];
+    Official official = officialProfileProvider.official;
 
     return Card(
       margin: EdgeInsets.only(bottom: 8),

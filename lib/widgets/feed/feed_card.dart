@@ -233,10 +233,10 @@ class _FeedTopDetails extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        officialProfileProvider.clearData(allData: true);
+        officialProfileProvider.clearData();
         pushNewScreen(context,
             screen: ProfileFullScreen(
-              officialId: feed.userId.toString(),
+              feed.userId,
             ),
             pageTransitionAnimation: PageTransitionAnimation.cupertino,
             withNavBar: false);

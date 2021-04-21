@@ -16,10 +16,10 @@ import 'package:jaansay_public_user/widgets/profile/review_card.dart';
 import 'package:provider/provider.dart';
 
 class ProfileFullScreen extends StatelessWidget {
-  final String officialId;
+  final int officialId;
   final bool isClose;
 
-  ProfileFullScreen({this.officialId = '', this.isClose = false});
+  ProfileFullScreen(this.officialId, {this.isClose = false});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +28,8 @@ class ProfileFullScreen extends StatelessWidget {
 
     if (!officialProvider.initProfile) {
       officialProvider.initProfile = true;
-      if (officialProvider.selectedOfficialIndex != null) {
-        officialProvider.isProfileLoad = false;
 
-        feedProvider.getFeedData(
-            officialProvider.officials[officialProvider.selectedOfficialIndex]);
-      } else {
-        officialProvider.getOfficialById(officialId, feedProvider);
-      }
+      officialProvider.getOfficialById(officialId, feedProvider);
     }
 
     return Scaffold(
@@ -43,36 +37,24 @@ class ProfileFullScreen extends StatelessWidget {
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           backgroundColor: Colors.white,
           title: Text(
-            officialProvider.isProfileLoad ||
-                    officialProvider.officials[
-                            officialProvider.selectedOfficialIndex] ==
-                        null
+            officialProvider.isProfileLoad || officialProvider.official == null
                 ? "${tr('Profile')}"
-                : officialProvider
-                    .officials[officialProvider.selectedOfficialIndex]
-                    .officialsName,
+                : officialProvider.official.officialsName,
             style: TextStyle(
               color: Get.theme.primaryColor,
             ),
           ),
           actions: officialProvider.isProfileLoad ||
-                  officialProvider
-                          .officials[officialProvider.selectedOfficialIndex] ==
-                      null
+                  officialProvider.official == null
               ? null
-              : officialProvider
-                          .officials[officialProvider.selectedOfficialIndex]
-                          .detailDescription
-                          .length >
-                      5
+              : officialProvider.official.detailDescription.length > 5
                   ? [
                       InkWell(
                         borderRadius: BorderRadius.circular(15),
                         onTap: () {
                           Get.to(
                               () => ProfileDescriptionScreen(
-                                  officialProvider.officials[
-                                      officialProvider.selectedOfficialIndex]),
+                                  officialProvider.official),
                               transition: Transition.rightToLeft);
                         },
                         child: Container(
@@ -97,9 +79,7 @@ class ProfileFullScreen extends StatelessWidget {
             }
           },
           child: officialProvider.isProfileLoad ||
-                  officialProvider
-                          .officials[officialProvider.selectedOfficialIndex] ==
-                      null
+                  officialProvider.official == null
               ? CustomLoading()
               : SingleChildScrollView(
                   child: Container(
@@ -107,11 +87,7 @@ class ProfileFullScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         OfficialsProfileHead(),
-                        officialProvider
-                                    .officials[
-                                        officialProvider.selectedOfficialIndex]
-                                    .isFollow ==
-                                1
+                        officialProvider.official.isFollow == 1
                             ? feedProvider.getLoading()
                                 ? CustomLoading(
                                     title: "Loading Feeds",
@@ -135,8 +111,7 @@ class ProfileFullScreen extends StatelessWidget {
                                           );
                                         },
                                       )
-                            : _ReviewSection(officialProvider.officials[
-                                officialProvider.selectedOfficialIndex]),
+                            : _ReviewSection(officialProvider.official),
                       ],
                     ),
                   ),

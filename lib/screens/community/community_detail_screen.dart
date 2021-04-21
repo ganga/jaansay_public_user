@@ -2,13 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:jaansay_public_user/providers/official_profile_provider.dart';
+import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
 
 class CommunityDetailsScreen extends StatefulWidget {
   @override
@@ -16,46 +14,21 @@ class CommunityDetailsScreen extends StatefulWidget {
 }
 
 class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
-  OfficialProfileProvider officialProvider;
+  MiscService miscService = MiscService();
   bool isLoad = true;
-
-  bool isCheck = false;
-
   Map count = {};
-  List<String> districts = [];
-  GetStorage box = GetStorage();
-  String selectedDistrict = "";
-  String districtId = "1";
-
-  getData() async {
-    isLoad = true;
-    setState(() {});
-    MiscService miscService = MiscService();
-    districts.clear();
-    count.clear();
-    await miscService.getAllCount(
-      count,
-    );
-
-    isLoad = false;
-    setState(() {});
-  }
 
   getDistrictData() async {
-    isLoad = true;
-    setState(() {});
-    MiscService miscService = MiscService();
     count.clear();
-    await miscService.getAllCountDistrict(count, districtId.toString());
+    await miscService.getAllCountDistrict(count);
     isLoad = false;
     setState(() {});
   }
 
-  Widget _dataBox(String number, String title, BuildContext context,
-      Widget widget, String type) {
+  Widget _dataBox(
+      String number, OfficialType officialType, BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      margin: EdgeInsets.only(bottom: Get.height * 0.04),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(
@@ -68,10 +41,8 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                officialProvider.clearData(allData: true);
-                pushNewScreenWithRouteSettings(context,
-                    screen: widget,
-                    settings: RouteSettings(arguments: [type, districtId]),
+                pushNewScreen(context,
+                    screen: OfficialListScreen(officialType),
                     pageTransitionAnimation: PageTransitionAnimation.cupertino);
               },
               child: Padding(
@@ -80,7 +51,7 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     AutoSizeText(
-                      tr(title),
+                      tr(officialType.typeName),
                       style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.center,
                       maxLines: 2,
@@ -110,76 +81,71 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    officialProvider =
-        Provider.of<OfficialProfileProvider>(context, listen: false);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDistrictData();
+  }
 
-    if (!isCheck) {
-      isCheck = true;
-      getDistrictData();
-    }
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: isLoad
           ? CustomLoading()
-          : SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: Get.height * 0.03,
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            "Udupi",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w500),
-                          ).tr(),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.03,
-                    ),
-                    // _dataBox(
-                    //     "${count['user']}",
-                    //     "Public Users",
-                    //     context,
-                    //     _mediaQuery.height,
-                    //     _mediaQuery.width,
-                    //     ProfileListScreen(),
-                    //     "public"),
-                    _dataBox("${count['business']}", "Business", context,
-                        OfficialListScreen(), "101"),
-                    _dataBox(
-                        "${count['entity']}",
-                        "Appointed Officials and Elected Members",
-                        context,
-                        OfficialListScreen(),
-                        "103"),
-                    _dataBox(
-                        "${count['association']}",
-                        "Associations and Bodies",
-                        context,
-                        OfficialListScreen(),
-                        "102"),
-                  ],
-                ),
+          : Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // SizedBox(
+                  //   height: Get.height * 0.03,
+                  // ),
+                  // Container(
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       Icon(
+                  //         Icons.location_on,
+                  //         color: Theme.of(context).primaryColor,
+                  //       ),
+                  //       const SizedBox(
+                  //         width: 8,
+                  //       ),
+                  //       Text(
+                  //         "Udupi",
+                  //         style: TextStyle(
+                  //             fontSize: 24, fontWeight: FontWeight.w500),
+                  //       ).tr(),
+                  //       const SizedBox(
+                  //         width: 8,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // _dataBox(
+                  //     "${count['user']}",
+                  //     "Public Users",
+                  //     context,
+                  //     _mediaQuery.height,
+                  //     _mediaQuery.width,
+                  //     ProfileListScreen(),
+                  //     "public"),
+                  _dataBox(count['business'],
+                      OfficialType(typeId: 101, typeName: "Business"), context),
+                  _dataBox(
+                      count['entity'],
+                      OfficialType(
+                          typeId: 103,
+                          typeName: "Appointed Officials and Elected Members"),
+                      context),
+                  _dataBox(
+                      count['association'],
+                      OfficialType(
+                          typeId: 102, typeName: "Associations and Bodies"),
+                      context),
+                ],
               ),
             ),
     );

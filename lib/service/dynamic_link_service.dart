@@ -52,7 +52,7 @@ class DynamicLinkService {
             if (officialId != null) {
               Get.to(
                   () => ProfileFullScreen(
-                        officialId: officialId.toString(),
+                        int.parse(officialId),
                         isClose: true,
                       ),
                   transition: Transition.rightToLeft);

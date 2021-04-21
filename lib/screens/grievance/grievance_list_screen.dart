@@ -41,12 +41,12 @@ class GrievanceListScreen extends StatelessWidget {
         leadingWidth: 50,
         title: InkWell(
           onTap: () {
-            officialProfileProvider.clearData(allData: true);
+            officialProfileProvider.clearData();
 
             Get.until((route) => route.isFirst);
             Get.to(
               ProfileFullScreen(
-                officialId: official.officialsId.toString(),
+                official.officialsId,
               ),
             );
           },

@@ -70,7 +70,7 @@ class _MessageSectionState extends State<MessageSection> {
       title: "Messages",
       isLoad: isLoad,
       onTapAdd: () {
-        officialProfileProvider.clearData(allData: true);
+        officialProfileProvider.clearData();
         Get.to(
             () => SearchScreen(
                   description:

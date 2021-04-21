@@ -127,13 +127,11 @@ class _SurveyListScreenState extends State<SurveyListScreen> {
         leadingWidth: 50,
         title: InkWell(
           onTap: () {
-            officialProfileProvider.clearData(allData: true);
+            officialProfileProvider.clearData();
 
             Get.until((route) => route.isFirst);
             Get.to(
-              ProfileFullScreen(
-                officialId: official.officialsId.toString(),
-              ),
+              ProfileFullScreen(official.officialsId),
             );
           },
           child: Row(

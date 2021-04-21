@@ -8,25 +8,8 @@ class MiscService {
   String userId = GetStorage().read("user_id").toString();
   DioService dioService = DioService();
 
-  Future<void> getAllCount(
-    Map countData,
-  ) async {
-    final response = await dioService.getData("utility/getallcount");
-    print(GetStorage().read("token").toString());
-    print(response);
-    if (response != null) {
-      countData["user"] = response['data'][1][0]['totalUsers'].toString();
-      countData["business"] =
-          response['data'][2][0]['totalBusiness'].toString();
-      countData["association"] =
-          response['data'][3][0]['totalAssociations'].toString();
-      countData["entity"] = response['data'][4][0]['totalEntities'].toString();
-    }
-  }
-
-  Future<void> getAllCountDistrict(Map countData, String districtId) async {
-    final response =
-        await dioService.getData("utility/getallcount/$districtId");
+  Future<void> getAllCountDistrict(Map countData) async {
+    final response = await dioService.getData("utility/getallcount/1");
 
     if (response != null) {
       countData["user"] = response['data'][0][0]['totalUsers'].toString();

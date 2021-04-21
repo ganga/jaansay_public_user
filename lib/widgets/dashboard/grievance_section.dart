@@ -26,7 +26,7 @@ class GrievanceSection extends StatelessWidget {
       title: "Grievances",
       isLoad: grievanceProvider.isDashLoad,
       onTapAdd: () {
-        officialProfileProvider.clearData(allData: true);
+        officialProfileProvider.clearData();
         Get.to(
             () => SearchScreen(
                   description:

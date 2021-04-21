@@ -36,8 +36,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     product = await catalogService.getProductById(widget.productId);
     isProductLoad = false;
     setState(() {});
-    official =
-        await officialService.getOfficialById(product.officialId.toString());
+    official = await officialService.getOfficialById(product.officialId);
     isOfficialLoad = false;
     setState(() {});
   }
@@ -315,10 +314,7 @@ class _OfficialTile extends StatelessWidget {
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    Get.to(
-                        () => ProfileFullScreen(
-                              officialId: official.officialsId.toString(),
-                            ),
+                    Get.to(() => ProfileFullScreen(official.officialsId),
                         transition: Transition.rightToLeft);
                   },
                   child: ClipRRect(

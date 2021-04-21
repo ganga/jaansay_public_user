@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
+import 'package:jaansay_public_user/service/follow_service.dart';
+import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   final String title;
   final String description;
   final IconData iconData;
@@ -18,14 +20,47 @@ class SearchScreen extends StatelessWidget {
   SearchScreen({this.title, this.description, this.iconData});
 
   @override
-  Widget build(BuildContext context) {
-    final officialProfileProvider =
-        Provider.of<OfficialProfileProvider>(context);
+  _SearchScreenState createState() => _SearchScreenState();
+}
 
-    if (!officialProfileProvider.initOfficials) {
-      officialProfileProvider.initOfficials = true;
+class _SearchScreenState extends State<SearchScreen> {
+  TextEditingController searchController = TextEditingController();
+  OfficialService officialService = OfficialService();
+  FollowService followService = FollowService();
+  List<Official> officials = [];
+  bool isSearching = false;
+  bool isLoad = false;
+
+  searchOfficial(String val) async {
+    if (val.length > 2 && !isSearching) {
+      isSearching = true;
+      isLoad = true;
+      officials.clear();
+      await officialService.searchOfficials(val, officials);
+      officials.removeWhere(
+          (element) => (element.isPrivate == 1 && element.isFollow != 1));
+      isLoad = false;
+      isSearching = false;
+
+      setState(() {});
+    } else if (!isSearching) {
+      officials.clear();
+      setState(() {});
     }
+  }
 
+  followOfficial(Official official) async {
+    officials.map((e) {
+      if (e.officialsId == official.officialsId) {
+        e.isFollow = 1;
+      }
+    }).toList();
+    setState(() {});
+    await followService.followUser(official.officialsId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -35,9 +70,9 @@ class SearchScreen extends StatelessWidget {
         title: TextField(
           autofocus: true,
           decoration: InputDecoration.collapsed(hintText: tr("Enter name")),
-          controller: officialProfileProvider.searchController,
+          controller: searchController,
           onChanged: (val) {
-            officialProfileProvider.searchOfficial(val);
+            searchOfficial(val);
           },
         ),
         actions: [
@@ -58,51 +93,48 @@ class SearchScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: officialProfileProvider.officials.length == 0
+      body: officials.length == 0
           ? CustomErrorWidget(
-              iconData: officialProfileProvider.searchController.text.length > 2
+              iconData: searchController.text.length > 2
                   ? MdiIcons.textSearch
-                  : iconData,
-              title: officialProfileProvider.searchController.text.length > 2
+                  : widget.iconData,
+              title: searchController.text.length > 2
                   ? "No officials found"
-                  : title,
+                  : widget.title,
               description:
-                  officialProfileProvider.searchController.text.length > 2
-                      ? null
-                      : description,
+                  searchController.text.length > 2 ? null : widget.description,
             )
           : ListView.builder(
               itemBuilder: (context, index) {
-                return _OfficialTile(index);
+                return _OfficialTile(officials[index], followOfficial);
               },
-              itemCount: officialProfileProvider.officials.length,
+              itemCount: officials.length,
             ),
     );
   }
 }
 
 class _OfficialTile extends StatelessWidget {
-  final int index;
+  final Official official;
+  final Function followFunction;
 
-  _OfficialTile(this.index);
+  _OfficialTile(this.official, this.followFunction);
 
   @override
   Widget build(BuildContext context) {
-    final officialProfileProvider =
+    OfficialProfileProvider officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
-
-    Official official = officialProfileProvider.officials[index];
 
     return Material(
       color: Colors.white.withOpacity(0.8),
       child: InkWell(
         onTap: () {
           officialProfileProvider.clearData();
-          officialProfileProvider.selectedOfficialIndex = index;
+
           Get.close(1);
           Get.to(
               () => ProfileFullScreen(
-                    officialId: official.officialsId.toString(),
+                    official.officialsId,
                   ),
               transition: Transition.rightToLeft);
         },
@@ -167,7 +199,7 @@ class _OfficialTile extends StatelessWidget {
                       splashColor: Colors.white,
                       onTap: () {
                         if (official.isFollow == 0) {
-                          officialProfileProvider.followOfficial(index: index);
+                          followFunction(official);
                         }
                       },
                       child: ClipRRect(

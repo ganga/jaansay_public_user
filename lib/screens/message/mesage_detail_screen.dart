@@ -124,11 +124,10 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
       leadingWidth: 50,
       title: InkWell(
         onTap: () {
-          officialProfileProvider.clearData(allData: true);
+          officialProfileProvider.clearData();
           Get.off(
               () => ProfileFullScreen(
-                    officialId: official?.officialsId?.toString() ??
-                        messageMaster.officialsId.toString(),
+                    official?.officialsId ?? messageMaster.officialsId,
                   ),
               transition: Transition.rightToLeft);
         },

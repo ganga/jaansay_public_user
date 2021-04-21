@@ -12,9 +12,7 @@ class OfficialService {
   DioService dioService = DioService();
 
   Future<List<Official>> getAllOfficialsType(
-      String type, String districtId) async {
-    List<Official> officials = [];
-
+      List<Official> officials, int type, String districtId) async {
     final response = await dioService
         .getData("officials/type/district/$userId/$type/$districtId");
     if (response != null) {
@@ -26,7 +24,6 @@ class OfficialService {
           )
           .toList();
     }
-    return officials;
   }
 
   getOfficialRatings(String officialId, List<Review> reviews) async {
@@ -59,7 +56,7 @@ class OfficialService {
     }
   }
 
-  Future<Official> getOfficialById(String officialId) async {
+  Future<Official> getOfficialById(int officialId) async {
     Official official;
 
     final response = await dioService.getData("officials/$userId/$officialId");
