@@ -1,15 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/community_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_list_screen.dart';
+import 'package:jaansay_public_user/screens/feed/nearby_list_screen.dart';
 import 'package:jaansay_public_user/screens/misc/dashboard_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/vocal_local_screen.dart';
 import 'package:jaansay_public_user/widgets/custom_drawer.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
@@ -84,9 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _buildScreens() {
     return [
+      FeedListScreen(),
+      NearbyListScreen(),
       DashboardScreen(),
       CommunityDetailsScreen(),
-      FeedListScreen(),
       VocalLocalScreen(
         isHome: true,
       ),
@@ -94,29 +98,68 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
+    double iconSize = 22;
+    double textSize = 12;
+
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: tr("Home"),
-        activeColorPrimary: Theme.of(context).primaryColor,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.group),
-        title: tr("Community"),
-        activeColorPrimary: Theme.of(context).primaryColor,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.dynamic_feed_outlined),
+        icon: Icon(
+          Icons.photo,
+        ),
+        inactiveIcon: Icon(
+          Icons.photo_outlined,
+        ),
         title: tr("Feed"),
-        activeColorPrimary: Theme.of(context).primaryColor,
+        iconSize: iconSize,
+        activeColorPrimary: Get.theme.primaryColor,
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.record_voice_over),
+        icon: Icon(
+          Icons.place,
+        ),
+        inactiveIcon: Icon(
+          Icons.place_outlined,
+        ),
+        title: tr("Nearby"),
+        iconSize: iconSize,
+        activeColorPrimary: Get.theme.primaryColor,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(
+          Icons.dashboard,
+        ),
+        inactiveIcon: Icon(
+          Icons.dashboard_outlined,
+        ),
+        title: tr("Dashboard"),
+        iconSize: iconSize,
+        activeColorPrimary: Get.theme.primaryColor,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(
+          Icons.group_work_rounded,
+        ),
+        inactiveIcon: Icon(
+          Icons.group_work_outlined,
+        ),
+        title: tr("Community"),
+        iconSize: iconSize,
+        activeColorPrimary: Get.theme.primaryColor,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(
+          Icons.record_voice_over,
+        ),
+        inactiveIcon: Icon(
+          Icons.record_voice_over_outlined,
+        ),
         title: tr("Vocal For Local"),
-        activeColorPrimary: Theme.of(context).primaryColor,
+        iconSize: iconSize,
+        activeColorPrimary: Get.theme.primaryColor,
         inactiveColorPrimary: Colors.grey,
       ),
     ];
@@ -157,6 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PersistentTabView(
         context,
         controller: _controller,
+
         screens: _buildScreens(),
         items: _navBarsItems(),
         confineInSafeArea: true,
@@ -167,9 +211,8 @@ class _HomeScreenState extends State<HomeScreen> {
         hideNavigationBarWhenKeyboardShows: true,
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
-
         navBarStyle:
-            NavBarStyle.style3, // Choose the nav bar style with this property.
+            NavBarStyle.style1, // Choose the nav bar style with this property.
       ),
     );
   }

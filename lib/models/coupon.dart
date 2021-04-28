@@ -51,22 +51,4 @@ class Coupon {
         officialsPhone: json["official_display_phone"],
         photo: json["photo"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "cm_id": cmId,
-        "cm_code": cmCode,
-        "cm_url": cmUrl,
-        "title": title,
-        "description": description,
-        "cm_created_at": cmCreatedAt.toIso8601String(),
-        "expire_on": expireOn.toIso8601String(),
-        "cu_id": cuId,
-        "cu_created_at": cuCreatedAt.toIso8601String(),
-        "ca_created_at":
-            caCreatedAt == null ? null : caCreatedAt.toIso8601String(),
-        "official_id": officialId,
-        "officials_name": officialsName,
-        "official_display_phone": officialsPhone,
-        "photo": photo,
-      };
 }

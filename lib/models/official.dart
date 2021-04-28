@@ -153,11 +153,6 @@ class OfficialUtility {
         utilityId: json["utility_id"],
         utilityName: json["utility_name"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "utility_id": utilityId,
-        "utility_name": utilityName,
-      };
 }
 
 class OfficialType {

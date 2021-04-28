@@ -42,3 +42,21 @@ class Feed {
         media: json["media"] == null ? [] : json["media"].toString().split(","),
       );
 }
+
+class FeedFilter {
+  FeedFilter({
+    this.filterId,
+    this.filterName,
+    this.filterType,
+  });
+
+  int filterId;
+  String filterName;
+  String filterType;
+
+  factory FeedFilter.fromJson(Map<String, dynamic> json) => FeedFilter(
+        filterId: json["filter_id"],
+        filterName: json["filter_name"],
+        filterType: json["filter_type"],
+      );
+}

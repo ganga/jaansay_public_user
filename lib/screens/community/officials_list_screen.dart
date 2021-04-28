@@ -212,8 +212,13 @@ class _BusinessListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OfficialProfileProvider officialProfileProvider =
+        Provider.of<OfficialProfileProvider>(context, listen: false);
+
     return InkWell(
       onTap: () {
+        officialProfileProvider.clearData();
+
         Get.to(() => ProfileFullScreen(official.officialsId),
             transition: Transition.rightToLeft);
       },

@@ -20,8 +20,9 @@ class FeedCard extends StatelessWidget {
   final Feed feed;
   final bool isDetail;
   final bool isBusiness;
+  final Function onTap;
 
-  FeedCard({this.feed, this.isDetail, this.isBusiness});
+  FeedCard({this.feed, this.isDetail, this.isBusiness, this.onTap});
 
   Widget _getImg(String url, BuildContext context) {
     return InkWell(
@@ -101,10 +102,14 @@ class FeedCard extends StatelessWidget {
           fit: FlexFit.loose,
           child: InkWell(
             onTap: () {
-              if (isBusiness) {
-                _businessFeedProvider.likeFeed(feed, _userFeedProvider);
+              if (onTap == null) {
+                if (isBusiness) {
+                  _businessFeedProvider.likeFeed(feed, _userFeedProvider);
+                } else {
+                  _userFeedProvider.likeFeed(feed);
+                }
               } else {
-                _userFeedProvider.likeFeed(feed);
+                onTap();
               }
             },
             child: Padding(
@@ -181,7 +186,7 @@ class FeedCard extends StatelessWidget {
           onTap: () {
             if (!isDetail) {
               pushNewScreen(context,
-                  screen: FeedDetailScreen(feed, isBusiness),
+                  screen: FeedDetailScreen(feed, isBusiness, onTap),
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   withNavBar: false);
             }

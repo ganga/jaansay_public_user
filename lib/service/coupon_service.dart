@@ -8,6 +8,7 @@ class CouponService {
 
   getCoupons(List<Coupon> coupons) async {
     final response = await dioService.getData("coupon/user/$userId");
+
     if (response != null) {
       response['data'].map((e) => coupons.add(Coupon.fromJson(e))).toList();
     }

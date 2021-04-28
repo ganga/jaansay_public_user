@@ -39,7 +39,10 @@ class GrievanceDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   GrievanceHead(grievanceMaster, null),
-                  _ReplySection()
+                  _ReplySection(),
+                  SizedBox(
+                    height: Get.height * 0.1,
+                  )
                 ],
               ),
             ),

@@ -87,4 +87,26 @@ class FeedService {
 
     return _officials;
   }
+
+  getFeedFilters(List<FeedFilter> feedFilters) async {
+    final response = await dioService.getData("feeds/filters");
+    if (response != null) {
+      response['data']
+          .map((val) => feedFilters.add(FeedFilter.fromJson(val)))
+          .toList();
+    }
+  }
+
+  Future<List> getNearbyFeeds(int page, int regionId, int categoryId) async {
+    List<Feed> feeds = [];
+    final response = await dioService.getData(
+        "feeds/$userId/allfeeds/region/$regionId/category/$categoryId/page/$page");
+    if (response != null) {
+      response['data'].map((val) => feeds.add(Feed.fromJson(val))).toList();
+      if (response['next'] != null) {
+        return [feeds, response['next']['page']];
+      }
+    }
+    return [feeds, null];
+  }
 }
