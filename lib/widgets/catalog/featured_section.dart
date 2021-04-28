@@ -39,67 +39,79 @@ class __FeatureSectionState extends State<FeatureSection> {
 
   @override
   Widget build(BuildContext context) {
-    return featuredProducts.length == 0
-        ? SizedBox.shrink()
-        : Container(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+    if (featuredProducts.length == 0) {
+      return SizedBox.shrink();
+    } else {
+      return Card(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
                   "Featured Products",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black.withOpacity(0.65),
+                      letterSpacing: 0.45),
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Container(
-                  height: Get.height * 0.2,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: featuredProducts.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: 175,
-                        margin: EdgeInsets.only(right: 16),
-                        child: InkWell(
-                          onTap: () {
-                            // Get.bottomSheet(
-                            //   ProductDetailBottomSheet(index,
-                            //       featuredProducts[index], widget.official),
-                            //   isScrollControlled: true,
-                            // );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: CustomNetWorkImage(
-                                  featuredProducts[index].cpPhoto.length == 0
-                                      ? ''
-                                      : featuredProducts[index].cpPhoto.first,
-                                  assetLink: Constants.productHolderURL,
-                                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Container(
+                height: Get.height * 0.2,
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: featuredProducts.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: 175,
+                      margin: EdgeInsets.only(right: 16),
+                      child: InkWell(
+                        onTap: () {
+                          // Get.bottomSheet(
+                          //   ProductDetailBottomSheet(index,
+                          //       featuredProducts[index], widget.official),
+                          //   isScrollControlled: true,
+                          // );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: CustomNetWorkImage(
+                                featuredProducts[index].cpPhoto.length == 0
+                                    ? ''
+                                    : featuredProducts[index].cpPhoto.first,
+                                assetLink: Constants.productHolderURL,
                               ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(featuredProducts[index].cpName),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              CatalogDiscountTextWidget(
-                                  featuredProducts[index].cpCost,
-                                  featuredProducts[index].cpDiscountCost)
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text(featuredProducts[index].cpName),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            CatalogDiscountTextWidget(
+                                featuredProducts[index].cpCost,
+                                featuredProducts[index].cpDiscountCost)
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                )
-              ],
-            ),
-          );
+                      ),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 }

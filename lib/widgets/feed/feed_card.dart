@@ -264,7 +264,11 @@ class _FeedTopDetails extends StatelessWidget {
               children: [
                 Text(
                   "${feed.officialsName}",
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black.withOpacity(0.65),
+                      letterSpacing: 0.45,
+                      fontSize: 16),
                 ),
                 RichText(
                   text: TextSpan(

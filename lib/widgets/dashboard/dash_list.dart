@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
@@ -25,6 +26,7 @@ class DashList extends StatelessWidget {
         BoxShadow(
             color: Get.theme.primaryColor, blurRadius: 3, spreadRadius: 0.2)
       ]),
+      constraints: BoxConstraints(maxHeight: 50, maxWidth: 50),
       clipBehavior: Clip.hardEdge,
       child: Material(
         color: Colors.white,
@@ -44,11 +46,8 @@ class DashList extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: isLoad ? count.length : officials.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          childAspectRatio: 1,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: Get.height * 0.02),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 80, crossAxisSpacing: 16, mainAxisSpacing: 20),
       padding: EdgeInsets.symmetric(
         horizontal: 8,
       ),
@@ -70,37 +69,36 @@ class DashList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-              color: Colors.black.withAlpha(180),
+    return Card(
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.black.withOpacity(0.65),
+                  letterSpacing: 0.45),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Container(
-            width: double.infinity,
-            child: isLoad
-                ? Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: gridView(),
-                  )
-                : gridView(),
-          ),
-        ],
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              width: double.infinity,
+              child: isLoad
+                  ? Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: gridView(),
+                    )
+                  : gridView(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -115,6 +113,7 @@ class _DashListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.white,
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -136,7 +135,7 @@ class _DashListItem extends StatelessWidget {
                 height: 4,
               ),
               Expanded(
-                child: Text(
+                child: AutoSizeText(
                   official?.officialsName ?? '',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

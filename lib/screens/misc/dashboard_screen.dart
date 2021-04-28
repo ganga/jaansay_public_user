@@ -88,54 +88,53 @@ class _PromotionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final couponProvider = Provider.of<CouponProvider>(context);
 
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            "Promotions",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-              color: Colors.black.withAlpha(180),
+    return Card(
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Promotions",
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.black.withOpacity(0.65),
+                  letterSpacing: 0.45),
             ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              promotionItem("Points", FontAwesomeIcons.moneyBillWave, () {
-                Get.to(() => PointsScreen(),
-                    transition: Transition.rightToLeft);
-              }),
-              Container(
-                height: 75,
-                width: 0.5,
-                color: Colors.grey,
-              ),
-              promotionItem("Rewards", FontAwesomeIcons.gift, () {
-                couponProvider.clearData();
-                Get.to(() => CouponListScreen(),
-                    transition: Transition.rightToLeft);
-              }),
-              Container(
-                height: 75,
-                width: 0.5,
-                color: Colors.grey,
-              ),
-              promotionItem("Referrals", FontAwesomeIcons.userFriends, () {
-                Get.to(() => ReferralListScreen(),
-                    transition: Transition.rightToLeft);
-              }),
-            ],
-          )
-        ],
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: [
+                promotionItem("Points", FontAwesomeIcons.moneyBillWave, () {
+                  Get.to(() => PointsScreen(),
+                      transition: Transition.rightToLeft);
+                }),
+                Container(
+                  height: 75,
+                  width: 0.5,
+                  color: Colors.grey,
+                ),
+                promotionItem("Rewards", FontAwesomeIcons.gift, () {
+                  couponProvider.clearData();
+                  Get.to(() => CouponListScreen(),
+                      transition: Transition.rightToLeft);
+                }),
+                Container(
+                  height: 75,
+                  width: 0.5,
+                  color: Colors.grey,
+                ),
+                promotionItem("Referrals", FontAwesomeIcons.userFriends, () {
+                  Get.to(() => ReferralListScreen(),
+                      transition: Transition.rightToLeft);
+                }),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

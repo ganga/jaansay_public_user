@@ -38,190 +38,201 @@ class OfficialsProfileHead extends StatelessWidget {
 
     Official official = officialProfileProvider.official;
 
-    return Card(
-      margin: EdgeInsets.only(bottom: 8),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: Get.width * 0.06, vertical: Get.height * 0.03),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        Card(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
               children: [
-                Container(
-                  height: Get.width * 0.2,
-                  width: Get.width * 0.2,
-                  decoration: BoxDecoration(shape: BoxShape.circle),
-                  child: ClipOval(child: CustomNetWorkImage(official.photo)),
-                ),
-                SizedBox(
-                  width: Get.width * 0.05,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${official.officialsName}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: Get.width * 0.2,
+                      width: Get.width * 0.2,
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      child:
+                          ClipOval(child: CustomNetWorkImage(official.photo)),
+                    ),
+                    SizedBox(
+                      width: Get.width * 0.05,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${official.officialsName}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              pushNewScreen(
+                                context,
+                                screen: ReviewScreen(official),
+                                withNavBar: true,
+                              );
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                RatingBar(
+                                  itemSize: 20,
+                                  initialRating: official.averageRating ?? 5,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  ignoreGestures: true,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 0),
+                                  ratingWidget: RatingWidget(
+                                      full: Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      half: Icon(
+                                        Icons.star_half,
+                                        color: Colors.amber,
+                                      ),
+                                      empty: Icon(
+                                        Icons.star_border,
+                                        color: Colors.amber,
+                                      )),
+                                  onRatingUpdate: (rating) {},
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "(${official.totalRating})",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 13),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          if (official.officialsDescription != null)
+                            Column(
+                              children: [
+                                Text(
+                                  "${official.officialsDescription}",
+                                ),
+                              ],
+                            ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      InkWell(
-                        onTap: () {
+                    )
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    ProfileHeadButton(
+                      title: "${tr("Engage")}",
+                      onTap: () {
+                        if (official.isFollow == 1) {
                           pushNewScreen(
                             context,
-                            screen: ReviewScreen(official),
-                            withNavBar: true,
+                            screen: MessageDetailScreen(
+                              official: official,
+                            ),
+                            withNavBar: false,
+                          );
+                        } else {
+                          Get.rawSnackbar(
+                              message:
+                                  "${tr('You need to follow this business to communicate with them')}");
+                        }
+                      },
+                    ),
+                    if (official.isCatalog == 1)
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    if (official.isCatalog == 1)
+                      ProfileHeadButton(
+                        title: "${tr("View Shop")}",
+                        onTap: () {
+                          catalogProvider.clearData(allData: true);
+                          catalogProvider.selectedOfficial = official;
+                          pushNewScreen(
+                            context,
+                            screen: CategoryScreen(),
+                            withNavBar: false,
                           );
                         },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            RatingBar(
-                              itemSize: 20,
-                              initialRating: official.averageRating ?? 5,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              ignoreGestures: true,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                              ratingWidget: RatingWidget(
-                                  full: Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  half: Icon(
-                                    Icons.star_half,
-                                    color: Colors.amber,
-                                  ),
-                                  empty: Icon(
-                                    Icons.star_border,
-                                    color: Colors.amber,
-                                  )),
-                              onRatingUpdate: (rating) {},
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "(${official.totalRating})",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w300, fontSize: 13),
-                            )
-                          ],
-                        ),
                       ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      if (official.officialsDescription != null)
-                        Column(
-                          children: [
-                            Text(
-                              "${official.officialsDescription}",
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: 12),
-            Row(
-              children: [
-                ProfileHeadButton(
-                  title: "${tr("Engage")}",
-                  onTap: () {
-                    if (official.isFollow == 1) {
-                      pushNewScreen(
-                        context,
-                        screen: MessageDetailScreen(
-                          official: official,
-                        ),
-                        withNavBar: false,
-                      );
-                    } else {
-                      Get.rawSnackbar(
-                          message:
-                              "${tr('You need to follow this business to communicate with them')}");
-                    }
-                  },
-                ),
-                if (official.isCatalog == 1)
-                  const SizedBox(
-                    width: 10,
-                  ),
-                if (official.isCatalog == 1)
-                  ProfileHeadButton(
-                    title: "${tr("View Shop")}",
-                    onTap: () {
-                      catalogProvider.clearData(allData: true);
-                      catalogProvider.selectedOfficial = official;
-                      pushNewScreen(
-                        context,
-                        screen: CategoryScreen(),
-                        withNavBar: false,
-                      );
-                    },
-                  ),
-              ],
-            ),
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ProfileHeadButton(
-                  title: official.isFollow == 1 ? "Following" : "Follow",
-                  onTap: () {
-                    if (official.isFollow == 0) {
-                      officialProfileProvider.followOfficial(
-                          officialFeedProvider: officialFeedProvider);
-                    }
-                  },
-                  isColor: official.isFollow == 0,
+                  ],
                 ),
                 SizedBox(
-                  width: 10,
+                  height: Get.height * 0.01,
                 ),
-                ProfileHeadButton(
-                    title: "${tr("Contact")}",
-                    onTap: () {
-                      pushNewScreenWithRouteSettings(context,
-                          screen: ContactScreen(),
-                          settings: RouteSettings(arguments: official));
-                    }),
-                SizedBox(
-                  width: 10,
-                ),
-                ProfileHeadButton(
-                  title: "${tr("Reviews")}",
-                  onTap: () {
-                    pushNewScreen(
-                      context,
-                      screen: ReviewScreen(official),
-                      withNavBar: true,
-                    );
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ProfileHeadButton(
+                      title: official.isFollow == 1 ? "Following" : "Follow",
+                      onTap: () {
+                        if (official.isFollow == 0) {
+                          officialProfileProvider.followOfficial(
+                              officialFeedProvider: officialFeedProvider);
+                        }
+                      },
+                      isColor: official.isFollow == 0,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ProfileHeadButton(
+                        title: "${tr("Contact")}",
+                        onTap: () {
+                          pushNewScreenWithRouteSettings(context,
+                              screen: ContactScreen(),
+                              settings: RouteSettings(arguments: official));
+                        }),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ProfileHeadButton(
+                      title: "${tr("Reviews")}",
+                      onTap: () {
+                        pushNewScreen(
+                          context,
+                          screen: ReviewScreen(official),
+                          withNavBar: true,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-            if (official.isReferral != null && official.isFollow == 1)
-              Column(
+          ),
+        ),
+        if (official.isReferral != null && official.isFollow == 1)
+          Card(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 12,
-                  ),
                   Text(
                     "Refer & Earn",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black.withOpacity(0.65),
+                        letterSpacing: 0.45),
                   ),
                   const SizedBox(
                     height: 4,
@@ -248,14 +259,14 @@ class OfficialsProfileHead extends StatelessWidget {
                   ),
                 ],
               ),
-            if (official.isFollow == 1)
-              _OfficialDocumentSection(official.officialsId),
-            if (official.isCatalog == 1) FeatureSection(official),
-            if (official.kmId != null && official.isFollow == 1)
-              _KeySection(official)
-          ],
-        ),
-      ),
+            ),
+          ),
+        if (official.isFollow == 1)
+          _OfficialDocumentSection(official.officialsId),
+        if (official.isCatalog == 1) FeatureSection(official),
+        if (official.kmId != null && official.isFollow == 1)
+          _KeySection(official)
+      ],
     );
   }
 }
@@ -360,233 +371,240 @@ class __KeySectionState extends State<_KeySection> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoad || isAnswerAll
-        ? SizedBox.shrink()
-        : Container(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 16,
-                ),
-                Text(isAnswerAll
+    if (isLoad || isAnswerAll) {
+      return SizedBox.shrink();
+    } else {
+      return Card(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                isAnswerAll
                     ? "You have answered all the questions"
-                    : "Answer these questions to avail offers and benefits from this business."),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  height: pageHeight,
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (val) {
-                      curIndex = val;
-                      if (keyMasters[curIndex].ktId == 1) {
-                        pageHeight =
-                            180 + keyMasters[curIndex].optionIds.length * 60.0;
-                      } else {
-                        pageHeight = 180;
+                    : "Answer these questions to avail offers and benefits from this business.",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black.withOpacity(0.65),
+                    letterSpacing: 0.45),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Container(
+                height: pageHeight,
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (val) {
+                    curIndex = val;
+                    if (keyMasters[curIndex].ktId == 1) {
+                      pageHeight =
+                          180 + keyMasters[curIndex].optionIds.length * 60.0;
+                    } else {
+                      pageHeight = 180;
+                    }
+                    controller.clear();
+                    if (keyMasters[curIndex].answer != null) {
+                      if (keyMasters[curIndex].ktId == 3) {
+                        controller.text = keyMasters[curIndex].answer;
+                      } else if (keyMasters[curIndex].ktId == 2) {
+                        controller.text = DateFormat("dd MMMM yyyy").format(
+                            DateTime.parse(keyMasters[curIndex].answer));
                       }
-                      controller.clear();
-                      if (keyMasters[curIndex].answer != null) {
-                        if (keyMasters[curIndex].ktId == 3) {
-                          controller.text = keyMasters[curIndex].answer;
-                        } else if (keyMasters[curIndex].ktId == 2) {
-                          controller.text = DateFormat("dd MMMM yyyy").format(
-                              DateTime.parse(keyMasters[curIndex].answer));
-                        }
-                      } else {
-                        controller.text = '';
-                      }
-                      tempDate = null;
-                      setState(() {});
-                    },
-                    children: keyMasters.map((key) {
-                      return SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Question",
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              Text(
-                                key.name,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              if (key.description.length > 0)
-                                Text(key.description),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              if (key.ktId == 2)
-                                Container(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        labelText: "Your Answer",
-                                        hintText: "Click here to add a date"),
-                                    readOnly: true,
-                                    controller: controller,
-                                    onTap: () {
-                                      if (key.answer == null) {
-                                        _datePicker();
-                                      }
-                                    },
-                                  ),
+                    } else {
+                      controller.text = '';
+                    }
+                    tempDate = null;
+                    setState(() {});
+                  },
+                  children: keyMasters.map((key) {
+                    return SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Question",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            Text(
+                              key.name,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            if (key.description.length > 0)
+                              Text(key.description),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            if (key.ktId == 2)
+                              Container(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      labelText: "Your Answer",
+                                      hintText: "Click here to add a date"),
+                                  readOnly: true,
+                                  controller: controller,
+                                  onTap: () {
+                                    if (key.answer == null) {
+                                      _datePicker();
+                                    }
+                                  },
                                 ),
-                              if (key.ktId == 3)
-                                Container(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        labelText: "Your Answer",
-                                        hintText: "Enter your answer here"),
-                                    readOnly: key.answer != null,
-                                    controller: controller,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                  ),
+                              ),
+                            if (key.ktId == 3)
+                              Container(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      labelText: "Your Answer",
+                                      hintText: "Enter your answer here"),
+                                  readOnly: key.answer != null,
+                                  controller: controller,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
                                 ),
-                              if (key.ktId == 1)
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: key.options.map((e) {
-                                    int index = key.options.indexOf(e);
-                                    return Card(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 4, vertical: 4),
-                                        child: Material(
-                                          color: e == key.answer
-                                              ? Theme.of(context)
-                                                  .primaryColor
-                                                  .withOpacity(0.1)
-                                              : Colors.transparent,
-                                          child: RadioListTile(
-                                            onChanged: (val) {
-                                              if (key.answer == null) {
-                                                key.answer = e;
+                              ),
+                            if (key.ktId == 1)
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: key.options.map((e) {
+                                  int index = key.options.indexOf(e);
+                                  return Card(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 4, vertical: 4),
+                                      child: Material(
+                                        color: e == key.answer
+                                            ? Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.1)
+                                            : Colors.transparent,
+                                        child: RadioListTile(
+                                          onChanged: (val) {
+                                            if (key.answer == null) {
+                                              key.answer = e;
+                                              checkAnswer();
+
+                                              setState(() {});
+                                              keyService.addKeyAnswer(
+                                                  kmId: key.kmId,
+                                                  optionId:
+                                                      key.optionIds[index],
+                                                  answer: e);
+                                              _pageController.nextPage(
+                                                  duration: Duration(
+                                                      milliseconds: 200),
+                                                  curve: Curves.easeIn);
+                                            }
+                                          },
+                                          title: Text(e),
+                                          groupValue: key.answer,
+                                          value: e,
+                                          activeColor:
+                                              Theme.of(context).primaryColor,
+                                        ),
+                                      ));
+                                }).toList(),
+                              ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            (key.ktId == 1)
+                                ? SizedBox.shrink()
+                                : (key.answer == null)
+                                    ? Align(
+                                        alignment: Alignment.center,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            if (key.ktId == 3) {
+                                              if (controller.text.length > 0) {
+                                                key.answer = controller.text;
                                                 checkAnswer();
 
                                                 setState(() {});
                                                 keyService.addKeyAnswer(
                                                     kmId: key.kmId,
-                                                    optionId:
-                                                        key.optionIds[index],
-                                                    answer: e);
+                                                    optionId: 0,
+                                                    answer: controller.text);
                                                 _pageController.nextPage(
                                                     duration: Duration(
                                                         milliseconds: 200),
                                                     curve: Curves.easeIn);
                                               }
-                                            },
-                                            title: Text(e),
-                                            groupValue: key.answer,
-                                            value: e,
-                                            activeColor:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                        ));
-                                  }).toList(),
-                                ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              (key.ktId == 1)
-                                  ? SizedBox.shrink()
-                                  : (key.answer == null)
-                                      ? Align(
-                                          alignment: Alignment.center,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              if (key.ktId == 3) {
-                                                if (controller.text.length >
-                                                    0) {
-                                                  key.answer = controller.text;
-                                                  checkAnswer();
-
-                                                  setState(() {});
-                                                  keyService.addKeyAnswer(
-                                                      kmId: key.kmId,
-                                                      optionId: 0,
-                                                      answer: controller.text);
-                                                  _pageController.nextPage(
-                                                      duration: Duration(
-                                                          milliseconds: 200),
-                                                      curve: Curves.easeIn);
-                                                }
-                                              } else {
-                                                if (tempDate != null) {
-                                                  key.answer =
-                                                      tempDate.toString();
-                                                  tempDate = null;
-                                                  checkAnswer();
-                                                  setState(() {});
-                                                  keyService.addKeyAnswer(
-                                                      kmId: key.kmId,
-                                                      optionId: 0,
-                                                      answer: key.answer);
-                                                  _pageController.nextPage(
-                                                      duration: Duration(
-                                                          milliseconds: 200),
-                                                      curve: Curves.easeIn);
-                                                }
+                                            } else {
+                                              if (tempDate != null) {
+                                                key.answer =
+                                                    tempDate.toString();
+                                                tempDate = null;
+                                                checkAnswer();
+                                                setState(() {});
+                                                keyService.addKeyAnswer(
+                                                    kmId: key.kmId,
+                                                    optionId: 0,
+                                                    answer: key.answer);
+                                                _pageController.nextPage(
+                                                    duration: Duration(
+                                                        milliseconds: 200),
+                                                    curve: Curves.easeIn);
                                               }
-                                            },
-                                            child: Text("Submit"),
-                                          ),
-                                        )
-                                      : SizedBox.shrink(),
-                            ],
-                          ),
+                                            }
+                                          },
+                                          child: Text("Submit"),
+                                        ),
+                                      )
+                                    : SizedBox.shrink(),
+                          ],
                         ),
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                    );
+                  }).toList(),
                 ),
-                Row(
-                  children: [
-                    Text("$totalAnswered/${keyMasters.length}"),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: keyMasters
-                            .map(
-                              (e) => Flexible(
-                                flex: 1,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 8,
-                                  margin: EdgeInsets.only(right: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: e.answer == null
-                                        ? Colors.transparent
-                                        : Colors.green,
-                                    border: Border.all(
-                                        color: curIndex == keyMasters.indexOf(e)
-                                            ? Theme.of(context).primaryColor
-                                            : Colors.black,
-                                        width: curIndex == keyMasters.indexOf(e)
-                                            ? 1
-                                            : 0.5),
-                                  ),
+              ),
+              Row(
+                children: [
+                  Text("$totalAnswered/${keyMasters.length}"),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: keyMasters
+                          .map(
+                            (e) => Flexible(
+                              flex: 1,
+                              child: Container(
+                                width: double.infinity,
+                                height: 8,
+                                margin: EdgeInsets.only(right: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: e.answer == null
+                                      ? Colors.transparent
+                                      : Colors.green,
+                                  border: Border.all(
+                                      color: curIndex == keyMasters.indexOf(e)
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.black,
+                                      width: curIndex == keyMasters.indexOf(e)
+                                          ? 1
+                                          : 0.5),
                                 ),
                               ),
-                            )
-                            .toList(),
-                      ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                  ],
-                )
-              ],
-            ),
-          );
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
 
@@ -675,113 +693,119 @@ class __OfficialDocumentSectionState extends State<_OfficialDocumentSection> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoad
-        ? Container()
-        : officialDocuments.length == 0
-            ? SizedBox.shrink()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    "Documents requested from business",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ).tr(),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: officialDocuments.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child:
-                                      Text(officialDocuments[index].docName)),
-                              (officialDocuments[index].isVerified == 0)
-                                  ? Container(
-                                      width: 150,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            color: officialDocuments[index]
-                                                        .isDocument ==
-                                                    0
-                                                ? Theme.of(context).primaryColor
-                                                : Colors.black,
-                                            width: 0.5),
-                                        color: officialDocuments[index]
-                                                    .isDocument ==
-                                                0
-                                            ? Theme.of(context).primaryColor
-                                            : Colors.black.withOpacity(0.01),
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          splashColor: Colors.white,
-                                          onTap: () {
-                                            if (officialDocuments[index]
-                                                    .isDocument ==
-                                                0) {
-                                              pickImage(
-                                                  officialDocuments[index]);
-                                            }
-                                          },
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 5),
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  officialDocuments[index]
-                                                              .isDocument ==
-                                                          0
-                                                      ? "Upload Document"
-                                                      : "Pending Approval",
-                                                  style: TextStyle(
-                                                      color: officialDocuments[
-                                                                      index]
-                                                                  .isDocument ==
-                                                              0
-                                                          ? Colors.white
-                                                          : Colors.black),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ).tr(),
-                                              ),
+    if (isLoad) {
+      return Container();
+    } else {
+      if (officialDocuments.length == 0) {
+        return SizedBox.shrink();
+      } else {
+        return Card(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Documents requested from business",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black.withOpacity(0.65),
+                      letterSpacing: 0.45),
+                ).tr(),
+                const SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: officialDocuments.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Text(officialDocuments[index].docName)),
+                            (officialDocuments[index].isVerified == 0)
+                                ? Container(
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(
+                                          color: officialDocuments[index]
+                                                      .isDocument ==
+                                                  0
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black,
+                                          width: 0.5),
+                                      color:
+                                          officialDocuments[index].isDocument ==
+                                                  0
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black.withOpacity(0.01),
+                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        splashColor: Colors.white,
+                                        onTap: () {
+                                          if (officialDocuments[index]
+                                                  .isDocument ==
+                                              0) {
+                                            pickImage(officialDocuments[index]);
+                                          }
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 5),
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                officialDocuments[index]
+                                                            .isDocument ==
+                                                        0
+                                                    ? "Upload Document"
+                                                    : "Pending Approval",
+                                                style: TextStyle(
+                                                    color: officialDocuments[
+                                                                    index]
+                                                                .isDocument ==
+                                                            0
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ).tr(),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    )
-                                  : (officialDocuments[index].isVerified == 1)
-                                      ? Icon(
-                                          Icons.done,
-                                          color: Colors.green,
-                                        )
-                                      : Icon(
-                                          Icons.close,
-                                          color: Colors.red,
-                                        ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              );
+                                    ),
+                                  )
+                                : (officialDocuments[index].isVerified == 1)
+                                    ? Icon(
+                                        Icons.done,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.close,
+                                        color: Colors.red,
+                                      ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
+    }
   }
 }
