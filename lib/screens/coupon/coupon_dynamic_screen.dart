@@ -63,7 +63,7 @@ class _CouponDynamicScreenState extends State<CouponDynamicScreen> {
             InkWell(
               borderRadius: BorderRadius.circular(15),
               onTap: () async {
-                final url = "tel:${coupon.officialsPhone}";
+                final url = "tel:${coupon.officialDisplayPhone}";
                 if (await canLaunch(url)) {
                   await launch(url);
                 } else {

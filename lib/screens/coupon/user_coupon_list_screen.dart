@@ -9,62 +9,7 @@ import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
-class CouponListScreen extends StatelessWidget {
-  couponCard(CouponProvider couponProvider, int index) {
-    Coupon coupon = couponProvider.coupons[index];
-
-    return InkWell(
-      onTap: () {
-        couponProvider.selectedCouponIndex = index;
-        Get.to(() => CouponDetailScreen(), transition: Transition.cupertino);
-      },
-      child: Container(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(shape: BoxShape.circle),
-              child: ClipOval(
-                child: CustomNetWorkImage(coupon.photo),
-              ),
-            ),
-            Text(
-              coupon.officialsName,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              coupon.title,
-              style: TextStyle(fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 4),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: coupon.expireOn.isBefore(DateTime.now())
-                    ? Colors.grey.withAlpha(50)
-                    : Get.theme.primaryColor.withAlpha(25),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                "${coupon.expireOn.isBefore(DateTime.now()) ? 'Expired on' : 'Expires on'}: ${DateFormat("dd MMM").format(coupon.expireOn)}",
-                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
-                maxLines: 1,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
+class UserCouponListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final couponProvider = Provider.of<CouponProvider>(context);
@@ -75,16 +20,6 @@ class CouponListScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor: Colors.white,
-        title: Text(
-          "Your Coupons",
-          style: TextStyle(
-            color: Get.theme.primaryColor,
-          ),
-        ),
-      ),
       body: couponProvider.isCouponLoad
           ? CustomLoading()
           : couponProvider.coupons.length == 0
@@ -108,10 +43,72 @@ class CouponListScreen extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: couponCard(couponProvider, index),
+                      child: CouponCard(couponProvider.coupons[index], () {
+                        couponProvider.selectedCouponIndex = index;
+                        Get.to(() => CouponDetailScreen(),
+                            transition: Transition.cupertino);
+                      }),
                     ),
                   ),
                 ),
+    );
+  }
+}
+
+class CouponCard extends StatelessWidget {
+  final Coupon coupon;
+  final Function onTap;
+
+  CouponCard(this.coupon, this.onTap);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(shape: BoxShape.circle),
+              child: ClipOval(
+                child: CustomNetWorkImage(coupon.photo),
+              ),
+            ),
+            Text(
+              coupon.officialsName,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              coupon.title,
+              style: TextStyle(fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 4),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: coupon.expireOn.isBefore(DateTime.now())
+                    ? Colors.grey.withAlpha(50)
+                    : Get.theme.primaryColor.withAlpha(25),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                "${coupon.expireOn.isBefore(DateTime.now()) ? 'Expired on' : 'Expires on'}: ${DateFormat("dd MMM").format(coupon.expireOn)}",
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
+                maxLines: 1,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
