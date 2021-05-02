@@ -43,6 +43,7 @@ class PublicCouponListScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child:
                           CouponCard(couponProvider.publicCoupons[index], () {
+                        couponProvider.clearData(allData: false);
                         couponProvider.selectedPublicCouponIndex = index;
                         Get.to(() => PublicCouponDetailScreen(),
                             transition: Transition.cupertino);

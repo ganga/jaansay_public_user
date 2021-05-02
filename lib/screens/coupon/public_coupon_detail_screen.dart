@@ -1,8 +1,10 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
+import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
@@ -13,6 +15,11 @@ class PublicCouponDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final couponProvider = Provider.of<CouponProvider>(context);
+
+    if (!couponProvider.initPublicCouponDetails) {
+      couponProvider.initPublicCouponDetails = true;
+      couponProvider.getCouponPartners();
+    }
 
     Coupon coupon =
         couponProvider.publicCoupons[couponProvider.selectedPublicCouponIndex];
@@ -122,7 +129,9 @@ class PublicCouponDetailScreen extends StatelessWidget {
                                   "Offer Details:",
                                   style: TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w500),
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black.withOpacity(0.65),
+                                      letterSpacing: 0.45),
                                 ),
                                 const SizedBox(
                                   height: 8,
@@ -134,21 +143,43 @@ class PublicCouponDetailScreen extends StatelessWidget {
                                       height: 1.25,
                                       fontSize: 14),
                                 ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
                               ],
                             ),
                           ),
                           if (couponProvider.userPoints >= 100 &&
                               (coupon.totalCoupon == 0 ||
                                   coupon.totalCoupon > coupon.couponCount))
-                            ElevatedButton(
-                              onPressed: () {
-                                couponProvider.getCouponPartners();
-                              },
-                              child: Text("Avail Coupon"),
-                            )
+                            couponProvider.couponPartners.length > 1
+                                ? Column(
+                                    children: [
+                                      Text(
+                                        "You can avail the coupons in the below given applications",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                            color:
+                                                Colors.black.withOpacity(0.65),
+                                            letterSpacing: 0.45),
+                                      ),
+                                      ListView.builder(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 16),
+                                        itemCount: couponProvider
+                                            .couponPartners.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return _PartnerSection(index);
+                                        },
+                                      )
+                                    ],
+                                  )
+                                : ElevatedButton(
+                                    onPressed: () {
+                                      couponProvider.addCouponUser(-1);
+                                    },
+                                    child: Text("Avail Coupon"),
+                                  ),
                         ],
                       ),
                     ),
@@ -156,6 +187,99 @@ class PublicCouponDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
+    );
+  }
+}
+
+class _PartnerSection extends StatelessWidget {
+  final int index;
+
+  _PartnerSection(this.index);
+
+  @override
+  Widget build(BuildContext context) {
+    final couponProvider = Provider.of<CouponProvider>(context);
+
+    CouponPartner couponPartner = couponProvider.couponPartners[index];
+
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: ClipOval(
+              child: CustomNetWorkImage(couponPartner.photo),
+            ),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${couponPartner.name}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  couponPartner.description,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                          color: Theme.of(context).primaryColor, width: 0.5),
+                      color: Theme.of(context).primaryColor),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Colors.white,
+                      onTap: () {
+                        couponProvider.addCouponUser(index);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Avail Coupon",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

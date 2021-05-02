@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -78,18 +79,122 @@ class CouponDetailScreen extends StatelessWidget {
                                   .photo),
                             ),
                           )
-                        : QrImage(
-                            data: json.encode({
-                              "type": "coupon",
-                              "user_id":
-                                  GetStorage().read("user_id").toString(),
-                              "code": couponProvider
-                                  .coupons[couponProvider.selectedCouponIndex]
-                                  .cmCode
-                            }),
-                            version: QrVersions.auto,
-                            size: 200.0,
-                          ),
+                        : coupon.promoCode != null
+                            ? Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 16),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration:
+                                          BoxDecoration(shape: BoxShape.circle),
+                                      child: ClipOval(
+                                        child: CustomNetWorkImage(
+                                            coupon.partnerPhoto),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${coupon.partnerName}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            coupon.partnerDescription,
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Get.theme.primaryColor
+                                                  .withOpacity(0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            clipBehavior: Clip.hardEdge,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            width: Get.width * 0.6,
+                                            margin: EdgeInsets.only(bottom: 16),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    coupon.promoCode,
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Get
+                                                            .theme.primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        letterSpacing: 0.5),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(
+                                                    Icons.copy,
+                                                    color:
+                                                        Get.theme.primaryColor,
+                                                  ),
+                                                  onPressed: () {
+                                                    FlutterClipboard.copy(
+                                                            coupon.promoCode)
+                                                        .then(
+                                                      (value) => Get.rawSnackbar(
+                                                          message:
+                                                              "Code has been copied to clipboard"),
+                                                    );
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : QrImage(
+                                data: json.encode({
+                                  "type": "coupon",
+                                  "user_id":
+                                      GetStorage().read("user_id").toString(),
+                                  "code": couponProvider
+                                      .coupons[
+                                          couponProvider.selectedCouponIndex]
+                                      .cmCode
+                                }),
+                                version: QrVersions.auto,
+                                size: 200.0,
+                              ),
                     Text(
                       coupon.officialsName,
                       style:

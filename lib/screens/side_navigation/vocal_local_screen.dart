@@ -165,19 +165,11 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Image.asset(
-                        "assets/images/localshop.png",
-                        height: Get.width * 0.3,
-                        width: Get.width * 0.3,
-                      ),
-                    ),
                     SizedBox(
-                      height: 16,
+                      height: Get.height * 0.05,
                     ),
                     Text(
-                      "Can't find local business near you?\nPlease let us know & we will add them here.",
+                      "Can't find local business, entities or associations near you?\n\nPlease let us know & we will add them here.",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16),
                     ).tr(),

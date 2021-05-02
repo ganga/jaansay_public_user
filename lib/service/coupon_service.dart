@@ -39,6 +39,15 @@ class CouponService {
     }
   }
 
+  getCouponPromoCode(int partnerId, int cmId) async {
+    final response = await dioService
+        .getData("coupon/partner/$partnerId/master/$cmId/user/$userId");
+
+    if (response != null) {
+      return response['data'][0]["code"];
+    }
+  }
+
   addCouponUsers(int couponId) async {
     await dioService.postData("coupon/users", {
       "users": [userId],
