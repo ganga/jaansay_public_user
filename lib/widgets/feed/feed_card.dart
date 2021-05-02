@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/feed.dart';
-import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
-import 'package:jaansay_public_user/providers/user_feed_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
@@ -19,10 +18,8 @@ import 'package:share/share.dart';
 class FeedCard extends StatelessWidget {
   final Feed feed;
   final bool isDetail;
-  final bool isBusiness;
-  final Function onTap;
 
-  FeedCard({this.feed, this.isDetail, this.isBusiness, this.onTap});
+  FeedCard({this.feed, this.isDetail});
 
   Widget _getImg(String url, BuildContext context) {
     return InkWell(
@@ -91,8 +88,7 @@ class FeedCard extends StatelessWidget {
     );
   }
 
-  Widget _likeShare(BuildContext context, UserFeedProvider _userFeedProvider,
-      OfficialFeedProvider _businessFeedProvider) {
+  Widget _likeShare(BuildContext context, FeedProvider feedProvider) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,15 +98,7 @@ class FeedCard extends StatelessWidget {
           fit: FlexFit.loose,
           child: InkWell(
             onTap: () {
-              if (onTap == null) {
-                if (isBusiness) {
-                  _businessFeedProvider.likeFeed(feed, _userFeedProvider);
-                } else {
-                  _userFeedProvider.likeFeed(feed);
-                }
-              } else {
-                onTap();
-              }
+              feedProvider.likeFeed(feed);
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
@@ -172,8 +160,7 @@ class FeedCard extends StatelessWidget {
     );
   }
 
-  mainBody(BuildContext context, UserFeedProvider _userFeedProvider,
-      OfficialFeedProvider _businessFeedProvider) {
+  mainBody(BuildContext context, FeedProvider feedProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -186,7 +173,7 @@ class FeedCard extends StatelessWidget {
           onTap: () {
             if (!isDetail) {
               pushNewScreen(context,
-                  screen: FeedDetailScreen(feed, isBusiness, onTap),
+                  screen: FeedDetailScreen(feed),
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   withNavBar: false);
             }
@@ -205,24 +192,22 @@ class FeedCard extends StatelessWidget {
             ),
           ),
         ),
-        _likeShare(Get.context, _userFeedProvider, _businessFeedProvider),
+        _likeShare(Get.context, feedProvider),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    OfficialFeedProvider _businessFeedProvider =
-        Provider.of<OfficialFeedProvider>(context);
-    UserFeedProvider _userFeedProvider = Provider.of<UserFeedProvider>(context);
+    FeedProvider feedProvider = Provider.of<FeedProvider>(context);
 
     return isDetail
         ? Container(
-            child: mainBody(context, _userFeedProvider, _businessFeedProvider),
+            child: mainBody(context, feedProvider),
           )
         : Card(
             margin: EdgeInsets.only(bottom: 10),
-            child: mainBody(context, _userFeedProvider, _businessFeedProvider));
+            child: mainBody(context, feedProvider));
   }
 }
 

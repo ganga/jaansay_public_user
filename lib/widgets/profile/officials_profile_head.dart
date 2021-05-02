@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jaansay_public_user/models/keys.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
-import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/category_screen.dart';
 import 'package:jaansay_public_user/screens/community/contact_screen.dart';
@@ -30,8 +30,7 @@ class OfficialsProfileHead extends StatelessWidget {
     final officialProfileProvider =
         Provider.of<OfficialProfileProvider>(context);
 
-    final officialFeedProvider =
-        Provider.of<OfficialFeedProvider>(context, listen: false);
+    final feedProvider = Provider.of<FeedProvider>(context, listen: false);
 
     final catalogProvider =
         Provider.of<CatalogProvider>(context, listen: false);
@@ -185,7 +184,7 @@ class OfficialsProfileHead extends StatelessWidget {
                       onTap: () {
                         if (official.isFollow == 0) {
                           officialProfileProvider.followOfficial(
-                              officialFeedProvider: officialFeedProvider);
+                              feedProvider: feedProvider);
                         }
                       },
                       isColor: official.isFollow == 0,

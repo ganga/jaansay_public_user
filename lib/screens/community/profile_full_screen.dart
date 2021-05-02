@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
-import 'package:jaansay_public_user/providers/official_feed_provider.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_description_screen.dart';
 import 'package:jaansay_public_user/screens/home_screen.dart';
@@ -23,7 +23,7 @@ class ProfileFullScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final feedProvider = Provider.of<OfficialFeedProvider>(context);
+    final feedProvider = Provider.of<FeedProvider>(context);
     final officialProvider = Provider.of<OfficialProfileProvider>(context);
 
     if (!officialProvider.initProfile) {
@@ -88,12 +88,12 @@ class ProfileFullScreen extends StatelessWidget {
                       children: [
                         OfficialsProfileHead(),
                         officialProvider.official.isFollow == 1
-                            ? feedProvider.getLoading()
+                            ? feedProvider.isBusinessLoad
                                 ? CustomLoading(
                                     title: "Loading Feeds",
                                     height: Get.height * 0.3,
                                   )
-                                : feedProvider.feeds.length == 0
+                                : feedProvider.businessFeeds.length == 0
                                     ? CustomErrorWidget(
                                         title: "No posts",
                                         iconData: Icons.dynamic_feed_outlined,
@@ -101,13 +101,14 @@ class ProfileFullScreen extends StatelessWidget {
                                       )
                                     : ListView.builder(
                                         physics: NeverScrollableScrollPhysics(),
-                                        itemCount: feedProvider.feeds.length,
+                                        itemCount:
+                                            feedProvider.businessFeeds.length,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           return FeedCard(
-                                            feed: feedProvider.feeds[index],
+                                            feed: feedProvider
+                                                .businessFeeds[index],
                                             isDetail: false,
-                                            isBusiness: true,
                                           );
                                         },
                                       )

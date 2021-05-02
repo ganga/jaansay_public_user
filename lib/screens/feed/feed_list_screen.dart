@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:jaansay_public_user/providers/user_feed_provider.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
@@ -9,30 +9,28 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FeedListScreen extends StatelessWidget {
-  bool _isCheck = false;
-
   @override
   Widget build(BuildContext context) {
-    UserFeedProvider feedProvider = Provider.of<UserFeedProvider>(context);
+    FeedProvider feedProvider = Provider.of<FeedProvider>(context);
 
-    if (!_isCheck) {
-      _isCheck = true;
-      feedProvider.loadFeeds(true);
+    if (!feedProvider.initMainFeed) {
+      feedProvider.initMainFeed = true;
+      feedProvider.loadMainFeeds(true);
     }
 
     return Container(
       color: Colors.blueGrey.shade50,
-      child: feedProvider.getLoading()
+      child: feedProvider.isMainLoad
           ? CustomLoading()
           : Container(
               child: SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: true,
                 header: ClassicHeader(),
-                onRefresh: () => feedProvider.loadFeeds(true),
-                onLoading: () => feedProvider.loadFeeds(false),
-                controller: feedProvider.refreshController,
-                child: feedProvider.feeds.length == 0
+                onRefresh: () => feedProvider.loadMainFeeds(true),
+                onLoading: () => feedProvider.loadMainFeeds(false),
+                controller: feedProvider.mainRefreshController,
+                child: feedProvider.mainFeeds.length == 0
                     ? Expanded(
                         child: CustomErrorWidget(
                           title: "${tr("No feeds")}",
@@ -41,13 +39,12 @@ class FeedListScreen extends StatelessWidget {
                       )
                     : ListView.builder(
                         scrollDirection: Axis.vertical,
-                        itemCount: feedProvider.feeds.length,
+                        itemCount: feedProvider.mainFeeds.length,
                         shrinkWrap: true,
                         itemBuilder: (_, index) {
                           return FeedCard(
-                            feed: feedProvider.feeds[index],
+                            feed: feedProvider.mainFeeds[index],
                             isDetail: false,
-                            isBusiness: false,
                           );
                         }),
               ),

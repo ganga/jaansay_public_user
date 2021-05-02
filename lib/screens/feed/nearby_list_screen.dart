@@ -1,96 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/feed.dart';
-import 'package:jaansay_public_user/service/feed_service.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class NearbyListScreen extends StatefulWidget {
-  @override
-  _NearbyListScreenState createState() => _NearbyListScreenState();
-}
-
-class _NearbyListScreenState extends State<NearbyListScreen> {
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-  FeedService feedService = FeedService();
-  List<Feed> feeds = [];
-  List<FeedFilter> filterRegion = [];
-  List<FeedFilter> filterType = [];
-  FeedFilter selectedType, selectedRegion;
-  bool isLoad = true;
-  bool loadMore = true;
-  int page = 1;
-
-  getFeedFilters() async {
-    List<FeedFilter> feedFilters = [];
-
-    await feedService.getFeedFilters(feedFilters);
-
-    feedFilters.map((e) {
-      if (e.filterType == 'category') {
-        if (e.filterId != 1) {
-          filterType.add(e);
-        }
-      } else {
-        if (e.filterId != 1) {
-          filterRegion.add(e);
-        }
-      }
-    }).toList();
-    selectedType = filterType.first;
-    selectedRegion = filterRegion.first;
-    loadFeeds(true);
-  }
-
-  loadFeeds(bool isRefresh) async {
-    if (isRefresh) {
-      feeds.clear();
-      loadMore = true;
-      isLoad = true;
-      page = 1;
-      refreshController.resetNoData();
-    } else {
-      page++;
-    }
-    if (loadMore) {
-      final response = await feedService.getNearbyFeeds(
-          page, selectedRegion.filterId, selectedType.filterId);
-      feeds += response[0];
-      loadMore = response[1] == null ? false : true;
-      refreshController.loadComplete();
-      refreshController.refreshCompleted();
-    } else {
-      refreshController.loadNoData();
-    }
-    isLoad = false;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getFeedFilters();
-  }
-
+class NearbyListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FeedProvider feedProvider = Provider.of<FeedProvider>(context);
+
+    if (!feedProvider.initNearbyFeed) {
+      feedProvider.initNearbyFeed = true;
+      feedProvider.getFeedFilters();
+    }
+
     return Container(
       color: Colors.blueGrey.shade50,
-      child: isLoad
+      child: feedProvider.isNearbyLoad
           ? CustomLoading()
           : Container(
               child: SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: true,
                 header: ClassicHeader(),
-                onRefresh: () => loadFeeds(true),
-                onLoading: () => loadFeeds(false),
-                controller: refreshController,
+                onRefresh: () => feedProvider.loadNearbyFeeds(true),
+                onLoading: () => feedProvider.loadNearbyFeeds(false),
+                controller: feedProvider.nearbyRefreshController,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -103,14 +42,15 @@ class _NearbyListScreenState extends State<NearbyListScreen> {
                             children: [
                               Expanded(
                                 child: DropdownButtonFormField<FeedFilter>(
-                                  value: selectedType,
+                                  value: feedProvider.selectedType,
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       labelText: 'Type',
                                       labelStyle: TextStyle(
                                           color: Get.theme.primaryColor)),
-                                  items: filterType.map((FeedFilter value) {
+                                  items: feedProvider.filterType
+                                      .map((FeedFilter value) {
                                     return DropdownMenuItem<FeedFilter>(
                                       value: value,
                                       child: Text(value.filterName),
@@ -120,8 +60,8 @@ class _NearbyListScreenState extends State<NearbyListScreen> {
                                     Get.focusScope.unfocus();
                                   },
                                   onChanged: (val) {
-                                    selectedType = val;
-                                    loadFeeds(true);
+                                    feedProvider.selectedType = val;
+                                    feedProvider.loadNearbyFeeds(true);
                                   },
                                 ),
                               ),
@@ -130,14 +70,15 @@ class _NearbyListScreenState extends State<NearbyListScreen> {
                               ),
                               Expanded(
                                 child: DropdownButtonFormField<FeedFilter>(
-                                  value: selectedRegion,
+                                  value: feedProvider.selectedRegion,
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       labelText: 'Region',
                                       labelStyle: TextStyle(
                                           color: Get.theme.primaryColor)),
-                                  items: filterRegion.map((FeedFilter value) {
+                                  items: feedProvider.filterRegion
+                                      .map((FeedFilter value) {
                                     return DropdownMenuItem<FeedFilter>(
                                       value: value,
                                       child: Text(value.filterName),
@@ -147,8 +88,8 @@ class _NearbyListScreenState extends State<NearbyListScreen> {
                                     Get.focusScope.unfocus();
                                   },
                                   onChanged: (val) {
-                                    selectedRegion = val;
-                                    loadFeeds(true);
+                                    feedProvider.selectedRegion = val;
+                                    feedProvider.loadNearbyFeeds(true);
                                   },
                                 ),
                               )
@@ -156,7 +97,7 @@ class _NearbyListScreenState extends State<NearbyListScreen> {
                           ),
                         ),
                       ),
-                      feeds.length == 0
+                      feedProvider.nearbyFeeds.length == 0
                           ? CustomErrorWidget(
                               title: "No feeds",
                               iconData: Icons.dynamic_feed,
@@ -165,20 +106,12 @@ class _NearbyListScreenState extends State<NearbyListScreen> {
                           : ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
-                              itemCount: feeds.length,
+                              itemCount: feedProvider.nearbyFeeds.length,
                               shrinkWrap: true,
                               itemBuilder: (_, index) {
                                 return FeedCard(
-                                  feed: feeds[index],
+                                  feed: feedProvider.nearbyFeeds[index],
                                   isDetail: false,
-                                  isBusiness: false,
-                                  onTap: () {
-                                    feeds[index].isLiked = 1;
-                                    feeds[index].likes++;
-                                    setState(() {});
-                                    feedService.likeFeed(feeds[index].feedId,
-                                        feeds[index].userId.toString());
-                                  },
                                 );
                               },
                             ),

@@ -7,12 +7,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
+import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
-import 'package:jaansay_public_user/providers/official_feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
-import 'package:jaansay_public_user/providers/user_feed_provider.dart';
-import 'package:jaansay_public_user/screens/home_screen.dart';
-import 'package:jaansay_public_user/screens/misc/done_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +26,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<UserFeedProvider>(
-            create: (_) => UserFeedProvider()),
-        ChangeNotifierProvider<OfficialFeedProvider>(
-            create: (_) => OfficialFeedProvider()),
+        ChangeNotifierProvider<FeedProvider>(create: (_) => FeedProvider()),
         ChangeNotifierProvider<OfficialProfileProvider>(
             create: (_) => OfficialProfileProvider()),
         ChangeNotifierProvider<CouponProvider>(create: (_) => CouponProvider()),

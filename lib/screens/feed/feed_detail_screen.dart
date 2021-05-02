@@ -5,10 +5,10 @@ import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 
 class FeedDetailScreen extends StatelessWidget {
   final Feed feed;
-  final bool isBusiness;
-  final Function onTap;
 
-  FeedDetailScreen(this.feed, this.isBusiness, this.onTap);
+  FeedDetailScreen(
+    this.feed,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,6 @@ class FeedDetailScreen extends StatelessWidget {
           child: FeedCard(
             isDetail: true,
             feed: feed,
-            isBusiness: isBusiness,
-            onTap: onTap,
           ),
         ),
       ),
