@@ -232,12 +232,12 @@ class _FeedTopDetails extends StatelessWidget {
             withNavBar: false);
       },
       child: Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
+        margin: EdgeInsets.only(left: 16, right: 16, top: 4),
         child: Row(
           children: [
             Container(
-              height: 50,
-              width: 50,
+              height: 45,
+              width: 45,
               decoration: BoxDecoration(shape: BoxShape.circle),
               child: ClipOval(child: CustomNetWorkImage(feed.photo)),
             ),
@@ -251,9 +251,9 @@ class _FeedTopDetails extends StatelessWidget {
                   "${feed.officialsName}",
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      color: Colors.black.withOpacity(0.65),
+                      color: Colors.black.withOpacity(0.85),
                       letterSpacing: 0.45,
-                      fontSize: 16),
+                      fontSize: 14),
                 ),
                 RichText(
                   text: TextSpan(
@@ -262,7 +262,7 @@ class _FeedTopDetails extends StatelessWidget {
                       TextSpan(
                           text: "#${feed.typeName} ",
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 12,
                             fontWeight: FontWeight.w300,
                             color: Theme.of(context).primaryColor,
                           )),

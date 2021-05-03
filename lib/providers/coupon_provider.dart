@@ -54,8 +54,9 @@ class CouponProvider extends ChangeNotifier {
     await updateUserPoints();
 
     if (couponPartner == null || couponPartner.id == 1) {
-      await couponService
-          .addCouponUsers(publicCoupons[selectedPublicCouponIndex].cmId);
+      await couponService.addCouponUsers(
+          publicCoupons[selectedPublicCouponIndex].cmId,
+          publicCoupons[selectedPublicCouponIndex].officialId);
       Get.close(1);
       Get.rawSnackbar(message: "You have availed the coupon.");
       clearData();

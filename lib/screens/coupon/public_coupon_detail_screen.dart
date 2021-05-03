@@ -96,6 +96,17 @@ class PublicCouponDetailScreen extends StatelessWidget {
                                 fontSize: 22, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                           ),
+                          if (coupon.totalCoupon > 0)
+                            Text(
+                              coupon.totalCoupon == coupon.couponCount
+                                  ? "Out of stock"
+                                  : "Only ${coupon.totalCoupon = coupon.couponCount} coupons left",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Get.theme.primaryColor,
+                                  letterSpacing: 0.45),
+                            ),
                           const SizedBox(
                             height: 8,
                           ),

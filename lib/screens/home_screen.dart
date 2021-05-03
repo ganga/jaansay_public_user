@@ -30,7 +30,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PersistentTabController _controller = PersistentTabController();
+  PersistentTabController _controller =
+      PersistentTabController(initialIndex: 2);
   bool isCheck = false;
   OfficialProfileProvider officialProfileProvider;
   Widget appBarIcon(
@@ -247,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PersistentTabView(
         context,
         controller: _controller,
-
         screens: _buildScreens(),
         items: _navBarsItems(),
         confineInSafeArea: true,

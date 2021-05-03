@@ -60,6 +60,7 @@ class OfficialService {
     Official official;
 
     final response = await dioService.getData("officials/$userId/$officialId");
+    print(response);
     if (response != null) {
       official = Official.fromJson(response['data']);
     }

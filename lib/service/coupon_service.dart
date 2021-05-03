@@ -1,6 +1,7 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
+import 'package:jaansay_public_user/service/notification_service.dart';
 
 class CouponService {
   DioService dioService = DioService();
@@ -48,11 +49,18 @@ class CouponService {
     }
   }
 
-  addCouponUsers(int couponId) async {
+  addCouponUsers(int couponId, int officialId) async {
     await dioService.postData("coupon/users", {
       "users": [userId],
       "cm_id": couponId
     });
+
+    NotificationService notificationService = NotificationService();
+    await notificationService.sendNotificationToUser(
+        GetStorage().read("user_name"),
+        "Has availed one of your coupons",
+        officialId.toString(),
+        {"type": "coupon"});
   }
 
   updateUserPoints(int points) async {

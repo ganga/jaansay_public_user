@@ -57,14 +57,14 @@ class User {
 }
 
 class UserPoint {
-  UserPoint({
-    this.officialsId,
-    this.officialsName,
-    this.photo,
-    this.officialDisplayPhone,
-    this.businessTypeName,
-    this.score,
-  });
+  UserPoint(
+      {this.officialsId,
+      this.officialsName,
+      this.photo,
+      this.officialDisplayPhone,
+      this.businessTypeName,
+      this.score,
+      this.loyalty});
 
   int officialsId;
   String officialsName;
@@ -72,6 +72,7 @@ class UserPoint {
   String officialDisplayPhone;
   String businessTypeName;
   int score;
+  int loyalty;
 
   factory UserPoint.fromJson(Map<String, dynamic> json) => UserPoint(
         officialsId: json["officials_id"],
@@ -80,5 +81,6 @@ class UserPoint {
         officialDisplayPhone: json["official_display_phone"],
         businessTypeName: json["businesstype_name"],
         score: json["score"],
+        loyalty: json["loyalty"] ?? 0,
       );
 }

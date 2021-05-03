@@ -6,6 +6,7 @@ import 'package:jaansay_public_user/screens/coupon/coupon_screen.dart';
 import 'package:jaansay_public_user/screens/coupon/user_coupon_list_screen.dart';
 import 'package:jaansay_public_user/screens/misc/point_screen.dart';
 import 'package:jaansay_public_user/screens/referral/referral_list_screen.dart';
+import 'package:jaansay_public_user/widgets/dashboard/carousel_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/message_section.dart';
 import 'package:jaansay_public_user/widgets/dashboard/store_section.dart';
@@ -22,6 +23,7 @@ class DashboardScreen extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 16),
         child: Column(
           children: [
+            CarouselSection(),
             MessageSection(),
             _PromotionSection(),
             GrievanceSection(),
@@ -87,7 +89,7 @@ class _PromotionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final couponProvider = Provider.of<CouponProvider>(context);
+    final couponProvider = Provider.of<CouponProvider>(context, listen: false);
 
     return Card(
       child: Container(

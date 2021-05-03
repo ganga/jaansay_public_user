@@ -17,3 +17,31 @@ class UserType {
             : json["sub_type_names"].toString().split(","),
       );
 }
+
+class CarouselData {
+  CarouselData({
+    this.id,
+    this.url,
+    this.onTap,
+    this.code,
+  });
+
+  int id;
+  String url;
+  String onTap;
+  int code;
+
+  factory CarouselData.fromJson(Map<String, dynamic> json) => CarouselData(
+        id: json["id"],
+        url: json["url"],
+        onTap: json["onTap"],
+        code: json["code"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "url": url,
+        "onTap": onTap,
+        "code": code,
+      };
+}

@@ -29,27 +29,41 @@ class UserCouponListScreen extends StatelessWidget {
                       "Complete surveys, answer feedback and questions to get coupons.",
                   iconData: Icons.card_giftcard,
                 )
-              : GridView.builder(
-                  itemCount: couponProvider.coupons.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: Get.height * 0.02),
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  itemBuilder: (context, index) => Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              : Column(
+                  children: [
+                    Card(
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Text(
+                            'Complete surveys, answer feedback and questions to get rewards'),
+                      ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CouponCard(couponProvider.coupons[index], () {
-                        couponProvider.selectedCouponIndex = index;
-                        Get.to(() => CouponDetailScreen(),
-                            transition: Transition.cupertino);
-                      }),
+                    GridView.builder(
+                      itemCount: couponProvider.coupons.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: Get.height * 0.02),
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                      itemBuilder: (context, index) => Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: CouponCard(couponProvider.coupons[index], () {
+                            couponProvider.selectedCouponIndex = index;
+                            Get.to(() => CouponDetailScreen(),
+                                transition: Transition.cupertino);
+                          }),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
     );
   }

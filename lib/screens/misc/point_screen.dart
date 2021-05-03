@@ -22,6 +22,28 @@ class _PointsScreenState extends State<PointsScreen> {
     setState(() {});
   }
 
+  pointSection(String score, String title) {
+    return Flexible(
+        flex: 1,
+        fit: FlexFit.tight,
+        child: Column(
+          children: [
+            Text(
+              score,
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: Theme.of(context).primaryColor,
+                  letterSpacing: 1.5),
+            ),
+            Text(
+              title,
+              style: TextStyle(fontSize: 12),
+            )
+          ],
+        ));
+  }
+
   pointItem(UserPoint userPoint) {
     return Card(
       child: Container(
@@ -66,26 +88,14 @@ class _PointsScreenState extends State<PointsScreen> {
               height: 0.5,
               width: double.infinity,
             ),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.8),
-                children: <TextSpan>[
-                  TextSpan(text: 'You earned '),
-                  TextSpan(
-                      text: userPoint.score.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                          color: Theme.of(context).primaryColor)),
-                  TextSpan(text: ' points.'),
+            Container(
+              child: Row(
+                children: [
+                  pointSection(userPoint.score.toString(), "Engagement points"),
+                  pointSection(userPoint.loyalty.toString(), "Loyalty points"),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

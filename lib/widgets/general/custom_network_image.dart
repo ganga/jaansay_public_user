@@ -22,14 +22,14 @@ class CustomNetWorkImage extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
-            alignment: Alignment.topCenter,
+            alignment: Alignment.center,
           )
         : FadeInImage(
             image: NetworkImage(filteredPhoto.toString()),
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
-            alignment: Alignment.topCenter,
+            alignment: Alignment.center,
             placeholder: AssetImage(assetLink),
           );
   }

@@ -4,10 +4,15 @@ import 'user_coupon_list_screen.dart';
 import 'public_coupon_list_screen.dart';
 
 class CouponScreen extends StatelessWidget {
+  final int initialIndex;
+
+  CouponScreen({this.initialIndex = 0});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: initialIndex,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Get.theme.primaryColor,
@@ -20,7 +25,7 @@ class CouponScreen extends StatelessWidget {
                   text: "Your Rewards",
                 ),
                 Tab(
-                  text: "Avail Coupons",
+                  text: "I AM BLOOD BUDDY",
                 ),
               ]),
             ],

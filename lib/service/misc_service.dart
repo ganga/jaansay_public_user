@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/models/misc.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
 
 class MiscService {
@@ -50,5 +51,15 @@ class MiscService {
     });
 
     return;
+  }
+
+  getCarouselData(List<CarouselData> carouselDataList) async {
+    final response = await dioService.getData("utility/carousel");
+
+    if (response != null) {
+      response['data'].map((val) {
+        carouselDataList.add(CarouselData.fromJson(val));
+      }).toList();
+    }
   }
 }
