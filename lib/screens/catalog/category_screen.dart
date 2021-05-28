@@ -5,9 +5,10 @@ import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
+import 'package:jaansay_public_user/screens/catalog/inner_category_screen.dart';
 import 'package:jaansay_public_user/screens/catalog/products_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -18,9 +19,15 @@ class CategoryScreen extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          catalogProvider.clearData();
+          catalogProvider.clearData(isInner: true);
+
           catalogProvider.selectedCategoryIndex = index;
-          Get.to(() => ProductsScreen(), transition: Transition.rightToLeft);
+          if (category.cpId == null) {
+            Get.to(() => InnerCategoryScreen(),
+                transition: Transition.rightToLeft);
+          } else {
+            Get.to(() => ProductsScreen(), transition: Transition.rightToLeft);
+          }
         },
         child: Column(
           children: [

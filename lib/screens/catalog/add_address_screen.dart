@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
+import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +17,58 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
+
+  String latitude = "0", longitude = "0";
+
+  updateLocation(String lat, String lon) {
+    latitude = lat;
+    longitude = lon;
+    setState(() {});
+  }
+
+  Widget attachments(String label, IconData icon, int index) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+        color: Colors.white,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              Get.focusScope.unfocus();
+              Get.to(LocationPicker(), arguments: updateLocation);
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Row(
+                children: [
+                  Icon(icon),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Text(
+                    latitude == "0"
+                        ? (label)
+                        : "${latitude.substring(0, 9)} ${longitude.substring(0, 9)}",
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   textWidget(TextEditingController controller, String label, bool isNumber) {
     return TextField(
@@ -73,6 +127,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     textWidget(cityController, "City", false),
                     stateDropdown(),
                     textWidget(pincodeController, "Pin Code", true),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    attachments("Add Location", Icons.location_pin, 1),
                   ],
                 ),
               ),
@@ -87,14 +145,20 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               if (name.length > 0 &&
                   address.length > 0 &&
                   city.length > 0 &&
-                  pincode.length > 0) {
+                  pincode.length > 0 &&
+                  latitude != "0" &&
+                  longitude != "0") {
                 Get.close(1);
-                catalogProvider.addUserAddress(UserAddress(
-                    name: name,
-                    address: address,
-                    city: city,
-                    pincode: pincode,
-                    state: "Karnataka"));
+                catalogProvider.addUserAddress(
+                  UserAddress(
+                      name: name,
+                      address: address,
+                      city: city,
+                      pincode: pincode,
+                      state: "Karnataka",
+                      latitude: double.parse(latitude),
+                      longitude: double.parse(longitude)),
+                );
               } else {
                 Get.rawSnackbar(message: "Please enter all the details");
               }

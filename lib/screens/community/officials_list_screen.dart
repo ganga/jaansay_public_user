@@ -33,7 +33,8 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
   getData() async {
     await officialService.getAllOfficialsType(
         officials, widget.officialType.typeId, "1");
-    officials.removeWhere((element) => element.isPrivate == 1);
+    officials.removeWhere(
+        (element) => element.isPrivate == 1 && element.isFollow != 1);
 
     officials.map((e) {
       if (!officialTypes.contains(e.businesstypeName)) {

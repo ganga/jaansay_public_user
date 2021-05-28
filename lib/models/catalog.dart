@@ -1,19 +1,16 @@
 class Category {
-  Category({
-    this.ccId,
-    this.ccName,
-    this.ccPhoto,
-  });
+  Category({this.ccId, this.ccName, this.ccPhoto, this.cpId});
 
   int ccId;
   String ccName;
   String ccPhoto;
+  String cpId;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        ccId: json["cc_id"],
-        ccName: json["cc_name"],
-        ccPhoto: json["cc_photo"] ?? '',
-      );
+      ccId: json["cc_id"],
+      ccName: json["cc_name"],
+      ccPhoto: json["cc_photo"] ?? '',
+      cpId: json['cp_id']);
 
   Map<String, dynamic> toJson() => {
         "cc_id": ccId,
@@ -105,6 +102,8 @@ class UserAddress {
     this.city,
     this.state,
     this.pincode,
+    this.latitude,
+    this.longitude
   });
 
   int addressId;
@@ -114,6 +113,8 @@ class UserAddress {
   String city;
   String state;
   String pincode;
+  double latitude;
+  double longitude;
 
   factory UserAddress.fromJson(Map<String, dynamic> json) => UserAddress(
         addressId: json["address_id"],
@@ -123,6 +124,8 @@ class UserAddress {
         city: json["city"],
         state: json["state"],
         pincode: json["pincode"],
+    latitude: json['latitude'],
+    longitude: json['longitude']
       );
 
   Map<String, dynamic> toJson() => {

@@ -46,55 +46,57 @@ class _CarouselSectionState extends State<CarouselSection> {
   Widget build(BuildContext context) {
     final couponProvider = Provider.of<CouponProvider>(context, listen: false);
 
-    return AspectRatio(
-      aspectRatio: 2,
-      child: Container(
-        width: Get.width,
-        child: isLoad
-            ? Shimmer.fromColors(
-                baseColor: Colors.grey[300],
-                highlightColor: Colors.grey[100],
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  color: Colors.white,
-                ),
-              )
-            : Carousel(
-                images: carouselDataList.map((e) {
-                  return _getImg(e, context);
-                }).toList(),
-                dotSize: 4.0,
-                dotSpacing: 15.0,
-                dotColor: Colors.white,
-                dotIncreasedColor: Get.theme.primaryColor,
-                indicatorBgPadding: 5.0,
-                dotBgColor: Colors.black.withOpacity(0.1),
-                borderRadius: false,
-                autoplay: true,
-                autoplayDuration: Duration(seconds: 4),
-                onImageTap: (index) async {
-                  if (carouselDataList[index].code == 1) {
-                    await canLaunch(carouselDataList[index].onTap)
-                        ? await launch(
-                            carouselDataList[index].onTap,
-                            forceWebView: true,
-                            enableJavaScript: true,
-                          )
-                        : throw 'Could not launch';
-                  } else if (carouselDataList[index].code == 2) {
-                    if (carouselDataList[index].onTap == 'AVAIL_COUPON') {
-                      couponProvider.clearData();
-                      Get.to(
-                          () => CouponScreen(
-                                initialIndex: 1,
-                              ),
-                          transition: Transition.rightToLeft);
-                    }
-                  }
-                },
-              ),
-      ),
-    );
+    return !isLoad && carouselDataList.length == 0
+        ? SizedBox.shrink()
+        : AspectRatio(
+            aspectRatio: 2,
+            child: Container(
+              width: Get.width,
+              child: isLoad
+                  ? Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Carousel(
+                      images: carouselDataList.map((e) {
+                        return _getImg(e, context);
+                      }).toList(),
+                      dotSize: 4.0,
+                      dotSpacing: 15.0,
+                      dotColor: Colors.white,
+                      dotIncreasedColor: Get.theme.primaryColor,
+                      indicatorBgPadding: 5.0,
+                      dotBgColor: Colors.black.withOpacity(0.1),
+                      borderRadius: false,
+                      autoplay: true,
+                      autoplayDuration: Duration(seconds: 4),
+                      onImageTap: (index) async {
+                        if (carouselDataList[index].code == 1) {
+                          await canLaunch(carouselDataList[index].onTap)
+                              ? await launch(
+                                  carouselDataList[index].onTap,
+                                  forceWebView: true,
+                                  enableJavaScript: true,
+                                )
+                              : throw 'Could not launch';
+                        } else if (carouselDataList[index].code == 2) {
+                          if (carouselDataList[index].onTap == 'AVAIL_COUPON') {
+                            couponProvider.clearData();
+                            Get.to(
+                                () => CouponScreen(
+                                      initialIndex: 1,
+                                    ),
+                                transition: Transition.rightToLeft);
+                          }
+                        }
+                      },
+                    ),
+            ),
+          );
   }
 }

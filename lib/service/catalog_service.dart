@@ -7,8 +7,10 @@ class CatalogService {
   DioService dioService = DioService();
   String userId = GetStorage().read("user_id").toString();
 
-  getAllCategories(List<Category> categories, String officialId) async {
-    final response = await dioService.getData("catalog/category/$officialId");
+  getAllCategories(
+      List<Category> categories, String officialId, int upperCatId) async {
+    final response = await dioService
+        .getData("catalog/category/$officialId/sub/$upperCatId");
     if (response != null) {
       response['data']
           .map((e) => categories.add(Category.fromJson(e)))
@@ -117,6 +119,8 @@ class CatalogService {
       "city": userAddress.city,
       "state": userAddress.state,
       "pincode": userAddress.pincode,
+      "latitude": userAddress.latitude,
+      "longitude": userAddress.longitude
     });
   }
 

@@ -155,6 +155,12 @@ class ProductsScreen extends StatelessWidget {
       catalogProvider.getAllProducts();
     }
 
+    String categoryName = catalogProvider.selectedInnerCategoryIndex == null
+        ? catalogProvider
+            .categories[catalogProvider.selectedCategoryIndex].ccName
+        : catalogProvider
+            .innerCategories[catalogProvider.selectedInnerCategoryIndex].ccName;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
@@ -172,8 +178,7 @@ class ProductsScreen extends StatelessWidget {
                 ),
               )
             : Text(
-                catalogProvider
-                    .categories[catalogProvider.selectedCategoryIndex].ccName,
+                categoryName,
                 style: TextStyle(
                   color: Get.theme.primaryColor,
                 ),

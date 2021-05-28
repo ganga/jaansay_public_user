@@ -16,10 +16,14 @@ class CatalogProvider extends ChangeNotifier {
   RefreshController productRefreshController = RefreshController();
 
   bool isCategoryLoad = true,
+      initInnerCategory = false,
       isProductLoad = true,
       isAddressLoad = true,
       isCartLoad = false;
-  bool initCategory = false, initProduct = false, initAddress = false;
+  bool initCategory = false,
+      initProduct = false,
+      initAddress = false,
+      isInnerCategoryLoad = true;
   bool isProductSearch = false;
   bool isOrder = false;
 
@@ -27,13 +31,17 @@ class CatalogProvider extends ChangeNotifier {
   List<Product> cartProducts = [];
   List<UserAddress> userAddresses = [];
   List<Category> categories = [];
+  List<Category> innerCategories = [];
 
   int currentProductPage = 1;
   String productSearchValue = '';
   Official selectedOfficial;
-  int selectedAddressId, selectedProductIndex, selectedCategoryIndex;
+  int selectedAddressId,
+      selectedProductIndex,
+      selectedCategoryIndex,
+      selectedInnerCategoryIndex;
 
-  clearData({allData = false}) {
+  clearData({allData = false, bool isInner = false}) {
     isProductLoad = true;
     initProduct = false;
     isProductSearch = false;
@@ -42,6 +50,13 @@ class CatalogProvider extends ChangeNotifier {
     currentProductPage = 1;
     selectedProductIndex = null;
     isCartLoad = false;
+
+    if (allData || isInner) {
+      initInnerCategory = false;
+      isInnerCategoryLoad = true;
+      selectedInnerCategoryIndex = null;
+      innerCategories.clear();
+    }
 
     if (allData) {
       isCategoryLoad = true;
@@ -66,8 +81,21 @@ class CatalogProvider extends ChangeNotifier {
     await checkIfOrder();
     await getCartProducts();
     await catalogService.getAllCategories(
-        categories, selectedOfficial.officialsId.toString());
+        categories, selectedOfficial.officialsId.toString(), 0);
     isCategoryLoad = false;
+    notifyListeners();
+  }
+
+  getAllInnerCategories() async {
+    initInnerCategory = true;
+    int id = selectedInnerCategoryIndex == null
+        ? categories[selectedCategoryIndex].ccId
+        : innerCategories[selectedInnerCategoryIndex].ccId;
+    innerCategories.clear();
+
+    await catalogService.getAllCategories(
+        innerCategories, selectedOfficial.officialsId.toString(), id);
+    isInnerCategoryLoad = false;
     notifyListeners();
   }
 
@@ -77,9 +105,12 @@ class CatalogProvider extends ChangeNotifier {
       productRefreshController.resetNoData();
     }
     products.clear();
+    int id = selectedInnerCategoryIndex == null
+        ? categories[selectedCategoryIndex].ccId
+        : innerCategories[selectedInnerCategoryIndex].ccId;
     final response = await catalogService.getProducts(
         products,
-        categories[selectedCategoryIndex].ccId,
+        id,
         productSearchValue,
         currentProductPage,
         selectedOfficial.officialsId.toString());

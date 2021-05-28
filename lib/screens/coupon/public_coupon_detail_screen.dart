@@ -100,7 +100,7 @@ class PublicCouponDetailScreen extends StatelessWidget {
                             Text(
                               coupon.totalCoupon == coupon.couponCount
                                   ? "Out of stock"
-                                  : "Only ${coupon.totalCoupon = coupon.couponCount} coupons left",
+                                  : "Only ${coupon.totalCoupon - coupon.couponCount} coupons left",
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
