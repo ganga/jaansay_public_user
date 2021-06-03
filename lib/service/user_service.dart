@@ -61,7 +61,8 @@ class UserService {
 
   Future<bool> createUser(LoginController controller) async {
     GetStorage box = GetStorage();
-
+    print(controller.password);
+    print(controller.name);
     bool isSuccess = false;
     String fileName = "";
     if (box.read("register_profile") != "no photo") {
@@ -97,7 +98,7 @@ class UserService {
     if (response != null) {
       AuthService authService = AuthService();
       final response = await authService.loginUser(
-          box.read("register_phone"), box.read("register_password"));
+          box.read("register_phone"), controller.password);
 
       if (response) {
         isSuccess = true;

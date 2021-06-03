@@ -13,6 +13,7 @@ import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -24,22 +25,25 @@ void main() async {
   await GetStorage.init();
   await Firebase.initializeApp();
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<FeedProvider>(create: (_) => FeedProvider()),
-        ChangeNotifierProvider<OfficialProfileProvider>(
-            create: (_) => OfficialProfileProvider()),
-        ChangeNotifierProvider<CouponProvider>(create: (_) => CouponProvider()),
-        ChangeNotifierProvider<CatalogProvider>(
-            create: (_) => CatalogProvider()),
-        ChangeNotifierProvider<GrievanceProvider>(
-            create: (_) => GrievanceProvider()),
-      ],
-      child: EasyLocalization(
-        supportedLocales: [Locale('en', 'US'), Locale('kn', 'IN')],
-        path: 'assets/translations',
-        fallbackLocale: Locale('en', 'US'),
-        child: MyApp(),
+    Phoenix(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<FeedProvider>(create: (_) => FeedProvider()),
+          ChangeNotifierProvider<OfficialProfileProvider>(
+              create: (_) => OfficialProfileProvider()),
+          ChangeNotifierProvider<CouponProvider>(
+              create: (_) => CouponProvider()),
+          ChangeNotifierProvider<CatalogProvider>(
+              create: (_) => CatalogProvider()),
+          ChangeNotifierProvider<GrievanceProvider>(
+              create: (_) => GrievanceProvider()),
+        ],
+        child: EasyLocalization(
+          supportedLocales: [Locale('en', 'US'), Locale('kn', 'IN')],
+          path: 'assets/translations',
+          fallbackLocale: Locale('en', 'US'),
+          child: MyApp(),
+        ),
       ),
     ),
   );

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
@@ -40,7 +41,10 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                 if (!isActive) {
                   String languageCode = code == 'IN' ? 'kn' : 'en';
                   context.setLocale(Locale(languageCode, code));
+                  setState(() {});
                   Get.offAll(SplashScreen());
+
+                  ;
                 } else {
                   Get.rawSnackbar(
                       message: tr("You have already select this language"));
