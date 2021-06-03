@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/order_screen.dart';
-import 'package:jaansay_public_user/screens/coupon/user_coupon_list_screen.dart';
 import 'package:jaansay_public_user/screens/misc/select_language_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/about_screen.dart';
 import 'package:jaansay_public_user/screens/side_navigation/feedback_screen.dart';

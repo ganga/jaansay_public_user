@@ -29,7 +29,6 @@ class CustomPinField extends StatelessWidget {
         onSubmit(val);
       },
     );
-    ;
   }
 }
 
@@ -67,7 +66,6 @@ class CustomTextField extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
 

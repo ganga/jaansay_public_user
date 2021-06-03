@@ -2,9 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/official.dart';
-import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DashList extends StatelessWidget {

@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "820962339979-o0si2iom5nf5i20tunrgkpkkn30n6heh.apps.googleusercontent.com",
+          "client_id": "820962339979-7rbphssak71k6bou3ltok3qeuj3oe41f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.dev.jaansay_public_user",
-            "certificate_hash": "0b3fa97c9fd4d197c823896e252ad2e994328f2e"
+            "certificate_hash": "489481ed11977e23e2268df270e50141c3952ce2"
+          }
+        },
+        {
+          "client_id": "820962339979-ciig8kimierhgd8st3megq78reqhkroo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.jaansay_public_user",
+            "certificate_hash": "201b376c0ff0e3f0f11aaa9ced82e203edeba944"
           }
         },
         {
@@ -52,11 +60,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "820962339979-s5g5jg1fgfeguk3mlc77nsorh7rvah5e.apps.googleusercontent.com",
+          "client_id": "820962339979-ctdrgf52vdnl11oirqnpsrpu4ipd20rb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.xti.jaansay.jaansay_officials",
-            "certificate_hash": "781939aa12719b077f6e8d7df43a35e92a23bbfa"
+            "certificate_hash": "2ce5e91571eb4e3656a0be249fb3e0a001dc5626"
           }
         },
         {
@@ -65,6 +73,43 @@
           "android_info": {
             "package_name": "com.xti.jaansay.jaansay_officials",
             "certificate_hash": "e24a2b9b5ec67c98fbbfd9e238597f6e6e4fdc34"
+          }
+        },
+        {
+          "client_id": "820962339979-4fdepfj0fuiuol8vppkpgq7hv8o93jr5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4gqQn7fJS2zr2JRZlpscxtCiziNV6UgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820962339979-4fdepfj0fuiuol8vppkpgq7hv8o93jr5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820962339979:android:20c1b963cddcb57633b88e",
+        "android_client_info": {
+          "package_name": "dev.xti.jaansay_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820962339979-iejt83hp9r00s5d62tvqf4gciopsa5u2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.xti.jaansay_admin",
+            "certificate_hash": "781939aa12719b077f6e8d7df43a35e92a23bbfa"
           }
         },
         {

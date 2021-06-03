@@ -11,7 +11,7 @@ class OfficialService {
   String userId = GetStorage().read("user_id").toString();
   DioService dioService = DioService();
 
-  Future<List<Official>> getAllOfficialsType(
+  getAllOfficialsType(
       List<Official> officials, int type, String districtId) async {
     final response = await dioService
         .getData("officials/type/district/$userId/$type/$districtId");

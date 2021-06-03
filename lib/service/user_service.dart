@@ -7,6 +7,7 @@ import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
 import 'package:jaansay_public_user/service/notification_service.dart';
+import 'package:jaansay_public_user/utils/login_controller.dart';
 
 class UserService {
   String userId = GetStorage().read("user_id").toString();
@@ -58,7 +59,7 @@ class UserService {
     await dioService.patchFormData("publicusers/profilephoto", formData);
   }
 
-  Future<bool> createUser() async {
+  Future<bool> createUser(LoginController controller) async {
     GetStorage box = GetStorage();
 
     bool isSuccess = false;
@@ -70,18 +71,29 @@ class UserService {
       fileName = fileName.replaceAll(new RegExp(r"\s+"), "");
     }
 
-    final response = await dioService.postData("publicusers", {
-      "user_name": "${box.read("register_name")}",
+    final formData = FormData.fromMap({
+      "user_name": controller.name,
       "user_phone": "${box.read("register_phone")}",
-      "user_password": "${box.read("register_password")}",
-      "district_id": "${box.read("register_district")}",
-      "photo": fileName == ""
-          ? "no photo"
-          : {
-              "file_name": "$fileName",
-              "file": "${box.read("register_profile")}",
-            }
+      "user_password": controller.password,
+      "district_id": "1",
     });
+
+    if (box.read("register_profile") != "no photo") {
+      formData.files.add(
+        MapEntry(
+          "media",
+          await MultipartFile.fromFile(
+            controller.photo.path,
+            filename:
+                (DateTime.now().toString() + controller.photo.path.toString())
+                    .toString()
+                    .replaceAll(" ", ""),
+          ),
+        ),
+      );
+    }
+
+    final response = await dioService.postFormData("publicusers", formData);
     if (response != null) {
       AuthService authService = AuthService();
       final response = await authService.loginUser(

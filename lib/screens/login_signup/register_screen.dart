@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +12,6 @@ import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/screen_progress.dart';
 
 class RegisterScreen extends StatelessWidget {
-  RegisterScreen({Key key}) : super(key: key);
   final LoginController _loginController = Get.put(LoginController());
 
   @override
@@ -79,15 +75,14 @@ class _About extends StatefulWidget {
 }
 
 class __AboutState extends State<_About> {
-  File _image;
   GetStorage box = GetStorage();
   TextEditingController nameController = TextEditingController();
   final LoginController _loginController = Get.put(LoginController());
 
   Future getImage() async {
     Get.focusScope.unfocus();
-    _image = await MiscUtils.pickImage();
-    if (_image != null) {
+    _loginController.photo = await MiscUtils.pickImage();
+    if (_loginController.photo != null) {
       setState(() {});
     }
   }
@@ -98,15 +93,7 @@ class __AboutState extends State<_About> {
         message: "${tr("Please fill the fields")}",
       );
     } else {
-      box.write("register_name", nameController.text.trim());
-      _image == null
-          ? box.write("register_profile", "no photo")
-          : box.write(
-              "register_profile",
-              base64Encode(
-                _image.readAsBytesSync(),
-              ),
-            );
+      _loginController.name = nameController.text.trim();
       _loginController.index(1);
     }
   }
@@ -124,9 +111,9 @@ class __AboutState extends State<_About> {
             width: 125,
             decoration: BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
-              child: _image != null
+              child: _loginController.photo != null
                   ? Image.file(
-                      _image,
+                      _loginController.photo,
                       fit: BoxFit.cover,
                     )
                   : Image.asset("assets/images/profileHolder.jpg"),
@@ -176,12 +163,14 @@ class __FinishState extends State<_Finish> {
   bool isLoad = false;
   bool isComplete = false;
   GetStorage box = GetStorage();
+  final LoginController _loginController = Get.put(LoginController());
+  UserService userService = UserService();
 
   sendData() async {
     isLoad = true;
     setState(() {});
-    UserService userService = UserService();
-    final response = await userService.createUser();
+    final response = await userService.createUser(_loginController);
+
     if (response) {
       isLoad = false;
       setState(() {});
@@ -196,7 +185,7 @@ class __FinishState extends State<_Finish> {
   onSubmit(String val) {
     if (val.length == 4) {
       Get.focusScope.unfocus();
-      box.write("register_password", val.toString());
+      _loginController.password = val.toString();
       isComplete = true;
       setState(() {});
     } else {
