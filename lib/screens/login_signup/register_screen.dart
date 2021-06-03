@@ -123,15 +123,13 @@ class __AboutState extends State<_About> {
             height: 125,
             width: 125,
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: Obx(
-              () => ClipOval(
-                child: _image != null
-                    ? Image.file(
-                        _image,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset("assets/images/profileHolder.jpg"),
-              ),
+            child: ClipOval(
+              child: _image != null
+                  ? Image.file(
+                      _image,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset("assets/images/profileHolder.jpg"),
             ),
           ),
           SizedBox(
