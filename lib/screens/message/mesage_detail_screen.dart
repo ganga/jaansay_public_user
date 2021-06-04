@@ -438,7 +438,7 @@ class _MessageField extends StatelessWidget {
               child: TextField(
                 controller: _messageController,
                 decoration: InputDecoration.collapsed(
-                  hintText: "Enter a message",
+                  hintText: tr("Enter a message"),
                 ),
                 textCapitalization: TextCapitalization.sentences,
                 minLines: 1,
