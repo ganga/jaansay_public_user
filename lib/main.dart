@@ -36,9 +36,10 @@ void main() async {
             create: (_) => GrievanceProvider()),
       ],
       child: EasyLocalization(
-        supportedLocales: [Locale('en', 'US'), Locale('kn', 'IN')],
+        supportedLocales: [Locale('en'), Locale('kn')],
         path: 'assets/translations',
-        fallbackLocale: Locale('en', 'US'),
+        fallbackLocale: Locale('en'),
+        useOnlyLangCode: true,
         child: MyApp(),
       ),
     ),

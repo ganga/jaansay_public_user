@@ -20,7 +20,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
   Widget languageButton(String code, String title) {
     bool isActive = false;
 
-    if (context.locale.countryCode == code) {
+    if (context.locale.languageCode == code) {
       isActive = true;
     }
 
@@ -43,17 +43,17 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
             onTap: () async {
               if (!isFirst) {
                 if (!isActive) {
-                  String languageCode = code == 'IN' ? 'kn' : 'en';
-                  context.setLocale(Locale(languageCode, code));
-                  setState(() {});
+                  context.setLocale(Locale(code));
+                  Get.updateLocale(Locale(code));
                   Get.offAll(SplashScreen());
                 } else {
                   Get.rawSnackbar(
                       message: tr("You have already select this language"));
                 }
               } else {
-                String languageCode = code == 'IN' ? 'kn' : 'en';
-                context.setLocale(Locale(languageCode, code));
+                context.setLocale(Locale(code));
+                Get.updateLocale(Locale(code));
+
                 Future.delayed(Duration(milliseconds: 100),
                     () => Get.offAll(LoginScreen()));
               }
@@ -103,11 +103,11 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              languageButton("US", "English"),
+              languageButton("en", "English"),
               SizedBox(
                 width: 30,
               ),
-              languageButton("IN", "Kannada")
+              languageButton("kn", "Kannada")
             ],
           )
         ],

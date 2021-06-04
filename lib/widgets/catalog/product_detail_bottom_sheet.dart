@@ -16,7 +16,6 @@ import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailBottomSheet extends StatelessWidget {
   imageCard(String url) {
