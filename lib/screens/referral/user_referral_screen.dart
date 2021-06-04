@@ -12,6 +12,7 @@ import 'package:jaansay_public_user/service/referral_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserReferralScreen extends StatefulWidget {
   final Official official;
@@ -59,7 +60,7 @@ class _UserReferralScreenState extends State<UserReferralScreen> {
         title: Text(
           "Referral Code",
           style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
+        ).tr(),
       ),
       body: isLoad
           ? CustomLoading()
@@ -121,7 +122,7 @@ class _UserReferralScreenState extends State<UserReferralScreen> {
                               Text(
                                 "Your benefits",
                                 style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
+                              ).tr(),
                               Text(referralCode.referrerDescription),
                               const SizedBox(
                                 height: 8,
@@ -129,7 +130,7 @@ class _UserReferralScreenState extends State<UserReferralScreen> {
                               Text(
                                 "Friend's benefits",
                                 style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
+                              ).tr(),
                               Text(referralCode.referredDescription)
                             ],
                           ),
@@ -163,7 +164,7 @@ class _UserReferralScreenState extends State<UserReferralScreen> {
                             Text(
                               "SHARE",
                               style: TextStyle(color: Colors.white),
-                            ),
+                            ).tr(),
                           ],
                         ),
                       ),

@@ -105,8 +105,9 @@ class _SearchScreenState extends State<SearchScreen> {
               title: searchController.text.length > 2
                   ? "No officials found"
                   : widget.title,
-              description:
-                  searchController.text.length > 2 ? null : widget.description,
+              description: searchController.text.length > 2
+                  ? null
+                  : tr(widget.description),
             )
           : ListView.builder(
               itemBuilder: (context, index) {
