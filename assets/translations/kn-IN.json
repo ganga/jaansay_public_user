@@ -254,5 +254,18 @@
   "Phone": "ದೂರವಾಣಿ",
   "Type": "ಮಾದರಿ",
   "Sub Type": "ಉಪ ಪ್ರಕಾರ",
-  "Search businesses, officials and associations near you by entering their name": "ನಿಮ್ಮ ಹತ್ತಿರವಿರುವ ವ್ಯವಹಾರಗಳು, ಅಧಿಕಾರಿಗಳು ಮತ್ತು ಸಂಘಗಳ ಹೆಸರನ್ನು ನಮೂದಿಸಿ"
+  "Search businesses, officials and associations near you by entering their name": "ನಿಮ್ಮ ಹತ್ತಿರವಿರುವ ವ್ಯವಹಾರಗಳು, ಅಧಿಕಾರಿಗಳು ಮತ್ತು ಸಂಘಗಳ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+  "Featured Products": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ಉತ್ಪನ್ನಗಳು",
+  "Visit this business to collect your order. You can view location and contact details of the business in their profile.": "ನಿಮ್ಮ ಆದೇಶವನ್ನು ಸಂಗ್ರಹಿಸಲು ಈ ವ್ಯವಹಾರಕ್ಕೆ ಭೇಟಿ ನೀಡಿ. ವ್ಯವಹಾರದ ಸ್ಥಳ ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳನ್ನು ನೀವು ಅವರ ಪ್ರೊಫೈಲ್\u200Cನಲ್ಲಿ ವೀಕ್ಷಿಸಬಹುದು.",
+  "Pickup": "ಪಿಕಪ್",
+  "Do you want to remove this item?": "ಈ ಐಟಂ ಅನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಬಯಸುವಿರಾ?",
+  "Remove Item": "ಐಟಂ ತೆಗೆದುಹಾಕಿ",
+  "Grievances": "ಕುಂದುಕೊರತೆಗಳು",
+  "Search officiais and businesses and send them your queries. You might have to upload documents for some officials for user verification.": "Sಆಫಿಸಿಯಾಸ್ ಮತ್ತು ವ್ಯವಹಾರಗಳನ್ನು ಹುಡುಕಿ ಮತ್ತು ನಿಮ್ಮ ಪ್ರಶ್ನೆಗಳನ್ನು ಅವರಿಗೆ ಕಳುಹಿಸಿ. ಬಳಕೆದಾರರ ಪರಿಶೀಲನೆಗಾಗಿ ನೀವು ಕೆಲವು ಅಧಿಕಾರಿಗಳಿಗೆ ದಾಖಲೆಗಳನ್ನು ಅಪ್\u200Cಲೋಡ್ ಮಾಡಬೇಕಾಗಬಹುದು.",
+  "Closed": "ಮುಚ್ಚಲಾಗಿದೆ",
+  "Open": "ತೆರೆಯಿರಿ",
+  "Search officiais and businesses and message them your queries.": "ಆಫಿಸಿಯಾಸ್ ಮತ್ತು ವ್ಯವಹಾರಗಳನ್ನು ಹುಡುಕಿ ಮತ್ತು ನಿಮ್ಮ ಪ್ರಶ್ನೆಗಳಿಗೆ ಅವರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ.",
+  "Enter your comment here": "ನಿಮ್ಮ ಕಾಮೆಂಟ್ ಅನ್ನು ಇಲ್ಲಿ ನಮೂದಿಸಿ",
+  "Shops": "ಅಂಗಡಿಗಳು",
+  "Feedback / Surveys": "ಪ್ರತಿಕ್ರಿಯೆ / ಸಮೀಕ್ಷೆಗಳು"
 }
