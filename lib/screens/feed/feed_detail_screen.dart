@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 

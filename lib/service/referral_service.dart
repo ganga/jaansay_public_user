@@ -1,5 +1,8 @@
+// Package imports:
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get_storage/get_storage.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/service/dio_service.dart';
 import 'package:jaansay_public_user/utils/misc_utils.dart';

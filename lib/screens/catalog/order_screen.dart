@@ -1,6 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/catalog/order_detail_screen.dart';

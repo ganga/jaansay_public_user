@@ -1,7 +1,13 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
@@ -9,7 +15,6 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
 
 class OfficialListScreen extends StatefulWidget {
   final OfficialType officialType;

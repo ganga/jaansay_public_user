@@ -1,6 +1,9 @@
+// Package imports:
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_storage/get_storage.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/user.dart';
 

@@ -1,7 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/screens/login_signup/login_screen.dart';
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 

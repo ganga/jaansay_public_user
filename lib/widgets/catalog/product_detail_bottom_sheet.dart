@@ -1,16 +1,20 @@
-import 'package:carousel_pro/carousel_pro.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
-import 'package:share/share.dart';
-
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_divider.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class ProductDetailBottomSheet extends StatelessWidget {
   imageCard(String url) {

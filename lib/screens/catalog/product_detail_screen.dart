@@ -1,7 +1,13 @@
-import 'package:carousel_pro/carousel_pro.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:share/share.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/models/official.dart';
@@ -13,7 +19,6 @@ import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
-import 'package:share/share.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;

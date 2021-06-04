@@ -1,14 +1,19 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/screens/referral/accepted_referral_screen.dart';
 import 'package:jaansay_public_user/service/referral_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ReferralListScreen extends StatefulWidget {
   @override

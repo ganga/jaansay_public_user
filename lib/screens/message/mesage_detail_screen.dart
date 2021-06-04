@@ -1,13 +1,22 @@
+// Dart imports:
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:bubble/bubble.dart';
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:bubble/bubble.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
@@ -18,9 +27,6 @@ import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 
 class MessageDetailScreen extends StatefulWidget {
   final MessageMaster messageMaster;

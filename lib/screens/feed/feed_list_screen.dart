@@ -1,12 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FeedListScreen extends StatelessWidget {
   @override

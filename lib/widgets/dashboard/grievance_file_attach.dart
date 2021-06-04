@@ -1,11 +1,17 @@
+// Dart imports:
 import 'dart:io';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
 import 'package:jaansay_public_user/utils/misc_utils.dart';
 import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';
-import 'package:provider/provider.dart';
 
 class GrievanceFileAttachSection extends StatelessWidget {
   Widget attachmentHolder(int index, GrievanceProvider grievanceProvider) {

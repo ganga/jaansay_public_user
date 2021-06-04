@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';

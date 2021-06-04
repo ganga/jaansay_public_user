@@ -1,11 +1,19 @@
+// Dart imports:
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/keys.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
@@ -21,8 +29,6 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/featured_section.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:jaansay_public_user/widgets/profile/profile_head_button.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
 
 class OfficialsProfileHead extends StatelessWidget {
   @override

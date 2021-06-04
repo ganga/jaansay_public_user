@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/utils/misc_utils.dart';
 
 class CatalogDiscountTextWidget extends StatelessWidget {

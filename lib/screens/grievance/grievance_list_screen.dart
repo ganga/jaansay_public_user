@@ -1,7 +1,15 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/grievance.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
@@ -15,9 +23,6 @@ import 'package:jaansay_public_user/widgets/dashboard/grievance_head.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_status.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class GrievanceListScreen extends StatelessWidget {
   @override

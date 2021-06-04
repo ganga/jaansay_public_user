@@ -1,9 +1,14 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DashList extends StatelessWidget {
   final List<Official> officials;

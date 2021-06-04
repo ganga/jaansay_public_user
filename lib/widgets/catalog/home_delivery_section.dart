@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/catalog.dart';
 
 class HomeDeliverySection extends StatelessWidget {

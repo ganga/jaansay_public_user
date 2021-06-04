@@ -1,7 +1,15 @@
-import 'package:badges/badges.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:badges/badges.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
@@ -10,10 +18,7 @@ import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget
 import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProductsScreen extends StatelessWidget {
   productCard(int index, CatalogProvider catalogProvider) {

@@ -1,14 +1,19 @@
-import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/update_check.dart';
 import 'package:jaansay_public_user/service/dynamic_link_service.dart';
-import 'package:package_info/package_info.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = "splash";

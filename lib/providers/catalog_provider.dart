@@ -1,6 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
@@ -8,7 +14,6 @@ import 'package:jaansay_public_user/screens/catalog/order_confirmed_screen.dart'
 import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/service/notification_service.dart';
 import 'package:jaansay_public_user/utils/misc_utils.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CatalogProvider extends ChangeNotifier {
   CatalogService catalogService = CatalogService();

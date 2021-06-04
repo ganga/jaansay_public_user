@@ -1,13 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_detail_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
 
 class UserCouponListScreen extends StatelessWidget {
   @override

@@ -1,9 +1,15 @@
+// Dart imports:
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class LocationPicker extends StatefulWidget {

@@ -1,5 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
@@ -7,8 +14,6 @@ import 'package:jaansay_public_user/screens/message/mesage_detail_screen.dart';
 import 'package:jaansay_public_user/screens/misc/search_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/widgets/dashboard/dash_list.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:provider/provider.dart';
 
 class MessageSection extends StatefulWidget {
   @override

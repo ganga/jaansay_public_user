@@ -1,10 +1,16 @@
+// Dart imports:
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/utils/misc_utils.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';

@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'user_coupon_list_screen.dart';
+
+// Project imports:
 import 'public_coupon_list_screen.dart';
+import 'user_coupon_list_screen.dart';
 
 class CouponScreen extends StatelessWidget {
   final int initialIndex;

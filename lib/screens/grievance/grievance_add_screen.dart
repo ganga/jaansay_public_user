@@ -1,14 +1,20 @@
+// Dart imports:
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
 import 'package:jaansay_public_user/utils/misc_utils.dart';
 import 'package:jaansay_public_user/widgets/dashboard/grievance_file_attach.dart';
 import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';
 import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
-import 'package:provider/provider.dart';
 
 class GrievanceAddScreen extends StatelessWidget {
   @override

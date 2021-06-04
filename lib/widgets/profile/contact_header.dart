@@ -1,7 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/review_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';

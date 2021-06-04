@@ -1,12 +1,17 @@
-import 'package:chewie/chewie.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/models/message.dart';
-import 'package:jaansay_public_user/models/official.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+
+// Project imports:
+import 'package:jaansay_public_user/models/message.dart';
+import 'package:jaansay_public_user/models/official.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
 
 class MessageMediaScreen extends StatefulWidget {
   @override

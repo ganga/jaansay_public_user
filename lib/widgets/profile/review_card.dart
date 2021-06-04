@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 

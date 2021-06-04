@@ -1,12 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+import 'package:polygon_clipper/polygon_clipper.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:polygon_clipper/polygon_clipper.dart';
 
 class ProfileListScreen extends StatefulWidget {
 

@@ -1,11 +1,16 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/screens/catalog/category_screen.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/widgets/dashboard/dash_list.dart';
-import 'package:provider/provider.dart';
 
 class StoreSection extends StatefulWidget {
   @override

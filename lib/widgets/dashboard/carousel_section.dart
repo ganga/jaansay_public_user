@@ -1,16 +1,21 @@
-import 'package:carousel_pro/carousel_pro.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/misc.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/coupon_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CarouselSection extends StatefulWidget {
   @override

@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/screens/splash_screen.dart';
 import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
-import 'package:lottie/lottie.dart';
 
 class OrderConfirmedScreen extends StatelessWidget {
   @override

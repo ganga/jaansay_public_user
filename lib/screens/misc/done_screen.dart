@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/widgets/general/custom_button.dart';
 import 'package:lottie/lottie.dart';
+
+// Project imports:
+import 'package:jaansay_public_user/widgets/general/custom_button.dart';
 
 class DoneScreen extends StatelessWidget {
   final Function onTap;

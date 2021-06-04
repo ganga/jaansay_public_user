@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/user.dart';
 import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';

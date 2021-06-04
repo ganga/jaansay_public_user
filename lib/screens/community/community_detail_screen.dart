@@ -1,12 +1,17 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/screens/community/officials_list_screen.dart';
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CommunityDetailsScreen extends StatefulWidget {
   @override
@@ -101,29 +106,29 @@ class _CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                   // SizedBox(
                   //   height: Get.height * 0.03,
                   // ),
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       Icon(
-                  //         Icons.location_on,
-                  //         color: Theme.of(context).primaryColor,
-                  //       ),
-                  //       const SizedBox(
-                  //         width: 8,
-                  //       ),
-                  //       Text(
-                  //         "Udupi",
-                  //         style: TextStyle(
-                  //             fontSize: 24, fontWeight: FontWeight.w500),
-                  //       ).tr(),
-                  //       const SizedBox(
-                  //         width: 8,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Bommarbettu",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w500),
+                        ).tr(),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ),
+                  ),
                   // _dataBox(
                   //     "${count['user']}",
                   //     "Public Users",

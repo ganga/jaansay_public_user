@@ -1,6 +1,11 @@
-import 'package:clipboard/clipboard.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/service/coupon_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';

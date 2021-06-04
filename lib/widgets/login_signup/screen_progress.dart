@@ -1,6 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/utils/login_controller.dart';
 
 class ScreenProgress extends StatelessWidget {

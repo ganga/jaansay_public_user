@@ -1,12 +1,17 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+import 'package:share/share.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/service/referral_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:share/share.dart';
 
 class UserReferralScreen extends StatefulWidget {
   final Official official;

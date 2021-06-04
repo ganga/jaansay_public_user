@@ -1,12 +1,16 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/login_signup/otp_verfication_screen.dart';
 import 'package:jaansay_public_user/service/auth_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
-
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 
 class PasscodeScreen extends StatefulWidget {

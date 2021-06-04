@@ -1,9 +1,17 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
+// Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/feed.dart';
 import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
@@ -11,9 +19,6 @@ import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
 import 'package:jaansay_public_user/screens/feed/feed_detail_screen.dart';
 import 'package:jaansay_public_user/screens/feed/image_view_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
-import 'package:share/share.dart';
 
 class FeedCard extends StatelessWidget {
   final Feed feed;

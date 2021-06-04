@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+// Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
 
 class BottomButton extends StatelessWidget {
   final Function onTap;

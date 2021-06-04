@@ -1,6 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/models/review.dart';
 import 'package:jaansay_public_user/providers/feed_provider.dart';
@@ -13,7 +19,6 @@ import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/profile/officials_profile_head.dart';
 import 'package:jaansay_public_user/widgets/profile/review_card.dart';
-import 'package:provider/provider.dart';
 
 class ProfileFullScreen extends StatelessWidget {
   final int officialId;

@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class CustomPinField extends StatelessWidget {

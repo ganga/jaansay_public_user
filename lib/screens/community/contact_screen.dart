@@ -1,7 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/grievance_provider.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
@@ -9,11 +19,6 @@ import 'package:jaansay_public_user/screens/grievance/grievance_detail_screen.da
 import 'package:jaansay_public_user/screens/grievance/grievance_list_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/profile/contact_header.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ContactScreen extends StatelessWidget {
   Widget contactSectionItems(

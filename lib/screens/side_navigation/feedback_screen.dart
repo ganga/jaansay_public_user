@@ -1,9 +1,15 @@
+// Dart imports:
 import 'dart:io';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/service/misc_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/general/custom_fields.dart';

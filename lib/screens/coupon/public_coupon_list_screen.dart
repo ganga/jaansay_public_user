@@ -1,11 +1,16 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/screens/coupon/public_coupon_detail_screen.dart';
 import 'package:jaansay_public_user/screens/coupon/user_coupon_list_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'package:provider/provider.dart';
 
 class PublicCouponListScreen extends StatelessWidget {
   @override

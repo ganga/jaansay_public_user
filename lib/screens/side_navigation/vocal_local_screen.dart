@@ -1,14 +1,19 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+// Project imports:
 import 'package:jaansay_public_user/models/misc.dart';
 import 'package:jaansay_public_user/service/vocalforlocal_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_auth_button.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_auth_button.dart';
 
 class VocalLocalScreen extends StatefulWidget {
   final bool isHome;
