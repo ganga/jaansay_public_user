@@ -10,6 +10,7 @@ import 'package:jaansay_public_user/service/user_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PointsScreen extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _PointsScreenState extends State<PointsScreen> {
             Text(
               title,
               style: TextStyle(fontSize: 12),
-            )
+            ).tr()
           ],
         ));
   }

@@ -17,6 +17,7 @@ import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FriendReferralScreen extends StatefulWidget {
   final String referralCode;
@@ -67,7 +68,7 @@ class _FriendReferralScreenState extends State<FriendReferralScreen> {
         title: Text(
           "Referral Code",
           style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
+        ).tr(),
       ),
       body: WillPopScope(
         onWillPop: () async {
@@ -132,8 +133,8 @@ class _FriendReferralScreenState extends State<FriendReferralScreen> {
                           const SizedBox(
                             height: 16,
                           ),
-                          Text(
-                              "Show this code to the business and avail the offer."),
+                          Text("Show this code to the business and avail the offer.")
+                              .tr(),
                         ],
                       ),
                     ),

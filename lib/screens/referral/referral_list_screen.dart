@@ -43,7 +43,7 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
               child: Text(
                 "Offer Availed",
                 style: TextStyle(color: Colors.white),
-              ),
+              ).tr(),
             ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -92,8 +92,8 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                          text:
-                              'Referral you sent to your friend was accepted by '),
+                          text: tr(
+                              'Referral you sent to your friend was accepted by ')),
                       TextSpan(
                         text: '${acceptedReferral.officialsName}',
                         style: TextStyle(
@@ -121,7 +121,7 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("More Details"),
+                  Text("More Details").tr(),
                   const SizedBox(
                     width: 6,
                   ),
@@ -155,7 +155,7 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
         title: Text(
           "Your Referrals",
           style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
+        ).tr(),
       ),
       body: isLoad
           ? CustomLoading(title: "Loading Referrals")

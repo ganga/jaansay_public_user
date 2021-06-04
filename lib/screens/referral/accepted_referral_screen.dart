@@ -13,6 +13,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:jaansay_public_user/models/referral.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AcceptedReferralScreen extends StatelessWidget {
   final AcceptedReferral acceptedReferral;
@@ -29,7 +30,7 @@ class AcceptedReferralScreen extends StatelessWidget {
         title: Text(
           "Referral Details",
           style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
+        ).tr(),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -83,8 +84,8 @@ class AcceptedReferralScreen extends StatelessWidget {
                   ? Text(
                       "Show this code to the business and avail the offer.",
                       textAlign: TextAlign.center,
-                    )
-                  : Text("Your have availed this offer.")
+                    ).tr()
+                  : Text("Your have availed this offer.").tr()
             ],
           ),
         ),
