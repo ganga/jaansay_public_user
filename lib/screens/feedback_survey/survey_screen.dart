@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:jaansay_public_user/models/survey.dart';
-import 'package:jaansay_public_user/screens/home_screen.dart';
 import 'package:jaansay_public_user/screens/misc/done_screen.dart';
 import 'package:jaansay_public_user/service/feedback_survey_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_button.dart';

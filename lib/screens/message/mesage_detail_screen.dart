@@ -21,7 +21,6 @@ import 'package:jaansay_public_user/models/message.dart';
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/providers/official_profile_provider.dart';
 import 'package:jaansay_public_user/screens/community/profile_full_screen.dart';
-import 'package:jaansay_public_user/screens/feedback_survey/survey_screen.dart';
 import 'package:jaansay_public_user/screens/message/message_media_screen.dart';
 import 'package:jaansay_public_user/service/message_service.dart';
 import 'package:jaansay_public_user/service/official_service.dart';

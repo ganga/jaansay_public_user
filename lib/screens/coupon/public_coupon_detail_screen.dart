@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:clipboard/clipboard.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 // Project imports:
 import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
-import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';

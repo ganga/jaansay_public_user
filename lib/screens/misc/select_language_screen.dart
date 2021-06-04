@@ -47,8 +47,6 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
                   context.setLocale(Locale(languageCode, code));
                   setState(() {});
                   Get.offAll(SplashScreen());
-
-                  ;
                 } else {
                   Get.rawSnackbar(
                       message: tr("You have already select this language"));
