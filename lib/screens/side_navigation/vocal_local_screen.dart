@@ -214,7 +214,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                         isExpanded: true,
                         decoration: InputDecoration(
                             enabledBorder: InputBorder.none,
-                            labelText: 'Type',
+                            labelText: tr('Type'),
                             labelStyle:
                                 TextStyle(color: Get.theme.primaryColor)),
                         items: userTypes.map((UserType value) {
@@ -253,7 +253,7 @@ class _VocalLocalScreenState extends State<VocalLocalScreen> {
                           isExpanded: true,
                           decoration: InputDecoration(
                               enabledBorder: InputBorder.none,
-                              labelText: 'Sub Type',
+                              labelText: tr('Sub Type'),
                               labelStyle:
                                   TextStyle(color: Get.theme.primaryColor)),
                           items: selectedType.subTypeNames.map((String value) {

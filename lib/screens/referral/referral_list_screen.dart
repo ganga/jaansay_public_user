@@ -162,9 +162,9 @@ class _ReferralListScreenState extends State<ReferralListScreen> {
           : acceptedReferrals.length == 0
               ? CustomErrorWidget(
                   iconData: FontAwesomeIcons.userFriends,
-                  title: "No Referrals",
-                  description:
-                      "Refer your friends to purchase from businesses and get offers. Click on refer & earn in business profile to refer.",
+                  title: tr("No Referrals"),
+                  description: tr(
+                      "Refer your friends to purchase from businesses and get offers. Click on refer & earn in business profile to refer."),
                 )
               : ListView.builder(
                   itemCount: acceptedReferrals.length,
