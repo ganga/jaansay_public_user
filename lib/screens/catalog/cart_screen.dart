@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/widgets/general/custom_button.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
@@ -16,8 +18,7 @@ import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
 import 'package:jaansay_public_user/widgets/general/custom_dialog.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -33,7 +34,7 @@ class CartScreen extends StatelessWidget {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
       ),
       body: catalogProvider.cartProducts.length == 0
           ? CustomErrorWidget(
@@ -136,7 +137,7 @@ class _AddressSection extends StatelessWidget {
                   Get.to(() => AddressScreen(),
                       transition: Transition.rightToLeft);
                 },
-                child: Text("Change or Add Address"),
+                child: Text("Change or Add Address").tr(),
               )
             ],
           ),
@@ -149,7 +150,7 @@ class _AddressSection extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             children: [
-              Text("To continue to place order, please add your address."),
+              Text("To continue to place order, please add your address.").tr(),
               const SizedBox(
                 height: 8,
               ),
@@ -158,7 +159,7 @@ class _AddressSection extends StatelessWidget {
                   Get.to(() => AddressScreen(),
                       transition: Transition.rightToLeft);
                 },
-                child: Text("Add Delivery Type"),
+                child: Text("Add Delivery Type").tr(),
               )
             ],
           ),
@@ -304,7 +305,7 @@ class _CartItem extends StatelessWidget {
                   const SizedBox(
                     width: 6,
                   ),
-                  Text("Remove"),
+                  Text("Remove").tr(),
                 ],
               ),
             ),
@@ -341,7 +342,7 @@ class _PriceDetailSection extends StatelessWidget {
               "PRICE DETAILS",
               style:
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.black54),
-            ),
+            ).tr(),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 16),
@@ -368,7 +369,7 @@ class _PriceDetailSection extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Discount"),
+                      Text("Discount").tr(),
                       Text(
                         "₹${totalCostWithoutDiscount - totalCost}",
                         style: TextStyle(color: Colors.green),
@@ -392,7 +393,7 @@ class _PriceDetailSection extends StatelessWidget {
                 Text(
                   "Total Amount",
                   style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                ).tr(),
                 Text(
                   "₹$totalCost",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),

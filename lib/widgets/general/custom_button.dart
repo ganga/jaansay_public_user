@@ -38,7 +38,7 @@ class BottomButton extends StatelessWidget {
                 fontSize: 16,
                 letterSpacing: 1.05,
                 fontWeight: FontWeight.w500),
-          ),
+          ).tr(),
         ),
       ),
     );

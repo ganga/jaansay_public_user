@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:jaansay_public_user/models/catalog.dart';
 import 'package:jaansay_public_user/providers/catalog_provider.dart';
 import 'package:jaansay_public_user/widgets/misc/location_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AddAddressScreen extends StatefulWidget {
   @override
@@ -77,7 +78,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   textWidget(TextEditingController controller, String label, bool isNumber) {
     return TextField(
       controller: controller,
-      decoration: InputDecoration(labelText: label),
+      decoration: InputDecoration(labelText: tr(label)),
       keyboardType: isNumber ? TextInputType.number : TextInputType.text,
     );
   }
@@ -116,7 +117,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
       ),
       body: Column(
         children: [

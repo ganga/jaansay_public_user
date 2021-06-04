@@ -50,7 +50,10 @@ class DashList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: isLoad ? count.length : officials.length,
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 80, crossAxisSpacing: 16, mainAxisSpacing: 20),
+          maxCrossAxisExtent: 80,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 20,
+          childAspectRatio: 1),
       padding: EdgeInsets.symmetric(
         horizontal: 8,
       ),

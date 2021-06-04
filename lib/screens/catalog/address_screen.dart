@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/widgets/general/custom_button.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
@@ -13,7 +14,7 @@ import 'package:jaansay_public_user/screens/catalog/add_address_screen.dart';
 import 'package:jaansay_public_user/widgets/catalog/home_delivery_section.dart';
 import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AddressScreen extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class _AddressScreenState extends State<AddressScreen> {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
       ),
       body: catalogProvider.isAddressLoad
           ? CustomLoading()
@@ -72,7 +73,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500),
-                                ),
+                                ).tr(),
                               ),
                               ListView.builder(
                                 itemCount: catalogProvider.userAddresses.length,
@@ -121,7 +122,7 @@ class _AddressScreenState extends State<AddressScreen> {
                   onTap: () {
                     Get.close(1);
                   },
-                  text: "Confirm",
+                  text: tr("Confirm"),
                   backColor: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                 )

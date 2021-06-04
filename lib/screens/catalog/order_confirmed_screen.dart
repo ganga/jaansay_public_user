@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/widgets/general/custom_button.dart';
 import 'package:lottie/lottie.dart';
 
 // Project imports:
 import 'package:jaansay_public_user/screens/splash_screen.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OrderConfirmedScreen extends StatelessWidget {
   @override
@@ -44,7 +45,7 @@ class OrderConfirmedScreen extends StatelessWidget {
                                   fontSize: 20,
                                   letterSpacing: 0.9),
                               textAlign: TextAlign.center,
-                            ),
+                            ).tr(),
                             const SizedBox(
                               height: 16,
                             ),
@@ -55,7 +56,7 @@ class OrderConfirmedScreen extends StatelessWidget {
                                   fontSize: 16,
                                   letterSpacing: 0.9),
                               textAlign: TextAlign.center,
-                            ),
+                            ).tr(),
                             const SizedBox(
                               height: 16,
                             ),
@@ -69,13 +70,13 @@ class OrderConfirmedScreen extends StatelessWidget {
                                     letterSpacing: 0.9),
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text:
-                                          'Check the status of your order on the '),
+                                      text: tr(
+                                          'Check the status of your order on the ')),
                                   TextSpan(
-                                      text: 'Your Orders',
+                                      text: tr('Your Orders'),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500)),
-                                  TextSpan(text: ' page.'),
+                                  TextSpan(text: tr(' page.')),
                                 ],
                               ),
                             ),

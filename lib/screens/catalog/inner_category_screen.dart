@@ -14,6 +14,7 @@ import 'package:jaansay_public_user/screens/catalog/cart_screen.dart';
 import 'package:jaansay_public_user/screens/catalog/products_screen.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class InnerCategoryScreen extends StatelessWidget {
   categoryCard(int index, CatalogProvider catalogProvider) {
@@ -128,7 +129,7 @@ class InnerCategoryScreen extends StatelessWidget {
                         "Categories",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
+                      ).tr(),
                       const SizedBox(
                         height: 16,
                       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String title;
@@ -43,7 +44,7 @@ class CustomErrorWidget extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                   letterSpacing: 1.05),
-            ),
+            ).tr(),
           SizedBox(
             height: 8,
           ),
@@ -55,7 +56,7 @@ class CustomErrorWidget extends StatelessWidget {
                 color: Colors.black87,
                 fontWeight: FontWeight.w400,
               ),
-            ),
+            ).tr(),
         ],
       ),
     );
