@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomPinField extends StatelessWidget {
   final Function onSubmit;
@@ -64,8 +65,8 @@ class CustomTextField extends StatelessWidget {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: label,
-          hintText: hint,
+          labelText: tr(label),
+          hintText: tr(hint),
         ),
       ),
     );
@@ -96,7 +97,7 @@ class LongTextField extends StatelessWidget {
             // ),
 
             alignLabelWithHint: true,
-            hintText: hint,
+            hintText: tr(hint),
             fillColor: Color(0xffFBF8F4),
             filled: true),
         controller: controller,

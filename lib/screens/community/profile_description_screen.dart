@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:jaansay_public_user/models/official.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileDescriptionScreen extends StatelessWidget {
   final Official official;
@@ -23,7 +24,7 @@ class ProfileDescriptionScreen extends StatelessWidget {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
       ),
       body: SingleChildScrollView(
         child: Container(

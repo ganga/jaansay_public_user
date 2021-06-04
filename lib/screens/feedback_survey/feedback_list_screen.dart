@@ -157,7 +157,7 @@ class __FeedbackItemState extends State<_FeedbackItem> {
           feedbackMaster.id.toString(), answer);
       widget.onSubmit(feedbackMaster.id, answer);
     } else {
-      Get.rawSnackbar(message: "Please enter your feedback");
+      Get.rawSnackbar(message: tr("Please enter your feedback"));
     }
   }
 
@@ -207,7 +207,7 @@ class __FeedbackItemState extends State<_FeedbackItem> {
                 ? Column(
                     children: [
                       LongTextField(
-                        hint: "Enter your feedback here",
+                        hint: tr("Enter your feedback here"),
                         controller: controller,
                         minLines: 3,
                       ),
@@ -218,7 +218,7 @@ class __FeedbackItemState extends State<_FeedbackItem> {
                           onPressed: () {
                             submitFeedback();
                           },
-                          child: Text("Submit"))
+                          child: Text("Submit").tr())
                     ],
                   )
                 : Column(
@@ -227,7 +227,7 @@ class __FeedbackItemState extends State<_FeedbackItem> {
                       Text(
                         "Your Feedback:",
                         style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
+                      ).tr(),
                       Text(feedbackMaster.answer),
                     ],
                   )

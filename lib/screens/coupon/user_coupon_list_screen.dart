@@ -41,7 +41,8 @@ class UserCouponListScreen extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         child: Text(
-                            'Complete surveys, answer feedback and questions to get rewards'),
+                                'Complete surveys, answer feedback and questions to get rewards')
+                            .tr(),
                       ),
                     ),
                     GridView.builder(

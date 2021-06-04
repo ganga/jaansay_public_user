@@ -105,7 +105,7 @@ class GrievanceListScreen extends StatelessWidget {
               label: Text(
                 "Add Grievance",
                 style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
+              ).tr(),
               onPressed: () {
                 Get.to(() => GrievanceAddScreen(),
                     transition: Transition.rightToLeft);

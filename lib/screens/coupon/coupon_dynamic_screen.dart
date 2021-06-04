@@ -158,7 +158,7 @@ class _CouponDynamicScreenState extends State<CouponDynamicScreen> {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: coupon.caCreatedAt != null
-                                  ? Text("Coupon already used")
+                                  ? Text("Coupon already used").tr()
                                   : Text(
                                       "${coupon.expireOn.isBefore(DateTime.now()) ? 'Expired on' : 'Expires on'}: ${DateFormat("dd MMM").format(coupon.expireOn)}",
                                       maxLines: 1,
@@ -183,7 +183,7 @@ class _CouponDynamicScreenState extends State<CouponDynamicScreen> {
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
-                                  ),
+                                  ).tr(),
                                   const SizedBox(
                                     height: 8,
                                   ),

@@ -12,6 +12,7 @@ import 'package:jaansay_public_user/providers/feed_provider.dart';
 import 'package:jaansay_public_user/widgets/feed/feed_card.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NearbyListScreen extends StatelessWidget {
   @override
@@ -79,7 +80,7 @@ class NearbyListScreen extends StatelessWidget {
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
-                                      labelText: 'Region',
+                                      labelText: tr('Region'),
                                       labelStyle: TextStyle(
                                           color: Get.theme.primaryColor)),
                                   items: feedProvider.filterRegion

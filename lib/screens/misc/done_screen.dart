@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // Project imports:
 import 'package:jaansay_public_user/widgets/general/custom_button.dart';
@@ -54,7 +55,7 @@ class DoneScreen extends StatelessWidget {
                                   fontSize: 20,
                                   letterSpacing: 0.9),
                               textAlign: TextAlign.center,
-                            ),
+                            ).tr(),
                             const SizedBox(
                               height: 16,
                             ),
@@ -65,7 +66,7 @@ class DoneScreen extends StatelessWidget {
                                   fontSize: 16,
                                   letterSpacing: 0.9),
                               textAlign: TextAlign.center,
-                            ),
+                            ).tr(),
                           ],
                         ),
                       ),

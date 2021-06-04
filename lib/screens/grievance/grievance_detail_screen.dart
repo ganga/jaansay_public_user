@@ -34,7 +34,7 @@ class GrievanceDetailScreen extends StatelessWidget {
         title: Text(
           "Grievance Details",
           style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
+        ).tr(),
       ),
       body: Container(
         height: double.infinity,
@@ -65,7 +65,7 @@ class GrievanceDetailScreen extends StatelessWidget {
                         isScrollControlled: true,
                       );
                     },
-                    child: Text("COMMENT"),
+                    child: Text("COMMENT").tr(),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       onPrimary: Theme.of(context).primaryColor,

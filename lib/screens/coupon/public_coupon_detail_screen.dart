@@ -13,6 +13,7 @@ import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PublicCouponDetailScreen extends StatelessWidget {
   @override
@@ -37,7 +38,7 @@ class PublicCouponDetailScreen extends StatelessWidget {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
         actions: [
           InkWell(
             borderRadius: BorderRadius.circular(15),
@@ -102,7 +103,7 @@ class PublicCouponDetailScreen extends StatelessWidget {
                           if (coupon.totalCoupon > 0)
                             Text(
                               coupon.totalCoupon == coupon.couponCount
-                                  ? "Out of stock"
+                                  ? tr("Out of stock")
                                   : "Only ${coupon.totalCoupon - coupon.couponCount} coupons left",
                               style: TextStyle(
                                   fontSize: 14,
@@ -146,7 +147,7 @@ class PublicCouponDetailScreen extends StatelessWidget {
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black.withOpacity(0.65),
                                       letterSpacing: 0.45),
-                                ),
+                                ).tr(),
                                 const SizedBox(
                                   height: 8,
                                 ),
@@ -174,7 +175,7 @@ class PublicCouponDetailScreen extends StatelessWidget {
                                             color:
                                                 Colors.black.withOpacity(0.65),
                                             letterSpacing: 0.45),
-                                      ),
+                                      ).tr(),
                                       ListView.builder(
                                         padding:
                                             EdgeInsets.symmetric(vertical: 16),
@@ -192,7 +193,7 @@ class PublicCouponDetailScreen extends StatelessWidget {
                                     onPressed: () {
                                       couponProvider.addCouponUser(-1);
                                     },
-                                    child: Text("Avail Coupon"),
+                                    child: Text("Avail Coupon").tr(),
                                   ),
                         ],
                       ),
@@ -282,7 +283,7 @@ class _PartnerSection extends StatelessWidget {
                             child: Text(
                               "Avail Coupon",
                               style: TextStyle(color: Colors.white),
-                            ),
+                            ).tr(),
                           ),
                         ),
                       ),

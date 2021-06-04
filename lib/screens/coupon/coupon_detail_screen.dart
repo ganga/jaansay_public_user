@@ -18,6 +18,7 @@ import 'package:jaansay_public_user/models/coupon.dart';
 import 'package:jaansay_public_user/providers/coupon_provider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CouponDetailScreen extends StatelessWidget {
   @override
@@ -36,7 +37,7 @@ class CouponDetailScreen extends StatelessWidget {
           style: TextStyle(
             color: Get.theme.primaryColor,
           ),
-        ),
+        ).tr(),
         actions: [
           InkWell(
             borderRadius: BorderRadius.circular(15),
@@ -174,8 +175,8 @@ class CouponDetailScreen extends StatelessWidget {
                                                             coupon.promoCode)
                                                         .then(
                                                       (value) => Get.rawSnackbar(
-                                                          message:
-                                                              "Code has been copied to clipboard"),
+                                                          message: tr(
+                                                              "Code has been copied to clipboard")),
                                                     );
                                                   },
                                                 )
@@ -251,7 +252,7 @@ class CouponDetailScreen extends StatelessWidget {
                             "Offer Details:",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
-                          ),
+                          ).tr(),
                           const SizedBox(
                             height: 8,
                           ),

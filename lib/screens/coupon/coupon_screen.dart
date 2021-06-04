@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'public_coupon_list_screen.dart';
 import 'user_coupon_list_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CouponScreen extends StatelessWidget {
   final int initialIndex;
@@ -27,7 +28,7 @@ class CouponScreen extends StatelessWidget {
             children: [
               TabBar(tabs: [
                 Tab(
-                  text: "Your Rewards",
+                  text: tr("Your Rewards"),
                 ),
                 Tab(
                   text: "I AM BLOOD BUDDY",

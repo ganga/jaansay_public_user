@@ -111,7 +111,7 @@ class _OfficialListScreenState extends State<OfficialListScreen> {
                                           child: Text(
                                             'ALL',
                                             style: TextStyle(fontSize: 14),
-                                          ),
+                                          ).tr(),
                                           value: 'ALL',
                                         )
                                       ] +
