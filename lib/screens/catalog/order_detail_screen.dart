@@ -9,7 +9,8 @@ import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget
 import 'package:jaansay_public_user/widgets/catalog/home_delivery_section.dart';
 import 'package:jaansay_public_user/widgets/catalog/pickup_section.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final Order order;
@@ -48,7 +49,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         title: Text(
           "Order Details",
           style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
+        ).tr(),
       ),
       body: isLoad
           ? CustomLoading()
@@ -219,7 +220,7 @@ class _PriceDetailSection extends StatelessWidget {
               "PRICE DETAILS",
               style:
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.black54),
-            ),
+            ).tr(),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 16),
@@ -245,7 +246,7 @@ class _PriceDetailSection extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Discount"),
+                      Text("Discount").tr(),
                       Text(
                         "₹${order.cost - order.discountCost}",
                         style: TextStyle(color: Colors.green),
@@ -269,7 +270,7 @@ class _PriceDetailSection extends StatelessWidget {
                 Text(
                   "Total Amount",
                   style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                ).tr(),
                 Text(
                   "₹${order.discountCost}",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),

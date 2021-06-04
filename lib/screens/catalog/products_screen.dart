@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,7 +19,7 @@ import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget
 import 'package:jaansay_public_user/widgets/catalog/product_detail_bottom_sheet.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductsScreen extends StatelessWidget {
   productCard(int index, CatalogProvider catalogProvider) {
@@ -64,7 +65,7 @@ class ProductsScreen extends StatelessWidget {
                                   "Out of Stock",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
-                                ),
+                                ).tr(),
                               ),
                             if (product.cpPriority == 1)
                               Container(
@@ -76,7 +77,7 @@ class ProductsScreen extends StatelessWidget {
                                   "Featured",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
-                                ),
+                                ).tr(),
                               ),
                           ],
                         ),
@@ -123,14 +124,14 @@ class ProductsScreen extends StatelessWidget {
                                 ? ElevatedButton(
                                     onPressed: () => catalogProvider
                                         .addItemToCart(product.cpId),
-                                    child: Text("Add to Cart"),
+                                    child: Text("Add to Cart").tr(),
                                   )
                                 : ElevatedButton(
                                     onPressed: () {
                                       Get.to(() => CartScreen(),
                                           transition: Transition.rightToLeft);
                                     },
-                                    child: Text("Item in Cart"),
+                                    child: Text("Item in Cart").tr(),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.white,
                                         onPrimary: Get.theme.primaryColor),
@@ -173,8 +174,8 @@ class ProductsScreen extends StatelessWidget {
         title: catalogProvider.isProductSearch
             ? Container(
                 child: TextField(
-                  decoration:
-                      InputDecoration.collapsed(hintText: "Enter product name"),
+                  decoration: InputDecoration.collapsed(
+                      hintText: tr("Enter product name")),
                   autofocus: true,
                   onChanged: (val) {
                     catalogProvider.productSearchValue = val;

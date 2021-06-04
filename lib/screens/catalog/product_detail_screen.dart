@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 import 'package:share/share.dart';
 
 // Project imports:
@@ -18,7 +19,7 @@ import 'package:jaansay_public_user/service/official_service.dart';
 import 'package:jaansay_public_user/widgets/catalog/catalog_discount_text_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_divider.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
@@ -105,7 +106,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             style: TextStyle(
               color: Get.theme.primaryColor,
             ),
-          ),
+          ).tr(),
         ),
         body: WillPopScope(
           onWillPop: () async {
@@ -169,7 +170,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       "Out of Stock",
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 12),
-                                    ),
+                                    ).tr(),
                                   ),
                                 if (product.cpPriority == 1)
                                   Container(
@@ -181,7 +182,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       "Featured",
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 12),
-                                    ),
+                                    ).tr(),
                                   ),
                               ],
                             ),
@@ -208,7 +209,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              Text("Seller Details:"),
+                              Text("Seller Details:").tr(),
                               _OfficialTile(official),
                               optionCard("Share", Icons.share, () {
                                 Share.share(
@@ -332,7 +333,7 @@ class _OfficialTile extends StatelessWidget {
                         child: Text(
                           "View Profile",
                           style: TextStyle(color: Colors.white),
-                        ),
+                        ).tr(),
                       ),
                     ),
                   ),

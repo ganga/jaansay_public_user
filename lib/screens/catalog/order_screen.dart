@@ -89,7 +89,7 @@ class _OrderItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Seller Information:"),
+                        Text("Seller Information:").tr(),
                         _OfficialTile(Official(
                             photo: order.officialPhoto,
                             officialsName: order.officialsName,
@@ -103,7 +103,7 @@ class _OrderItem extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 0.9),
                             children: <TextSpan>[
-                              TextSpan(text: 'Order ID - '),
+                              TextSpan(text: '${tr('Order ID')} - '),
                               TextSpan(
                                   text: '${order.orderId.toUpperCase()}',
                                   style:
@@ -123,7 +123,7 @@ class _OrderItem extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 0.9),
                             children: <TextSpan>[
-                              TextSpan(text: 'Cost: '),
+                              TextSpan(text: tr('Cost') + ': '),
                               TextSpan(
                                   text: '₹${order.discountCost}',
                                   style:
@@ -143,7 +143,7 @@ class _OrderItem extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 0.9),
                             children: <TextSpan>[
-                              TextSpan(text: 'Ordered on: '),
+                              TextSpan(text: tr('Ordered on') + ': '),
                               TextSpan(
                                   text:
                                       '${DateFormat("dd MMMM yyyy").format(order.createdAt)}',
@@ -164,7 +164,7 @@ class _OrderItem extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 0.9),
                             children: <TextSpan>[
-                              TextSpan(text: 'Delivery Type: '),
+                              TextSpan(text: tr('Delivery Type') + ': '),
                               TextSpan(
                                   text: order.deliveryTypeName,
                                   style:
@@ -195,7 +195,7 @@ class _OrderItem extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.9),
                   children: <TextSpan>[
-                    TextSpan(text: 'Status: '),
+                    TextSpan(text: tr('Status') + ': '),
                     TextSpan(
                         text: '${order.statusName.toUpperCase()}',
                         style: TextStyle(fontWeight: FontWeight.w500)),
