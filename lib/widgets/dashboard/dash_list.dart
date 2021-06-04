@@ -9,6 +9,7 @@ import 'package:shimmer/shimmer.dart';
 // Project imports:
 import 'package:jaansay_public_user/models/official.dart';
 import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DashList extends StatelessWidget {
   final List<Official> officials;
@@ -89,7 +90,7 @@ class DashList extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.black.withOpacity(0.65),
                   letterSpacing: 0.45),
-            ),
+            ).tr(),
             const SizedBox(
               height: 16,
             ),

@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PickupSection extends StatelessWidget {
   final Function onTap;
@@ -26,12 +27,12 @@ class PickupSection extends StatelessWidget {
                 Text(
                   "Pickup",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
+                ).tr(),
                 const SizedBox(
                   height: 4,
                 ),
-                Text(
-                    "Visit this business to collect your order. You can view location and contact details of the business in their profile.")
+                Text("Visit this business to collect your order. You can view location and contact details of the business in their profile.")
+                    .tr()
               ],
             ),
           ),

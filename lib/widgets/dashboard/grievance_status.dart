@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GrievanceStatus extends StatelessWidget {
   final int isClosed;
@@ -38,7 +39,7 @@ class GrievanceStatus extends StatelessWidget {
           Text(
             text,
             style: TextStyle(color: color, fontSize: 12),
-          ),
+          ).tr(),
         ],
       ),
     );
