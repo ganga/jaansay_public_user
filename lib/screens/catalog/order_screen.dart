@@ -12,7 +12,7 @@ import 'package:jaansay_public_user/screens/catalog/order_detail_screen.dart';
 import 'package:jaansay_public_user/service/catalog_service.dart';
 import 'package:jaansay_public_user/widgets/general/custom_error_widget.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
-import 'file:///C:/Users/Deepak/FlutterProjects/jaansay_public_user/lib/widgets/general/custom_network_image.dart';
+import 'package:jaansay_public_user/widgets/general/custom_network_image.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
