@@ -4,7 +4,6 @@ import 'dart:io';
 // Package imports:
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
-
 // Project imports:
 import 'package:jaansay_public_user/constants/constants.dart';
 import 'package:jaansay_public_user/models/user.dart';
@@ -83,7 +82,7 @@ class UserService {
       "district_id": "1",
     });
 
-    if (box.read("register_profile") != "no photo") {
+    if (controller.photo != null) {
       formData.files.add(
         MapEntry(
           "media",
