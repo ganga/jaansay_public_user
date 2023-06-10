@@ -1,7 +1,7 @@
 class Constants {
   static const productionUrl = "https://jaansay.com/api/";
-  static const testUrl = "https://jaansay.com/api/test/";
-  static const url = productionUrl;
+  static const testUrl = "http://10.0.2.2:3000/api/";
+  static const url = testUrl;
   static const photoUrl = "http://jaansay.com/media/publicusers/";
 
   static const notificationServerCode =

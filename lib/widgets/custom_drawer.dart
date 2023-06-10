@@ -115,21 +115,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
         profileTile(),
         CustomDivider(),
         drawerItem("Home", MdiIcons.home, () {}, 0),
-        drawerItem("Your Orders", Icons.shopping_cart_outlined, () {
-          Get.close(1);
-
-          Get.to(() => OrderScreen(), transition: Transition.leftToRight);
-        }, 1),
-        drawerItem("Feedback", Icons.feedback, () {
-          Get.close(1);
-
-          Get.to(() => FeedbackScreen(), transition: Transition.leftToRight);
-        }, 1),
-        drawerItem("Vocal For Local", Icons.record_voice_over, () {
-          Get.close(1);
-
-          Get.to(() => VocalLocalScreen(), transition: Transition.leftToRight);
-        }, 1),
+        // drawerItem("Your Orders", Icons.shopping_cart_outlined, () {
+        //   Get.close(1);
+        //
+        //   Get.to(() => OrderScreen(), transition: Transition.leftToRight);
+        // }, 1),
+        // drawerItem("Feedback", Icons.feedback, () {
+        //   Get.close(1);
+        //
+        //   Get.to(() => FeedbackScreen(), transition: Transition.leftToRight);
+        // }, 1),
+        // drawerItem("Vocal For Local", Icons.record_voice_over, () {
+        //   Get.close(1);
+        //
+        //   Get.to(() => VocalLocalScreen(), transition: Transition.leftToRight);
+        // }, 1),
         drawerItem("Language", Icons.language, () {
           Get.close(1);
 
@@ -143,11 +143,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             'Download JaanSay app https://play.google.com/store/apps/details?id=com.dev.jaansay_public_user',
           );
         }, 1),
-        drawerItem("About", MdiIcons.information, () {
-          Get.close(1);
-
-          Get.to(() => AboutScreen(), transition: Transition.leftToRight);
-        }, 1),
+        // drawerItem("About", MdiIcons.information, () {
+        //   Get.close(1);
+        //
+        //   Get.to(() => AboutScreen(), transition: Transition.leftToRight);
+        // }, 1),
       ],
     );
   }
