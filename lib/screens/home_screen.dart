@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/widgets/poll/poll_secction.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       FeedListScreen(),
       NearbyListScreen(),
-      DashboardScreen(),
+      PollSection(),
       CommunityDetailsScreen(),
       VocalLocalScreen(
         isHome: true,
