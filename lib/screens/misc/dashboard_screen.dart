@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:jaansay_public_user/widgets/poll/poll_secction.dart';
+import 'package:jaansay_public_user/widgets/poll/poll_section.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
