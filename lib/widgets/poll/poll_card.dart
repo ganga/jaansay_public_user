@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:jaansay_public_user/models/poll_question.dart';
-import 'package:jaansay_public_user/models/poll_question_option.dart';
 import 'package:jaansay_public_user/widgets/poll/poll_card_options.dart';
 
 class PollCard extends StatefulWidget {
@@ -41,7 +39,7 @@ class _PollCardState extends State<PollCard> {
             leading: Icon(Icons.album),
             title: Text(question.description),
           ),
-            PollCardOptions(options: question.options),
+            PollCardOptions(options: question.options, callback: (selectedOption) => setState(() { _selectedOption = selectedOption;}),),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
