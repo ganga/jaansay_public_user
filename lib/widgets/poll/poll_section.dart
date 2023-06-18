@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jaansay_public_user/models/constituency.dart';
+import 'package:jaansay_public_user/models/poll.dart';
 import 'package:jaansay_public_user/service/questionnaire_service.dart';
+import 'package:jaansay_public_user/widgets/poll/poll_card_section.dart';
 
 class PollSection extends StatefulWidget {
   @override
@@ -10,12 +12,15 @@ class PollSection extends StatefulWidget {
 
 class _PollSectionState extends State<PollSection> {
   List<Constituency> constituencies = [ new Constituency("Test")];
+  List<Poll> polls = [ new Poll()];
+
   QuestionnaireService _questionnaireService = QuestionnaireService();
   String dropdownValue;
 
   bool loading = true;
-  getAllConstituencies() async {
+  Future<void> getAllConstituencies() async {
     constituencies = await _questionnaireService.getConstituencies();
+    polls = await _questionnaireService.getPolls();
     setState((){
       loading = false;
     });
@@ -32,7 +37,8 @@ class _PollSectionState extends State<PollSection> {
     if(loading) return CircularProgressIndicator();
     return Column(
       children: [
-      DropdownButton<String>(
+        Column(
+            children: [ DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
@@ -48,29 +54,10 @@ class _PollSectionState extends State<PollSection> {
         });
       },
       items: buildList(),
-    ),
-        Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.album),
-              title: Text('The Enchanted Nightingale'),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('Vote'),
-                  onPressed: () {/* ... */},
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
-        ),
-      ),
+    )]),
+
+        PollCardSection(polls: polls)
+        ,
     ]
     );
   }

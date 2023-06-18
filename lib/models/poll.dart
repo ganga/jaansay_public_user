@@ -1,16 +1,18 @@
+import 'package:jaansay_public_user/models/poll_question.dart';
+
 class Poll {
-  var _question;
-  var _options;
+  String _description;
+  List<PollQuestion> _questions;
 
+  String get description => _description;
 
-  String get question => _question;
-  set question(String question) {
-    _question = question;
+  set description(String value) {
+    _description = value;
   }
 
-  List<String> get options => _options;
+  List<PollQuestion> get questions => _questions;
 
-  set options(List<String> options) {
-    _options = options;
+  set questions(List<PollQuestion> value) {
+    _questions = value;
   }
 }
