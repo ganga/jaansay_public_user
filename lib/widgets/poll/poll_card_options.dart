@@ -2,10 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:jaansay_public_user/models/poll_question_option.dart';
+import 'package:jaansay_public_user/widgets/poll/poll_card_option.dart';
 
 class PollCardOptions extends StatefulWidget {
-  const PollCardOptions({this.options, this.callback});
+  const PollCardOptions({this.options, this.groupValue, this.disabled, this.callback});
   final callback;
+  final String groupValue;
+  final bool disabled;
   final List<PollQuestionOption> options;
 
   @override
@@ -13,21 +16,25 @@ class PollCardOptions extends StatefulWidget {
 }
 
 class _PollCardOptions extends State<PollCardOptions> {
-  int _selectedOption;
-  int _groupValue = 1;
+  String _selectedOption;
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: buildList());
+    return SingleChildScrollView (
+        child: Column(
+            children: buildList()
+        )
+    );
   }
 
-  List<RadioListTile<int>> buildList() {
+  List<RadioListTile> buildList() {
+    String _groupValue = widget.groupValue ?? "guid";
     return widget.options.map((option) {
-      return RadioListTile(
+      return RadioListTile<String>(
         title: Text(option.description),
         groupValue: _groupValue,
-        value: option.id,
-        onChanged: (value) {
+        value: option.guid,
+        onChanged: widget.disabled ? null : (value) {
           setState(() {
             _selectedOption = value;
             _groupValue = value;

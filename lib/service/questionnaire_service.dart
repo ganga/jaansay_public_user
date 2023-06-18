@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:jaansay_public_user/models/constituency.dart';
 import 'package:jaansay_public_user/models/poll.dart';
 import 'package:jaansay_public_user/models/poll_question.dart';
@@ -21,14 +23,24 @@ class QuestionnaireService {
     final response = await dioService.getData("polls");
     List<Poll> polls = (response['data'] as List).map( (questionnaire)  {
       Poll poll = new Poll();
+      poll.guid = questionnaire['guid'];
       poll.questions = (questionnaire['questions'] as List).map((question) {
         PollQuestion pollQuestion = new PollQuestion();
         pollQuestion.description = question['description'];
+        pollQuestion.id = question['id'];
+        pollQuestion.guid = question['guid'];
+        if ((question['responses'] as List).length > 0) {
+          pollQuestion.isVoted = true;
+          log('${ (question['responses'] as List).first['option']['guid']}');
+          pollQuestion.selectedOptionGuid =
+              (question['responses'] as List).first['option']['guid'];
+        }
         pollQuestion.options = (question['options'] as List).map((questionOption){
           PollQuestionOption option = new PollQuestionOption();
           option.description = questionOption['description'];
           option.order = questionOption['order'];
           option.id = questionOption['id'];
+          option.guid = questionOption['guid'];
           return option;
         }).toList();
         return pollQuestion;
@@ -37,6 +49,15 @@ class QuestionnaireService {
       return poll;
     }).toList();
     return polls;
+  }
+
+  Future<void> vote(String questionnaireGuid, String questionGuid, String optionGuid) async {
+    Map reqObject = new Map();
+    log("$questionnaireGuid");
+    reqObject['questionnaireGuid'] = questionnaireGuid;
+    reqObject['questionGuid'] = questionGuid;
+    reqObject['optionGuid'] = optionGuid;
+    await dioService.postData("polls/vote", reqObject);
   }
 }
 
