@@ -75,65 +75,65 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       centerTitle: true,
       actions: [
-        appBarIcon(
-          Icons.qr_code,
-          context,
-          'qr_code',
-          () {
-            Get.dialog(
-              AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      GetStorage().read("user_name").toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.65),
-                          letterSpacing: 0.45),
-                    ),
-                    Text(
-                      "JaanSay Contact",
-                      style: TextStyle(
-                          fontSize: 11, color: Get.theme.primaryColor),
-                    ),
-                    Container(
-                      height: 200,
-                      width: 200,
-                      alignment: Alignment.center,
-                      child: QrImage(
-                        data: json.encode({
-                          "type": "profile",
-                          "user_id": GetStorage().read("user_id").toString(),
-                          "code": null
-                        }),
-                        version: QrVersions.auto,
-                        size: 200.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-        appBarIcon(
-          Icons.search,
-          context,
-          'search_icon',
-          () {
-            pushNewScreen(
-              context,
-              screen: SearchScreen(
-                description:
-                    "Search businesses, officials and associations near you by entering their name",
-                iconData: Icons.search,
-              ),
-              withNavBar: false,
-            );
-          },
-        ),
+        // appBarIcon(
+        //   Icons.qr_code,
+        //   context,
+        //   'qr_code',
+        //   () {
+        //     Get.dialog(
+        //       AlertDialog(
+        //         content: Column(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: [
+        //             Text(
+        //               GetStorage().read("user_name").toString(),
+        //               style: TextStyle(
+        //                   fontWeight: FontWeight.w600,
+        //                   fontSize: 16,
+        //                   color: Colors.black.withOpacity(0.65),
+        //                   letterSpacing: 0.45),
+        //             ),
+        //             Text(
+        //               "JaanSay Contact",
+        //               style: TextStyle(
+        //                   fontSize: 11, color: Get.theme.primaryColor),
+        //             ),
+        //             Container(
+        //               height: 200,
+        //               width: 200,
+        //               alignment: Alignment.center,
+        //               child: QrImage(
+        //                 data: json.encode({
+        //                   "type": "profile",
+        //                   "user_id": GetStorage().read("user_id").toString(),
+        //                   "code": null
+        //                 }),
+        //                 version: QrVersions.auto,
+        //                 size: 200.0,
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // ),
+        // appBarIcon(
+        //   Icons.search,
+        //   context,
+        //   'search_icon',
+        //   () {
+        //     pushNewScreen(
+        //       context,
+        //       screen: SearchScreen(
+        //         description:
+        //             "Search businesses, officials and associations near you by entering their name",
+        //         iconData: Icons.search,
+        //       ),
+        //       withNavBar: false,
+        //     );
+        //   },
+        // ),
         //appBarIcon(Icons.message, context, 'message_icon', MessageScreen()),
       ],
     );

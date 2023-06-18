@@ -31,7 +31,6 @@ class QuestionnaireService {
         pollQuestion.guid = question['guid'];
         if ((question['responses'] as List).length > 0) {
           pollQuestion.isVoted = true;
-          log('${ (question['responses'] as List).first['option']['guid']}');
           pollQuestion.selectedOptionGuid =
               (question['responses'] as List).first['option']['guid'];
         }
