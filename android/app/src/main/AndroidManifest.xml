@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
 
         android:name="io.flutter.app.FlutterApplication"
-            android:label="JaanSay"
+            android:label="Fickatal"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyBAfkFskkEkdYBMgmgV4F1qpb2fY-iG9f0"/>
