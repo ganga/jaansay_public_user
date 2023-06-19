@@ -13,15 +13,16 @@ class QuestionnaireService {
     final response =   await dioService.getData("polls/constituencies");
     List<Constituency> constituencies = (response['data'] as List).map( (el)  {
       Constituency constituency = new Constituency(el['name']);
+      constituency.constituencyKey = el['constituencyKey'];
       return constituency;
     }).toList();
     constituencies.sort((a,b) => a.name.compareTo(b.name));
     return constituencies;
   }
 
-  Future<List<Poll>> getPolls() async {
-    final response = await dioService.getData("polls");
-    List<Poll> polls = (response['data'] as List).map( (questionnaire)  {
+  Future<List<Poll>> getPolls(String constituencyKey) async {
+    final response = await dioService.getData("polls/${constituencyKey}");
+    List<Poll> polls = (response['data']['questionnaires'] as List).map( (questionnaire)  {
       Poll poll = new Poll();
       poll.guid = questionnaire['guid'];
       poll.questions = (questionnaire['questions'] as List).map((question) {

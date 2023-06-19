@@ -143,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       PollSection(),
       CommunityDetailsScreen(),
-
     ];
   }
 
@@ -151,8 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
     double iconSize = 22;
 
     return [
-
-
       PersistentBottomNavBarItem(
         icon: Icon(
           Icons.dashboard,
@@ -172,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
         inactiveIcon: Icon(
           Icons.group_work_outlined,
         ),
-        title: tr("Feeds"),
+        title: tr("Announcements"),
         iconSize: iconSize,
         activeColorPrimary: Get.theme.primaryColor,
         inactiveColorPrimary: Colors.grey,
