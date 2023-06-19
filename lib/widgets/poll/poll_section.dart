@@ -24,18 +24,19 @@ class _PollSectionState extends State<PollSection> {
   bool loading = true;
 
   Future<void> getAllConstituencies() async {
-    await getAllPollData();
-    setState(() {
+    polls = await getAllPollData();
+    setState(()  {
       loading = false;
     });
   }
 
-  Future<void> getAllPollData() async {
+  Future<List<Poll>> getAllPollData() async {
     constituencies = await _questionnaireService.getConstituencies();
     String constituencyKey = box.read("selectedConstituency") ?? constituencies.first.constituencyKey;
     box.write("selectedConstituency", constituencyKey);
+    dropdownValue = constituencyKey;
     log(constituencyKey);
-    polls = await _questionnaireService.getPolls(constituencyKey);
+    return await _questionnaireService.getPolls(constituencyKey);
   }
 
   @override
@@ -65,13 +66,13 @@ class _PollSectionState extends State<PollSection> {
                     height: 2,
                     color: Colors.deepPurpleAccent,
                   ),
-                  onChanged: (String value) {
+                  onChanged: (String value) async {
                     // This is called when the user selects an item.
+                    box.write("selectedConstituency", value);
+                    polls = await getAllPollData();
                     setState(() {
                       log(value);
                       dropdownValue = value;
-                      box.write("selectedConstituency", value);
-                      getAllPollData();
                     });
                   },
                   items: buildList(),

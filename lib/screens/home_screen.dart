@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jaansay_public_user/widgets/announcement/announcement_section.dart';
 import 'package:jaansay_public_user/widgets/poll/poll_section.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -75,66 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       centerTitle: true,
       actions: [
-        // appBarIcon(
-        //   Icons.qr_code,
-        //   context,
-        //   'qr_code',
-        //   () {
-        //     Get.dialog(
-        //       AlertDialog(
-        //         content: Column(
-        //           mainAxisSize: MainAxisSize.min,
-        //           children: [
-        //             Text(
-        //               GetStorage().read("user_name").toString(),
-        //               style: TextStyle(
-        //                   fontWeight: FontWeight.w600,
-        //                   fontSize: 16,
-        //                   color: Colors.black.withOpacity(0.65),
-        //                   letterSpacing: 0.45),
-        //             ),
-        //             Text(
-        //               "JaanSay Contact",
-        //               style: TextStyle(
-        //                   fontSize: 11, color: Get.theme.primaryColor),
-        //             ),
-        //             Container(
-        //               height: 200,
-        //               width: 200,
-        //               alignment: Alignment.center,
-        //               child: QrImage(
-        //                 data: json.encode({
-        //                   "type": "profile",
-        //                   "user_id": GetStorage().read("user_id").toString(),
-        //                   "code": null
-        //                 }),
-        //                 version: QrVersions.auto,
-        //                 size: 200.0,
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // ),
-        // appBarIcon(
-        //   Icons.search,
-        //   context,
-        //   'search_icon',
-        //   () {
-        //     pushNewScreen(
-        //       context,
-        //       screen: SearchScreen(
-        //         description:
-        //             "Search businesses, officials and associations near you by entering their name",
-        //         iconData: Icons.search,
-        //       ),
-        //       withNavBar: false,
-        //     );
-        //   },
-        // ),
-        //appBarIcon(Icons.message, context, 'message_icon', MessageScreen()),
       ],
     );
   }
@@ -142,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _buildScreens() {
     return [
       PollSection(),
-      CommunityDetailsScreen(),
+      AnnouncementSection(),
     ];
   }
 
@@ -152,24 +93,24 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.dashboard,
+          Icons.poll,
         ),
         inactiveIcon: Icon(
-          Icons.dashboard_outlined,
+          Icons.poll_outlined,
         ),
-        title: tr("Surveys"),
+        title: "Surveys",
         iconSize: iconSize,
         activeColorPrimary: Get.theme.primaryColor,
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.group_work_rounded,
+          Icons.announcement,
         ),
         inactiveIcon: Icon(
-          Icons.group_work_outlined,
+          Icons.announcement_outlined,
         ),
-        title: tr("Announcements"),
+        title: "Announcements",
         iconSize: iconSize,
         activeColorPrimary: Get.theme.primaryColor,
         inactiveColorPrimary: Colors.grey,
@@ -223,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
         navBarStyle:
-            NavBarStyle.style1, // Choose the nav bar style with this property.
+            NavBarStyle.simple, // Choose the nav bar style with this property.
       ),
     );
   }
