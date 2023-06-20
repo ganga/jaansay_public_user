@@ -17,7 +17,7 @@ class PollCardOptions extends StatefulWidget {
 
 class _PollCardOptions extends State<PollCardOptions> {
   String _selectedOption;
-  String _groupValue =  "guid";
+  String _groupValue;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _PollCardOptions extends State<PollCardOptions> {
     return widget.options.map((option) {
       return RadioListTile<String>(
         title: Text(option.description),
-        groupValue: _groupValue,
+        groupValue: _groupValue ?? widget.groupValue,
         value: option.guid,
         onChanged: widget.disabled ? null : (value) {
           setState(() {
