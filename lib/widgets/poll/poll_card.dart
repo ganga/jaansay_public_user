@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jaansay_public_user/models/poll_question.dart';
 import 'package:jaansay_public_user/widgets/poll/poll_card_options.dart';
 
@@ -39,8 +40,9 @@ class _PollCardState extends State<PollCard> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: Icon(Icons.album),
-            title: Text(question.description),
+            title: Text(question.description, style: TextStyle(color: Colors.white),),
+            tileColor: Get.theme.primaryColor,
+
           ),
           PollCardOptions(
             options: question.options,
