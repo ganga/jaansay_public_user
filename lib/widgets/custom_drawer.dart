@@ -33,11 +33,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return InkWell(
       onTap: () {
         Get.dialog(AlertDialog(
-          content: EditProfileDailogue(() {
-            img = box.read("photo");
-            PaintingBinding.instance.imageCache.clear();
-            setState(() {});
-          }),
+          content: EditProfileDialogue(),
         ));
       },
       child: Container(
@@ -59,7 +55,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Text(
               "${box.read("user_name")}",
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
               maxLines: 1,
             ),
             SizedBox(
@@ -70,9 +66,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
               style: TextStyle(
                   color: Theme.of(context).primaryColor, fontSize: 13),
             ),
+            verifiedAccountStatus()
           ],
         ),
       ),
+    );
+  }
+
+  Widget verifiedAccountStatus() {
+    const widgets = [
+      Icon(Icons.check_circle_outline_rounded, size: 50.0, color: Colors.green),
+      // Text("Verified Account", style: TextStyle(color: Colors.green))
+    ];
+    bool isAadhaarVerified = box.read("isAadhaarVerified") ?? false;
+    return Padding(
+      padding: EdgeInsets.only(left:16.0),
+      child: isAadhaarVerified ? Icon(Icons.check_circle_outline_rounded, size: 50.0, color: Colors.green) : null,
     );
   }
 
@@ -105,7 +114,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    img = box.read("photo");
   }
 
   @override

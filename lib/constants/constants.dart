@@ -2,7 +2,7 @@ class Constants {
   static const productionUrl = "https://jaansay.com/api/";
   static const questionnaireUrl = "https://localhost:8081/";
   static const testUrl = "http://10.0.2.2:3000/api/";
-  static const url = testUrl;
+  static const url = productionUrl;
   static const photoUrl = "http://jaansay.com/media/publicusers/";
 
   static const notificationServerCode =

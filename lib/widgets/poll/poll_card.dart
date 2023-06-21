@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/poll_question.dart';
+import 'package:jaansay_public_user/widgets/misc/edit_profile_dialogue.dart';
 import 'package:jaansay_public_user/widgets/poll/poll_card_options.dart';
 
 class PollCard extends StatefulWidget {
@@ -17,6 +19,7 @@ class PollCard extends StatefulWidget {
 
 class _PollCardState extends State<PollCard> {
   String _selectedOption;
+  GetStorage box = GetStorage();
 
   String get selectedOption => _selectedOption;
 
@@ -72,8 +75,14 @@ class _PollCardState extends State<PollCard> {
       return TextButton(
         child: const Text('Vote'),
         onPressed: () {
-          log('$selectedOption');
-          widget.callback(widget.question.guid, selectedOption);
+          bool isAadhaarVerified = box.read("isAadhaarVerified") ?? false;
+          if (isAadhaarVerified) {
+            widget.callback(widget.question.guid, selectedOption);
+          } else {
+            Get.dialog(AlertDialog(
+              content: EditProfileDialogue(),
+            ));
+          }
         },
       );
     }
