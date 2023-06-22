@@ -23,12 +23,12 @@ class _AnnouncementSectionState extends State<AnnouncementSection> {
   GetStorage box = GetStorage();
   String dropdownValue;
 
-
   @override
   initState() {
     super.initState();
     getAllAnnoucements();
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Widget>(
@@ -39,26 +39,25 @@ class _AnnouncementSectionState extends State<AnnouncementSection> {
             context: context,
             snapshot: snapshot,
             onDropdownValueChange: onDropdownValueChange,
-            buildList: buildList
-        );
+            buildList: buildList);
       },
-
     );
   }
 
   void onDropdownValueChange(String value) async {
-          // This is called when the user selects an item.
-          box.write("selectedConstituency", value);
-          announcements = await getAllAnnoucements();
-          setState(() {
-            log(value);
-            dropdownValue = value;
-          });
-        }
+    // This is called when the user selects an item.
+    box.write("selectedConstituency", value);
+    announcements = await getAllAnnoucements();
+    setState(() {
+      log(value);
+      dropdownValue = value;
+    });
+  }
 
-  Future<List<Announcement>> getAllAnnoucements() async{
+  Future<List<Announcement>> getAllAnnoucements() async {
     constituencies = await _questionnaireService.getConstituencies();
-    String constituencyKey = box.read("selectedConstituency") ?? constituencies.first.constituencyKey;
+    String constituencyKey = box.read("selectedConstituency") ??
+        constituencies.first.constituencyKey;
     box.write("selectedConstituency", constituencyKey);
     dropdownValue = constituencyKey;
     log(constituencyKey);
@@ -67,23 +66,36 @@ class _AnnouncementSectionState extends State<AnnouncementSection> {
 
   Future<Widget> buildAnnouncementsSection() async {
     announcements = await getAllAnnoucements();
+    if (announcements.length == 0) {
+      Constituency constituency = constituencies.firstWhere(
+          (c) => c.constituencyKey == box.read("selectedConstituency"));
+      return Container(
+          height: 100,
+          child: Center(
+              child: Text.rich(TextSpan(children: [
+            TextSpan(text: "No data for "),
+            TextSpan(
+                text: "${constituency.name} ",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: "constituency"),
+          ]))));
+    }
     return Column(
       children: announcements.map((announcement) {
         return Card(
-          child: (
-          ListTile(
-            leading: Icon(Icons.announcement, color: Get.theme.primaryColor,),
-            title: Text(announcement.description),
-          )
-          )
-        );
+            child: (ListTile(
+          leading: Icon(
+            Icons.announcement,
+            color: Get.theme.primaryColor,
+          ),
+          title: Text(announcement.description),
+        )));
       }).toList(),
     );
   }
 
   List<DropdownMenuItem<String>> buildList() => constituencies
-      .map((e) =>
-  new DropdownMenuItem<String>(value: e.constituencyKey, child: Text(e.name)))
+      .map((e) => new DropdownMenuItem<String>(
+          value: e.constituencyKey, child: Text(e.name)))
       .toList();
-
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:get_storage/get_storage.dart';
 import 'package:jaansay_public_user/models/constituency.dart';
 import 'package:jaansay_public_user/models/poll.dart';
 import 'package:jaansay_public_user/models/poll_question.dart';
@@ -10,6 +11,7 @@ import 'dio_service.dart';
 class QuestionnaireService {
   DioService dioService = DioService();
   Future<List<Constituency>> getConstituencies() async {
+    log("Bearer ${GetStorage().read("token")}");
     final response =   await dioService.getData("polls/constituencies");
     List<Constituency> constituencies = (response['data'] as List).map( (el)  {
       Constituency constituency = new Constituency(el['name']);
