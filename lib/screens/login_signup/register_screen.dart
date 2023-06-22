@@ -16,6 +16,8 @@ import 'package:jaansay_public_user/widgets/general/custom_fields.dart';
 import 'package:jaansay_public_user/widgets/general/custom_loading.dart';
 import 'package:jaansay_public_user/widgets/login_signup/screen_progress.dart';
 
+import '../home_screen.dart';
+
 class RegisterScreen extends StatelessWidget {
   final LoginController _loginController = Get.put(LoginController());
 
@@ -179,7 +181,7 @@ class __FinishState extends State<_Finish> {
     if (response) {
       isLoad = false;
       setState(() {});
-      Get.offAll(FollowScreen(), transition: Transition.rightToLeft);
+      Get.offAll(HomeScreen(), transition: Transition.rightToLeft);
     } else {
       Get.rawSnackbar(
         message: tr("Oops! Something went wrong"),

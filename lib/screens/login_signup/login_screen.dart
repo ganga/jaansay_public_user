@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           verificationFailed: (FirebaseAuthException authException) {
             isLoad = false;
             setState(() {});
-            Get.rawSnackbar(message: tr("Oops! Something went wrong"));
+            Get.rawSnackbar(message: tr("Oops! Something went wrong - firebase"));
 
             print("${authException.message}");
           },

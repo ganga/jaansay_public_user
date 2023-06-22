@@ -25,7 +25,9 @@ class AuthService {
         box.write("photo", user.photo);
         box.write("user_id", user.userId);
         box.write("document", user.document);
-        box.write("district_id", user.districtId);
+        if (user.dist != null) {
+          box.write("isAadhaarVerified", true);
+        }
         FirebaseMessaging fbm = FirebaseMessaging.instance;
         fbm.subscribeToTopic(box.read("user_id").toString());
         return true;

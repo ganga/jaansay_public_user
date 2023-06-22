@@ -11,7 +11,8 @@ class User {
       this.panchayatName,
       this.typeName,
       this.document,
-      this.districtId});
+      this.districtId,
+      this.dist});
 
   int userId;
   String userName;
@@ -25,6 +26,7 @@ class User {
   String typeName;
   String document;
   int districtId;
+  String dist;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         userId: json["user_id"],
@@ -39,6 +41,7 @@ class User {
         typeName: json["type_name"],
         document: json["user_document"],
         districtId: json['district_id'],
+        dist: json['dist'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,7 +55,8 @@ class User {
         "description": description == null ? null : description,
         "panchayat_name": panchayatName,
         "type_name": typeName,
-        "district_id": districtId
+        "district_id": districtId,
+        "dist": dist
       };
 }
 

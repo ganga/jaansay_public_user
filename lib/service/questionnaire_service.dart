@@ -11,7 +11,6 @@ import 'dio_service.dart';
 class QuestionnaireService {
   DioService dioService = DioService();
   Future<List<Constituency>> getConstituencies() async {
-    log("Bearer ${GetStorage().read("token")}");
     final response =   await dioService.getData("polls/constituencies");
     List<Constituency> constituencies = (response['data'] as List).map( (el)  {
       Constituency constituency = new Constituency(el['name']);
